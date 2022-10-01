@@ -1,0 +1,5 @@
+package codegen
+
+interface GeometryData {
+
+}

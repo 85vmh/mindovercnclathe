@@ -1,0 +1,60 @@
+o<v-threading> sub
+(author : Fernand Veilleux)
+(CALL begin_z, end_z, units, major diameter, minor diameter, pitch, degression, init_depth, peak, taper, finish_passes, taper_angle, helix count)
+(		1		2		3		4				5				6		7			8		  9		10		  11			12			 13	    )
+
+	#<begin_z>       =  #1
+	#<end_z>         =  #2
+	#<dia>    		 = 	#4
+	#<pitch>  		 = 	#6
+	#<degress>       =  #7
+    #<idepth>        =  #8
+	#<peak>   		 =  #9
+	#<taper>         = #10
+	#<finish_passes> = #11
+	#<taper_angle>   = [90 - #12]
+	#<helix_count>   = #13
+
+	#<depth>  = ABS[#4 - #5]
+	#<t_len>  = [TAN[#<taper_angle>] * #<depth> / 2]
+
+	#<pass>   = 1
+	#<z_step> = [TAN[30] * #<depth> / #<_diameter_mode>]
+
+    o113 if [#<begin_z> LT #<end_z>]
+		#<z_step> = -#<z_step>
+	o113 endif
+
+	o71 if [#<_x> LT [#<_wp_dia_od> + #<_X_rapid>]]
+		G0 X[#<_wp_dia_od> + #<_X_rapid>]
+	o71 endif
+
+	o81 if [#<peak> GT 0.0]
+		G0 Z[#<begin_z> + #<z_step> * [#<helix_count> - 1] * 2]
+		G0 X[#<dia> + #<peak>]
+	o81 else
+		o83 if [#<begin_z> LT #<end_z>]
+			G0 Z[#<end_z> + #<_z_rapid>]
+			G0 X[#<dia> - #<depth> + #<peak>]
+		o83 else
+			G0 Z[#<begin_z> + #<_z_rapid>]
+			G0 X[#<dia> - #<depth> + #<peak>]
+		o83 endif
+	o81 endif
+
+	o110 while [#<pass> LE #<helix_count>]
+		G0 Z[#<begin_z> + #<z_step> * [#<pass> - 0.5] * 2]
+		G76 P[#<pitch> * #<helix_count>] Z#<end_z> I-#<peak> J#<idepth> R#<degress> K#<depth> Q30 H#<finish_passes> E#<t_len> L#<taper>
+		#<pass> = [#<pass> + 1]
+	o110 endwhile
+
+	o97 if [#<peak> LT 0.0]
+		o98 if [#<begin_z> GT #<end_z>]
+			G0 Z[#<begin_z> + #<_z_rapid>]
+		o98 else
+			G0 Z[#<end_z> + #<_z_rapid>]
+		o98 endif
+	o97 endif
+	G0 X[#<_wp_dia_od> + #<_X_rapid>]
+
+o<v-threading> endsub

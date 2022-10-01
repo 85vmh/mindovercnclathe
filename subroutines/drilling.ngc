@@ -1,0 +1,28 @@
+;drilling
+
+O<drilling> sub
+
+G7  ; Diameter mode
+G18 ; XZ Plane
+G21 ; Metric Units
+G90 ; Absolute Distance
+
+#<z_end> = #1
+#<retract> = #2
+#<increment> = #3
+#<spindle_rpm> = #4
+#<feed> = #5
+
+#<x_start> = #<_x> (starting X)
+#<z_start> = #<_z> (starting Z)
+
+M4 S#<spindle_rpm>
+
+G0 X0
+G98 G73 Z#<z_end> F#<feed>
+G80 (cancel canned cycle)
+G0 Z#<z_start>
+G0 X#<x_start>
+
+O<drilling> endsub
+M2
