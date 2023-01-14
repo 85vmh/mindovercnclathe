@@ -9,6 +9,7 @@ import com.mindovercnc.model.TipOrientation
 import com.mindovercnc.model.ToolHolder
 import com.mindovercnc.model.ToolType
 import com.mindovercnc.repository.ToolHolderRepository
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update

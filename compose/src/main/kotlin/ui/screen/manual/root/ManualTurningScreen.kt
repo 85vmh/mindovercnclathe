@@ -1,8 +1,11 @@
 package ui.screen.manual.root
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.icons.Icons
@@ -12,13 +15,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import canvas.CenterLineActor
+import canvas.translateTo
 import di.rememberScreenModel
 import kotlinx.coroutines.launch
 import screen.composables.AxisCoordinate
@@ -49,7 +56,10 @@ class ManualTurningScreen : Manual("Manual Turning") {
         val items = remember { SimpleCycle.values() }
 
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(300.dp)
+                .background(Color.White, RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp))
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth()
@@ -111,7 +121,7 @@ class ManualTurningScreen : Manual("Manual Turning") {
         }
     }
 
-    @OptIn(ExperimentalMaterialApi::class)
+    @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
     @Composable
     override fun Actions() {
         val screenModel = rememberScreenModel<ManualTurningScreenModel>()
@@ -207,6 +217,19 @@ class ManualTurningScreen : Manual("Manual Turning") {
                 onToggleAbsRelZ = screenModel::toggleZAbsRel,
             )
 
+//            Box(modifier = Modifier.fillMaxSize()) {
+//                Canvas(modifier = Modifier.fillMaxSize()) {
+//                    CenterLineActor()
+//                        .translateTo(
+//                            Offset(0f, this.size.height / 2f)
+//                        )
+//                        .drawInto(this)
+//                }
+//                ChuckView(modifier = Modifier.absoluteOffset(x = 30.dp, y = 100.dp)) {
+//
+//                }
+//            }
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -277,6 +300,37 @@ class ManualTurningScreen : Manual("Manual Turning") {
 }
 
 @Composable
+private fun ChuckView(
+    modifier: Modifier = Modifier,
+    chuckClicked: () -> Unit
+) {
+    Surface(
+        shape = RoundedCornerShape(4.dp),
+        modifier = modifier
+            .height(250.dp)
+            .width(150.dp)
+            .clickable { chuckClicked.invoke() },
+        border = BorderStroke(1.dp, SolidColor(Color.DarkGray)),
+        shadowElevation = 16.dp
+    ) {
+        Column(
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text(
+                text = "Set:",
+                fontSize = 14.sp,
+                textAlign = TextAlign.Left
+            )
+            Text(
+                text = "Actual:",
+                fontSize = 14.sp,
+                textAlign = TextAlign.Left
+            )
+        }
+    }
+}
+
+@Composable
 private fun AxisCoordinates(
     xCoordinate: CoordinateUiModel,
     zCoordinate: CoordinateUiModel,
@@ -286,6 +340,7 @@ private fun AxisCoordinates(
     onZeroPosZ: () -> Unit,
     onToggleAbsRelX: () -> Unit,
     onToggleAbsRelZ: () -> Unit,
+    axisCoordinateHeight: Dp = 60.dp,
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -296,14 +351,16 @@ private fun AxisCoordinates(
         Column {
             AxisCoordinate(
                 xCoordinate,
+                setHeight = axisCoordinateHeight,
                 isDiameterMode = true,
                 zeroPosClicked = onZeroPosX,
                 absRelClicked = onToggleAbsRelX,
                 toolOffsetsClicked = xToolOffsetsClicked,
-                modifier = axisItemModifier
+                modifier = axisItemModifier,
             )
             AxisCoordinate(
                 zCoordinate,
+                setHeight = axisCoordinateHeight,
                 zeroPosClicked = onZeroPosZ,
                 absRelClicked = onToggleAbsRelZ,
                 toolOffsetsClicked = zToolOffsetsClicked,

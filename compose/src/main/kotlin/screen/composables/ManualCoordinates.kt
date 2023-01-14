@@ -1,19 +1,21 @@
 package screen.composables
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ripple.RippleAlpha
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.loadImageBitmap
-import androidx.compose.ui.res.useResource
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -32,12 +34,10 @@ private enum class PositionType(
     SECONDARY(18.sp, 110.dp),
 }
 
-private val imageShape = RoundedCornerShape(6.dp)
-
 @Composable
 fun AxisCoordinate(
     uiModel: CoordinateUiModel,
-    loadedTool: Int? = null,
+    setHeight: Dp,
     isDiameterMode: Boolean = false,
     modifier: Modifier = Modifier,
     zeroPosClicked: () -> Unit,
@@ -50,30 +50,20 @@ fun AxisCoordinate(
     ) {
         Row(
             modifier = modifier,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            ToolOffsets(
-                uiModel,
+            Position(PositionType.SECONDARY, uiModel, isDiameterMode, modifier = Modifier.alignByBaseline())
+            AxisLetter(
+                uiModel = uiModel,
+                isDiameterMode = isDiameterMode,
                 modifier = Modifier
                     .clickable(
                         onClick = toolOffsetsClicked
                     )
-                    .width(100.dp)
-                    .height(100.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.background,
-                        shape = imageShape,
-                    )
-            )
-            Position(PositionType.SECONDARY, uiModel, isDiameterMode, modifier = Modifier.alignByBaseline())
-            AxisLetter(uiModel)
-            SpacerOrDiameter(
-                uiModel.axis == CoordinateUiModel.Axis.X && isDiameterMode,
-                modifier = Modifier.align(Alignment.CenterVertically)
             )
             Position(PositionType.PRIMARY, uiModel, isDiameterMode, modifier = Modifier.alignByBaseline())
             Units(uiModel.units, modifier = Modifier.alignByBaseline())
-            ZeroPos(uiModel, modifier = Modifier.padding(start = 16.dp)) {
+            ZeroPos(modifier = Modifier) {
                 zeroPosClicked.invoke()
             }
             AbsRel(modifier = Modifier.padding(start = 16.dp)) {
@@ -84,45 +74,34 @@ fun AxisCoordinate(
 }
 
 @Composable
-private fun ToolOffsets(
+private fun AxisLetter(
     uiModel: CoordinateUiModel,
+    isDiameterMode: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val image = when (uiModel.axis) {
-        CoordinateUiModel.Axis.X -> "x.png"
-        CoordinateUiModel.Axis.Z -> "z.png"
-    }
-    Image(
-        modifier = modifier,
-        contentDescription = "",
-        bitmap = useResource(image) { loadImageBitmap(it) }
-    )
-}
-
-@Composable
-private fun AxisLetter(uiModel: CoordinateUiModel, modifier: Modifier = Modifier) {
-    Text(
-        modifier = modifier.padding(start = 16.dp),
-        text = uiModel.axis.name,
-        fontSize = 50.sp,
-    )
-}
-
-@Composable
-private fun SpacerOrDiameter(showDiameter: Boolean, modifier: Modifier = Modifier) {
-    val sizeToFill = 35.dp
-    if (showDiameter) {
+    Surface(
+        shape = RoundedCornerShape(4.dp),
+        modifier = modifier.size(60.dp),
+        border = BorderStroke(1.dp, SolidColor(Color.DarkGray)),
+        shadowElevation = 16.dp
+    ) {
         Text(
-            modifier = modifier
-                .width(sizeToFill)
-                .padding(top = 16.dp)
-                .fillMaxHeight(),
-            text = "\u2300",
-            textAlign = TextAlign.Center,
-            fontSize = 30.sp,
+            modifier = modifier.fillMaxSize(),
+            text = uiModel.axis.name,
+            fontSize = 45.sp,
+            textAlign = TextAlign.Center
         )
-    } else {
-        Spacer(modifier = modifier.width(sizeToFill))
+        if (uiModel.axis == CoordinateUiModel.Axis.X && isDiameterMode) {
+            Text(
+                modifier = modifier
+                    .width(35.dp)
+                    .padding(top = 18.dp, end = 6.dp)
+                    .fillMaxHeight(),
+                text = "\u2300",
+                textAlign = TextAlign.Right,
+                fontSize = 20.sp,
+            )
+        }
     }
 }
 
@@ -163,19 +142,77 @@ private fun Units(units: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun ZeroPos(uiModel: CoordinateUiModel, modifier: Modifier = Modifier, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        modifier.fillMaxHeight()
+private fun ZeroPos(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    val innerPadding = 10.dp
+    val distanceBetweenLines = 16.dp
+    val linesColor = Color.DarkGray
+    val linesCap = StrokeCap.Round
+    val lineThickness = 1.5.dp
+
+    Surface(
+        shape = RoundedCornerShape(4.dp),
+        modifier = modifier
+            .size(60.dp)
+            .clickable { onClick.invoke() },
+        border = BorderStroke(1.dp, SolidColor(Color.DarkGray)),
+        shadowElevation = 16.dp
     ) {
-        Text("ZERO\n${uiModel.axis.name}-Pos")
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            drawLine(
+                start = Offset(0f + innerPadding.toPx(), this.size.height - innerPadding.toPx() - distanceBetweenLines.toPx() / 2),
+                end = Offset(this.size.width - innerPadding.toPx() - distanceBetweenLines.toPx() / 2, 0f + innerPadding.toPx()),
+                color = linesColor,
+                cap = linesCap,
+                strokeWidth = lineThickness.toPx()
+            )
+            drawLine(
+                start = Offset(0f + innerPadding.toPx() + distanceBetweenLines.toPx() / 2, this.size.height - innerPadding.toPx()),
+                end = Offset(this.size.width - innerPadding.toPx(), 0f + innerPadding.toPx() + distanceBetweenLines.toPx() / 2),
+                color = linesColor,
+                cap = linesCap,
+                strokeWidth = lineThickness.toPx()
+            )
+        }
     }
 }
 
 @Composable
-private fun AbsRel(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    Button(onClick = onClick, modifier.fillMaxHeight()) {
-        Text("ABS\nREL")
+private fun AbsRel(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Surface(
+        shape = RoundedCornerShape(4.dp),
+        modifier = modifier
+            .size(60.dp)
+            .clickable { onClick.invoke() },
+        border = BorderStroke(1.dp, SolidColor(Color.DarkGray)),
+        shadowElevation = 16.dp
+    ) {
+        val textPadding: Dp = 4.dp
+        Box(modifier = Modifier
+            .drawBehind {
+                drawLine(
+                    start = Offset(0f, this.size.height),
+                    end = Offset(this.size.width, 0f),
+                    color = Color.LightGray
+                )
+            }) {
+            Text(
+                text = "ABS",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(start = textPadding, top = textPadding)
+            )
+            Text(
+                text = "INC",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = textPadding, bottom = textPadding)
+            )
+        }
     }
 }
 

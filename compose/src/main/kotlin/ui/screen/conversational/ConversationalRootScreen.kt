@@ -34,8 +34,8 @@ class ConversationalRootScreen : Conversational("Conversational") {
 //
 //        }
 
-        Column {
-            Text("Conversational Root")
-        }
+//        Column {
+//            Text("Conversational Root")
+//        }
     }
 }

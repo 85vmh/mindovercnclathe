@@ -34,7 +34,7 @@ class ToolsRootScreen : Tools() {
         val state by screenModel.state.collectAsState()
 
         ToolTabsView(
-            modifier = Modifier.width(450.dp).height(32.dp),
+            modifier = Modifier.width(450.dp).height(48.dp),
             currentTabIndex = state.currentTabIndex,
             onTabSelected = screenModel::selectTabWithIndex
         )

@@ -1,6 +1,7 @@
 package ui.tab
 
 import TabViewModel
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigationItem
@@ -13,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.CurrentScreen
@@ -68,7 +70,7 @@ abstract class AppTab<S : AppScreen>(
                 modifier = Modifier,
                 drawerState = drawerState,
                 gesturesEnabled = currentScreen.drawerEnabled,
-                drawerShape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)
+//                drawerShape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)
             ) {
                 ModalBottomSheetLayout(
                     sheetState = currentScreen.sheetState,
@@ -176,6 +178,7 @@ private fun BottomBar(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RowScope.TabNavigationItem(
     tab: Tab,
