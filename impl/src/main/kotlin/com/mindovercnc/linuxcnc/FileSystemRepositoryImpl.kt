@@ -1,31 +1,35 @@
 package com.mindovercnc.linuxcnc
 
+import com.mindovercnc.dispatchers.IoDispatcher
+import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.repository.FileSystemRepository
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
+import okio.FileSystem
+import okio.Path
 
+/** Implementation for [FileSystemRepository]. */
 class FileSystemRepositoryImpl(
-    private val scope: CoroutineScope,
-    private val ncProgramsDir: File
+  ioDispatcher: IoDispatcher,
+  private val ncProgramsDir: Path,
+  private val fileSystem: FileSystem
 ) : FileSystemRepository {
 
-    override fun getNcRootAppFile(): File {
-        return ncProgramsDir
-    }
+  private val scope = ioDispatcher.createScope()
 
-    override fun writeProgramLines(lines: List<String>, programName: String) {
-        scope.launch(Dispatchers.IO) {
-            val conversationalFolder = File(ncProgramsDir, "conversational")
-            if (conversationalFolder.exists().not()) {
-                conversationalFolder.mkdir()
-            }
-            val programFile = File(conversationalFolder, programName)
-            programFile.printWriter().use {
-                lines.forEach { line -> it.println(line) }
-                it.close()
-            }
-        }
+  override fun getNcRootAppFile(): Path {
+    return ncProgramsDir
+  }
+
+  override fun writeProgramLines(lines: List<String>, programName: String) {
+    scope.launch(Dispatchers.IO) {
+      val conversationalFolder = ncProgramsDir.div("conversational")
+      if (!fileSystem.exists(conversationalFolder)) {
+        fileSystem.createDirectory(conversationalFolder)
+      }
+      val programFile = conversationalFolder.div(programName)
+
+      fileSystem.write(programFile) { lines.forEach { line -> writeUtf8(line) } }
     }
+  }
 }

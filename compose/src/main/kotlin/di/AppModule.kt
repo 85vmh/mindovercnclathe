@@ -1,20 +1,19 @@
 package di
 
-import TabViewModel
-import org.kodein.di.*
 import StatusWatcher
+import TabViewModel
+import okio.FileSystem
+import org.kodein.di.*
 
-val AppModule = DI.Module("AppModule") {
-    bindSingleton {
-        StatusWatcher(
-            instance(),
-            instance()
-        )
-    }
+val AppModule =
+  DI.Module("AppModule") {
+    bindSingleton { StatusWatcher(instance(), instance()) }
 
     bindProvider {
-        TabViewModel(
-            instance(),
-        )
+      TabViewModel(
+        instance(),
+      )
     }
-}
+
+    bindSingleton { FileSystem.SYSTEM }
+  }

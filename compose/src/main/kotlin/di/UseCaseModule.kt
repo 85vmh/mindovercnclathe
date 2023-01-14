@@ -3,157 +3,160 @@ package di
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
+import usecase.*
 import usecase.FeedUseCase
 import usecase.SpindleUseCase
 import usecase.TaperUseCase
-import usecase.*
 
-val UseCaseModule = DI.Module("UseCase") {
+val UseCaseModule =
+  DI.Module("UseCase") {
+    bindSingleton { MessagesUseCase(messagesRepository = instance()) }
+
     bindSingleton {
-        MessagesUseCase(messagesRepository = instance())
+      ManualTurningUseCase(
+        ioDispatcher = instance(),
+        statusRepository = instance(),
+        commandRepository = instance(),
+        messagesRepository = instance(),
+        halRepository = instance(),
+        settingsRepository = instance(),
+        iniFileRepository = instance()
+      )
     }
 
     bindSingleton {
-        ManualTurningUseCase(
-            scope = instance(tag = "app_scope"),
-            statusRepository = instance(),
-            commandRepository = instance(),
-            messagesRepository = instance(),
-            halRepository = instance(),
-            settingsRepository = instance(),
-            iniFileRepository = instance()
-        )
+      AngleFinderUseCase(
+        ioDispatcher = instance(),
+        statusRepository = instance(),
+        commandRepository = instance(),
+        messagesRepository = instance(),
+        halRepository = instance(),
+        settingsRepository = instance(),
+        iniFileRepository = instance()
+      )
     }
 
     bindSingleton {
-        AngleFinderUseCase(
-            scope = instance(tag = "app_scope"),
-            statusRepository = instance(),
-            commandRepository = instance(),
-            messagesRepository = instance(),
-            halRepository = instance(),
-            settingsRepository = instance(),
-            iniFileRepository = instance()
-        )
+      VirtualLimitsUseCase(
+        ioDispatcher = instance(),
+        statusRepository = instance(),
+        halRepository = instance(),
+        settingsRepository = instance(),
+        iniFileRepository = instance(),
+        activeLimitsRepository = instance()
+      )
     }
 
     bindSingleton {
-        VirtualLimitsUseCase(
-            scope = instance(tag = "app_scope"),
-            statusRepository = instance(),
-            halRepository = instance(),
-            settingsRepository = instance(),
-            iniFileRepository = instance(),
-            activeLimitsRepository = instance()
-        )
+      SimpleCyclesUseCase(
+        ioDispatcher = instance(),
+        statusRepository = instance(),
+        commandRepository = instance(),
+        halRepository = instance(),
+        settingsRepository = instance(),
+      )
     }
 
     bindSingleton {
-        SimpleCyclesUseCase(
-            scope = instance(tag = "app_scope"),
-            statusRepository = instance(),
-            commandRepository = instance(),
-            halRepository = instance(),
-            settingsRepository = instance(),
-        )
+      ManualPositionUseCase(
+        cncStatusRepository = instance(),
+      )
     }
 
     bindSingleton {
-        ManualPositionUseCase(
-            cncStatusRepository = instance(),
-        )
+      ToolsUseCase(
+        ioDispatcher = instance(),
+        statusRepository = instance(),
+        commandRepository = instance(),
+        messagesRepository = instance(),
+        halRepository = instance(),
+        settingsRepository = instance(),
+        toolHolderRepository = instance(),
+        latheToolsRepository = instance(),
+        cuttingInsertsRepository = instance(),
+        varFileRepository = instance()
+      )
     }
 
     bindSingleton {
-        ToolsUseCase(
-            scope = instance(tag = "app_scope"),
-            statusRepository = instance(),
-            commandRepository = instance(),
-            messagesRepository = instance(),
-            halRepository = instance(),
-            settingsRepository = instance(),
-            toolHolderRepository = instance(),
-            latheToolsRepository = instance(),
-            cuttingInsertsRepository = instance(),
-            varFileRepository = instance()
-        )
+      ManualToolChangeUseCase(
+        ioDispatcher = instance(),
+        halRepository = instance(),
+      )
     }
 
     bindSingleton {
-        ManualToolChangeUseCase(
-            scope = instance(tag = "app_scope"),
-            halRepository = instance(),
-        )
+      OffsetsUseCase(
+        statusRepository = instance(),
+        commandRepository = instance(),
+        varFileRepository = instance()
+      )
     }
 
     bindSingleton {
-        OffsetsUseCase(
-            statusRepository = instance(),
-            commandRepository = instance(),
-            varFileRepository = instance()
-        )
+      ConversationalUseCase(
+        ioDispatcher = instance(),
+        statusRepository = instance(),
+        commandRepository = instance(),
+        settingsRepository = instance(),
+        fileSystemRepository = instance()
+      )
     }
 
     bindSingleton {
-        ConversationalUseCase(
-            scope = instance(tag = "app_scope"),
-            statusRepository = instance(),
-            commandRepository = instance(),
-            settingsRepository = instance(),
-            fileSystemRepository = instance()
-        )
+      ProgramsUseCase(
+        statusRepository = instance(),
+        commandRepository = instance(),
+      )
     }
 
     bindSingleton {
-        ProgramsUseCase(
-            statusRepository = instance(),
-            commandRepository = instance(),
-        )
+      SpindleUseCase(
+        settingsRepository = instance(),
+        statusRepository = instance(),
+        halRepository = instance()
+      )
     }
 
     bindSingleton {
-        SpindleUseCase(
-            settingsRepository = instance(),
-            statusRepository = instance(),
-            halRepository = instance()
-        )
+      FeedUseCase(
+        settingsRepository = instance(),
+        statusRepository = instance(),
+      )
     }
 
     bindSingleton {
-        FeedUseCase(
-            settingsRepository = instance(),
-            statusRepository = instance(),
-        )
+      HandWheelsUseCase(
+        statusRepository = instance(),
+        halRepository = instance(),
+      )
     }
 
     bindSingleton {
-        HandWheelsUseCase(
-            statusRepository = instance(),
-            halRepository = instance(),
-        )
+      TaperUseCase(
+        settingsRepository = instance(),
+      )
     }
 
     bindSingleton {
-        TaperUseCase(
-            settingsRepository = instance(),
-        )
+      PositionUseCase(
+        statusRepository = instance(),
+      )
     }
 
     bindSingleton {
-        PositionUseCase(
-            statusRepository = instance(),
-        )
+      GCodeUseCase(
+        gCodeRepository = instance(),
+      )
     }
 
     bindSingleton {
-        GCodeUseCase(
-            gCodeRepository = instance(),
-        )
+      ActiveCodesUseCase(
+        instance(),
+      )
     }
 
-    bindSingleton {
-        ActiveCodesUseCase(
-            instance(),
-        )
-    }
-}
+    bindSingleton { BreadCrumbDataUseCase() }
+
+    bindSingleton { FileSystemDataUseCase(instance()) }
+  }

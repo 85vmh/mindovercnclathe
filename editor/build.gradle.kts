@@ -1,15 +1,17 @@
 plugins {
-    kotlin("jvm")
-    kotlin("plugin.serialization")
+  kotlin("jvm")
+  kotlin("plugin.serialization")
 }
 
 version = Versions.app
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
-    implementation(project(":repository"))
-//    implementation(project(":libcnc"))
-    implementation("ro.dragossusi.ktlcnc:ktlcnc:0.0.1")
-    implementation(project(":database"))
+  implementation(Libs.stdlib)
+  implementation(Libs.Serialization.json)
+  implementation(Libs.Serialization.json_okio)
+  implementation(project(":repository"))
+  //    implementation(project(":libcnc"))
+  implementation(Libs.ktlcnc)
+  implementation(Libs.okio)
+  implementation(project(":database"))
 }

@@ -1,23 +1,16 @@
-import Versions.coroutines
-import Versions.kodein
-
-plugins {
-    kotlin("jvm")
-}
+plugins { kotlin("jvm") }
 
 version = "unspecified"
 
-repositories {
-    mavenCentral()
-}
+repositories { mavenCentral() }
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")
-    implementation("org.kodein.di:kodein-di-framework-compose:$kodein")
+  implementation(kotlin("stdlib"))
+  api(Libs.Coroutines.core)
+  implementation(Libs.Kodein.core)
 
-    implementation(project(":database"))
-    api(project(":model"))
-    api("ro.dragossusi.ktlcnc:ktlcnc-model:0.0.1")
-
+  implementation(project(":database"))
+  api(project(":model"))
+  api(Libs.ktlcnc_model)
+  implementation(Libs.okio)
 }

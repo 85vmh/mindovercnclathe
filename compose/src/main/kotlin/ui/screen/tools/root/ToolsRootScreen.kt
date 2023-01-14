@@ -1,5 +1,6 @@
 package ui.screen.tools.root
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -28,121 +29,115 @@ private val tabContentModifier = Modifier.fillMaxWidth()
 
 class ToolsRootScreen : Tools() {
 
-    @Composable
-    override fun Title() {
-        val screenModel = rememberScreenModel<ToolsScreenModel>()
-        val state by screenModel.state.collectAsState()
+  @Composable
+  override fun Title() {
+    val screenModel = rememberScreenModel<ToolsScreenModel>()
+    val state by screenModel.state.collectAsState()
 
-        ToolTabsView(
-            modifier = Modifier.width(450.dp).height(32.dp),
-            currentTabIndex = state.currentTabIndex,
-            onTabSelected = screenModel::selectTabWithIndex
+    ToolTabsView(
+      modifier = Modifier.width(450.dp).height(48.dp),
+      currentTabIndex = state.currentTabIndex,
+      onTabSelected = screenModel::selectTabWithIndex
+    )
+  }
+
+  @Composable
+  override fun Fab() {
+    val navigator = LocalNavigator.currentOrThrow
+    val screenModel = rememberScreenModel<ToolsScreenModel>()
+    val state by screenModel.state.collectAsState()
+
+    when (state.currentTabIndex) {
+      0 ->
+        ExtendedFloatingActionButton(
+          text = { Text("New Holder") },
+          onClick = { navigator.push(AddEditHolderScreen { screenModel.loadToolHolders() }) },
+          icon = {
+            Icon(
+              Icons.Default.Add,
+              contentDescription = null,
+            )
+          }
+        )
+      1 ->
+        ExtendedFloatingActionButton(
+          text = { Text("New Tool") },
+          onClick = { navigator.push(AddEditLatheToolScreen { screenModel.loadLatheTools() }) },
+          icon = {
+            Icon(
+              Icons.Default.Add,
+              contentDescription = null,
+            )
+          }
+        )
+      2 ->
+        ExtendedFloatingActionButton(
+          text = { Text("New Insert") },
+          onClick = {
+            navigator.push(AddEditCuttingInsertScreen { screenModel.loadCuttingInserts() })
+          },
+          icon = {
+            Icon(
+              Icons.Default.Add,
+              contentDescription = null,
+            )
+          }
         )
     }
+  }
 
-    @Composable
-    override fun Fab() {
-        val navigator = LocalNavigator.currentOrThrow
-        val screenModel = rememberScreenModel<ToolsScreenModel>()
-        val state by screenModel.state.collectAsState()
+  @Composable
+  override fun Content() {
+    val screenModel = rememberScreenModel<ToolsScreenModel>()
+    val state by screenModel.state.collectAsState()
 
-        when (state.currentTabIndex) {
-            0 -> ExtendedFloatingActionButton(
-                text = { Text("New Holder") },
-                onClick = {
-                    navigator.push(AddEditHolderScreen {
-                        screenModel.loadToolHolders()
-                    })
-                },
-                icon = {
-                    Icon(
-                        Icons.Default.Add,
-                        contentDescription = "",
-                    )
-                }
-            )
+    Column(modifier = Modifier.fillMaxWidth()) {
+      when (ToolsTabItem.values()[state.currentTabIndex]) {
+        ToolsTabItem.ToolHolders ->
+          ToolHoldersContent(
+            state = state,
+            onDelete = screenModel::requestDeleteToolHolder,
+            onLoad = screenModel::loadToolHolder,
+            onHolderChanged = screenModel::loadToolHolders,
+            modifier = tabContentModifier
+          )
+        ToolsTabItem.LatheTools ->
+          LatheToolsContent(
+            state,
+            onDelete = screenModel::requestDeleteLatheTool,
+            onToolChanged = screenModel::loadLatheTools,
+            modifier = tabContentModifier
+          )
+        ToolsTabItem.CuttingInserts ->
+          CuttingInsertsContent(
+            state,
+            onDelete = screenModel::requestDeleteCuttingInsert,
+            onInsertChanged = screenModel::loadCuttingInserts,
+            modifier = tabContentModifier
+          )
+      }
 
-            1 -> ExtendedFloatingActionButton(
-                text = { Text("New Tool") },
-                onClick = {
-                    navigator.push(AddEditLatheToolScreen {
-                        screenModel.loadLatheTools()
-                    })
-                },
-                icon = {
-                    Icon(
-                        Icons.Default.Add,
-                        contentDescription = "",
-                    )
-                }
-            )
-
-            2 -> ExtendedFloatingActionButton(
-                text = { Text("New Insert") },
-                onClick = {
-                    navigator.push(AddEditCuttingInsertScreen {
-                        screenModel.loadCuttingInserts()
-                    })
-                },
-                icon = {
-                    Icon(
-                        Icons.Default.Add,
-                        contentDescription = "",
-                    )
-                }
-            )
-        }
+      state.toolHolderDeleteModel?.let {
+        ToolHolderDeleteDialog(
+          deleteModel = it,
+          deleteClick = screenModel::deleteToolHolder,
+          abortClick = screenModel::cancelDeleteToolHolder
+        )
+      }
+      state.latheToolDeleteModel?.let {
+        LatheToolDeleteDialog(
+          deleteModel = it,
+          deleteClick = screenModel::deleteLatheTool,
+          abortClick = screenModel::cancelDeleteLatheTool
+        )
+      }
+      state.cuttingInsertDeleteModel?.let {
+        CuttingInsertDeleteDialog(
+          deleteModel = it,
+          deleteClick = screenModel::deleteCuttingInsert,
+          abortClick = screenModel::cancelDeleteCuttingInsert
+        )
+      }
     }
-
-    @Composable
-    override fun Content() {
-        val screenModel = rememberScreenModel<ToolsScreenModel>()
-        val state by screenModel.state.collectAsState()
-
-        when (ToolsTabItem.values()[state.currentTabIndex]) {
-            ToolsTabItem.ToolHolders -> ToolHoldersContent(
-                state = state,
-                onDelete = screenModel::requestDeleteToolHolder,
-                onLoad = screenModel::loadToolHolder,
-                onHolderChanged = screenModel::loadToolHolders,
-                modifier = tabContentModifier
-            )
-
-            ToolsTabItem.LatheTools -> LatheToolsContent(
-                state,
-                onDelete = screenModel::requestDeleteLatheTool,
-                onToolChanged = screenModel::loadLatheTools,
-                modifier = tabContentModifier
-            )
-
-            ToolsTabItem.CuttingInserts -> CuttingInsertsContent(
-                state,
-                onDelete = screenModel::requestDeleteCuttingInsert,
-                onInsertChanged = screenModel::loadCuttingInserts,
-                modifier = tabContentModifier
-            )
-        }
-
-        state.toolHolderDeleteModel?.let {
-            ToolHolderDeleteDialog(
-                deleteModel = it,
-                deleteClick = screenModel::deleteToolHolder,
-                abortClick = screenModel::cancelDeleteToolHolder
-            )
-        }
-        state.latheToolDeleteModel?.let {
-            LatheToolDeleteDialog(
-                deleteModel = it,
-                deleteClick = screenModel::deleteLatheTool,
-                abortClick = screenModel::cancelDeleteLatheTool
-            )
-        }
-        state.cuttingInsertDeleteModel?.let {
-            CuttingInsertDeleteDialog(
-                deleteModel = it,
-                deleteClick = screenModel::deleteCuttingInsert,
-                abortClick = screenModel::cancelDeleteCuttingInsert
-            )
-        }
-    }
+  }
 }

@@ -6,6 +6,7 @@ include("impl")
 include("editor")
 include("logger")
 include("model")
+include("dispatchers")
 //include("vtk")
 
 //include("localization")

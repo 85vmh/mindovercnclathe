@@ -1,71 +1,75 @@
 package ui.screen.programs.root
 
 import cafe.adriel.voyager.core.model.StateScreenModel
+import com.mindovercnc.editor.EditorLoader
 import com.mindovercnc.repository.FileSystemRepository
 import kotlinx.coroutines.flow.update
-import screen.composables.editor.Editor
-import java.io.File
+import mu.KotlinLogging
+import okio.FileSystem
+import okio.Path
+import usecase.BreadCrumbDataUseCase
+import usecase.FileSystemDataUseCase
+
+private val logger = KotlinLogging.logger("ProgramsRootScreenModel")
 
 class ProgramsRootScreenModel(
-    fileSystemRepository: FileSystemRepository,
-) : StateScreenModel<ProgramsRootScreenModel.State>(
-    State(
-        currentDir = fileSystemRepository.getNcRootAppFile()
-    )
-) {
+  fileSystemRepository: FileSystemRepository,
+  private val fileSystem: FileSystem,
+  private val editorLoader: EditorLoader,
+  private val fileSystemDataUseCase: FileSystemDataUseCase,
+  private val breadCrumbDataUseCase: BreadCrumbDataUseCase
+) : StateScreenModel<ProgramsState>(ProgramsState()) {
 
-    data class State(
-        val currentDir: File,
-        val editor: Editor? = null,
-        val error: String? = null
-    )
+  init {
+    val path = fileSystemRepository.getNcRootAppFile()
+    logger.info("NC Root App File path $path")
+    setCurrentFolder(path)
+  }
 
-    init {
-        setCurrentFolder(fileSystemRepository.getNcRootAppFile())
+  fun showError(error: String) {
+    mutableState.update { it.copy(error = error) }
+  }
+
+  fun clearError() {
+    mutableState.update { it.copy(error = null) }
+  }
+
+  private fun setCurrentFolder(file: Path) {
+    logger.info("Setting current folder to $file")
+    mutableState.update {
+      val fileSystemData =
+        with(fileSystemDataUseCase) { file.toFileSystemData(onItemClick = ::selectItem) }
+      val breadCrumbData =
+        with(breadCrumbDataUseCase) { file.toBreadCrumbData(onItemClick = ::loadFolderContents) }
+
+      it.copy(breadCrumbData = breadCrumbData, fileSystemData = fileSystemData)
     }
+  }
 
-    fun showError(error: String) {
-        mutableState.update {
-            it.copy(error = error)
-        }
+  private fun setCurrentFile(file: Path?) {
+    logger.info("Setting current file to $file")
+    mutableState.update {
+      it.copy(
+        editor = if (file != null) editorLoader.loadEditor(file) else null,
+      )
     }
+  }
 
-    fun clearError() {
-        mutableState.update {
-            it.copy(error = null)
-        }
+  fun selectItem(item: Path) {
+    val metadata = fileSystem.metadata(item)
+    when {
+      metadata.isDirectory -> {
+        println("---Folder clicked: $item")
+        loadFolderContents(item)
+      }
+      metadata.isRegularFile -> {
+        setCurrentFile(item)
+      }
     }
+  }
 
-    private fun setCurrentFolder(file: File) {
-        mutableState.update {
-            it.copy(currentDir = file)
-        }
-    }
-
-    private fun setCurrentFile(file: File?) {
-        mutableState.update {
-            it.copy(
-                editor = if (file != null) Editor(file)
-                else null,
-            )
-        }
-    }
-
-    fun selectItem(item: File) {
-        when {
-            item.isDirectory -> {
-                println("---Folder clicked: ${item.path}")
-                loadFolderContents(item)
-            }
-            item.isFile -> {
-                setCurrentFile(File(item.path))
-            }
-        }
-    }
-
-    fun loadFolderContents(file: File) {
-        setCurrentFolder(file)
-        setCurrentFile(null)
-    }
-
+  fun loadFolderContents(file: Path) {
+    setCurrentFolder(file)
+    setCurrentFile(null)
+  }
 }

@@ -1,8 +1,8 @@
 package com.mindovercnc.repository
 
 import com.mindovercnc.model.GcodeCommand
-import java.io.File
+import okio.Path
 
 interface GCodeRepository {
-    fun parseFile(file: File): List<GcodeCommand>
+    fun parseFile(file: Path): List<GcodeCommand>
 }

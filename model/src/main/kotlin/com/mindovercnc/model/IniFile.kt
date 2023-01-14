@@ -1,12 +1,12 @@
 package com.mindovercnc.model
 
-import java.io.File
+import okio.Path
 
-data class IniFile(
+data class IniFile constructor(
     val subroutinePath: String,
-    val programDir: File,
-    val parameterFile: File,
-    val toolTableFile: File,
+    val programDir: Path,
+    val parameterFile: Path,
+    val toolTableFile: Path,
     val joints: List<JointParameters>
 ) {
 

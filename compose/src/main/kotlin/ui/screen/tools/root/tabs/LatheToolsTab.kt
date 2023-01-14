@@ -34,336 +34,261 @@ import screen.composables.platform.VerticalScrollbar
 import ui.screen.tools.root.ToolsScreenModel
 import ui.screen.tools.root.tabs.lathetool.AddEditLatheToolScreen
 import ui.screen.tools.root.tabs.lathetool.DirectionItem
-import ui.screen.tools.root.tabs.lathetool.TipOrientation
+import ui.screen.tools.root.tabs.lathetool.TipOrientationUi
 
 private val itemModifier = Modifier.fillMaxWidth()
 
 private enum class LatheToolColumns(val text: String, val size: Dp = Dp.Unspecified) {
-    Id("ID", 50.dp),
-    ToolType("Type", 100.dp),
-    Details("Tool Details"),
-    Orientation("Orient", 60.dp),
-    Rotation("Spindle", 60.dp),
-    Usage("Usage", 100.dp),
-    Actions("Actions", 140.dp),
+  Id("ID", 50.dp),
+  ToolType("Type", 100.dp),
+  Details("Tool Details"),
+  Orientation("Orient", 60.dp),
+  Rotation("Spindle", 60.dp),
+  Usage("Usage", 100.dp),
+  Actions("Actions", 140.dp),
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LatheToolsContent(
-    state: ToolsScreenModel.State,
-    modifier: Modifier = Modifier,
-    onDelete: (LatheTool) -> Unit,
-    onToolChanged: () -> Unit
+  state: ToolsScreenModel.State,
+  modifier: Modifier = Modifier,
+  onDelete: (LatheTool) -> Unit,
+  onToolChanged: () -> Unit
 ) {
-    val scope = rememberCoroutineScope()
-    val navigator = LocalNavigator.currentOrThrow
+  val scope = rememberCoroutineScope()
+  val navigator = LocalNavigator.currentOrThrow
 
-    Box(
-        modifier = modifier
-    ) {
-        val scrollState = rememberLazyListState()
+  Box(modifier = modifier) {
+    val scrollState = rememberLazyListState()
 
-        LazyColumn(
-            modifier = Modifier.draggableScroll(scrollState, scope),
-            state = scrollState
-        ) {
-            stickyHeader {
-                LatheToolHeader(modifier = Modifier.height(40.dp))
+    LazyColumn(modifier = Modifier.draggableScroll(scrollState, scope), state = scrollState) {
+      stickyHeader { LatheToolHeader(modifier = Modifier.height(40.dp)) }
+      itemsIndexed(state.latheTools) { index, item ->
+        Surface(
+          // color = gridRowColorFor(index)
+          ) {
+          GenericToolView(
+            index = index,
+            item = item,
+            onEditClicked = {
+              navigator.push(AddEditLatheToolScreen(it) { onToolChanged.invoke() })
+            },
+            onDeleteClicked = onDelete,
+            modifier = itemModifier
+          ) {
+            when (item) {
+              is LatheTool.Turning -> TurningToolView(item = item, modifier = itemModifier)
+              is LatheTool.Boring -> BoringToolView(item = item, modifier = itemModifier)
+              is LatheTool.Drilling -> DrillingToolView(item = item, modifier = itemModifier)
+              is LatheTool.Parting -> PartingToolView(item = item, modifier = itemModifier)
+              else -> {
+                Text("Not implemented: $item")
+              }
             }
-            itemsIndexed(state.latheTools) { index, item ->
-                Surface(
-                    //color = gridRowColorFor(index)
-                ) {
-                    GenericToolView(
-                        index = index,
-                        item = item,
-                        onEditClicked = {
-                            navigator.push(AddEditLatheToolScreen(it) {
-                                onToolChanged.invoke()
-                            })
-                        },
-                        onDeleteClicked = onDelete,
-                        modifier = itemModifier
-                    ) {
-                        when (item) {
-                            is LatheTool.Turning -> TurningToolView(
-                                item = item,
-                                modifier = itemModifier
-                            )
-                            is LatheTool.Boring -> BoringToolView(
-                                item = item,
-                                modifier = itemModifier
-                            )
-                            is LatheTool.Drilling -> DrillingToolView(
-                                item = item,
-                                modifier = itemModifier
-                            )
-                            is LatheTool.Parting -> PartingToolView(
-                                item = item,
-                                modifier = itemModifier
-                            )
-                            else -> {
-                                Text("Not implemented: $item")
-                            }
-                        }
-                    }
-                }
-                HorizontalDivider()
-            }
+          }
         }
-
-        VerticalScrollbar(
-            Modifier.align(Alignment.CenterEnd).width(30.dp),
-            scrollState,
-            state.toolHolders.size,
-            60.dp
-        )
+        HorizontalDivider()
+      }
     }
+
+    VerticalScrollbar(
+      Modifier.align(Alignment.CenterEnd).width(30.dp),
+      scrollState,
+      state.toolHolders.size,
+      60.dp
+    )
+  }
 }
 
 @Composable
-fun LatheToolHeader(
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        color = MaterialTheme.colorScheme.primaryContainer
-    ) {
-        Row(
-            modifier = modifier,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            LatheToolColumns.values().forEach {
-                val textModifier = when (it.size) {
-                    Dp.Unspecified -> Modifier.weight(1f)
-                    else -> Modifier.width(it.size)
-                }
-                Text(
-                    modifier = textModifier,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleSmall,
-                    text = it.text
-                )
-                if (it != LatheToolColumns.values().last()) {
-                    VerticalDivider(color = Color.LightGray)
-                }
-            }
+fun LatheToolHeader(modifier: Modifier = Modifier) {
+  Surface(color = MaterialTheme.colorScheme.primaryContainer) {
+    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
+      LatheToolColumns.values().forEach {
+        val textModifier =
+          when (it.size) {
+            Dp.Unspecified -> Modifier.weight(1f)
+            else -> Modifier.width(it.size)
+          }
+        Text(
+          modifier = textModifier,
+          textAlign = TextAlign.Center,
+          style = MaterialTheme.typography.titleSmall,
+          text = it.text
+        )
+        if (it != LatheToolColumns.values().last()) {
+          VerticalDivider(color = Color.LightGray)
         }
+      }
     }
+  }
 }
 
 @Composable
 private fun GenericToolView(
-    index: Int,
-    item: LatheTool,
-    onEditClicked: (LatheTool) -> Unit,
-    onDeleteClicked: (LatheTool) -> Unit,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+  index: Int,
+  item: LatheTool,
+  onEditClicked: (LatheTool) -> Unit,
+  onDeleteClicked: (LatheTool) -> Unit,
+  modifier: Modifier = Modifier,
+  content: @Composable () -> Unit
 ) {
 
+  Row(
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = Arrangement.Center,
+    modifier = modifier.height(60.dp)
+  ) {
+    Text(
+      text = (index + 1).toString(),
+      style = MaterialTheme.typography.labelLarge,
+      textAlign = TextAlign.Center,
+      modifier = Modifier.width(LatheToolColumns.Id.size),
+    )
+    VerticalDivider()
+    Text(
+      text = item.javaClass.simpleName,
+      textAlign = TextAlign.Center,
+      style = MaterialTheme.typography.labelLarge,
+      modifier = Modifier.width(LatheToolColumns.ToolType.size)
+    )
+    VerticalDivider()
+    Column(modifier = Modifier.padding(horizontal = 8.dp).weight(1f)) { content.invoke() }
+    VerticalDivider()
     Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-        modifier = modifier.height(60.dp)
+      modifier = Modifier.width(LatheToolColumns.Orientation.size),
+      horizontalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = (index + 1).toString(),
-            style = MaterialTheme.typography.labelLarge,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.width(LatheToolColumns.Id.size),
-        )
-        VerticalDivider()
-        Text(
-            text = item.javaClass.simpleName,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.width(LatheToolColumns.ToolType.size)
-        )
-        VerticalDivider()
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 8.dp)
-                .weight(1f)
-        ) {
-            content.invoke()
-        }
-        VerticalDivider()
-        Row(
-            modifier = Modifier.width(LatheToolColumns.Orientation.size),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            TipOrientation(
-                orientation = item.tipOrientation,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .border(border = BorderStroke(1.dp, Color.LightGray), shape = RoundedCornerShape(4.dp))
-                    .padding(8.dp)
-            )
-        }
-        VerticalDivider()
-        Row(
-            modifier = Modifier.width(LatheToolColumns.Rotation.size).padding(8.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            DirectionItem(spindleDirection = item.spindleDirection)
-        }
-        VerticalDivider()
-        UsageTime(
-            seconds = item.secondsUsed,
-            modifier = Modifier.width(LatheToolColumns.Usage.size)
-        )
-        VerticalDivider()
-        Row(
-            modifier = Modifier.width(LatheToolColumns.Actions.size),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            IconButton(
-                modifier = Modifier,
-                onClick = {
-                    onEditClicked.invoke(item)
-                }
-            ) {
-                Icon(Icons.Default.Edit, contentDescription = "")
-            }
-            VerticalDivider()
-            IconButton(
-                modifier = Modifier,
-                onClick = {
-                    onDeleteClicked.invoke(item)
-                }
-            ) {
-                Icon(Icons.Default.Delete, contentDescription = "")
-            }
-        }
+      TipOrientationUi(
+        orientation = item.tipOrientation,
+        modifier =
+          Modifier.padding(8.dp)
+            .border(border = BorderStroke(1.dp, Color.LightGray), shape = RoundedCornerShape(4.dp))
+            .padding(8.dp),
+        onClick = {}
+      )
     }
+    VerticalDivider()
+    Row(
+      modifier = Modifier.width(LatheToolColumns.Rotation.size).padding(8.dp),
+      horizontalArrangement = Arrangement.Center
+    ) {
+      DirectionItem(spindleDirection = item.spindleDirection)
+    }
+    VerticalDivider()
+    UsageTime(seconds = item.secondsUsed, modifier = Modifier.width(LatheToolColumns.Usage.size))
+    VerticalDivider()
+    Row(
+      modifier = Modifier.width(LatheToolColumns.Actions.size),
+      verticalAlignment = Alignment.CenterVertically,
+      horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+      IconButton(modifier = Modifier, onClick = { onEditClicked.invoke(item) }) {
+        Icon(Icons.Default.Edit, contentDescription = "")
+      }
+      VerticalDivider()
+      IconButton(modifier = Modifier, onClick = { onDeleteClicked.invoke(item) }) {
+        Icon(Icons.Default.Delete, contentDescription = "")
+      }
+    }
+  }
 }
 
 @Composable
 private fun TurningToolView(
-    item: LatheTool.Turning,
-    modifier: Modifier = Modifier,
+  item: LatheTool.Turning,
+  modifier: Modifier = Modifier,
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier.height(60.dp)
-    ) {
-        CutterProperties(
-            insert = item.insert,
-            modifier = Modifier.weight(1f)
-        )
-    }
+  Row(
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = Arrangement.SpaceBetween,
+    modifier = modifier.height(60.dp)
+  ) {
+    CutterProperties(insert = item.insert, modifier = Modifier.weight(1f))
+  }
 }
 
 @Composable
 private fun BoringToolView(
-    item: LatheTool.Boring,
-    modifier: Modifier = Modifier,
+  item: LatheTool.Boring,
+  modifier: Modifier = Modifier,
 ) {
-    CutterProperties(
-        insert = item.insert,
-        modifier = modifier
-    )
-    LabelWithValue(
-        label = "Minimum Diameter:",
-        value = item.minBoreDiameter.toFixedDigitsString(1),
-        paddingStart = 0.dp
-    )
+  CutterProperties(insert = item.insert, modifier = modifier)
+  LabelWithValue(
+    label = "Minimum Diameter:",
+    value = item.minBoreDiameter.toFixedDigitsString(1),
+    paddingStart = 0.dp
+  )
 }
 
 @Composable
 private fun DrillingToolView(
-    item: LatheTool.Drilling,
-    modifier: Modifier = Modifier,
+  item: LatheTool.Drilling,
+  modifier: Modifier = Modifier,
 ) {
-    LabelWithValue(
-        label = "Tool Diameter:",
-        value = item.toolDiameter.toFixedDigitsString(1),
-        paddingStart = 0.dp
-    )
-    LabelWithValue(
-        label = "Maximum Z Depth:",
-        value = item.maxZDepth.toFixedDigitsString(1),
-        paddingStart = 0.dp
-    )
+  LabelWithValue(
+    label = "Tool Diameter:",
+    value = item.toolDiameter.toFixedDigitsString(1),
+    paddingStart = 0.dp
+  )
+  LabelWithValue(
+    label = "Maximum Z Depth:",
+    value = item.maxZDepth.toFixedDigitsString(1),
+    paddingStart = 0.dp
+  )
 }
 
 @Composable
 private fun PartingToolView(
-    item: LatheTool.Parting,
-    modifier: Modifier = Modifier,
+  item: LatheTool.Parting,
+  modifier: Modifier = Modifier,
 ) {
-    CutterProperties(
-        insert = item.insert,
-        modifier = modifier
-    )
-    LabelWithValue(
-        label = "Blade Width:",
-        value = item.bladeWidth.toFixedDigitsString(1),
-        paddingStart = 0.dp
-    )
-    LabelWithValue(
-        label = "Maximum X Depth:",
-        value = item.maxXDepth.toFixedDigitsString(1),
-        paddingStart = 0.dp
-    )
+  CutterProperties(insert = item.insert, modifier = modifier)
+  LabelWithValue(
+    label = "Blade Width:",
+    value = item.bladeWidth.toFixedDigitsString(1),
+    paddingStart = 0.dp
+  )
+  LabelWithValue(
+    label = "Maximum X Depth:",
+    value = item.maxXDepth.toFixedDigitsString(1),
+    paddingStart = 0.dp
+  )
 }
 
 @Composable
-fun CutterProperties(
-    insert: CuttingInsert,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text(
-            text = "Cutter Type:",
-            style = MaterialTheme.typography.labelLarge
-        )
-        Text(
-            text = insert.madeOf.name,
-            style = MaterialTheme.typography.bodyMedium
-        )
+fun CutterProperties(insert: CuttingInsert, modifier: Modifier = Modifier) {
+  Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    Text(text = "Cutter Type:", style = MaterialTheme.typography.labelLarge)
+    Text(text = insert.madeOf.name, style = MaterialTheme.typography.bodyMedium)
 
-        Text(
-            text = insert.code ?: "--",
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Bold
-        )
+    Text(
+      text = insert.code ?: "--",
+      style = MaterialTheme.typography.bodyMedium,
+      fontWeight = FontWeight.Bold
+    )
 
-        Text(
-            text = "r${insert.tipRadius.toFixedDigitsString(1)}",
-            style = MaterialTheme.typography.bodyMedium,
-        )
-    }
+    Text(
+      text = "r${insert.tipRadius.toFixedDigitsString(1)}",
+      style = MaterialTheme.typography.bodyMedium,
+    )
+  }
 }
 
 @Composable
 private fun HorizontalDivider() {
-    Divider(
-        color = Color.LightGray,
-        thickness = 0.5.dp
-    )
+  Divider(color = Color.LightGray, thickness = 0.5.dp)
 }
 
 @Composable
-private fun UsageTime(
-    seconds: Double,
-    modifier: Modifier = Modifier.wrapContentWidth()
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(Icons.Default.DateRange, contentDescription = "")
-        Text(
-            text = "00:05:48",
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
+private fun UsageTime(seconds: Double, modifier: Modifier = Modifier.wrapContentWidth()) {
+  Row(
+    modifier = modifier,
+    horizontalArrangement = Arrangement.Center,
+    verticalAlignment = Alignment.CenterVertically
+  ) {
+    Icon(Icons.Default.DateRange, contentDescription = "")
+    Text(text = "00:05:48", style = MaterialTheme.typography.bodyMedium)
+  }
 }

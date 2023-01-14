@@ -1,8 +1,9 @@
 package com.mindovercnc.model
 
 enum class SpindleDirection {
-    Forward,
-    Reverse,
-    Both,
-    None //this is for slotting tools
+  Forward,
+  Reverse,
+  Both,
+  /** Used for slotting tools. */
+  None
 }
