@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import extensions.toFixedDigitsString
 import screen.composables.NumericInputField
@@ -15,7 +16,8 @@ import screen.uimodel.InputType
 
 @Composable
 fun CycleParameter(
-    parameterLabel: String,
+    parameterLabel: String = "",
+    parameterAnnotatedLabel: AnnotatedString? = null,
     inputType: InputType,
     value: Double,
     teachInLabel: String? = null,
@@ -27,10 +29,17 @@ fun CycleParameter(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            modifier = Modifier.padding(start = 8.dp),
-            text = parameterLabel
-        )
+        when {
+            parameterAnnotatedLabel != null -> Text(
+                modifier = Modifier.padding(start = 8.dp),
+                text = parameterAnnotatedLabel
+            )
+
+            else -> Text(
+                modifier = Modifier.padding(start = 8.dp),
+                text = parameterLabel
+            )
+        }
         NumericInputField(
             numericValue = value.toFixedDigitsString(),
             inputType = inputType,

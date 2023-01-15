@@ -1,6 +1,7 @@
 package ui.tab
 
 import TabViewModel
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -17,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
@@ -59,7 +61,9 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
       val currentScreen = navigator.lastItem as S
       ModalNavigationDrawer(
         drawerContent = {
-          ModalDrawerSheet(drawerShape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)) {
+          ModalDrawerSheet(
+//              drawerShape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)
+          ) {
             with(currentScreen) { DrawerContent(drawerState) }
           }
         },

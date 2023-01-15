@@ -4,6 +4,9 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.loadImageBitmap
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.useResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -32,20 +36,22 @@ fun SimpleCyclesList(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
-    val scrollState = rememberLazyListState()
+    val scrollState = rememberLazyGridState()
     val scope = rememberCoroutineScope()
 
-    LazyColumn(
+    LazyVerticalGrid(
         modifier = modifier.draggableScroll(scrollState, scope),
         state = scrollState,
-        contentPadding = contentPadding
+        contentPadding = contentPadding,
+        columns = GridCells.Adaptive(128.dp),
+
     ) {
-        items(items) { item ->
+        items(items.size) { index ->
             Cycle(
-                op = item,
-                modifier = Modifier.padding(vertical = 8.dp)
+                op = items[index],
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp)
             ) {
-                onCycleSelected.invoke(item)
+                onCycleSelected.invoke(items[index])
             }
         }
     }
@@ -61,35 +67,49 @@ fun Cycle(op: SimpleCycle, modifier: Modifier = Modifier, onClick: () -> Unit) {
             .clickable(interactionSource, indication = LocalIndication.current, onClick = onClick),
         shape = RoundedCornerShape(8.dp),
         shadowElevation = 8.dp,
-        color = MaterialTheme.colorScheme.primaryContainer
+        color = Color.LightGray
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(4.dp).fillMaxWidth(),
         ) {
 
-            val imageSize = 60.dp
-            if (op.imgName != null) {
-                Image(
-                    modifier = Modifier
-                        .size(imageSize)
-                        .background(
-                            color = MaterialTheme.colorScheme.background,
-                            shape = RoundedCornerShape(6.dp),
-                        ),
-                    contentDescription = "",
-                    bitmap = useResource(op.imgName) { loadImageBitmap(it) }
-                )
-            } else {
-                Box(
-                    modifier = Modifier
-                        .size(imageSize)
-                        .background(
-                            color = MaterialTheme.colorScheme.background,
-                            shape = RoundedCornerShape(6.dp),
-                        )
-                )
+            val imageSize = 100.dp
+            when {
+                op.imgName?.endsWith(".png") == true -> {
+                    Image(
+                        modifier = Modifier
+                            .size(imageSize)
+                            .background(
+                                color = MaterialTheme.colorScheme.background,
+                                shape = RoundedCornerShape(6.dp),
+                            ),
+                        contentDescription = "",
+                        bitmap = useResource(op.imgName) { loadImageBitmap(it) }
+                    )
+                }
+                op.imgName?.endsWith(".xml") == true -> {
+                    Image(
+                        modifier = Modifier
+                            .size(imageSize)
+                            .background(
+                                color = Color.Transparent,
+                                shape = RoundedCornerShape(6.dp),
+                            ),
+                        contentDescription = "",
+                        painter = painterResource(op.imgName)
+                    )
+                }
+                else -> {
+                    Box(
+                        modifier = Modifier
+                            .size(imageSize)
+                            .background(
+                                color = MaterialTheme.colorScheme.background,
+                                shape = RoundedCornerShape(6.dp),
+                            )
+                    )
+                }
             }
             Text(
                 text = op.displayableString,
