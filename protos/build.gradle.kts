@@ -1,3 +1,3 @@
 plugins { `java-library` }
 
-java { sourceSets.getByName("main").resources.srcDir("src/main/proto") }
+java { sourceSets.getByName("main").resources.srcDir("src/main") }

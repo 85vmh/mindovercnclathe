@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package linuxcnc;
+
+import "proto/hal/pin.proto";
+import "proto/hal/component.proto";
+import "proto/status/task/task.proto";
+import "proto/status/io/io.proto";
+import "proto/status/motion/motion.proto";
+
+option java_package = "ro.dragossusi.proto.linuxcnc";
+option java_multiple_files = true;
+
+service LinuxCnc {
+  rpc ReadStatus(ReadStatusRequest) returns (CncStatus);
+
+  rpc GetComponents(GetComponentsRequest) returns (GetComponentsResponse);
+
+  rpc CreateComponent(CreateComponentRequest) returns (HalComponent);
+
+  rpc GetPins(HalComponent) returns (GetPinsResponse);
+
+  rpc CreatePin(CreatePinRequest) returns (HalPin);
+}
+
+message ReadStatusRequest {}
+
+message CncStatus {
+  status.TaskStatus taskStatus = 1;
+  status.MotionStatus motionStatus = 2;
+  status.IoStatus ioStatus = 3;
+}
+
+message GetComponentsRequest {
+  // empty
+}
+
+message CreateComponentRequest { string name = 1; }
+
+message CreatePinRequest {
+  string componentId = 1;
+  string name = 2;
+  HalPinType type = 3;
+  float value = 4;
+}
+
+message GetComponentsResponse { repeated HalComponent components = 1; }
+
+message GetPinsResponse { repeated HalPin pins = 1; }

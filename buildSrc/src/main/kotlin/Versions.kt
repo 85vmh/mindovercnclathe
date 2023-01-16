@@ -15,7 +15,7 @@ object Versions {
   const val logging = "1.5.9"
 
   object Grpc {
-    const val plugin = "0.8.13"
+    const val plugin = "0.9.2"
     const val protobuf_kotlin = "3.21.12"
     const val grpc_kotlin = "1.3.0"
     const val grpc = "1.52.1"

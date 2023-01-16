@@ -42,6 +42,8 @@ dependencies {
   implementation(project(":model"))
   implementation(project(":repository"))
 
+  implementation(project(":grpc"))
+
   //    implementation(project(":vtk"))
   implementation(Libs.Kodein.compose)
 

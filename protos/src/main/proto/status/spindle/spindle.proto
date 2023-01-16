@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package linuxcnc.status;
+
+option java_package = "ro.dragossusi.proto.linuxcnc.status";
+option java_multiple_files = true;
+
+message SpindleStatus {
+  double speed = 1;         // spindle speed in RPMs
+  double spindle_scale = 2; // spindle over-ride
+
+  double css_maximum = 3;
+  double css_factor = 4; // CSS Status
+
+  int32 state = 5;
+  int32 direction = 6;  // 0 stopped, 1 forward, -1 reverse
+  int32 brake = 7;      // 0 released, 1 engaged
+  int32 increasing = 8; // 1 increasing, -1 decreasing, 0 neither
+  
+  bool enabled = 9;    // non-zero means enabled
+
+  int32 orient_state = 10;
+  int32 orient_fault = 11;
+
+  bool spindle_override_enabled = 12;
+  bool homed = 13;
+}

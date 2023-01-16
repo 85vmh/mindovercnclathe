@@ -7,11 +7,15 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import app.AppWindow
 import okio.FileSystem
+import ro.dragossusi.proto.linuxcnc.status.IoStatus
 import startup.ArgProcessor
 import startup.Initializer
 import startup.StartupArgs
 
 fun main(args: Array<String>) {
+  val ioStatus = IoStatus.newBuilder().setFault(3).build()
+  println("Created IoStatus")
+  println(ioStatus)
 
   val startupArgs = ArgProcessor(FileSystem.SYSTEM).process(args)
 

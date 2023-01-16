@@ -7,9 +7,10 @@ plugins {
 
 dependencies {
   protobuf(project(":protos"))
-  implementation("io.grpc:grpc-kotlin-stub:${Versions.Grpc.grpc_kotlin}")
-  implementation("io.grpc:grpc-protobuf:${Versions.Grpc.grpc}")
-  implementation("com.google.protobuf:protobuf-kotlin:${Versions.Grpc.protobuf_kotlin}")
+
+  api("io.grpc:grpc-kotlin-stub:${Versions.Grpc.grpc_kotlin}")
+  api("io.grpc:grpc-protobuf:${Versions.Grpc.grpc}")
+  api("com.google.protobuf:protobuf-kotlin:${Versions.Grpc.protobuf_kotlin}")
 }
 
 protobuf {
