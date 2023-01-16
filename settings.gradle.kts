@@ -7,6 +7,8 @@ include("editor")
 include("logger")
 include("model")
 include("dispatchers")
+include("protos")
+include("grpc")
 //include("vtk")
 
 //include("localization")

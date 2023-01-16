@@ -1,10 +1,9 @@
 package ui.screen.manual.root
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Star
@@ -12,7 +11,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextAlign
@@ -82,10 +80,8 @@ class ManualTurningScreen : Manual("Manual Turning") {
 
     state.wcsUiModel?.let {
       IconButton(
-          modifier = iconButtonModifier,
-          onClick = {
-              scope.launch {          sheetState.show()      }
-          }
+        modifier = iconButtonModifier,
+        onClick = { scope.launch { TODO("show dialog") } }
       ) {
         BadgedBox(
           badge = {
@@ -156,18 +152,18 @@ class ManualTurningScreen : Manual("Manual Turning") {
         onToggleAbsRelZ = screenModel::toggleZAbsRel,
       )
 
-//            Box(modifier = Modifier.fillMaxSize()) {
-//                Canvas(modifier = Modifier.fillMaxSize()) {
-//                    CenterLineActor()
-//                        .translateTo(
-//                            Offset(0f, this.size.height / 2f)
-//                        )
-//                        .drawInto(this)
-//                }
-//                ChuckView(modifier = Modifier.absoluteOffset(x = 30.dp, y = 100.dp)) {
-//
-//                }
-//            }
+      //            Box(modifier = Modifier.fillMaxSize()) {
+      //                Canvas(modifier = Modifier.fillMaxSize()) {
+      //                    CenterLineActor()
+      //                        .translateTo(
+      //                            Offset(0f, this.size.height / 2f)
+      //                        )
+      //                        .drawInto(this)
+      //                }
+      //                ChuckView(modifier = Modifier.absoluteOffset(x = 30.dp, y = 100.dp)) {
+      //
+      //                }
+      //            }
 
       Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
         state.spindleUiModel?.let {
@@ -237,34 +233,18 @@ class ManualTurningScreen : Manual("Manual Turning") {
 }
 
 @Composable
-private fun ChuckView(
-    modifier: Modifier = Modifier,
-    chuckClicked: () -> Unit
-) {
-    Surface(
-        shape = RoundedCornerShape(4.dp),
-        modifier = modifier
-            .height(250.dp)
-            .width(150.dp)
-            .clickable { chuckClicked.invoke() },
-        border = BorderStroke(1.dp, SolidColor(Color.DarkGray)),
-        shadowElevation = 16.dp
-    ) {
-        Column(
-            modifier = Modifier.padding(8.dp)
-        ) {
-            Text(
-                text = "Set:",
-                fontSize = 14.sp,
-                textAlign = TextAlign.Left
-            )
-            Text(
-                text = "Actual:",
-                fontSize = 14.sp,
-                textAlign = TextAlign.Left
-            )
-        }
+private fun ChuckView(modifier: Modifier = Modifier, chuckClicked: () -> Unit) {
+  Surface(
+    shape = RoundedCornerShape(4.dp),
+    modifier = modifier.height(250.dp).width(150.dp).clickable { chuckClicked.invoke() },
+    border = BorderStroke(1.dp, SolidColor(Color.DarkGray)),
+    shadowElevation = 16.dp
+  ) {
+    Column(modifier = Modifier.padding(8.dp)) {
+      Text(text = "Set:", fontSize = 14.sp, textAlign = TextAlign.Left)
+      Text(text = "Actual:", fontSize = 14.sp, textAlign = TextAlign.Left)
     }
+  }
 }
 
 @Composable

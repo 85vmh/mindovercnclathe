@@ -62,8 +62,14 @@ dependencies {
 compose.desktop {
   application {
     mainClass = "MainKt"
+
     jvmArgs("-Djava.library.path=${NativePaths.getNativePaths(rootProject).joinToString(":")}")
-    nativeDistributions { targetFormats(TargetFormat.Deb) }
+
+    nativeDistributions {
+      // needed by the database
+      modules("java.sql")
+      targetFormats(TargetFormat.Deb)
+    }
   }
 }
 
