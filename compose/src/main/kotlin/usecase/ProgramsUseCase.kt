@@ -1,9 +1,5 @@
 package usecase
 
-import com.mindovercnc.linuxcnc.model.Position
-import com.mindovercnc.linuxcnc.model.TaskMode
-import com.mindovercnc.model.dtg
-import com.mindovercnc.model.getDisplayablePosition
 import com.mindovercnc.repository.CncCommandRepository
 import com.mindovercnc.repository.CncStatusRepository
 import kotlinx.coroutines.flow.Flow
@@ -11,6 +7,10 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import okio.Path
+import ro.dragossusi.proto.linuxcnc.dtg
+import ro.dragossusi.proto.linuxcnc.getDisplayablePosition
+import ro.dragossusi.proto.linuxcnc.status.Position
+import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import screen.uimodel.AxisPosition
 import screen.uimodel.PositionModel
 

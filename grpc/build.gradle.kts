@@ -8,9 +8,9 @@ plugins {
 dependencies {
   protobuf(project(":protos"))
 
-  api("io.grpc:grpc-kotlin-stub:${Versions.Grpc.grpc_kotlin}")
-  api("io.grpc:grpc-protobuf:${Versions.Grpc.grpc}")
-  api("com.google.protobuf:protobuf-kotlin:${Versions.Grpc.protobuf_kotlin}")
+  api(Libs.Grpc.grpc_kotlin)
+  api(Libs.Grpc.grpc_proto)
+  api(Libs.Grpc.proto_kotlin)
 }
 
 protobuf {

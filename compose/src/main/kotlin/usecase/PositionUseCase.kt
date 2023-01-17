@@ -1,15 +1,15 @@
 package usecase
 
-import com.mindovercnc.linuxcnc.model.Position
 import com.mindovercnc.model.Point2D
-import com.mindovercnc.model.dtg
-import com.mindovercnc.model.g53Position
-import com.mindovercnc.model.getDisplayablePosition
+import ro.dragossusi.proto.linuxcnc.dtg
+import ro.dragossusi.proto.linuxcnc.g53Position
+import ro.dragossusi.proto.linuxcnc.getDisplayablePosition
 import com.mindovercnc.repository.CncStatusRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import ro.dragossusi.proto.linuxcnc.status.Position
 
 class PositionUseCase(
     private val statusRepository: CncStatusRepository

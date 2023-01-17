@@ -36,13 +36,14 @@ dependencies {
 
   // internal modules
   implementation(project(":database"))
-  implementation(project(":dispatchers"))
+  implementation(project(":dispatcher"))
   implementation(project(":editor"))
   implementation(project(":impl"))
   implementation(project(":model"))
   implementation(project(":repository"))
 
   implementation(project(":grpc"))
+  implementation(Libs.Grpc.okhttp)
 
   //    implementation(project(":vtk"))
   implementation(Libs.Kodein.compose)

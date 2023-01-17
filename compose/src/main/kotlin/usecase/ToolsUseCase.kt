@@ -2,11 +2,13 @@ package usecase
 
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
-import com.mindovercnc.linuxcnc.model.TaskMode
 import com.mindovercnc.model.*
 import com.mindovercnc.repository.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import ro.dragossusi.proto.linuxcnc.currentToolNo
+import ro.dragossusi.proto.linuxcnc.isHomed
+import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import screen.uimodel.AllowedSpindleDirection
 import screen.uimodel.ToolType
 import usecase.model.AddEditToolState

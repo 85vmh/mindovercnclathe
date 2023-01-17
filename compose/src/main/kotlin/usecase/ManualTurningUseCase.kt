@@ -4,8 +4,6 @@ import codegen.ManualTurningHelper
 import codegen.Point
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
-import com.mindovercnc.linuxcnc.model.JogMode
-import com.mindovercnc.linuxcnc.model.TaskMode
 import com.mindovercnc.model.*
 import com.mindovercnc.model.Axis
 import com.mindovercnc.model.Direction
@@ -16,6 +14,9 @@ import com.mindovercnc.repository.*
 import extensions.stripZeros
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import ro.dragossusi.proto.linuxcnc.*
+import ro.dragossusi.proto.linuxcnc.status.JogMode
+import ro.dragossusi.proto.linuxcnc.status.TaskMode
 
 class ManualTurningUseCase(
   private val ioDispatcher: IoDispatcher,
@@ -252,7 +253,7 @@ class ManualTurningUseCase(
         Direction.Negative -> jogVelocity * -1
       }
     println("---Jog $axis with velocity: $jogDirection")
-    commandRepository.jogContinuous(JogMode.AXIS, axis.index, jogDirection)
+    commandRepository.jogContinuous(JogMode.JOG_AXIS, axis.index, jogDirection)
     joggedAxis = axis
     joystickFunction = JoystickFunction.Jogging
   }
@@ -260,7 +261,7 @@ class ManualTurningUseCase(
   private fun stopJogging(axis: Axis) {
     if (joystickFunction == JoystickFunction.Jogging) {
       commandRepository.setTaskMode(TaskMode.TaskModeManual)
-      commandRepository.jogStop(JogMode.AXIS, axis.index)
+      commandRepository.jogStop(JogMode.JOG_AXIS, axis.index)
       joystickFunction = JoystickFunction.None
       println("---Stop jogging")
     }

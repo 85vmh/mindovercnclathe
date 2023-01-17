@@ -6,6 +6,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.map
+import ro.dragossusi.proto.linuxcnc.isInManualMode
 import ui.screen.manual.root.HandWheelsUiModel
 
 class HandWheelsUseCase(

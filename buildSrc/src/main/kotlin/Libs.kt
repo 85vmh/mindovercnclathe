@@ -24,6 +24,13 @@ object Libs {
     const val jdbc = "org.jetbrains.exposed:exposed-jdbc:${Versions.exposed}"
   }
 
+  object Grpc {
+    const val grpc_kotlin = "io.grpc:grpc-kotlin-stub:${Versions.Grpc.grpc_kotlin}"
+    const val grpc_proto = "io.grpc:grpc-protobuf:${Versions.Grpc.grpc}"
+    const val proto_kotlin = "com.google.protobuf:protobuf-kotlin:${Versions.Grpc.protobuf_kotlin}"
+    const val okhttp = "io.grpc:grpc-okhttp:${Versions.Grpc.grpc}"
+  }
+
   const val cli = "org.jetbrains.kotlinx:kotlinx-cli:${Versions.cli}"
 
   const val ktlcnc = "ro.dragossusi.ktlcnc:ktlcnc:${Versions.ktlcnc}"

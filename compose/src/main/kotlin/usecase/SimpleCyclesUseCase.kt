@@ -2,13 +2,14 @@ package usecase
 
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
-import com.mindovercnc.linuxcnc.model.TaskMode
 import com.mindovercnc.repository.CncCommandRepository
 import com.mindovercnc.repository.CncStatusRepository
 import com.mindovercnc.repository.HalRepository
 import com.mindovercnc.repository.SettingsRepository
 import extensions.stripZeros
 import kotlinx.coroutines.flow.*
+import ro.dragossusi.proto.linuxcnc.isInMdiMode
+import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import screen.uimodel.SimpleCycle
 import usecase.model.SimpleCycleParameters
 

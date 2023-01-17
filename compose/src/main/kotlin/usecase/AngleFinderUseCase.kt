@@ -3,14 +3,14 @@ package usecase
 import codegen.Point
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
-import com.mindovercnc.linuxcnc.model.TaskMode
 import com.mindovercnc.model.UiMessage
-import com.mindovercnc.model.getDisplayablePosition
+import ro.dragossusi.proto.linuxcnc.getDisplayablePosition
 import com.mindovercnc.repository.*
 import extensions.stripZeros
 import kotlin.math.abs
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import usecase.model.AngleFinderState
 
 class AngleFinderUseCase(

@@ -34,7 +34,8 @@ fun AppWindow(windowState: WindowState, startupArgs: StartupArgs, onCloseRequest
       RepositoryModule,
       ParseFactoryModule,
       BuffDescriptorModule,
-      EditorModule
+      EditorModule,
+      GrpcModule
     ) {
       val statusWatcher by rememberInstance<StatusWatcher>()
       statusWatcher.launchIn(scope)

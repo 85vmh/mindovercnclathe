@@ -15,7 +15,9 @@ import startup.StartupArgs
 
 val RepositoryModule =
   DI.Module("repository") {
-    bindSingleton<CncStatusRepository> { CncStatusRepositoryImpl(instance(), instance()) }
+    bindSingleton<CncStatusRepository> {
+      CncStatusRepositoryImpl(instance(), instance(), instance())
+    }
     bindSingleton<MessagesRepository> { MessagesRepositoryImpl(instance()) }
     bindSingleton<CncCommandRepository> { CncCommandRepositoryImpl() }
     bindSingleton<HalRepository> { HalRepositoryImpl() }

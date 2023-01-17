@@ -1,9 +1,8 @@
 plugins { kotlin("jvm") }
 
-version = "unspecified"
+version = "0.0.1"
 
 dependencies {
-  implementation(Libs.stdlib)
   implementation(Libs.Coroutines.core)
   implementation(Libs.Kodein.core)
 }

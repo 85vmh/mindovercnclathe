@@ -1,8 +1,8 @@
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
-import com.mindovercnc.model.isEstop
-import com.mindovercnc.model.isHomed
-import com.mindovercnc.model.isOn
+import ro.dragossusi.proto.linuxcnc.isEstop
+import ro.dragossusi.proto.linuxcnc.isHomed
+import ro.dragossusi.proto.linuxcnc.isOn
 import com.mindovercnc.repository.CncStatusRepository
 import kotlinx.coroutines.flow.*
 
@@ -20,7 +20,7 @@ class TabViewModel(
             .map {
                 AppState(
                     isBottomBarEnabled = it.isEstop.not() && it.isOn && it.isHomed(),
-                    currentTool = it.ioStatus.toolStatus.currentLoadedTool
+                    currentTool = it.ioStatus.toolStatus.toolInSpindle
                 )
             }
             .distinctUntilChanged()
