@@ -1,0 +1,3 @@
+[submodule "protos/src/main/proto"]
+	path = protos/src/main/proto
+	url = git@github.com:dragossusi/linuxcnc-proto.git
