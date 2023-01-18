@@ -4,6 +4,7 @@ import com.mindovercnc.model.GcodeCommand
 import com.mindovercnc.repository.GCodeRepository
 import okio.Path
 
+/** Implementation for [GCodeRepository]. */
 class GCodeRepositoryImpl(
   private val iniFilePath: IniFilePath,
   private val toolFilePath: ToolFilePath,

@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import okio.FileSystem
 
+/** Implementation for [LinuxCncToolsRepository]. */
 class LinuxCncToolsRepositoryImpl(
   private val ioDispatcher: IoDispatcher,
   private val toolTableFilePath: ToolFilePath,

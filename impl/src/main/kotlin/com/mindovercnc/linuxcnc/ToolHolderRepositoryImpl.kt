@@ -14,6 +14,7 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
+/** Implementation for [ToolHolderRepository]. */
 class ToolHolderRepositoryImpl : ToolHolderRepository {
 
   override fun getToolHolders(): List<ToolHolder> {

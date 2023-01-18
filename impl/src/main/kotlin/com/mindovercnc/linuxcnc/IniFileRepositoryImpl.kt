@@ -7,6 +7,7 @@ import java.io.*
 import java.nio.file.Paths
 import okio.Path.Companion.toOkioPath
 
+/** Implementation for [IniFileRepository]. */
 class IniFileRepositoryImpl(private val iniFilePath: IniFilePath) : IniFileRepository {
   private val parsedFile: Map<String, Map<String, String>>
   private val rootPath = iniFilePath.file.parent

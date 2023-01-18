@@ -25,6 +25,7 @@ fun CuttingInsertEntity.toCuttingInsert(): CuttingInsert {
   )
 }
 
+/** Implementation for [LatheToolsRepository]. */
 class LatheToolsRepositoryImpl : LatheToolsRepository {
 
   override fun getLatheTools(): List<LatheTool> {

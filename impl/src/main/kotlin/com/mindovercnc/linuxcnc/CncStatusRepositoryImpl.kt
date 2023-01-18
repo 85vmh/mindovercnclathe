@@ -13,6 +13,7 @@ import ro.dragossusi.proto.linuxcnc.readStatusRequest
 
 private val LOG = KotlinLogging.logger("CncStatusRepositoryImpl")
 
+/** Implementation for [CncStatusRepository]. */
 class CncStatusRepositoryImpl
 constructor(
   ioDispatcher: IoDispatcher,

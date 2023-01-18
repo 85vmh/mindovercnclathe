@@ -4,6 +4,7 @@ import com.mindovercnc.repository.ActiveLimitsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
+/** Implementation for [ActiveLimitsRepository]. */
 class ActiveLimitsRepositoryImpl : ActiveLimitsRepository {
   private val _isLimitsActive = MutableStateFlow(false)
 

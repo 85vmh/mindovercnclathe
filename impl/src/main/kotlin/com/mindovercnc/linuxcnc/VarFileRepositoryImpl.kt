@@ -4,12 +4,14 @@ import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.linuxcnc.model.Position
 import com.mindovercnc.model.ParametersState
+import com.mindovercnc.repository.ActiveLimitsRepository
 import com.mindovercnc.repository.VarFileRepository
 import kotlinx.coroutines.flow.*
 import okio.FileSystem
 
 const val numCoordinateSystems = 9
 
+/** Implementation for [VarFileRepository]. */
 class VarFileRepositoryImpl
 constructor(
   ioDispatcher: IoDispatcher,

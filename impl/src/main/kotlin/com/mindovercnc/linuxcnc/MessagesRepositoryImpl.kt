@@ -10,6 +10,7 @@ import java.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
+/** Implementation for [MessagesRepository]. */
 class MessagesRepositoryImpl(ioDispatcher: IoDispatcher) : MessagesRepository {
   private val errorReader: ErrorReader = ErrorReader()
   private val emcMessages = MutableStateFlow(emptyList<SystemMessage>())

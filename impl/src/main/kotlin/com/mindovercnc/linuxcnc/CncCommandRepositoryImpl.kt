@@ -11,7 +11,9 @@ import ro.dragossusi.proto.linuxcnc.value
 
 private val LOG = KotlinLogging.logger("ProgramsRootScreenModel")
 
+/** Implementation for [CncCommandRepository]. */
 class CncCommandRepositoryImpl : CncCommandRepository {
+
   private val commandWriter = CommandWriter()
 
   override fun setTaskMode(taskMode: TaskMode) {

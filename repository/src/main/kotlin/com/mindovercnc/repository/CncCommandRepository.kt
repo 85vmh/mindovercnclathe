@@ -4,10 +4,21 @@ import ro.dragossusi.proto.linuxcnc.status.JogMode
 import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import ro.dragossusi.proto.linuxcnc.status.TaskState
 
+/** Repository for running CNC commands. */
 interface CncCommandRepository {
 
+  /**
+   * Set the task mode.
+   *
+   * @param taskMode The [TaskMode] to be set.
+   */
   fun setTaskMode(taskMode: TaskMode)
 
+  /**
+   * Set the task state.
+   *
+   * @param taskState The [TaskState] to be set.
+   */
   fun setTaskState(taskState: TaskState)
 
   fun taskAbort()
