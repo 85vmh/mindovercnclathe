@@ -2,40 +2,36 @@ package com.mindovercnc.linuxcnc
 
 import com.mindovercnc.repository.CncCommandRepository
 import mu.KotlinLogging
-import ro.dragossusi.proto.linuxcnc.mode
-import ro.dragossusi.proto.linuxcnc.stateNum
+import ro.dragossusi.proto.linuxcnc.*
 import ro.dragossusi.proto.linuxcnc.status.JogMode
 import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import ro.dragossusi.proto.linuxcnc.status.TaskState
-import ro.dragossusi.proto.linuxcnc.value
 
 private val LOG = KotlinLogging.logger("ProgramsRootScreenModel")
 
 /** Implementation for [CncCommandRepository]. */
-class CncCommandRepositoryImpl : CncCommandRepository {
+class CncCommandRepositoryImpl(private val linuxCncGrpc: LinuxCncGrpc.LinuxCncBlockingStub) :
+  CncCommandRepository {
 
+  @Deprecated("Will be replace by linuxCncGrpc", level = DeprecationLevel.WARNING)
   private val commandWriter = CommandWriter()
 
   override fun setTaskMode(taskMode: TaskMode) {
-    val mode = taskMode.mode
-    if (mode == null) {
-      LOG.error { "TaskMode unrecognized" }
-      return
-    }
-    commandWriter.setTaskMode(mode)
+    val request = setTaskModeRequest { this.taskMode = taskMode }
+    linuxCncGrpc.setTaskMode(request)
   }
 
   override fun setTaskState(taskState: TaskState) {
-    val stateNum = taskState.stateNum
-    if (stateNum == null) {
-      LOG.error { "TaskState unrecognized" }
-      return
-    }
-    commandWriter.setTaskState(stateNum)
+    val request = setTaskStateRequest { this.taskState = taskState }
+    linuxCncGrpc.setTaskState(request)
   }
 
   override fun taskAbort() {
-    commandWriter.taskAbort()
+    val request =
+      taskAbortRequest {
+        // no-op
+      }
+    linuxCncGrpc.taskAbort(request)
   }
 
   override fun homeAll() {
@@ -43,11 +39,13 @@ class CncCommandRepositoryImpl : CncCommandRepository {
   }
 
   override fun homeAxis(jointNumber: Int) {
-    commandWriter.homeAxis(jointNumber)
+    val request = homeAxisRequest { this.jointNumber = jointNumber }
+    linuxCncGrpc.homeAxis(request)
   }
 
   override fun overrideLimits(jointNumber: Int) {
-    commandWriter.overrideLimits(jointNumber)
+    val request = overrideLimitsRequest { this.jointNumber = jointNumber }
+    linuxCncGrpc.overrideLimits(request)
   }
 
   override fun unHomeAll() {
@@ -55,7 +53,8 @@ class CncCommandRepositoryImpl : CncCommandRepository {
   }
 
   override fun unHomeAxis(jointNumber: Int) {
-    commandWriter.unHomeAxis(jointNumber)
+    val request = unhomeAxisRequest { this.jointNumber = jointNumber }
+    linuxCncGrpc.unhomeAxis(request)
   }
 
   override fun setFeedHold(hold: Boolean) {
@@ -102,43 +101,40 @@ class CncCommandRepositoryImpl : CncCommandRepository {
   }
 
   override fun jogContinuous(jogMode: JogMode, axisOrJoint: Int, speed: Double) {
-    val value = jogMode.value
-
-    if (value == null) {
-      LOG.error { "JogMode unrecognized" }
-      return
+    val request = jogContinuousRequest {
+      this.jogMode = jogMode
+      this.jointOrAxis = axisOrJoint
+      this.velocity = speed
     }
-    commandWriter.jogContinuous(value, axisOrJoint, speed)
+    linuxCncGrpc.jogContinuous(request)
   }
 
   override fun jogIncremental(jogMode: JogMode, axisOrJoint: Int, stepSize: Double, speed: Double) {
-    val value = jogMode.value
-
-    if (value == null) {
-      LOG.error { "JogMode unrecognized" }
-      return
+    val request = jogIncrementalRequest {
+      this.jogMode = jogMode
+      this.jointOrAxis = axisOrJoint
+      this.velocity = speed
+      this.stepSize = stepSize
     }
-    commandWriter.jogIncremental(value, axisOrJoint, stepSize, speed)
+    linuxCncGrpc.jogIncremental(request)
   }
 
   override fun jogAbsolute(jogMode: JogMode, axisOrJoint: Int, position: Double, speed: Double) {
-    val value = jogMode.value
-
-    if (value == null) {
-      LOG.error { "JogMode unrecognized" }
-      return
+    val request = jogAbsoluteRequest {
+      this.jogMode = jogMode
+      this.jointOrAxis = axisOrJoint
+      this.velocity = speed
+      this.position = position
     }
-    commandWriter.jogAbsolute(value, axisOrJoint, position, speed)
+    linuxCncGrpc.jogAbsolute(request)
   }
 
   override fun jogStop(jogMode: JogMode, axisOrJoint: Int) {
-    val value = jogMode.value
-
-    if (value == null) {
-      LOG.error { "JogMode unrecognized" }
-      return
+    val request = jogStopRequest {
+      this.jogMode = jogMode
+      this.jointOrAxis = axisOrJoint
     }
-    commandWriter.jogStop(value, axisOrJoint)
+    linuxCncGrpc.jogStop(request)
   }
 
   override fun setMinPositionLimit(jointNumber: Int, limit: Double) {
