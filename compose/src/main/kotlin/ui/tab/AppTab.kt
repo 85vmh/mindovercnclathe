@@ -26,10 +26,13 @@ import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import di.rememberScreenModel
 import kotlinx.coroutines.launch
+import mu.KotlinLogging
 import ui.screen.AppScreen
 
 private val tabs =
   arrayOf<AppTab<*>>(ManualTab, ConversationalTab, ProgramsTab, ToolsTab, StatusTab)
+
+private val LOG = KotlinLogging.logger("AppTab")
 
 @Suppress("UNCHECKED_CAST")
 abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {

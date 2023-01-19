@@ -4,22 +4,26 @@ import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.sin
 import ro.dragossusi.proto.linuxcnc.status.InterpreterState
-import ro.dragossusi.proto.linuxcnc.status.SpindleDirection
 import ro.dragossusi.proto.linuxcnc.status.Position
+import ro.dragossusi.proto.linuxcnc.status.SpindleDirection
 import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import ro.dragossusi.proto.linuxcnc.status.TaskState
 
-
 val CncStatus.isSpindleOn
-  get() = motionStatus.spindleStatusList[0].direction == SpindleDirection.REVERSE ||
-          motionStatus.spindleStatusList[0].direction == SpindleDirection.FORWARD
+  get() =
+    motionStatus.spindleStatusList[0].direction == SpindleDirection.REVERSE ||
+      motionStatus.spindleStatusList[0].direction == SpindleDirection.FORWARD
 
-val CncStatus.isInMdiMode get() = taskStatus.taskMode == TaskMode.TaskModeMDI
-val CncStatus.isInManualMode get() = taskStatus.taskMode == TaskMode.TaskModeManual
-val CncStatus.isInAutoMode get() = taskStatus.taskMode == TaskMode.TaskModeAuto
+val CncStatus.isInMdiMode
+  get() = taskStatus.taskMode == TaskMode.TaskModeMDI
+val CncStatus.isInManualMode
+  get() = taskStatus.taskMode == TaskMode.TaskModeManual
+val CncStatus.isInAutoMode
+  get() = taskStatus.taskMode == TaskMode.TaskModeAuto
 
 fun CncStatus.isHomed(): Boolean {
-  motionStatus.jointStatusList.forEach { if (it.homed.not()) return false }
+  // todo fix this as it checks too many items
+  motionStatus.jointStatusList.take(2).forEach { if (it.homed.not()) return false }
   return true
 }
 
@@ -64,7 +68,7 @@ val CncStatus.isDiameterMode
 val CncStatus.g53Position
   get() = motionStatus.trajectoryStatus.actualPosition
 
-//todo check this
+// todo check this
 val CncStatus.currentToolNo
   get() = ioStatus.toolStatus.toolInSpindle
 

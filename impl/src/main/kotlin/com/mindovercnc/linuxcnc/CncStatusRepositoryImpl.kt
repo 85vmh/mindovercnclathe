@@ -1,6 +1,6 @@
 package com.mindovercnc.linuxcnc
 
-import com.mindovercnc.dispatchers.IoDispatcher
+import com.mindovercnc.dispatchers.NewSingleThreadDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.linuxcnc.parsing.CncStatusFactory
 import com.mindovercnc.repository.CncStatusRepository
@@ -16,12 +16,12 @@ private val LOG = KotlinLogging.logger("CncStatusRepositoryImpl")
 /** Implementation for [CncStatusRepository]. */
 class CncStatusRepositoryImpl
 constructor(
-  ioDispatcher: IoDispatcher,
+  newSingleThreadDispatcher: NewSingleThreadDispatcher,
   private val cncStatusFactory: CncStatusFactory,
   private val linuxCncGrpc: LinuxCncGrpc.LinuxCncBlockingStub
 ) : CncStatusRepository {
 
-  private val scope = ioDispatcher.createScope()
+  private val scope = newSingleThreadDispatcher.createScope()
 
   @Deprecated("will be replaced by grpc") private val statusReader: StatusReader = StatusReader()
 
