@@ -31,18 +31,17 @@ class SpindleUseCase(
         setRpm = values[1] as Int,
         setCss = values[2] as Int,
         maxRpm = values[3] as Int,
-        spindleOverride = values[4] as Int,
+        spindleOverride = values[4] as Double,
         actualRpm = values[5] as Int,
         stopAngle = values[6] as Double?,
       )
     }
   }
 
-  private fun spindleOverride() =
+  private fun spindleOverride(): Flow<Double> =
     statusRepository
       .cncStatusFlow()
       .map { it.motionStatus.spindleStatusList[0].spindleScale }
-      .map { it.toInt() }
       .distinctUntilChanged()
 
   private fun actualSpindleSpeed() =

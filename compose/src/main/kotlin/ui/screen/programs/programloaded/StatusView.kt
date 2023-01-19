@@ -4,18 +4,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import kotlin.math.roundToInt
 
 data class MachineStatus(
-  val spindleOverride: Int = 0,
-  val feedOverride: Int = 0,
+  val spindleOverride: Double = 0.0,
+  val feedOverride: Double = 0.0,
   val actualSpindleSpeed: Int = 0,
 )
 
 @Composable
 fun StatusView(machineStatus: MachineStatus, modifier: Modifier = Modifier) {
   Column(modifier = modifier) {
-    Text("Spindle Override: ${machineStatus.spindleOverride} %")
+    Text("Spindle Override: ${machineStatus.spindleOverride.toPercent()} %")
     Text("Actual Speed: ${machineStatus.actualSpindleSpeed} RPM")
-    Text("Feed Override: ${machineStatus.feedOverride} %")
+    Text("Feed Override: ${machineStatus.feedOverride.toPercent()} %")
   }
 }
+
+private fun Double.toPercent(): Int = (this * 100).roundToInt()

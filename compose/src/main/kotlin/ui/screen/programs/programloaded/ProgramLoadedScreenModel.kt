@@ -160,7 +160,7 @@ class ProgramLoadedScreenModel(
           it.copy(
             machineStatus =
               it.machineStatus.copy(
-                feedOverride = model.feedOverride.toInt(),
+                feedOverride = model.feedOverride,
               )
           )
         }

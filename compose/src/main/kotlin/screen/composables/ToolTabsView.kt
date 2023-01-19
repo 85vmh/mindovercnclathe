@@ -19,7 +19,7 @@ enum class ToolsTabItem(val tabTitle: String) {
 }
 
 @Composable
-fun <E : Enum<E>> ToolTabsView(
+fun ToolTabsView(
   currentTabIndex: Int,
   onTabSelected: (Int) -> Unit,
   modifier: Modifier = Modifier,
@@ -33,7 +33,7 @@ fun <E : Enum<E>> ToolTabsView(
     selectedTabIndex = currentTabIndex,
     modifier = modifier.clip(shape = shape).border(1.dp, selected, shape = shape),
     indicator = { TabRowDefaults.Indicator(color = Color.Transparent) },
-    containerColor = background
+//    containerColor = background
   ) {
     ToolsTabItem.values().forEachIndexed { index, tabItem ->
       Tab(

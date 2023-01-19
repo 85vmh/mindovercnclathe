@@ -18,7 +18,7 @@ data class CoordinateUiModel(
 
 data class SpindleUiModel(
   val isRpmMode: Boolean = true,
-  val spindleOverride: Int = 0,
+  val spindleOverride: Double = 0.0,
   val setRpm: Int? = null,
   val setCss: Int? = null,
   val actualRpm: Int = 0,
