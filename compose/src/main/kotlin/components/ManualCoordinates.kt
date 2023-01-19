@@ -11,15 +11,17 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.res.loadImageBitmap
-import androidx.compose.ui.res.useResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import components.ZeroPosTokens.distanceBetweenLines
+import components.ZeroPosTokens.innerPadding
+import components.ZeroPosTokens.lineThickness
+import components.ZeroPosTokens.linesCap
+import components.ZeroPosTokens.linesColor
 import extensions.toFixedDigitsString
 import themes.ComposeFonts
 import ui.screen.manual.root.CoordinateUiModel
@@ -43,56 +45,55 @@ fun AxisCoordinate(
   loadedTool: Int? = null,
   isDiameterMode: Boolean = false,
 ) {
-  Box(modifier = Modifier, contentAlignment = Alignment.Center) {
-    Row(modifier = modifier, horizontalArrangement = Arrangement.Center) {
-      Position(
-        PositionType.SECONDARY,
-        uiModel,
-        isDiameterMode,
-        modifier = Modifier.alignByBaseline()
-      )
-      AxisLetter(
-        uiModel = uiModel,
-        isDiameterMode = isDiameterMode,
-        modifier = Modifier.clickable(onClick = toolOffsetsClicked)
-      )
+  Row(modifier = modifier, horizontalArrangement = Arrangement.SpaceBetween) {
+    Position(
+      positionType = PositionType.SECONDARY,
+      uiModel = uiModel,
+      isDiameterMode = isDiameterMode,
+      modifier = Modifier.alignByBaseline()
+    )
+    AxisLetter(uiModel = uiModel, isDiameterMode = isDiameterMode, onClick = toolOffsetsClicked)
 
-      Position(PositionType.PRIMARY, uiModel, isDiameterMode, modifier = Modifier.alignByBaseline())
+    Position(
+      positionType = PositionType.PRIMARY,
+      uiModel = uiModel,
+      isDiameterMode = isDiameterMode,
+      modifier = Modifier.alignByBaseline()
+    )
 
-      Units(uiModel.units, modifier = Modifier.alignByBaseline())
+    Units(units = uiModel.units, modifier = Modifier.alignByBaseline())
 
-      ZeroPos(modifier = Modifier) { zeroPosClicked.invoke() }
+    ZeroPos(onClick = zeroPosClicked)
 
-      AbsRel(onClick = absRelClicked, modifier = Modifier.padding(start = 16.dp))
-    }
+    AbsRel(onClick = absRelClicked, modifier = Modifier.padding(start = 16.dp))
   }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AxisLetter(
   uiModel: CoordinateUiModel,
   isDiameterMode: Boolean,
+  onClick: () -> Unit,
   modifier: Modifier = Modifier
 ) {
   Surface(
-    shape = RoundedCornerShape(4.dp),
+    shape = RoundedCornerShape(8.dp),
     modifier = modifier.size(60.dp),
     border = BorderStroke(1.dp, SolidColor(Color.DarkGray)),
+    onClick = onClick,
     shadowElevation = 16.dp
   ) {
-    Text(
-      modifier = modifier.padding(start = 16.dp),
-      text = uiModel.axis.name,
-      fontSize = 45.sp,
-      textAlign = TextAlign.Center
-    )
-    if (uiModel.axis == CoordinateUiModel.Axis.X && isDiameterMode) {
-      Text(
-        modifier = modifier.width(35.dp).padding(top = 18.dp, end = 6.dp).fillMaxHeight(),
-        text = "\u2300",
-        textAlign = TextAlign.Right,
-        fontSize = 20.sp,
-      )
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+      Text(text = uiModel.axis.name, fontSize = 36.sp)
+      if (uiModel.axis == CoordinateUiModel.Axis.X && isDiameterMode) {
+        Text(
+          modifier = Modifier.align(Alignment.TopEnd),
+          text = "\u2300",
+          textAlign = TextAlign.Right,
+          fontSize = 20.sp,
+        )
+      }
     }
   }
 }
@@ -149,18 +150,15 @@ private fun Units(units: String, modifier: Modifier = Modifier) {
   )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ZeroPos(modifier: Modifier = Modifier, onClick: () -> Unit) {
-  val innerPadding = 10.dp
-  val distanceBetweenLines = 16.dp
-  val linesColor = Color.DarkGray
-  val linesCap = StrokeCap.Round
-  val lineThickness = 1.5.dp
+private fun ZeroPos(onClick: () -> Unit, modifier: Modifier = Modifier) {
 
   Surface(
-    shape = RoundedCornerShape(4.dp),
-    modifier = modifier.size(60.dp).clickable { onClick.invoke() },
+    shape = RoundedCornerShape(8.dp),
+    modifier = modifier.size(60.dp),
     border = BorderStroke(1.dp, SolidColor(Color.DarkGray)),
+    onClick = onClick,
     shadowElevation = 16.dp
   ) {
     Canvas(modifier = Modifier.fillMaxSize()) {
@@ -198,11 +196,13 @@ private fun ZeroPos(modifier: Modifier = Modifier, onClick: () -> Unit) {
   }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AbsRel(onClick: () -> Unit, modifier: Modifier = Modifier) {
   Surface(
-    shape = RoundedCornerShape(4.dp),
-    modifier = modifier.size(60.dp).clickable(onClick = onClick),
+    shape = RoundedCornerShape(8.dp),
+    modifier = modifier.size(60.dp),
+    onClick = onClick,
     border = BorderStroke(1.dp, SolidColor(Color.DarkGray)),
     shadowElevation = 16.dp
   ) {

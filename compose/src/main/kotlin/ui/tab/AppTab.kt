@@ -1,9 +1,7 @@
 package ui.tab
 
 import TabViewModel
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
@@ -18,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
@@ -32,10 +29,9 @@ import ui.screen.AppScreen
 private val tabs =
   arrayOf<AppTab<*>>(ManualTab, ConversationalTab, ProgramsTab, ToolsTab, StatusTab)
 
-private val LOG = KotlinLogging.logger("AppTab")
-
 @Suppress("UNCHECKED_CAST")
 abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
+  private val logger = KotlinLogging.logger("AppTab")
 
   private val iconButtonModifier = Modifier.size(48.dp)
 

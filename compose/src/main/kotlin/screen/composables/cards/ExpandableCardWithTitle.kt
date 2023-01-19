@@ -26,6 +26,7 @@ fun ExpandableCardWithTitle(
   expanded: Boolean,
   onExpandChange: (Boolean) -> Unit,
   modifier: Modifier = Modifier,
+  color: Color = MaterialTheme.colorScheme.surface,
   contentSpacing: Dp = 8.dp,
   borderColor: Color = Color.DarkGray,
   cardCornerRadius: Dp = 8.dp,
@@ -36,6 +37,7 @@ fun ExpandableCardWithTitle(
     shape = RoundedCornerShape(cardCornerRadius),
     modifier = modifier,
     border = BorderStroke(1.dp, SolidColor(borderColor)),
+    color = color,
     shadowElevation = cardElevation
   ) {
     ExpandableCardWithTitleContent(
@@ -56,6 +58,7 @@ fun ExpandableCardWithTitle(
   onExpandChange: (Boolean) -> Unit,
   onClick: () -> Unit,
   modifier: Modifier = Modifier,
+  color: Color = MaterialTheme.colorScheme.surface,
   enabled: Boolean = true,
   contentSpacing: Dp = 8.dp,
   borderColor: Color = Color.DarkGray,
@@ -69,6 +72,7 @@ fun ExpandableCardWithTitle(
     border = BorderStroke(1.dp, SolidColor(borderColor)),
     shadowElevation = cardElevation,
     onClick = onClick,
+    color = color,
     enabled = enabled
   ) {
     ExpandableCardWithTitleContent(
@@ -98,7 +102,7 @@ private fun ExpandableCardWithTitleContent(
       modifier = Modifier.fillMaxWidth()
     )
     AnimatedVisibility(expanded) {
-      Divider(modifier = Modifier, color = Color.DarkGray, thickness = 1.dp)
+      Divider(color = LocalContentColor.current, thickness = 1.dp)
       Column(verticalArrangement = Arrangement.spacedBy(contentSpacing)) { content.invoke() }
     }
   }

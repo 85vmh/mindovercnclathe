@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import kotlin.math.roundToInt
+import extensions.toPercent
 
 data class MachineStatus(
   val spindleOverride: Double = 0.0,
@@ -20,5 +20,3 @@ fun StatusView(machineStatus: MachineStatus, modifier: Modifier = Modifier) {
     Text("Feed Override: ${machineStatus.feedOverride.toPercent()} %")
   }
 }
-
-private fun Double.toPercent(): Int = (this * 100).roundToInt()

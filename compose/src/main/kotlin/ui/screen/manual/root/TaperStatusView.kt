@@ -2,6 +2,7 @@ package ui.screen.manual.root
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,7 +27,8 @@ fun TaperStatusView(
     onExpandChange = onExpandChange,
     modifier = modifier,
     onClick = onClick,
-    enabled = enabled
+    enabled = enabled,
+    color = MaterialTheme.colorScheme.tertiaryContainer
   ) {
     SettingStatusRow(
       settingText = "Taper angle:",

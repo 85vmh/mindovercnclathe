@@ -10,8 +10,6 @@ import okio.Path
 import usecase.BreadCrumbDataUseCase
 import usecase.FileSystemDataUseCase
 
-private val LOG = KotlinLogging.logger("ProgramsRootScreenModel")
-
 class ProgramsRootScreenModel(
   fileSystemRepository: FileSystemRepository,
   private val fileSystem: FileSystem,
@@ -20,9 +18,11 @@ class ProgramsRootScreenModel(
   private val breadCrumbDataUseCase: BreadCrumbDataUseCase
 ) : StateScreenModel<ProgramsState>(ProgramsState()) {
 
+  private val logger = KotlinLogging.logger("ProgramsRootScreenModel")
+
   init {
     val path = fileSystemRepository.getNcRootAppFile()
-    LOG.info("NC Root App File path $path")
+    logger.info("NC Root App File path $path")
     setCurrentFolder(path)
   }
 
@@ -35,7 +35,7 @@ class ProgramsRootScreenModel(
   }
 
   private fun setCurrentFolder(file: Path) {
-    LOG.info("Setting current folder to $file")
+    logger.info("Setting current folder to $file")
     mutableState.update {
       val fileSystemData =
         with(fileSystemDataUseCase) { file.toFileSystemData(onItemClick = ::selectItem) }
@@ -47,7 +47,7 @@ class ProgramsRootScreenModel(
   }
 
   private fun setCurrentFile(file: Path?) {
-    LOG.info("Setting current file to $file")
+    logger.info("Setting current file to $file")
     mutableState.update {
       it.copy(
         editor = if (file != null) editorLoader.loadEditor(file) else null,

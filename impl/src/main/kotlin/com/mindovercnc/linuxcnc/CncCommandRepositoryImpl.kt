@@ -7,11 +7,11 @@ import ro.dragossusi.proto.linuxcnc.status.JogMode
 import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import ro.dragossusi.proto.linuxcnc.status.TaskState
 
-private val LOG = KotlinLogging.logger("ProgramsRootScreenModel")
-
 /** Implementation for [CncCommandRepository]. */
 class CncCommandRepositoryImpl(private val linuxCncGrpc: LinuxCncGrpc.LinuxCncBlockingStub) :
   CncCommandRepository {
+
+  private val logger = KotlinLogging.logger("ProgramsRootScreenModel")
 
   @Deprecated("Will be replace by linuxCncGrpc", level = DeprecationLevel.WARNING)
   private val commandWriter = CommandWriter()

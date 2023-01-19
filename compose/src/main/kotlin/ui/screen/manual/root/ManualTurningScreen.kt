@@ -165,28 +165,27 @@ class ManualTurningScreen : Manual("Manual Turning") {
       //                }
       //            }
 
-      Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+      Row(
+        modifier = Modifier.fillMaxWidth().padding(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+      ) {
         state.spindleUiModel?.let {
           SpindleStatusView(
             uiModel = it,
-            modifier =
-              Modifier.width(380.dp)
-                .padding(8.dp)
-                .clickable(onClick = { navigator.push(TurningSettingsScreen()) })
+            onClick = { navigator.push(TurningSettingsScreen()) },
+            modifier = Modifier.weight(1f)
           )
         }
         state.feedUiModel?.let {
           FeedStatusView(
             uiModel = it,
-            modifier =
-              Modifier.width(380.dp)
-                .padding(8.dp)
-                .clickable(onClick = { navigator.push(TurningSettingsScreen()) })
+            onClick = { navigator.push(TurningSettingsScreen()) },
+            modifier = Modifier.weight(1f)
           )
         }
         TaperStatusView(
           taperAngle = state.taperTurningAngle,
-          modifier = Modifier.width(380.dp).padding(8.dp),
+          modifier = Modifier.weight(1f),
           enabled = state.taperTurningActive,
           onClick = { navigator.push(TaperSettingsScreen()) },
           expanded = state.taperTurningActive,

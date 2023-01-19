@@ -11,8 +11,6 @@ import ro.dragossusi.proto.linuxcnc.CncStatus
 import ro.dragossusi.proto.linuxcnc.LinuxCncGrpc
 import ro.dragossusi.proto.linuxcnc.readStatusRequest
 
-private val LOG = KotlinLogging.logger("CncStatusRepositoryImpl")
-
 /** Implementation for [CncStatusRepository]. */
 class CncStatusRepositoryImpl
 constructor(
@@ -20,6 +18,8 @@ constructor(
   private val cncStatusFactory: CncStatusFactory,
   private val linuxCncGrpc: LinuxCncGrpc.LinuxCncBlockingStub
 ) : CncStatusRepository {
+
+  private val logger = KotlinLogging.logger("CncStatusRepositoryImpl")
 
   private val scope = newSingleThreadDispatcher.createScope()
 
@@ -40,7 +40,7 @@ constructor(
         val status = linuxCncGrpc.readStatus(request)
         emit(status)
       } catch (e: Exception) {
-        LOG.error(e) { "Failed reading status" }
+        logger.error(e) { "Failed reading status" }
       }
       delay(100L)
     }
