@@ -16,14 +16,14 @@ class MessagesRepositoryImpl(
   ioDispatcher: IoDispatcher,
 ) : MessagesRepository {
 
-  private val errorReader: ErrorReader = ErrorReader()
+  @Deprecated("Will be replaced by grpc.") private val errorReader: ErrorReader = ErrorReader()
 
   private val emcMessages = MutableStateFlow(emptyList<SystemMessage>())
   private val uiMessages = MutableStateFlow(mapOf<UiMessage, Date>())
 
   private val scope = ioDispatcher.createScope()
 
-  @Deprecated("Will be replaced by messageFlow")
+  @Deprecated("Will be replaced by messageFlow", ReplaceWith("messageFlow"))
   private val jniMessageFlow = errorReader.refresh(10L).filterNotNull()
 
   private val messageFlow = systemMessageRepository.systemMessageFlow

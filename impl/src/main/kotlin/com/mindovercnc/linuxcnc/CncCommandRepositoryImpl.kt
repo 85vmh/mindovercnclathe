@@ -6,6 +6,8 @@ import ro.dragossusi.proto.linuxcnc.*
 import ro.dragossusi.proto.linuxcnc.status.JogMode
 import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import ro.dragossusi.proto.linuxcnc.status.TaskState
+import ro.dragossusi.proto.linuxcnc.status.auto.AutoMode
+import ro.dragossusi.proto.linuxcnc.status.motion.MotionMode
 
 /** Implementation for [CncCommandRepository]. */
 class CncCommandRepositoryImpl(private val linuxCncGrpc: LinuxCncGrpc.LinuxCncBlockingStub) :
@@ -13,7 +15,7 @@ class CncCommandRepositoryImpl(private val linuxCncGrpc: LinuxCncGrpc.LinuxCncBl
 
   private val logger = KotlinLogging.logger("ProgramsRootScreenModel")
 
-  @Deprecated("Will be replace by linuxCncGrpc", level = DeprecationLevel.WARNING)
+  @Deprecated("Will be replace by linuxCncGrpc", level = DeprecationLevel.ERROR)
   private val commandWriter = CommandWriter()
 
   override fun setTaskMode(taskMode: TaskMode) {
@@ -58,21 +60,17 @@ class CncCommandRepositoryImpl(private val linuxCncGrpc: LinuxCncGrpc.LinuxCncBl
   }
 
   override fun setFeedHold(hold: Boolean) {
-    commandWriter.setFeedHold(if (hold) 1 else 0)
-  }
-
-  enum class AutoMode(val code: Int) {
-    RUN(0),
-    PAUSE(1),
-    RESUME(2),
-    STEP(3),
-    REVERSE(4),
-    FORWARD(5)
+    val request = setFeedHoldRequest { mode = if (hold) 1 else 0 }
+    linuxCncGrpc.setFeedHold(request)
   }
 
   override fun runProgram() {
     setTaskMode(TaskMode.TaskModeAuto)
-    commandWriter.setAuto(AutoMode.RUN.code)
+    val request = setAutoRequest {
+      autoMode = AutoMode.RUN
+      fromLine = 0
+    }
+    linuxCncGrpc.setAuto(request)
   }
 
   override fun stopProgram() {
@@ -81,23 +79,39 @@ class CncCommandRepositoryImpl(private val linuxCncGrpc: LinuxCncGrpc.LinuxCncBl
   }
 
   override fun pauseProgram() {
-    commandWriter.setAuto(AutoMode.PAUSE.code)
+    val request = setAutoRequest {
+      autoMode = AutoMode.PAUSE
+      fromLine = 0
+    }
+    linuxCncGrpc.setAuto(request)
   }
 
   override fun resumeProgram() {
-    commandWriter.setAuto(AutoMode.RESUME.code)
+    val request = setAutoRequest {
+      autoMode = AutoMode.RESUME
+      fromLine = 0
+    }
+    linuxCncGrpc.setAuto(request)
   }
 
   override fun stepProgram() {
-    commandWriter.setAuto(AutoMode.STEP.code)
+    val request = setAutoRequest {
+      autoMode = AutoMode.STEP
+      fromLine = 0
+    }
+    linuxCncGrpc.setAuto(request)
   }
 
   override fun setFeedOverride(double: Double) {
-    commandWriter.setFeedOverride(double)
+    val request = setFeedOverrideRequest { rate = double }
+    linuxCncGrpc.setFeedOverride(request)
   }
 
   override fun setTeleopEnable(enabled: Boolean) {
-    commandWriter.setMotionMode(if (enabled) 1 else 0)
+    val request = setMotionModeRequest {
+      motionMode = if (enabled) MotionMode.TELEOP else MotionMode.JOINT
+    }
+    linuxCncGrpc.setMotionMode(request)
   }
 
   override fun jogContinuous(jogMode: JogMode, axisOrJoint: Int, speed: Double) {
@@ -138,27 +152,43 @@ class CncCommandRepositoryImpl(private val linuxCncGrpc: LinuxCncGrpc.LinuxCncBl
   }
 
   override fun setMinPositionLimit(jointNumber: Int, limit: Double) {
-    commandWriter.setMinPositionLimit(jointNumber, limit)
+    val request = setMinPositionPositionLimitRequest {
+      jointNum = jointNumber
+      this.limit = limit
+    }
+    linuxCncGrpc.setMinPositionLimit(request)
   }
 
   override fun setMaxPositionLimit(jointNumber: Int, limit: Double) {
-    commandWriter.setMaxPositionLimit(jointNumber, limit)
+    val request = setMaxPositionPositionLimitRequest {
+      jointNum = jointNumber
+      this.limit = limit
+    }
+    linuxCncGrpc.setMaxPositionLimit(request)
   }
 
   override fun setBacklash(jointNumber: Int, backlash: Double) {
-    commandWriter.setBacklash(jointNumber, backlash)
+    val request = setBacklashRequest {
+      jointNum = jointNumber
+      this.backlash = backlash
+    }
+    linuxCncGrpc.setBacklash(request)
   }
 
   override fun executeMdiCommand(command: String): Boolean {
     println("----MDI: $command")
-    return commandWriter.sendMDICommand(command).also {
-      if (!it) {
-        println("-----MDI cmd failed: $command")
-      }
+    val request = sendMdiCommandRequest { this.command = command }
+    val result = linuxCncGrpc.sendMdiCommand(request).result > 0
+
+    if (!result) {
+      println("-----MDI cmd failed: $command")
     }
+
+    return result
   }
 
   override fun loadProgramFile(filePath: String) {
-    commandWriter.loadTaskPlan(filePath)
+    val request = loadTaskPlanRequest { fileName = filePath }
+    linuxCncGrpc.loadTaskPlan(request)
   }
 }
