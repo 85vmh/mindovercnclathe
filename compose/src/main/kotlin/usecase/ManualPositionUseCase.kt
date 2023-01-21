@@ -54,7 +54,7 @@ class ManualPositionUseCase(
     }
 
     private fun getDisplayablePosition(): Flow<Position> {
-        return cncStatusRepository.cncStatusFlow()
+        return cncStatusRepository.cncStatusFlow
             .map { it.getDisplayablePosition() }
             .distinctUntilChanged()
     }

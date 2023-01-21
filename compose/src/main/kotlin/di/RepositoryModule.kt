@@ -18,7 +18,8 @@ val RepositoryModule =
     bindSingleton<CncStatusRepository> {
       CncStatusRepositoryImpl(instance(), instance(), instance())
     }
-    bindSingleton<MessagesRepository> { MessagesRepositoryImpl(instance()) }
+    bindSingleton<SystemMessageRepository> { SystemMessageRepositoryImpl(instance(), instance()) }
+    bindSingleton<MessagesRepository> { MessagesRepositoryImpl(instance(), instance()) }
     bindSingleton<CncCommandRepository> { CncCommandRepositoryImpl(instance()) }
     bindSingleton<HalRepository> { HalRepositoryImpl() }
     bindSingleton<IniFileRepository> { IniFileRepositoryImpl(instance()) }

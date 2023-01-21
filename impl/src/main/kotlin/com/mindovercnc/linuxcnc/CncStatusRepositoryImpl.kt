@@ -25,7 +25,7 @@ constructor(
 
   @Deprecated("will be replaced by grpc") private val statusReader: StatusReader = StatusReader()
 
-  @Deprecated("will be replaced by grpc")
+  @Deprecated("will be replaced by grpc", level = DeprecationLevel.ERROR)
   private val jniStatusFlow =
     statusReader
       .refresh(100L)
@@ -46,7 +46,5 @@ constructor(
     }
   }
 
-  override fun cncStatusFlow(): Flow<CncStatus> {
-    return grpcStatusFlow
-  }
+  override val cncStatusFlow: Flow<CncStatus> = grpcStatusFlow
 }

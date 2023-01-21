@@ -15,7 +15,7 @@ class TabViewModel(cncStatusRepository: CncStatusRepository) :
 
   init {
     cncStatusRepository
-      .cncStatusFlow()
+      .cncStatusFlow
       .map {
         val isBottomBarEnabled = it.isEstop.not() && it.isOn && it.isHomed()
         AppState(

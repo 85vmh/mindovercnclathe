@@ -10,5 +10,5 @@ import ro.dragossusi.proto.linuxcnc.status.MotionStatus
 class MotionStatusRepositoryImpl(private val cncStatusRepository: CncStatusRepository) :
   MotionStatusRepository {
   override val motionStatusFlow: Flow<MotionStatus>
-    get() = cncStatusRepository.cncStatusFlow().map { it.motionStatus }
+    get() = cncStatusRepository.cncStatusFlow.map { it.motionStatus }
 }

@@ -1,11 +1,11 @@
 package usecase
 
-import com.mindovercnc.linuxcnc.model.SystemMessage
 import com.mindovercnc.model.UiMessage
 import com.mindovercnc.repository.MessagesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import ro.dragossusi.proto.linuxcnc.status.MessageType
 import usecase.model.Message
 
 class MessagesUseCase(private val messagesRepository: MessagesRepository) {
@@ -16,8 +16,8 @@ class MessagesUseCase(private val messagesRepository: MessagesRepository) {
         buildList {
           it.emcMessages.forEach { emcMsg ->
             when (emcMsg.type) {
-              SystemMessage.MessageType.NMLError,
-              SystemMessage.MessageType.OperatorError -> {
+              MessageType.NML_Error,
+              MessageType.Operator_Error -> {
                 this.add(Message(emcMsg.message, Message.Level.ERROR))
               }
               else -> {

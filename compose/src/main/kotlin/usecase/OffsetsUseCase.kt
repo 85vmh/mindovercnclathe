@@ -22,7 +22,7 @@ class OffsetsUseCase(
             }
     }
 
-    val currentWcs = statusRepository.cncStatusFlow()
+    val currentWcs = statusRepository.cncStatusFlow
         .map { it.taskStatus.g5XIndex }
         .map { getStringRepresentation(it) }
 
@@ -46,7 +46,7 @@ class OffsetsUseCase(
     }
 
     private suspend fun executeMdiCommand(cmd: String) {
-        val initialTaskMode = statusRepository.cncStatusFlow().map { it.taskStatus.taskMode }.first()
+        val initialTaskMode = statusRepository.cncStatusFlow.map { it.taskStatus.taskMode }.first()
         commandRepository.setTaskMode(TaskMode.TaskModeMDI)
         commandRepository.executeMdiCommand(cmd)
         commandRepository.setTaskMode(initialTaskMode)

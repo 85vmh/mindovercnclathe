@@ -19,8 +19,8 @@ import ro.dragossusi.proto.linuxcnc.status.JogMode
 import ro.dragossusi.proto.linuxcnc.status.TaskMode
 
 class ManualTurningUseCase(
-  private val ioDispatcher: IoDispatcher,
-  private val statusRepository: CncStatusRepository,
+  ioDispatcher: IoDispatcher,
+  private val cncStatusRepository: CncStatusRepository,
   private val commandRepository: CncCommandRepository,
   private val messagesRepository: MessagesRepository,
   private val halRepository: HalRepository,
@@ -48,12 +48,12 @@ class ManualTurningUseCase(
   val taperTurningActive = isTaperTurning.asStateFlow()
 
   private val spindleOpAllowed =
-    statusRepository.cncStatusFlow().map { it.isHomed() }.distinctUntilChanged()
+    cncStatusRepository.cncStatusFlow.map { it.isHomed() }.distinctUntilChanged()
 
   init {
     val spindleIsOn =
-      statusRepository
-        .cncStatusFlow()
+      cncStatusRepository
+        .cncStatusFlow
         .map { it.isSpindleOn } // do this based on tool direction
         .distinctUntilChanged()
 
@@ -110,7 +110,7 @@ class ManualTurningUseCase(
     }?.let {
       val cmd = it + settingsRepository.getSpindleStartParameters()
 
-      //            if (!statusRepository.cncStatusFlow().first().isInMdiMode) {
+      //            if (!statusRepository.cncStatusFlow.first().isInMdiMode) {
       //                commandRepository.setTaskMode(TaskMode.TaskModeMDI)
       //            }
       commandRepository.setTaskMode(TaskMode.TaskModeMDI)
@@ -184,8 +184,8 @@ class ManualTurningUseCase(
       when {
         isTaperTurning.value -> {
           val startPoint =
-            statusRepository
-              .cncStatusFlow()
+            cncStatusRepository
+              .cncStatusFlow
               .map { it.g53Position }
               .map { Point(it.x * 2, it.z) } // *2 due to diameter mode
               .first()
@@ -246,7 +246,7 @@ class ManualTurningUseCase(
       delay(100L)
     }
     commandRepository.setTaskMode(TaskMode.TaskModeManual)
-    val jogVelocity = statusRepository.cncStatusFlow().map { it.jogVelocity }.first()
+    val jogVelocity = cncStatusRepository.cncStatusFlow.map { it.jogVelocity }.first()
     val jogDirection =
       when (feedDirection) {
         Direction.Positive -> jogVelocity
@@ -273,7 +273,7 @@ class ManualTurningUseCase(
   }
 
   private val setFeedRate =
-    statusRepository.cncStatusFlow().map { it.taskStatus.setFeedRate }.distinctUntilChanged()
+    cncStatusRepository.cncStatusFlow.map { it.taskStatus.setFeedRate }.distinctUntilChanged()
 
   private fun SettingsRepository.getSpindleStartParameters(): String {
     val parameters = StringBuilder()

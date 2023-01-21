@@ -32,7 +32,7 @@ class GCodeRepositoryImpl(
     println("Reading gcode from file $file")
     println("START GCODE")
     val commands =
-      process.inputReader().useLines {
+      process.inputStream.reader().useLines {
         it
           .map { line ->
             // println(line.colored(PrintColor.BLUE))

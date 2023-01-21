@@ -12,7 +12,7 @@ class ActiveCodesUseCase(
 ) {
   fun getActiveCodes(): Flow<List<ActiveCode>> {
     return statusRepository
-      .cncStatusFlow()
+      .cncStatusFlow
       .map { it.taskStatus.activeCodes }
       .map { activeCodes ->
         val result = mutableListOf<ActiveCode>()

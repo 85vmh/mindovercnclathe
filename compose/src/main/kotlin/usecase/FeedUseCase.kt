@@ -16,10 +16,10 @@ class FeedUseCase(
     private val settingsRepository: SettingsRepository
 ) {
 
-    private val feedOverride = statusRepository.cncStatusFlow()
+    private val feedOverride = statusRepository.cncStatusFlow
         .map { it.motionStatus.trajectoryStatus.scale }
         .distinctUntilChanged()
-    private val setFeedRate = statusRepository.cncStatusFlow()
+    private val setFeedRate = statusRepository.cncStatusFlow
         .map { it.taskStatus.setFeedRate }
         .distinctUntilChanged()
 

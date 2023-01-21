@@ -24,7 +24,7 @@ class VirtualLimitsUseCase(
   private val scope = ioDispatcher.createScope()
 
   val hasToolLoaded =
-    statusRepository.cncStatusFlow().map { it.currentToolNo != 0 }.distinctUntilChanged()
+    statusRepository.cncStatusFlow.map { it.currentToolNo != 0 }.distinctUntilChanged()
 
   init {
     combine(
@@ -100,8 +100,7 @@ class VirtualLimitsUseCase(
 
   private suspend fun setCustomLimits(limits: VirtualLimits) {
     val relativeToolPosition =
-      statusRepository
-        .cncStatusFlow()
+      statusRepository.cncStatusFlow
         .map { it.getRelativeToolPosition() }
         .map { Point(it.x * 2, it.z) } // *2 due to diameter mode
         .first()

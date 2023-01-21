@@ -176,7 +176,7 @@ class AngleFinderUseCase(
 
   private suspend fun getCurrentPoint() =
     statusRepository
-      .cncStatusFlow()
+      .cncStatusFlow
       .map { it.getDisplayablePosition() }
       .map { Point(it.x * 2, it.z) } // *2 due to diameter mode
       .first()

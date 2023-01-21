@@ -15,7 +15,7 @@ val UseCaseModule =
     bindSingleton {
       ManualTurningUseCase(
         ioDispatcher = instance(),
-        statusRepository = instance(),
+        cncStatusRepository = instance(),
         commandRepository = instance(),
         messagesRepository = instance(),
         halRepository = instance(),

@@ -21,13 +21,13 @@ class ProgramsUseCase(
 
   private fun getG5xPosition(): Flow<Position> {
     return statusRepository
-      .cncStatusFlow()
+      .cncStatusFlow
       .map { it.getDisplayablePosition() }
       .distinctUntilChanged()
   }
 
   private fun getDtgPosition(): Flow<Position> {
-    return statusRepository.cncStatusFlow().map { it.dtg }.distinctUntilChanged()
+    return statusRepository.cncStatusFlow.map { it.dtg }.distinctUntilChanged()
   }
 
   val uiModel =

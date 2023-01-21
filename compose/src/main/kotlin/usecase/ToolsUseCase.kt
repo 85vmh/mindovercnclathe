@@ -31,7 +31,7 @@ class ToolsUseCase(
   init {
     // TODO: this should be moved somewhere else, and remove the scope from the useCase
     statusRepository
-      .cncStatusFlow()
+      .cncStatusFlow
       .map { it.isHomed() }
       .filter { it }
       .distinctUntilChanged()
@@ -84,7 +84,7 @@ class ToolsUseCase(
   }
 
   suspend fun loadTool(toolNo: Int) {
-    val initialTaskMode = statusRepository.cncStatusFlow().map { it.taskStatus.taskMode }.first()
+    val initialTaskMode = statusRepository.cncStatusFlow.map { it.taskStatus.taskMode }.first()
     commandRepository.setTaskMode(TaskMode.TaskModeMDI)
     commandRepository.executeMdiCommand("M61 Q$toolNo G43")
     delay(200)
@@ -97,7 +97,7 @@ class ToolsUseCase(
 
   fun getCurrentToolNo(): Flow<Int> {
     return statusRepository
-      .cncStatusFlow()
+      .cncStatusFlow
       .map { it.currentToolNo }
       .distinctUntilChanged()
       .onEach { settingsRepository.put(IntegerKey.LastToolUsed, it) }
@@ -113,8 +113,8 @@ class ToolsUseCase(
   //    }
 
   private suspend fun toolTouchOff(axisWithValue: String) {
-    val initialTaskMode = statusRepository.cncStatusFlow().map { it.taskStatus.taskMode }.first()
-    val currentTool = statusRepository.cncStatusFlow().map { it.currentToolNo }.first()
+    val initialTaskMode = statusRepository.cncStatusFlow.map { it.taskStatus.taskMode }.first()
+    val currentTool = statusRepository.cncStatusFlow.map { it.currentToolNo }.first()
     commandRepository.setTaskMode(TaskMode.TaskModeMDI)
     commandRepository.executeMdiCommand("G10 L10 P$currentTool $axisWithValue")
     // TODO: make this based on status channel

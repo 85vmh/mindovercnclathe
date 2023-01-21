@@ -1,9 +1,9 @@
 package com.mindovercnc.model
 
-import com.mindovercnc.linuxcnc.model.SystemMessage
 import java.util.*
+import ro.dragossusi.proto.linuxcnc.status.SystemMessage
 
 data class MessageBundle(
-    val emcMessages: List<SystemMessage>,
-    val uiMessages: Map<UiMessage, Date>
+  val emcMessages: List<SystemMessage>,
+  val uiMessages: Map<UiMessage, Date>
 )

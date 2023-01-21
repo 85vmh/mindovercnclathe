@@ -16,7 +16,7 @@ class HandWheelsUseCase(
 
     @OptIn(FlowPreview::class)
     val handWheelsUiModel = combine(
-        statusRepository.cncStatusFlow().map { it.isInManualMode },
+        statusRepository.cncStatusFlow.map { it.isInManualMode },
         halRepository.jogIncrementValue().debounce(200L)
     ) { isManualMode, jogIncrement -> HandWheelsUiModel(isManualMode, jogIncrement) }
 }

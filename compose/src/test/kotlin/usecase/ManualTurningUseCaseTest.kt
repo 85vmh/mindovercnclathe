@@ -53,7 +53,7 @@ class ManualTurningUseCaseTest {
     testSubject =
       ManualTurningUseCase(
         ioDispatcher = IoDispatcher(mainThreadSurrogate),
-        statusRepository = statusRepository,
+        cncStatusRepository = statusRepository,
         commandRepository = commandRepository,
         messagesRepository = messagesRepository,
         halRepository = halRepository,

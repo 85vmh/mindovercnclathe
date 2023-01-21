@@ -10,5 +10,5 @@ import ro.dragossusi.proto.linuxcnc.status.TaskStatus
 class TaskStatusRepositoryImpl(private val cncStatusRepository: CncStatusRepository) :
   TaskStatusRepository {
   override val taskStatusFlow: Flow<TaskStatus>
-    get() = cncStatusRepository.cncStatusFlow().map { it.taskStatus }
+    get() = cncStatusRepository.cncStatusFlow.map { it.taskStatus }
 }

@@ -176,7 +176,7 @@ class SimpleCyclesUseCase(
 
   private suspend fun isCycleRunning() =
     statusRepository
-      .cncStatusFlow()
+      .cncStatusFlow
       .map { it.isInMdiMode } // TODO: check also the interpreter state
       .first()
 }

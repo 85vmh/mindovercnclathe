@@ -14,25 +14,25 @@ import ro.dragossusi.proto.linuxcnc.status.Position
 class PositionUseCase(
     private val statusRepository: CncStatusRepository
 ) {
-    suspend fun getCurrentPoint() = statusRepository.cncStatusFlow()
+    suspend fun getCurrentPoint() = statusRepository.cncStatusFlow
         .map { it.getDisplayablePosition() }
         .map { Point2D(it.x * 2, it.z) } // *2 due to diameter mode
         .first()
 
     fun getToolPosition(): Flow<Point2D> {
-        return statusRepository.cncStatusFlow()
+        return statusRepository.cncStatusFlow
             .map { it.g53Position }
             .map { Point2D(it.x, it.z) }
             .distinctUntilChanged()
     }
 
-    suspend fun getZMachinePosition() = statusRepository.cncStatusFlow()
+    suspend fun getZMachinePosition() = statusRepository.cncStatusFlow
         .map { it.g53Position }
         .map { it.z }
         .first()
 
     private fun getDtgPosition(): Flow<Position> {
-        return statusRepository.cncStatusFlow()
+        return statusRepository.cncStatusFlow
             .map { it.dtg }
             .distinctUntilChanged()
     }
