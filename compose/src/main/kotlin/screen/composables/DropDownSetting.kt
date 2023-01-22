@@ -14,50 +14,45 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun <T> DropDownSetting(
-    settingName: String? = null,
-    items: List<T>,
-    selectedItem: T?,
-    dropDownWidth: Dp,
-    nothingSelectedString: String = "Select Item",
-    modifier: Modifier = Modifier,
-    onValueChanged: (T) -> Unit
+  settingName: String? = null,
+  items: List<T>,
+  selectedItem: T?,
+  dropDownWidth: Dp,
+  nothingSelectedString: String = "Select Item",
+  modifier: Modifier = Modifier,
+  onValueChanged: (T) -> Unit
 ) {
-    val alignment = Alignment.CenterVertically
-    Row(
-        verticalAlignment = alignment,
-        modifier = modifier
-    ) {
-        settingName?.let {
-            Text(
-                text = it,
-                modifier = Modifier.weight(1f)
-            )
-        }
-        DropDownView(
-            items = items,
-            selected = selectedItem,
-            modifier = Modifier
-                .width(dropDownWidth)
-                .border(border = BorderStroke(1.dp, Color.LightGray), shape = RoundedCornerShape(4.dp)),
-            onSelected = onValueChanged,
-            closedItemContent = {
-                DropDownClosedItem(
-                    modifier = Modifier.height(40.dp)
-                ) {
-                    val text = when {
-                        it != null -> it.toString()
-                        else -> nothingSelectedString
-                    }
-                    Text(text = text)
-                }
-            },
-            openedItemContent = {
-                Text(
-                    it.toString(),
-                    modifier = Modifier.width(dropDownWidth)
-                        .padding(8.dp)
-                )
+  val alignment = Alignment.CenterVertically
+  Row(verticalAlignment = alignment, modifier = modifier) {
+    settingName?.let { Text(text = it, modifier = Modifier.weight(1f)) }
+    DropDownView(
+      items = items,
+      selected = selectedItem,
+      modifier = Modifier.width(dropDownWidth),
+      onSelected = onValueChanged,
+      closedItemContent = {
+        DropDownClosedItem(
+          modifier =
+            Modifier.size(height = 40.dp, width = dropDownWidth)
+              .border(
+                border = BorderStroke(1.dp, Color.LightGray),
+                shape = RoundedCornerShape(4.dp)
+              )
+        ) {
+          val text =
+            when {
+              it != null -> it.toString()
+              else -> nothingSelectedString
             }
+          Text(text = text)
+        }
+      },
+      openedItemContent = {
+        Text(
+          it.toString(),
+          modifier = Modifier.width(dropDownWidth).padding(8.dp),
         )
-    }
+      }
+    )
+  }
 }

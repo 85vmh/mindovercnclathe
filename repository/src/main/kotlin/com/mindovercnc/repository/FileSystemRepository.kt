@@ -1,9 +1,9 @@
 package com.mindovercnc.repository
 
-import java.io.File
+import okio.Path
 
 interface FileSystemRepository {
-    fun getNcRootAppFile() : File
+    fun getNcRootAppFile() : Path
 
     fun writeProgramLines(lines: List<String>, programName: String)
 }

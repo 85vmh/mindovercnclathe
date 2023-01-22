@@ -1,24 +1,46 @@
 package com.mindovercnc.editor
 
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromStream
-import kotlinx.serialization.json.encodeToStream
-import java.io.File
+import com.mindovercnc.model.EmptyTextLines
+import com.mindovercnc.model.TextLines
+import com.mindovercnc.model.extension
+import com.mindovercnc.model.readTextLines
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOf
+import okio.FileSystem
+import okio.Path
 
-class EditorLoader(
-    private val json: Json
-) {
+class EditorLoader(private val fileSystem: FileSystem) {
 
-    suspend fun load(file: File): EditorTheme {
-        return file.inputStream().use {
-            json.decodeFromStream(EditorTheme.serializer(), it)
+  fun loadEditor(file: Path): Editor {
+    return Editor(file = file, fileName = file.name) {
+      val extension = file.extension
+      val textLines: TextLines =
+        try {
+          file.readTextLines(this)
+        } catch (e: Throwable) {
+          e.printStackTrace()
+          EmptyTextLines
         }
-    }
+      val isGCode =
+        extension.endsWith("ngc", ignoreCase = true) || extension.endsWith("nc", ignoreCase = true)
 
-    suspend fun export(file: File, theme: EditorTheme) {
-        file.outputStream().use {
-            json.encodeToStream(EditorTheme.serializer(), theme, it)
-        }
-    }
+      fun content(index: Int): Editor.Content {
+        val text = textLines.get(index)
+        val state = MutableStateFlow(text).asStateFlow()
+        return Editor.Content(state, isGCode)
+      }
 
+      object : Editor.Lines {
+        override val size
+          get() = textLines.size
+
+        override fun get(index: Int) = Editor.Line(number = index + 1, content = content(index))
+      }
+    }
+  }
+
+  private fun Path.readTextLines() {
+
+  }
 }

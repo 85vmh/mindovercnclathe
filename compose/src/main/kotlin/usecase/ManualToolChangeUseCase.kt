@@ -1,13 +1,16 @@
 package usecase
 
+import com.mindovercnc.dispatchers.IoDispatcher
+import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.repository.HalRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 
 class ManualToolChangeUseCase(
-    scope: CoroutineScope,
+    ioDispatcher: IoDispatcher,
     private val halRepository: HalRepository,
 ) {
+    private val scope = ioDispatcher.createScope()
     private val _toolNo = MutableStateFlow<Int?>(null)
 
     init {

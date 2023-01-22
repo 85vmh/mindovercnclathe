@@ -1,14 +1,15 @@
 package com.mindovercnc.linuxcnc
 
-import java.io.File
+import okio.Path
+import okio.Path.Companion.toPath
 
-val LinuxCncHome = File(System.getenv("LINUXCNC_HOME"))
-
-@JvmInline
-value class IniFilePath(val file: File)
+val LinuxCncHome = System.getenv("LINUXCNC_HOME").toPath()
 
 @JvmInline
-value class VarFilePath(val file: File)
+value class IniFilePath(val file: Path)
 
 @JvmInline
-value class ToolFilePath(val file: File)
+value class VarFilePath(val file: Path)
+
+@JvmInline
+value class ToolFilePath(val file: Path)

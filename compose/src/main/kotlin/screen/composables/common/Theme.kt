@@ -1,8 +1,5 @@
 package screen.composables.common
 
-import androidx.compose.material.darkColors
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.SpanStyle
 import com.mindovercnc.editor.EditorTheme
 import com.mindovercnc.editor.IntColor
 

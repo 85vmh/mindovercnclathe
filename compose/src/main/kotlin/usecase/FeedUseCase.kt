@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import ro.dragossusi.proto.linuxcnc.setFeedRate
 import ui.screen.manual.root.FeedUiModel
 
 class FeedUseCase(
@@ -15,10 +16,10 @@ class FeedUseCase(
     private val settingsRepository: SettingsRepository
 ) {
 
-    private val feedOverride = statusRepository.cncStatusFlow()
-        .map { it.motionStatus.trajectoryStatus.velocityScale }
+    private val feedOverride = statusRepository.cncStatusFlow
+        .map { it.motionStatus.trajectoryStatus.scale }
         .distinctUntilChanged()
-    private val setFeedRate = statusRepository.cncStatusFlow()
+    private val setFeedRate = statusRepository.cncStatusFlow
         .map { it.taskStatus.setFeedRate }
         .distinctUntilChanged()
 

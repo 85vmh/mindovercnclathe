@@ -1,8 +1,10 @@
 package com.mindovercnc.repository
 
-import com.mindovercnc.linuxcnc.model.CncStatus
 import kotlinx.coroutines.flow.Flow
+import ro.dragossusi.proto.linuxcnc.CncStatus
 
+/** Repository for [CncStatus]. */
 interface CncStatusRepository {
-    fun cncStatusFlow() : Flow<CncStatus>
+  /** Returns a flow of [CncStatus]. */
+  val cncStatusFlow: Flow<CncStatus>
 }

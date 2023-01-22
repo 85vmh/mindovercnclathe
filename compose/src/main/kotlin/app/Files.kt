@@ -1,16 +1,11 @@
 package app
 
-import java.io.File
+import okio.Path.Companion.toPath
 
 object Files {
 
-    private val homeFile = File(System.getProperty("user.home"))
+  private val homeFile = System.getProperty("user.home").toPath()
 
-    /**
-     * This hidden folder will contain the app specific files
-     */
-    val appDir = File(homeFile, ".mindovercnclathe").apply {
-        mkdirs()
-    }
-
+  /** This hidden folder will contain the app specific files */
+  val appDir = homeFile.div(".mindovercnclathe")
 }

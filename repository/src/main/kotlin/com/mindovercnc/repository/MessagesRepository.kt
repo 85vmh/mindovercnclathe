@@ -4,20 +4,21 @@ import com.mindovercnc.model.MessageBundle
 import com.mindovercnc.model.UiMessage
 import kotlinx.coroutines.flow.Flow
 
+/** Repository for messages. */
 interface MessagesRepository {
-    fun messagesFlow(): Flow<MessageBundle>
+  fun messagesFlow(): Flow<MessageBundle>
 
-    fun clearEmcMessages()
+  fun clearEmcMessages()
 
-    fun pushMessage(uiMessage: UiMessage)
+  fun pushMessage(uiMessage: UiMessage)
 
-    fun popMessage(uiMessage: UiMessage)
+  fun popMessage(uiMessage: UiMessage)
 }
 
 fun MessagesRepository.handleMessage(isNeeded: Boolean, uiMessage: UiMessage) {
-    if (isNeeded) {
-        pushMessage(uiMessage)
-    } else {
-        popMessage(uiMessage)
-    }
+  if (isNeeded) {
+    pushMessage(uiMessage)
+  } else {
+    popMessage(uiMessage)
+  }
 }

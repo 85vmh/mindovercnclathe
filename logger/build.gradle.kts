@@ -5,5 +5,5 @@ plugins {
 version = Versions.app
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation(Libs.stdlib)
 }

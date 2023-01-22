@@ -1,29 +1,23 @@
-import Versions.coroutines
-import Versions.exposed
-import Versions.kodein
 import Versions.sqliteJdbc
 
-plugins {
-    kotlin("jvm")
-}
+plugins { kotlin("jvm") }
 
 version = "unspecified"
 
-repositories {
-    mavenCentral()
-}
+repositories { mavenCentral() }
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")
-    implementation("org.kodein.di:kodein-di-framework-compose:${kodein}")
+  implementation(kotlin("stdlib"))
+  api(Libs.Coroutines.core)
+  api(Libs.Kodein.core)
 
-    api("org.jetbrains.exposed:exposed-core:$exposed")
-    api("org.jetbrains.exposed:exposed-dao:$exposed")
-    api("org.jetbrains.exposed:exposed-jdbc:$exposed")
+  api(Libs.Exposed.core)
+  api(Libs.Exposed.dao)
+  api(Libs.Exposed.jdbc)
 
-    implementation("org.xerial:sqlite-jdbc:$sqliteJdbc")
-    implementation(project(":model"))
-    implementation("ro.dragossusi.ktlcnc:ktlcnc-model:0.0.1")
+  implementation("org.xerial:sqlite-jdbc:$sqliteJdbc")
 
+  implementation(project(":model"))
+
+  implementation(Libs.ktlcnc_model)
 }

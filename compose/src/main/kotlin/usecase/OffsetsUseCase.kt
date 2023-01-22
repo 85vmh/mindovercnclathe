@@ -1,8 +1,8 @@
 package usecase
 
 import com.mindovercnc.repository.*
-import com.mindovercnc.linuxcnc.model.TaskMode
 import kotlinx.coroutines.flow.*
+import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import usecase.model.OffsetEntry
 
 class OffsetsUseCase(
@@ -22,8 +22,8 @@ class OffsetsUseCase(
             }
     }
 
-    val currentWcs = statusRepository.cncStatusFlow()
-        .map { it.taskStatus.g5xIndex }
+    val currentWcs = statusRepository.cncStatusFlow
+        .map { it.taskStatus.g5XIndex }
         .map { getStringRepresentation(it) }
 
     val currentOffset = combine(
@@ -46,7 +46,7 @@ class OffsetsUseCase(
     }
 
     private suspend fun executeMdiCommand(cmd: String) {
-        val initialTaskMode = statusRepository.cncStatusFlow().map { it.taskStatus.taskMode }.first()
+        val initialTaskMode = statusRepository.cncStatusFlow.map { it.taskStatus.taskMode }.first()
         commandRepository.setTaskMode(TaskMode.TaskModeMDI)
         commandRepository.executeMdiCommand(cmd)
         commandRepository.setTaskMode(initialTaskMode)
