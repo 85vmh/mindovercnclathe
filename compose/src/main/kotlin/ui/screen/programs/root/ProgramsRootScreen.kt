@@ -58,23 +58,20 @@ class ProgramsRootScreen : Programs("Programs") {
 
     Box {
       Column {
-        Box(modifier = Modifier.height(50.dp), contentAlignment = Alignment.CenterStart) {
-          BreadcrumbView(
-            data = state.breadCrumbData,
-            modifier = Modifier.height(36.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp)
-          )
-        }
+        BreadcrumbView(
+          data = state.breadCrumbData,
+          modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+          contentPadding = PaddingValues(horizontal = 8.dp)
+        )
         Divider(color = Color.LightGray, thickness = 1.dp)
         Row(modifier = Modifier) {
           // file explorer
-          Box(modifier = Modifier.width(400.dp)) {
-            FileSystemView(
-              data = state.fileSystemData,
-              modifier = Modifier.fillMaxSize()
-            )
-          }
+          FileSystemView(
+            data = state.fileSystemData,
+            modifier = Modifier.fillMaxHeight().width(400.dp)
+          )
 
+          // divider
           VerticalDivider()
 
           // editor

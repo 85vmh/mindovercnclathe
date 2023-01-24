@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -78,7 +77,6 @@ fun BreadcrumbView(
       BreadcrumbItem(
         shape = if (index == 0) trapezeShape else parallelogramShape,
         item = item,
-        modifier = Modifier.fillMaxHeight(),
         selected = index == data.items.lastIndex
       )
     }
@@ -102,10 +100,7 @@ private fun BreadcrumbItem(
       if (selected) MaterialTheme.colorScheme.secondaryContainer
       else MaterialTheme.colorScheme.surface
   ) {
-    Box(
-      contentAlignment = Alignment.Center,
-      modifier = Modifier.fillMaxHeight(),
-    ) {
+    Box(contentAlignment = Alignment.Center) {
       Text(text = item.title.ifEmpty { "root" }, modifier = Modifier.padding(horizontal = 16.dp))
     }
   }

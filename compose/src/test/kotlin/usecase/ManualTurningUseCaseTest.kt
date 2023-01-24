@@ -1,7 +1,6 @@
 package usecase
 
 import com.mindovercnc.dispatchers.IoDispatcher
-import com.mindovercnc.linuxcnc.model.CncStatus
 import com.mindovercnc.model.JoystickStatus
 import com.mindovercnc.model.SpindleSwitchStatus
 import com.mindovercnc.model.UiMessage
@@ -16,6 +15,7 @@ import kotlinx.coroutines.test.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import ro.dragossusi.proto.linuxcnc.CncStatus
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ManualTurningUseCaseTest {
@@ -25,10 +25,10 @@ class ManualTurningUseCaseTest {
   private val cycleStartStatusFlow = MutableStateFlow(false)
   private val actualSpindleSpeed = MutableStateFlow(1f)
   private val jogIncrementValue = MutableStateFlow(1f)
-  private val cncStatusFlow = MutableSharedFlow<CncStatus>()
+  private val cncStatusFlowMock = MutableSharedFlow<CncStatus>()
 
   private val statusRepository =
-    mockk<CncStatusRepository> { every { cncStatusFlow() } returns cncStatusFlow }
+    mockk<CncStatusRepository> { every { cncStatusFlow } returns cncStatusFlowMock }
   private val commandRepository = mockk<CncCommandRepository>()
   private val messagesRepository = mockk<MessagesRepository>()
   private val halRepository =
