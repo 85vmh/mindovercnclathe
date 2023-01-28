@@ -20,7 +20,13 @@ val RepositoryModule =
     }
     bindSingleton<SystemMessageRepository> { SystemMessageRepositoryImpl(instance(), instance()) }
     bindSingleton<MessagesRepository> { MessagesRepositoryImpl(instance(), instance()) }
+
     bindSingleton<CncCommandRepository> { CncCommandRepositoryImpl(instance()) }
+
+    bindSingleton<TaskStatusRepository> { TaskStatusRepositoryImpl(instance()) }
+    bindSingleton<MotionStatusRepository> { MotionStatusRepositoryImpl(instance()) }
+    bindSingleton<IoStatusRepository> { IoStatusRepositoryImpl(instance()) }
+
     bindSingleton<HalRepository> { HalRepositoryImpl(instance()) }
     bindSingleton<IniFileRepository> { IniFileRepositoryImpl(instance()) }
     bindSingleton<VarFileRepository> { VarFileRepositoryImpl(instance(), instance(), instance()) }

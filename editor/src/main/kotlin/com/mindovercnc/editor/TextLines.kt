@@ -1,4 +1,4 @@
-package com.mindovercnc.model
+package com.mindovercnc.editor
 
 interface TextLines {
     val size: Int

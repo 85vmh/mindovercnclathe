@@ -16,11 +16,12 @@ val UseCaseModule =
       ManualTurningUseCase(
         ioDispatcher = instance(),
         cncStatusRepository = instance(),
+        motionStatusRepository = instance(),
         commandRepository = instance(),
         messagesRepository = instance(),
         halRepository = instance(),
         settingsRepository = instance(),
-        iniFileRepository = instance()
+        iniFileRepository = instance(),
       )
     }
 
@@ -39,7 +40,8 @@ val UseCaseModule =
     bindSingleton {
       VirtualLimitsUseCase(
         ioDispatcher = instance(),
-        statusRepository = instance(),
+        taskStatusRepository = instance(),
+        ioStatusRepository = instance(),
         halRepository = instance(),
         settingsRepository = instance(),
         iniFileRepository = instance(),
@@ -50,7 +52,7 @@ val UseCaseModule =
     bindSingleton {
       SimpleCyclesUseCase(
         ioDispatcher = instance(),
-        statusRepository = instance(),
+        taskStatusRepository = instance(),
         commandRepository = instance(),
         halRepository = instance(),
         settingsRepository = instance(),
@@ -67,6 +69,8 @@ val UseCaseModule =
       ToolsUseCase(
         ioDispatcher = instance(),
         statusRepository = instance(),
+        motionStatusRepository = instance(),
+        ioStatusRepository = instance(),
         commandRepository = instance(),
         messagesRepository = instance(),
         halRepository = instance(),
@@ -105,8 +109,9 @@ val UseCaseModule =
 
     bindSingleton {
       ProgramsUseCase(
-        statusRepository = instance(),
         commandRepository = instance(),
+        dtgPositionUseCase = instance(),
+        g5xPositionUseCase = instance(),
       )
     }
 
@@ -127,7 +132,7 @@ val UseCaseModule =
 
     bindSingleton {
       HandWheelsUseCase(
-        statusRepository = instance(),
+        taskStatusRepository = instance(),
         halRepository = instance(),
       )
     }
@@ -139,9 +144,7 @@ val UseCaseModule =
     }
 
     bindSingleton {
-      PositionUseCase(
-        statusRepository = instance(),
-      )
+      PositionUseCase(statusRepository = instance(), dtgPositionUseCase = instance())
     }
 
     bindSingleton {
@@ -150,13 +153,13 @@ val UseCaseModule =
       )
     }
 
-    bindSingleton {
-      ActiveCodesUseCase(
-        instance(),
-      )
-    }
+    bindSingleton { ActiveCodesUseCase(instance()) }
 
     bindSingleton { BreadCrumbDataUseCase() }
 
     bindSingleton { FileSystemDataUseCase(instance()) }
+
+    bindSingleton { DtgPositionUseCase(instance()) }
+    bindSingleton { G5xPositionUseCase(instance()) }
+    bindSingleton { MachineUsableUseCase(instance()) }
   }

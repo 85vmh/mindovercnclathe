@@ -15,9 +15,6 @@ class CncCommandRepositoryImpl(private val linuxCncGrpc: LinuxCncGrpc.LinuxCncBl
 
   private val logger = KotlinLogging.logger("ProgramsRootScreenModel")
 
-  @Deprecated("Will be replace by linuxCncGrpc", level = DeprecationLevel.ERROR)
-  private val commandWriter = CommandWriter()
-
   override fun setTaskMode(taskMode: TaskMode) {
     val request = setTaskModeRequest { this.taskMode = taskMode }
     linuxCncGrpc.setTaskMode(request)

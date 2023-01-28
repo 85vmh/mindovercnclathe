@@ -7,13 +7,9 @@ import org.kodein.di.*
 
 val AppModule =
   DI.Module("AppModule") {
-    bindSingleton { StatusWatcher(instance(), instance()) }
+    bindSingleton { StatusWatcher(instance(), instance(), instance(), instance()) }
 
-    bindProvider {
-      TabViewModel(
-        instance(),
-      )
-    }
+    bindProvider { TabViewModel(instance(), instance()) }
 
     bindSingleton { FileSystem.SYSTEM }
   }

@@ -11,6 +11,7 @@ dependencies {
   implementation(project(":database"))
   implementation(project(":model"))
   implementation(project(":grpc"))
+  implementation(project(":editor"))
   implementation(Libs.okio)
 
   // logging

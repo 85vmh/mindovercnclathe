@@ -2,8 +2,8 @@ package themes
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import app.DarkMode
@@ -11,8 +11,8 @@ import screen.composables.common.AppTheme
 import screen.composables.editor.LocalEditorTheme
 import themes.*
 
-private val LightThemeColors = lightColorScheme(
-
+private val LightThemeColors =
+  lightColorScheme(
     primary = md_theme_light_primary,
     onPrimary = md_theme_light_onPrimary,
     primaryContainer = md_theme_light_primaryContainer,
@@ -38,9 +38,9 @@ private val LightThemeColors = lightColorScheme(
     outline = md_theme_light_outline,
     inverseOnSurface = md_theme_light_inverseOnSurface,
     inverseSurface = md_theme_light_inverseSurface,
-)
-private val DarkThemeColors = darkColorScheme(
-
+  )
+private val DarkThemeColors =
+  darkColorScheme(
     primary = md_theme_dark_primary,
     onPrimary = md_theme_dark_onPrimary,
     primaryContainer = md_theme_dark_primaryContainer,
@@ -66,34 +66,29 @@ private val DarkThemeColors = darkColorScheme(
     outline = md_theme_dark_outline,
     inverseOnSurface = md_theme_dark_inverseOnSurface,
     inverseSurface = md_theme_dark_inverseSurface,
-)
+  )
+
+private val editorModel = Any()
 
 @Composable
-fun AppTheme(
-    darkMode: DarkMode,
-    content: @Composable () -> Unit
-) {
-    val useDarkTheme = when (darkMode) {
-        DarkMode.SYSTEM -> isSystemInDarkTheme()
-        DarkMode.LIGHT -> false
-        DarkMode.DARK -> true
+fun AppTheme(darkMode: DarkMode, content: @Composable () -> Unit) {
+  val useDarkTheme =
+    when (darkMode) {
+      DarkMode.SYSTEM -> isSystemInDarkTheme()
+      DarkMode.LIGHT -> false
+      DarkMode.DARK -> true
     }
-    val colors = if (useDarkTheme) {
-        DarkThemeColors
+  val colors =
+    if (useDarkTheme) {
+      DarkThemeColors
     } else {
-        LightThemeColors
+      LightThemeColors
     }
 
-    val theme = if (useDarkTheme) AppTheme.Editor.dark
-    else AppTheme.Editor.light
+  val theme = AppTheme.Editor.theme
+  val themeVariant = if (useDarkTheme) theme.dark else theme.light
 
-    CompositionLocalProvider(
-        LocalEditorTheme provides theme
-    ) {
-        MaterialTheme(
-            colorScheme = colors,
-            typography = AppTypography,
-            content = content
-        )
-    }
+  CompositionLocalProvider(LocalEditorTheme provides themeVariant) {
+    MaterialTheme(colorScheme = colors, typography = AppTypography, content = content)
+  }
 }

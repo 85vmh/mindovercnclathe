@@ -16,6 +16,8 @@ import usecase.model.AddEditToolState
 class ToolsUseCase(
   ioDispatcher: IoDispatcher,
   private val statusRepository: CncStatusRepository,
+  private val motionStatusRepository: MotionStatusRepository,
+  private val ioStatusRepository: IoStatusRepository,
   private val commandRepository: CncCommandRepository,
   private val messagesRepository: MessagesRepository,
   private val halRepository: HalRepository,
@@ -30,9 +32,8 @@ class ToolsUseCase(
 
   init {
     // TODO: this should be moved somewhere else, and remove the scope from the useCase
-    statusRepository
-      .cncStatusFlow
-      .map { it.isHomed() }
+    motionStatusRepository.motionStatusFlow
+      .map { it.isHomed(2) }
       .filter { it }
       .distinctUntilChanged()
       .onEach {
@@ -96,8 +97,7 @@ class ToolsUseCase(
   }
 
   fun getCurrentToolNo(): Flow<Int> {
-    return statusRepository
-      .cncStatusFlow
+    return ioStatusRepository.ioStatusFlow
       .map { it.currentToolNo }
       .distinctUntilChanged()
       .onEach { settingsRepository.put(IntegerKey.LastToolUsed, it) }
@@ -114,7 +114,7 @@ class ToolsUseCase(
 
   private suspend fun toolTouchOff(axisWithValue: String) {
     val initialTaskMode = statusRepository.cncStatusFlow.map { it.taskStatus.taskMode }.first()
-    val currentTool = statusRepository.cncStatusFlow.map { it.currentToolNo }.first()
+    val currentTool = ioStatusRepository.ioStatusFlow.map { it.currentToolNo }.first()
     commandRepository.setTaskMode(TaskMode.TaskModeMDI)
     commandRepository.executeMdiCommand("G10 L10 P$currentTool $axisWithValue")
     // TODO: make this based on status channel

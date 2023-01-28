@@ -10,6 +10,8 @@ dependencies {
   implementation(Libs.Kodein.core)
 
   implementation(project(":database"))
+  implementation(project(":editor"))
+
   api(project(":model"))
 
   /** @deprecated Will be replaced by grpc. */

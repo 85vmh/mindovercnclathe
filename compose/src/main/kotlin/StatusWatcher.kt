@@ -1,7 +1,5 @@
 import com.mindovercnc.model.*
-import com.mindovercnc.repository.CncStatusRepository
-import com.mindovercnc.repository.MessagesRepository
-import com.mindovercnc.repository.handleMessage
+import com.mindovercnc.repository.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -13,6 +11,8 @@ import ro.dragossusi.proto.linuxcnc.*
 
 class StatusWatcher(
   private val cncStatusRepository: CncStatusRepository,
+  private val motionStatusRepository: MotionStatusRepository,
+  private val taskStatusRepository: TaskStatusRepository,
   private val messagesRepository: MessagesRepository,
 ) {
 
@@ -32,59 +32,62 @@ class StatusWatcher(
     //      }
     //      .launchIn(innerScope)
 
-    cncStatusRepository.cncStatusFlow
+    // motion status
+    motionStatusRepository.motionStatusFlow
       .map { it.isXHomed.not() }
       .distinctUntilChanged()
       .onEach { messagesRepository.handleMessage(it, UiMessage.XAxisNotHomed) }
       .launchIn(innerScope)
 
-    cncStatusRepository.cncStatusFlow
+    motionStatusRepository.motionStatusFlow
       .map { it.isZHomed.not() }
       .distinctUntilChanged()
       .onEach { messagesRepository.handleMessage(it, UiMessage.ZAxisNotHomed) }
       .launchIn(innerScope)
 
-    cncStatusRepository.cncStatusFlow
+    motionStatusRepository.motionStatusFlow
       .map { it.isXHoming }
       .distinctUntilChanged()
       .onEach { messagesRepository.handleMessage(it, UiMessage.XAxisHoming) }
       .launchIn(innerScope)
 
-    cncStatusRepository.cncStatusFlow
+    motionStatusRepository.motionStatusFlow
       .map { it.isZHoming }
       .distinctUntilChanged()
       .onEach { messagesRepository.handleMessage(it, UiMessage.ZAxisHoming) }
       .launchIn(innerScope)
 
-    cncStatusRepository.cncStatusFlow
-      .map { it.isNotOn }
-      .distinctUntilChanged()
-      .onEach { messagesRepository.handleMessage(it, UiMessage.MachineNotON) }
-      .launchIn(innerScope)
-    cncStatusRepository.cncStatusFlow
-      .map { it.isEstop }
-      .distinctUntilChanged()
-      .onEach { messagesRepository.handleMessage(it, UiMessage.MachineInEstop) }
-      .launchIn(innerScope)
-    cncStatusRepository.cncStatusFlow
+    motionStatusRepository.motionStatusFlow
       .map { it.isMinSoftLimitOnX }
       .distinctUntilChanged()
       .onEach { messagesRepository.handleMessage(it, UiMessage.ReachedMinSoftLimitX) }
       .launchIn(innerScope)
-    cncStatusRepository.cncStatusFlow
+    motionStatusRepository.motionStatusFlow
       .map { it.isMaxSoftLimitOnX }
       .distinctUntilChanged()
       .onEach { messagesRepository.handleMessage(it, UiMessage.ReachedMaxSoftLimitX) }
       .launchIn(innerScope)
-    cncStatusRepository.cncStatusFlow
+    motionStatusRepository.motionStatusFlow
       .map { it.isMinSoftLimitOnZ }
       .distinctUntilChanged()
       .onEach { messagesRepository.handleMessage(it, UiMessage.ReachedMinSoftLimitZ) }
       .launchIn(innerScope)
-    cncStatusRepository.cncStatusFlow
+    motionStatusRepository.motionStatusFlow
       .map { it.isMaxSoftLimitOnZ }
       .distinctUntilChanged()
       .onEach { messagesRepository.handleMessage(it, UiMessage.ReachedMaxSoftLimitZ) }
+      .launchIn(innerScope)
+
+    // task status
+    taskStatusRepository.taskStatusFlow
+      .map { it.isNotOn }
+      .distinctUntilChanged()
+      .onEach { messagesRepository.handleMessage(it, UiMessage.MachineNotON) }
+      .launchIn(innerScope)
+    taskStatusRepository.taskStatusFlow
+      .map { it.isEstop }
+      .distinctUntilChanged()
+      .onEach { messagesRepository.handleMessage(it, UiMessage.MachineInEstop) }
       .launchIn(innerScope)
   }
 }

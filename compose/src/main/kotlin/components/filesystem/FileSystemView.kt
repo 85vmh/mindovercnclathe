@@ -24,29 +24,22 @@ import screen.composables.platform.VerticalScrollbar
 
 @Composable
 fun FileSystemView(data: FileSystemData, modifier: Modifier = Modifier) {
-  Surface(modifier = modifier) {
-    val scrollState = rememberLazyListState()
-    val scope = rememberCoroutineScope()
+  val scrollState = rememberLazyListState()
+  val scope = rememberCoroutineScope()
 
-    Column {
-      Divider(color = Color.LightGray, thickness = 0.5.dp)
-      Row {
-        Box {
-          LazyColumn(modifier = Modifier.draggableScroll(scrollState, scope), state = scrollState) {
-            items(data.items) { item ->
-              FileSystemItemView(item)
-              Divider(color = Color.LightGray, thickness = 0.5.dp)
-            }
-          }
-          VerticalScrollbar(
-            modifier = Modifier.align(Alignment.CenterEnd),
-            scrollState = scrollState,
-            itemCount = data.items.size,
-            averageItemSize = 60.dp
-          )
-        }
+  Box(modifier = modifier) {
+    LazyColumn(modifier = Modifier.draggableScroll(scrollState, scope), state = scrollState) {
+      items(data.items) { item ->
+        FileSystemItemView(item)
+        Divider(color = Color.LightGray, thickness = 0.5.dp)
       }
     }
+    VerticalScrollbar(
+      modifier = Modifier.align(Alignment.CenterEnd),
+      scrollState = scrollState,
+      itemCount = data.items.size,
+      averageItemSize = 60.dp
+    )
   }
 }
 
@@ -99,9 +92,5 @@ private fun FileSystemItemView(item: FileSystemItemData, modifier: Modifier = Mo
 }
 
 private fun millisToLastModified(millis: Long): String {
-  //    when{
-  //        DateUtils.isToday(long timeInMilliseconds)
-  //    }
-
   return SimpleDateFormat("dd/MM/yyyy").format(Date(millis))
 }

@@ -2,20 +2,16 @@ package usecase
 
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
-import com.mindovercnc.repository.CncCommandRepository
-import com.mindovercnc.repository.CncStatusRepository
-import com.mindovercnc.repository.HalRepository
-import com.mindovercnc.repository.SettingsRepository
+import com.mindovercnc.repository.*
 import extensions.stripZeros
 import kotlinx.coroutines.flow.*
-import ro.dragossusi.proto.linuxcnc.isInMdiMode
 import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import screen.uimodel.SimpleCycle
 import usecase.model.SimpleCycleParameters
 
 class SimpleCyclesUseCase(
   ioDispatcher: IoDispatcher,
-  private val statusRepository: CncStatusRepository,
+  private val taskStatusRepository: TaskStatusRepository,
   private val commandRepository: CncCommandRepository,
   halRepository: HalRepository,
   private val settingsRepository: SettingsRepository,
@@ -175,8 +171,7 @@ class SimpleCyclesUseCase(
   }
 
   private suspend fun isCycleRunning() =
-    statusRepository
-      .cncStatusFlow
-      .map { it.isInMdiMode } // TODO: check also the interpreter state
+    taskStatusRepository.taskStatusFlow
+      .map { it.taskMode == TaskMode.TaskModeMDI } // TODO: check also the interpreter state
       .first()
 }

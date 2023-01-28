@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import okio.Path
 
-class Editor(
+class Editor constructor(
   val file: Path,
   val fileName: String,
   val lines: CoroutineScope.() -> Lines,

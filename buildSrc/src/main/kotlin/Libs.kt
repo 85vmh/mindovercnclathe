@@ -1,6 +1,11 @@
 object Libs {
   const val okio = "com.squareup.okio:okio:${Versions.okio}"
 
+  object Compose {
+
+    const val splitpane = "org.jetbrains.compose.components:components-splitpane:${Versions.compose}"
+  }
+
   object Coroutines {
     const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
     const val swing = "org.jetbrains.kotlinx:kotlinx-coroutines-swing:${Versions.coroutines}"

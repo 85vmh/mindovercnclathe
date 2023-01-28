@@ -21,6 +21,7 @@ import ro.dragossusi.proto.linuxcnc.status.TaskMode
 class ManualTurningUseCase(
   ioDispatcher: IoDispatcher,
   private val cncStatusRepository: CncStatusRepository,
+  private val motionStatusRepository: MotionStatusRepository,
   private val commandRepository: CncCommandRepository,
   private val messagesRepository: MessagesRepository,
   private val halRepository: HalRepository,
@@ -48,12 +49,11 @@ class ManualTurningUseCase(
   val taperTurningActive = isTaperTurning.asStateFlow()
 
   private val spindleOpAllowed =
-    cncStatusRepository.cncStatusFlow.map { it.isHomed() }.distinctUntilChanged()
+    motionStatusRepository.motionStatusFlow.map { it.isHomed(2) }.distinctUntilChanged()
 
   init {
     val spindleIsOn =
-      cncStatusRepository
-        .cncStatusFlow
+      motionStatusRepository.motionStatusFlow
         .map { it.isSpindleOn } // do this based on tool direction
         .distinctUntilChanged()
 
@@ -184,8 +184,7 @@ class ManualTurningUseCase(
       when {
         isTaperTurning.value -> {
           val startPoint =
-            cncStatusRepository
-              .cncStatusFlow
+            cncStatusRepository.cncStatusFlow
               .map { it.g53Position }
               .map { Point(it.x * 2, it.z) } // *2 due to diameter mode
               .first()
@@ -246,7 +245,7 @@ class ManualTurningUseCase(
       delay(100L)
     }
     commandRepository.setTaskMode(TaskMode.TaskModeManual)
-    val jogVelocity = cncStatusRepository.cncStatusFlow.map { it.jogVelocity }.first()
+    val jogVelocity = motionStatusRepository.motionStatusFlow.map { it.jogVelocity }.first()
     val jogDirection =
       when (feedDirection) {
         Direction.Positive -> jogVelocity

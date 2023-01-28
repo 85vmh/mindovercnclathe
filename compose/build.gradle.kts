@@ -44,6 +44,7 @@ dependencies {
 
   implementation(project(":grpc"))
   implementation(Libs.Grpc.okhttp)
+  implementation(Libs.Compose.splitpane)
 
   //    implementation(project(":vtk"))
   implementation(Libs.Kodein.compose)

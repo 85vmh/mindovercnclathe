@@ -10,7 +10,8 @@ import okio.Path
 @OptIn(ExperimentalSerializationApi::class)
 class EditorThemeLoader(private val json: Json, private val fileSystem: FileSystem) {
 
-  suspend fun load(file: Path): EditorTheme {
+  suspend fun load(file: Path): EditorTheme? {
+    if (!fileSystem.exists(file)) return null
     return fileSystem.read(file) { json.decodeFromBufferedSource(EditorTheme.serializer(), this) }
   }
 

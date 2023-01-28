@@ -4,9 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.DisableSelection
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,11 +14,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.editor.Editor
-import com.mindovercnc.editor.EditorTheme
+import com.mindovercnc.editor.EditorThemeVariant
 import extensions.draggableScroll
 import kotlin.text.Regex.Companion.fromLiteral
 import okio.Path
@@ -39,24 +36,22 @@ fun EditorView(
 ) =
   key(model) {
     val editorTheme = LocalEditorTheme.current
-    SelectionContainer {
-      Surface(
-        modifier = modifier,
-        color = editorTheme.background.toColor(),
-      ) {
-        val lines by loadableScoped(model.lines)
+    Surface(
+      modifier = modifier,
+      color = editorTheme.background.toColor(),
+    ) {
+      val lines by loadableScoped(model.lines)
 
-        if (lines != null) {
-          Lines(
-            file = model.file,
-            lines = lines!!,
-            showFileName = showFileName,
-            settings = settings,
-            modifier = Modifier.fillMaxSize()
-          )
-        } else {
-          CircularProgressIndicator(modifier = Modifier.size(36.dp).padding(4.dp))
-        }
+      if (lines != null) {
+        Lines(
+          file = model.file,
+          lines = lines!!,
+          showFileName = showFileName,
+          settings = settings,
+          modifier = Modifier.fillMaxSize()
+        )
+      } else {
+        CircularProgressIndicator(modifier = Modifier.size(36.dp).padding(4.dp))
       }
     }
   }
@@ -97,12 +92,6 @@ private fun Lines(
           }
         }
         items(lines.size) { index ->
-          //                val selectedModifier = when {
-          //                    index == 5 -> Modifier.height(lineHeight)
-          //                        //.align(Alignment.Center)
-          //                        .border(BorderStroke(1.dp, Color.Blue))
-          //                    else -> Modifier.height(lineHeight)
-          //                }
           Box(modifier = Modifier.height(lineHeight)) {
             Line(
               maxNum = maxNum,
@@ -123,29 +112,6 @@ private fun Lines(
     }
   }
 
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun FileNameHeader(
-  file: Path,
-  modifier: Modifier = Modifier,
-) {
-  TooltipArea(
-    modifier = modifier,
-    tooltip = {
-      Surface(shape = RoundedCornerShape(8.dp), shadowElevation = 3.dp) {
-        Text(file.toString(), modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp))
-      }
-    }
-  ) {
-    Text(
-      modifier = Modifier.fillMaxWidth().padding(8.dp),
-      text = file.name,
-      style = MaterialTheme.typography.titleSmall,
-      textAlign = TextAlign.Center,
-    )
-  }
-}
-
 @Composable
 private fun Line(
   maxNum: String,
@@ -155,7 +121,8 @@ private fun Line(
 ) {
   Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
     DisableSelection {
-      Box {
+      val background = LocalEditorTheme.current.lineNumber.background.toColor()
+      Box(modifier = Modifier.background(background)) {
         LineNumber(
           number = maxNum,
           settings = settings,
@@ -183,7 +150,7 @@ private fun LineNumber(number: String, settings: Settings, modifier: Modifier = 
     text = number,
     fontSize = settings.fontSize,
     fontFamily = Fonts.jetbrainsMono(),
-    color = LocalEditorTheme.current.lineNumber.toColor(),
+    color = LocalEditorTheme.current.lineNumber.text.toColor(),
     modifier = modifier
   )
 
@@ -210,7 +177,7 @@ private fun LineContent(
   )
 }
 
-private fun codeString(editorTheme: EditorTheme, str: String): AnnotatedString {
+private fun codeString(editorTheme: EditorThemeVariant, str: String): AnnotatedString {
   val keyword = editorTheme.keyword.toSpanStyle()
   val punctuation = editorTheme.punctuation.toSpanStyle()
   val value = editorTheme.value.toSpanStyle()

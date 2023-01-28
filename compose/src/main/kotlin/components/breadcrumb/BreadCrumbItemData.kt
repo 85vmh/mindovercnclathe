@@ -1,5 +1,5 @@
 package components.breadcrumb
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 
-@Stable data class BreadCrumbItemData(val title: String, val onClick: () -> Unit)
+@Immutable data class BreadCrumbItemData(val title: String, val onClick: () -> Unit)
