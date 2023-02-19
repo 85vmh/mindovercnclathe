@@ -1,7 +1,7 @@
 package com.mindovercnc.editor
 
 /** Compact version of List<Int> (without unboxing Int and using IntArray under the hood) */
-internal class IntList(initialCapacity: Int = 16) {
+class IntList(initialCapacity: Int = 16) {
   @Volatile private var array = IntArray(initialCapacity)
 
   @Volatile
@@ -18,6 +18,12 @@ internal class IntList(initialCapacity: Int = 16) {
       doubleCapacity()
     }
     array[size++] = value
+  }
+
+  fun update(capacity: Int, block: (IntList) -> Unit) {
+    clear(capacity)
+    block(this)
+    compact()
   }
 
   operator fun get(index: Int) = array[index]

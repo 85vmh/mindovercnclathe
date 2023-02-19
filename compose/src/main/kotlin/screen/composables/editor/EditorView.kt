@@ -17,12 +17,17 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.editor.Editor
-import com.mindovercnc.editor.EditorThemeVariant
+import com.mindovercnc.editor.textlines.TextLineContent
+import com.mindovercnc.editor.textlines.TextLines
+import com.mindovercnc.editor.type.EditorFileType
+import com.mindovercnc.editor.type.EditorFileTypeHandler
 import extensions.draggableScroll
 import kotlin.text.Regex.Companion.fromLiteral
 import okio.Path
+import org.kodein.di.compose.rememberInstance
 import screen.composables.common.Fonts
 import screen.composables.common.Settings
+import screen.composables.editor.line.LineNumber
 import screen.composables.platform.VerticalScrollbar
 import screen.composables.util.loadableScoped
 import screen.composables.util.withoutWidthConstraints
@@ -43,79 +48,94 @@ fun EditorView(
       val lines by loadableScoped(model.lines)
 
       if (lines != null) {
-        Lines(
-          file = model.file,
-          lines = lines!!,
-          showFileName = showFileName,
-          settings = settings,
-          modifier = Modifier.fillMaxSize()
-        )
+        TypedEditor(model.file) {
+          Lines(
+            file = model.file,
+            lines = lines!!,
+            showFileName = showFileName,
+            settings = settings,
+            modifier = Modifier.fillMaxSize()
+          )
+        }
       } else {
         CircularProgressIndicator(modifier = Modifier.size(36.dp).padding(4.dp))
       }
     }
   }
 
+@Composable
+private fun TypedEditor(path: Path, content: @Composable () -> Unit) {
+  val editorTypeHandle: EditorFileTypeHandler by rememberInstance()
+  val type = remember { editorTypeHandle.getFileType(path) }
+
+  CompositionLocalProvider(LocalEditorFileType provides type, content = content)
+}
+
+@Composable
+private fun rememberDigitCount(size: Int): String {
+  return remember(size) {
+    val count = size.toString().length
+    (1..count).joinToString(separator = "") { "9" }
+  }
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Lines(
   file: Path,
-  lines: Editor.Lines,
+  lines: TextLines,
   showFileName: Boolean,
   settings: Settings,
   modifier: Modifier = Modifier
-) =
-  with(LocalDensity.current) {
-    val maxNum =
-      remember(lines.lineNumberDigitCount) {
-        (1..lines.lineNumberDigitCount).joinToString(separator = "") { "9" }
-      }
+) {
+  val size by lines.size.collectAsState()
+  val maxNum = rememberDigitCount(size)
 
-    val scope = rememberCoroutineScope()
+  val scope = rememberCoroutineScope()
 
-    Box(modifier = modifier) {
-      val scrollState = rememberLazyListState()
-      val lineHeight = settings.fontSize.toDp() * 2f
+  Box(modifier = modifier) {
+    val scrollState = rememberLazyListState()
+    val lineHeight = with(LocalDensity.current) { settings.fontSize.toDp() * 2f }
 
-      LazyColumn(
-        modifier = Modifier.fillMaxSize().draggableScroll(scrollState, scope),
-        state = scrollState
-      ) {
-        if (showFileName) {
-          stickyHeader {
-            Surface(
-              modifier = Modifier.fillMaxWidth(),
-              border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceVariant)
-            ) {
-              FileNameHeader(file, modifier = Modifier.fillMaxWidth())
-            }
-          }
-        }
-        items(lines.size) { index ->
-          Box(modifier = Modifier.height(lineHeight)) {
-            Line(
-              maxNum = maxNum,
-              line = lines[index],
-              settings = settings,
-              modifier = Modifier.align(Alignment.CenterStart)
-            )
+    LazyColumn(
+      modifier = Modifier.fillMaxSize().draggableScroll(scrollState, scope),
+      state = scrollState
+    ) {
+      if (showFileName) {
+        stickyHeader {
+          Surface(
+            modifier = Modifier.fillMaxWidth(),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceVariant)
+          ) {
+            FileNameHeader(file, modifier = Modifier.fillMaxWidth())
           }
         }
       }
-
-      VerticalScrollbar(
-        Modifier.align(Alignment.CenterEnd).width(20.dp),
-        scrollState,
-        lines.size,
-        lineHeight
-      )
+      items(size) { index ->
+        Box(modifier = Modifier.height(lineHeight)) {
+          Line(
+            maxNum = maxNum,
+            line = lines[index],
+            settings = settings,
+            modifier = Modifier.align(Alignment.CenterStart)
+          )
+        }
+      }
     }
+
+    VerticalScrollbar(
+      Modifier.align(Alignment.CenterEnd).width(20.dp),
+      scrollState,
+      itemCount = size,
+      averageItemSize = lineHeight
+    )
   }
+}
 
 @Composable
 private fun Line(
   maxNum: String,
-  line: Editor.Line,
+  line: TextLineContent,
   settings: Settings,
   modifier: Modifier = Modifier
 ) {
@@ -135,7 +155,7 @@ private fun Line(
         )
       }
       LineContent(
-        line.content,
+        line = line,
         modifier =
           Modifier.weight(1f).withoutWidthConstraints().padding(start = 28.dp, end = 12.dp),
         settings = settings
@@ -145,30 +165,12 @@ private fun Line(
 }
 
 @Composable
-private fun LineNumber(number: String, settings: Settings, modifier: Modifier = Modifier) =
-  Text(
-    text = number,
-    fontSize = settings.fontSize,
-    fontFamily = Fonts.jetbrainsMono(),
-    color = LocalEditorTheme.current.lineNumber.text.toColor(),
-    modifier = modifier
-  )
-
-@Composable
-private fun LineContent(
-  content: Editor.Content,
-  settings: Settings,
-  modifier: Modifier = Modifier
-) {
-  val editorTheme = LocalEditorTheme.current
-  val contentValue by content.value.collectAsState()
+private fun LineContent(line: TextLineContent, settings: Settings, modifier: Modifier = Modifier) {
   Text(
     text =
-      if (content.isGCode) {
-        codeString(editorTheme, contentValue)
-      } else {
-        val style = editorTheme.text.toSpanStyle()
-        buildAnnotatedString { withStyle(style) { append(contentValue) } }
+      when (LocalEditorFileType.current) {
+        EditorFileType.GCODE -> codeString(line.text)
+        EditorFileType.NORMAL -> normalString(line.text)
       },
     fontSize = settings.fontSize,
     fontFamily = Fonts.jetbrainsMono(),
@@ -177,7 +179,17 @@ private fun LineContent(
   )
 }
 
-private fun codeString(editorTheme: EditorThemeVariant, str: String): AnnotatedString {
+@Composable
+private fun normalString(str: String): AnnotatedString {
+  val editorTheme = LocalEditorTheme.current
+  val style = editorTheme.text.toSpanStyle()
+  return buildAnnotatedString { withStyle(style) { append(str) } }
+}
+
+@Composable
+private fun codeString(str: String): AnnotatedString {
+  val editorTheme = LocalEditorTheme.current
+
   val keyword = editorTheme.keyword.toSpanStyle()
   val punctuation = editorTheme.punctuation.toSpanStyle()
   val value = editorTheme.value.toSpanStyle()
@@ -190,13 +202,9 @@ private fun codeString(editorTheme: EditorThemeVariant, str: String): AnnotatedS
   return buildAnnotatedString {
     withStyle(editorTheme.text.toSpanStyle()) {
       append(strFormatted)
-      addStyle(punctuation, strFormatted, ":")
-      addStyle(punctuation, strFormatted, "=")
-      addStyle(punctuation, strFormatted, "\"")
-      addStyle(punctuation, strFormatted, "[")
-      addStyle(punctuation, strFormatted, "]")
-      addStyle(punctuation, strFormatted, "{")
-      addStyle(punctuation, strFormatted, "}")
+      for (item in EditorConstants.punctuation) {
+        addStyle(punctuation, strFormatted, item)
+      }
 
       // gcode
       addGcodeStyle(gcode, strFormatted)
@@ -223,19 +231,8 @@ private fun codeString(editorTheme: EditorThemeVariant, str: String): AnnotatedS
 }
 
 private fun AnnotatedString.Builder.addKeywords(style: SpanStyle, text: String) {
-  val words =
-    arrayOf(
-      "return",
-      "if",
-      "else",
-      "endif",
-      "while",
-      "endwhile",
-      "sub",
-      "endsub",
-      "repeat",
-      "endrepeat",
-    )
+  val words = EditorConstants.keywords
+
   words.forEach {
     addStyle(style, text, Regex("(^|\\s+)($it)(?=\\s+|\$)"))
     addStyle(style, text, Regex("(^|\\s+)(${it.uppercase()})(?=\\s+|\$)"))
@@ -243,30 +240,7 @@ private fun AnnotatedString.Builder.addKeywords(style: SpanStyle, text: String) 
 }
 
 private fun AnnotatedString.Builder.addGcodeStyle(style: SpanStyle, text: String) {
-  val letters =
-    charArrayOf(
-      'G',
-      'M',
-      'X',
-      'Y',
-      'Z',
-      'I',
-      'J',
-      'K',
-      'F',
-      'S',
-      'T',
-      'P',
-      'L',
-      'Q',
-      'N',
-      'E',
-      'D',
-      'R',
-      'B',
-      'O',
-      'A',
-    )
+  val letters = EditorConstants.gcodeCharacters
   val letterString =
     letters.joinToString(separator = "", prefix = "[", postfix = "]") { "$it${it.lowercaseChar()}" }
   addStyle(style, text, Regex("(^|\\s+)($letterString)(-?\\d+\\.?\\d*)(?=\\s+|\$)"))
