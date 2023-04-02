@@ -70,8 +70,9 @@ class PathEditorReader(private val fileSystem: FileSystem) : EditorReader {
         val length =
           if (index + 1 < size.value) lineStartPositions[index + 1] - startPosition
           else buffer.size.toInt() - startPosition
-        // Only JDK since 13 has slice() method we need, so do ugly for now.
+
         buffer.readUtf8Line()
+
         val bytearray = ByteArray(length)
 
         buffer.peek().read(sink = bytearray, byteCount = length, offset = startPosition)
