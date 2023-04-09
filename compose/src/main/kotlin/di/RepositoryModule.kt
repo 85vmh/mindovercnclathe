@@ -1,33 +1,51 @@
 package di
 
 import com.mindovercnc.linuxcnc.*
+import com.mindovercnc.linuxcnc.legacy.CncCommandRepositoryLegacy
+import com.mindovercnc.linuxcnc.legacy.CncStatusRepositoryLegacy
+import com.mindovercnc.linuxcnc.legacy.HalRepositoryLegacy
 import com.mindovercnc.linuxcnc.nml.BuffDescriptor
 import com.mindovercnc.linuxcnc.nml.BuffDescriptorV29
 import com.mindovercnc.linuxcnc.parsing.*
 import com.mindovercnc.repository.*
 import java.util.prefs.Preferences
-import kotlinx.coroutines.CoroutineScope
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 import startup.StartupArgs
 
-val RepositoryModule =
+fun repositoryModule(legacyCommunication: Boolean) =
   DI.Module("repository") {
+    import(CommonRepositoryModule)
+    import(if (legacyCommunication) LegacyRepositoryModule else GrpcRepositoryModule)
+  }
+
+private val LegacyRepositoryModule =
+  DI.Module("legacy_repository") {
+    bindSingleton<CncCommandRepository> { CncCommandRepositoryLegacy() }
+    bindSingleton<HalRepository> { HalRepositoryLegacy() }
+    bindSingleton<CncStatusRepository> { CncStatusRepositoryLegacy(instance(), instance()) }
+  }
+
+private val GrpcRepositoryModule =
+  DI.Module("legacy_repository") {
+    bindSingleton<CncCommandRepository> { CncCommandRepositoryImpl(instance()) }
+    bindSingleton<HalRepository> { HalRepositoryImpl(instance()) }
     bindSingleton<CncStatusRepository> {
       CncStatusRepositoryImpl(instance(), instance(), instance())
     }
+  }
+
+private val CommonRepositoryModule =
+  DI.Module("common_repository") {
     bindSingleton<SystemMessageRepository> { SystemMessageRepositoryImpl(instance(), instance()) }
     bindSingleton<MessagesRepository> { MessagesRepositoryImpl(instance(), instance()) }
-
-    bindSingleton<CncCommandRepository> { CncCommandRepositoryImpl(instance()) }
 
     bindSingleton<TaskStatusRepository> { TaskStatusRepositoryImpl(instance()) }
     bindSingleton<MotionStatusRepository> { MotionStatusRepositoryImpl(instance()) }
     bindSingleton<IoStatusRepository> { IoStatusRepositoryImpl(instance()) }
 
-    bindSingleton<HalRepository> { HalRepositoryImpl(instance()) }
     bindSingleton<IniFileRepository> { IniFileRepositoryImpl(instance()) }
     bindSingleton<VarFileRepository> { VarFileRepositoryImpl(instance(), instance(), instance()) }
 
@@ -61,9 +79,6 @@ val RepositoryModule =
 
 fun startupModule(startupArgs: StartupArgs) =
   DI.Module("startup") { bindSingleton { startupArgs.iniFilePath } }
-
-fun appScopeModule(scope: CoroutineScope) =
-  DI.Module("app_scope") { bindProvider("app_scope") { scope } }
 
 val BuffDescriptorModule =
   DI.Module("buffDescriptor") { bindSingleton<BuffDescriptor> { BuffDescriptorV29() } }

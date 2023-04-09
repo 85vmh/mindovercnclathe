@@ -11,7 +11,7 @@ object Versions {
   const val sqliteJdbc = "3.41.2.1"
   const val okio = "3.3.0"
 
-  const val ktlcnc = "0.0.1"
+  const val ktlcnc = "0.0.2"
 
   const val logging = "1.5.9"
 

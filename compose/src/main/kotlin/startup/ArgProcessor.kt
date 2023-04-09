@@ -24,6 +24,15 @@ class ArgProcessor(private val fileSystem: FileSystem) {
         )
         .default(DarkMode.SYSTEM)
 
+    val legacyCommunication by
+      parser
+        .option(
+          ArgType.Boolean,
+          fullName = "legacy-communication",
+          description = "Use legacy communication instead of gRPC"
+        )
+        .default(false)
+
     val topBarEnabled by
       parser
         .option(
@@ -46,7 +55,8 @@ class ArgProcessor(private val fileSystem: FileSystem) {
     return StartupArgs(
       iniFilePath = IniFilePath(iniFile),
       topBarEnabled = TopBarEnabled(topBarEnabled),
-      darkMode = darkMode
+      darkMode = darkMode,
+      legacyCommunication = legacyCommunication
     )
   }
 

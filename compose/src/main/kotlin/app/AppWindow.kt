@@ -26,12 +26,11 @@ fun AppWindow(windowState: WindowState, startupArgs: StartupArgs, onCloseRequest
     val scope = rememberCoroutineScope { Dispatchers.IO }
     withDI(
       startupModule(startupArgs),
-      appScopeModule(scope),
       DispatchersModule,
       AppModule,
       ScreenModelModule,
       UseCaseModule,
-      RepositoryModule,
+      repositoryModule(startupArgs.legacyCommunication),
       ParseFactoryModule,
       BuffDescriptorModule,
       EditorModule,
