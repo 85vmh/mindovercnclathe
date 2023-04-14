@@ -1,29 +1,20 @@
 package ui.screen.tools.root.tabs.cuttinginsert
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.InsertClearance
 import com.mindovercnc.model.InsertShape
 import com.mindovercnc.model.MountingAndChipBreaker
 import com.mindovercnc.model.ToleranceClass
-import extensions.draggableScroll
-import screen.composables.DropDownClosedItem
-import screen.composables.DropDownView
 import screen.composables.VerticalDivider
 
 private val headerModifier = Modifier.height(LegendTokens.CellHeight)
@@ -105,46 +96,28 @@ private fun MaterialFeedsAndSpeeds(materialCode: MaterialCode, modifier: Modifie
       )
     }
     Divider(color = Color.LightGray)
-    Row(
-      modifier = cellModifier,
-      verticalAlignment = Alignment.CenterVertically,
-      horizontalArrangement = Arrangement.Center
-    ) {
-      Text(
-        text = "${materialCode.ap.start} - ${materialCode.ap.endInclusive}",
-        style = MaterialTheme.typography.bodySmall
-      )
-    }
+    FloatRangeCell(materialCode.ap)
     Divider(color = Color.LightGray)
-    Row(
-      modifier = cellModifier,
-      verticalAlignment = Alignment.CenterVertically,
-      horizontalArrangement = Arrangement.Center
-    ) {
-      Text(
-        text = "${materialCode.fn.start} - ${materialCode.fn.endInclusive}",
-        style = MaterialTheme.typography.bodySmall
-      )
-    }
+    FloatRangeCell(materialCode.fn)
     Divider(color = Color.LightGray)
-    Row(
-      modifier = cellModifier,
-      verticalAlignment = Alignment.CenterVertically,
-      horizontalArrangement = Arrangement.Center
-    ) {
-      Text(
-        text = "${materialCode.vc.first} - ${materialCode.vc.last}",
-        style = MaterialTheme.typography.bodySmall
-      )
-    }
+    FloatRangeCell(materialCode.vc)
     Divider(color = Color.LightGray)
   }
 }
 
 @Composable
-private fun FloatRangeCell(
-
-)
+private fun FloatRangeCell(range: ClosedRange<*>) {
+  Row(
+    modifier = cellModifier,
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = Arrangement.Center
+  ) {
+    Text(
+      text = "${range.start} - ${range.endInclusive}",
+      style = MaterialTheme.typography.bodySmall
+    )
+  }
+}
 
 @Composable
 fun StandardInsert(
@@ -249,43 +222,4 @@ fun StandardInsert(
       }
     }
   }
-}
-
-@Composable
-private fun <T> InsertLetter(
-  items: List<T>,
-  selectedItem: T?,
-  dropDownWidth: Dp,
-  nothingSelectedString: String,
-  onValueChanged: (T) -> Unit,
-  modifier: Modifier = Modifier,
-  openedItemContent: @Composable (T) -> Unit
-) {
-  val scope = rememberCoroutineScope()
-  val scrollState = rememberLazyListState()
-
-  DropDownView(
-    items = items,
-    selected = selectedItem,
-    dropDownListModifier = Modifier.draggableScroll(scrollState, scope),
-    modifier =
-      modifier
-        .width(dropDownWidth)
-        .border(border = BorderStroke(1.dp, Color.LightGray), shape = RoundedCornerShape(4.dp)),
-    onSelected = onValueChanged,
-    closedItemContent = {
-      DropDownClosedItem(modifier = Modifier.size(height = 40.dp, width = dropDownWidth)) {
-        val text =
-          when {
-            it != null -> it.toString()
-            else -> nothingSelectedString
-          }
-        Text(
-          text = text,
-          style = MaterialTheme.typography.bodyLarge,
-        )
-      }
-    },
-    openedItemContent = openedItemContent
-  )
 }

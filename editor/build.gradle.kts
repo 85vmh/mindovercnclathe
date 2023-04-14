@@ -11,6 +11,6 @@ dependencies {
   implementation(Libs.Serialization.json)
   implementation(Libs.Coroutines.core)
   implementation(Libs.Serialization.json_okio)
-  implementation(Libs.ktlcnc)
+  implementation(project(":ktlcnc"))
   implementation(Libs.okio)
 }

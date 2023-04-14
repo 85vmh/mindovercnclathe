@@ -15,7 +15,7 @@ dependencies {
   api(project(":model"))
 
   /** @deprecated Will be replaced by grpc. */
-  api(Libs.ktlcnc_model)
+  api(project(":ktlcnc:model"))
 
   api(project(":grpc"))
   implementation(Libs.okio)

@@ -2,12 +2,11 @@ package com.mindovercnc.linuxcnc
 
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
-import com.mindovercnc.linuxcnc.model.Position
 import com.mindovercnc.model.ParametersState
-import com.mindovercnc.repository.ActiveLimitsRepository
 import com.mindovercnc.repository.VarFileRepository
 import kotlinx.coroutines.flow.*
 import okio.FileSystem
+import ro.dragossusi.proto.linuxcnc.status.Position
 
 const val numCoordinateSystems = 9
 
@@ -152,16 +151,16 @@ constructor(
 
   private data class ParametersStateBuilder(
     var coordinateSysNumber: Int = 0,
-    val g28Position: Position.Builder = Position.Builder(),
-    val g30Position: Position.Builder = Position.Builder(),
-    val g52G92Position: Position.Builder = Position.Builder(),
-    val toolOffsetPosition: Position.Builder = Position.Builder(),
+    val g28Position: Position.Builder = Position.newBuilder(),
+    val g30Position: Position.Builder = Position.newBuilder(),
+    val g52G92Position: Position.Builder = Position.newBuilder(),
+    val toolOffsetPosition: Position.Builder = Position.newBuilder(),
     val coordinateSystems: List<Position.Builder> = getPositionBuilders(numCoordinateSystems),
   ) {
     companion object {
       fun getPositionBuilders(howMany: Int): List<Position.Builder> {
         val result = mutableListOf<Position.Builder>()
-        (0 until howMany).forEach { _ -> result.add(Position.Builder()) }
+        (0 until howMany).forEach { _ -> result.add(Position.newBuilder()) }
         return result
       }
     }

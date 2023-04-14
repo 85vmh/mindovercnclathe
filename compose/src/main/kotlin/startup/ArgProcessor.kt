@@ -6,9 +6,11 @@ import com.mindovercnc.linuxcnc.LinuxCncHome
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.default
+import mu.KotlinLogging
 import okio.FileSystem
 import okio.Path
 import okio.Path.Companion.toPath
+import org.jetbrains.skia.impl.Log
 
 class ArgProcessor(private val fileSystem: FileSystem) {
   fun process(args: Array<String>): StartupArgs {
@@ -53,11 +55,12 @@ class ArgProcessor(private val fileSystem: FileSystem) {
     }
 
     return StartupArgs(
-      iniFilePath = IniFilePath(iniFile),
-      topBarEnabled = TopBarEnabled(topBarEnabled),
-      darkMode = darkMode,
-      legacyCommunication = legacyCommunication
-    )
+        iniFilePath = IniFilePath(iniFile),
+        topBarEnabled = TopBarEnabled(topBarEnabled),
+        darkMode = darkMode,
+        legacyCommunication = legacyCommunication
+      )
+      .also { startupArgs -> LOG.info("Received startup args $startupArgs") }
   }
 
   private fun createIniFile(file: Path): Path {
@@ -68,6 +71,10 @@ class ArgProcessor(private val fileSystem: FileSystem) {
     val file = LinuxCncHome.div(file)
     if (!fileSystem.exists(file)) throw IllegalArgumentException("$file does not exist")
     return file
+  }
+
+  companion object {
+    private val LOG = KotlinLogging.logger("ArgProcessor")
   }
 }
 

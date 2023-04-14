@@ -5,7 +5,7 @@ version = Versions.app
 dependencies {
   implementation(Libs.stdlib)
   implementation(Libs.Coroutines.core)
-  implementation(Libs.ktlcnc)
+  implementation(project(":ktlcnc"))
   implementation(project(":grpc"))
   implementation(Libs.okio)
 }

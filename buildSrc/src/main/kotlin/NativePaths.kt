@@ -1,29 +1,18 @@
-import org.gradle.api.Project
 import java.io.File
+import org.gradle.api.Project
 
 object NativePaths {
-    fun getNativePaths(rootProject: Project): List<String> {
+  fun getNativePaths(project: Project): List<String> {
 
-        val linuxCncHome = rootProject.requirePath(
-            "LINUXCNC_HOME",
-            "linuxcnc.home"
-        )
+    val linuxCncHome = project.requirePath("LINUXCNC_HOME", "linuxcnc.home")
 
-        val linuxCncJdk = rootProject.requirePath(
-            "LINUXCNC_JDK",
-            "linuxcnc.jdk"
-        )
+    val linuxCncJdk = project.requirePath("LINUXCNC_JDK", "linuxcnc.jdk")
 
-        val vtkLib = rootProject.requirePath(
-            "VTK_LIB",
-            "vtk.lib"
-        )
+    val vtkLib = project.requirePath("VTK_LIB", "vtk.lib")
 
-        return listOf(
-            File(linuxCncHome, "lib").path,
-            File(linuxCncJdk, "lib").path,
-            vtkLib
-        )
-    }
+    return listOf(File(linuxCncHome, "lib").path, File(linuxCncJdk, "lib").path, vtkLib)
+  }
 
+  fun createJvmArgs(project: Project) =
+    "-Djava.library.path=${NativePaths.getNativePaths(project).joinToString(":")}"
 }

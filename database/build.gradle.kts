@@ -19,5 +19,5 @@ dependencies {
 
   implementation(project(":model"))
 
-  implementation(Libs.ktlcnc_model)
+  implementation(project(":ktlcnc:model"))
 }

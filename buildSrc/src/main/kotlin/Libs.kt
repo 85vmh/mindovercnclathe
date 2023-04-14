@@ -3,7 +3,8 @@ object Libs {
 
   object Compose {
 
-    const val splitpane = "org.jetbrains.compose.components:components-splitpane:${Versions.compose}"
+    const val splitpane =
+      "org.jetbrains.compose.components:components-splitpane:${Versions.compose}"
   }
 
   object Coroutines {
@@ -38,7 +39,18 @@ object Libs {
 
   const val cli = "org.jetbrains.kotlinx:kotlinx-cli:${Versions.cli}"
 
+  @Deprecated(
+    "Use local module",
+    replaceWith = ReplaceWith("""project(":ktlcnc")"""),
+    level = DeprecationLevel.ERROR,
+  )
   const val ktlcnc = "ro.dragossusi.ktlcnc:ktlcnc:${Versions.ktlcnc}"
+
+  @Deprecated(
+    "Use local module",
+    replaceWith = ReplaceWith("""project(":ktlcnc:model")"""),
+    level = DeprecationLevel.ERROR,
+  )
   const val ktlcnc_model = "ro.dragossusi.ktlcnc:ktlcnc-model:${Versions.ktlcnc}"
 
   const val logging = "io.github.microutils:kotlin-logging:${Versions.logging}"

@@ -9,6 +9,8 @@ include("model")
 include("dispatcher")
 include("protos")
 include("grpc")
+include("ktlcnc")
+include("ktlcnc:model")
 //include("vtk")
 
 //include("localization")

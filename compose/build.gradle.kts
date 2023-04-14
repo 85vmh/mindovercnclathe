@@ -32,7 +32,7 @@ dependencies {
   implementation(fileTree(mapOf("dir" to "lib", "include" to listOf("*.jar"))))
 
   // the library that contains the JNI interface for communicating with LinuxCNC library
-  implementation(Libs.ktlcnc)
+  implementation(project(":ktlcnc"))
 
   // internal modules
   implementation(project(":database"))
@@ -67,7 +67,7 @@ compose.desktop {
   application {
     mainClass = "MainKt"
 
-    jvmArgs("-Djava.library.path=${NativePaths.getNativePaths(rootProject).joinToString(":")}")
+    jvmArgs(NativePaths.createJvmArgs(rootProject))
 
     nativeDistributions {
       // needed by the database
