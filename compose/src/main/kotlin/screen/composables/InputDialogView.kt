@@ -1,6 +1,8 @@
 package screen.composables
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.PopupAlertDialogProvider
@@ -11,6 +13,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,6 +32,9 @@ fun InputDialogView(
     val inputParams = numPadState.numInputParameters
 
     AlertDialog(
+//        modifier = Modifier
+//            .clip(RoundedCornerShape(28.dp))
+//            .background(Color.Transparent),
         onDismissRequest = { },
         text = {
             Column {

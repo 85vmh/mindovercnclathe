@@ -23,7 +23,7 @@ fun SpindleDirection(
     selectedDirection: SpindleDirection? = null,
     onDirectionSelected: (SpindleDirection) -> Unit
 ) {
-    val itemModifier = Modifier.width(40.dp).height(50.dp)
+    val itemModifier = Modifier.size(50.dp)
 
     CardWithTitle(
         cardTitle = "Spindle Direction",
@@ -72,17 +72,17 @@ fun DirectionItem(
         else -> LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
     }
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Box(
         modifier = modifier
     ) {
         Icon(
-            modifier = Modifier.size(30.dp),
+            modifier = Modifier.size(50.dp).align(Alignment.Center),
             painter = painterResource(fileName),
             tint = selectedTint,
             contentDescription = "",
         )
         Text(
+            modifier = Modifier.align(Alignment.Center),
             text = direction.uppercase(),
             style = MaterialTheme.typography.labelSmall,
             color = selectedTint

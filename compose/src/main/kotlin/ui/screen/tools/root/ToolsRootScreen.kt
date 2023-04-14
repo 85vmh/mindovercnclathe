@@ -105,6 +105,7 @@ class ToolsRootScreen : Tools() {
                 onDelete = screenModel::requestDeleteToolHolder,
                 onLoad = screenModel::loadToolHolder,
                 onHolderChanged = screenModel::loadToolHolders,
+                onMount = screenModel::onMountTool,
                 modifier = tabContentModifier
             )
 

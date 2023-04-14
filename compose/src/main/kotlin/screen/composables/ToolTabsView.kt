@@ -28,7 +28,7 @@ fun <E : Enum<E>> ToolTabsView(
     modifier: Modifier = Modifier,
 ) {
 
-    val shape = RoundedCornerShape(16.dp) //define border radius here
+    val shape = RoundedCornerShape(24.dp) //define border radius here
     val background = MaterialTheme.colorScheme.primaryContainer
     val selected = MaterialTheme.colorScheme.primary
 

@@ -66,9 +66,11 @@ fun AxisCoordinate(
             ZeroPos(modifier = Modifier) {
                 zeroPosClicked.invoke()
             }
-            AbsRel(modifier = Modifier.padding(start = 16.dp)) {
-                absRelClicked.invoke()
-            }
+            AbsRel(
+                modifier = Modifier.padding(start = 16.dp),
+                isIncremental = uiModel.isIncremental,
+                onClick = absRelClicked
+            )
         }
     }
 }
@@ -179,8 +181,12 @@ private fun ZeroPos(modifier: Modifier = Modifier, onClick: () -> Unit) {
 @Composable
 private fun AbsRel(
     modifier: Modifier = Modifier,
+    isIncremental: Boolean,
     onClick: () -> Unit
 ) {
+    val absColor = if (!isIncremental) Color.DarkGray else Color.DarkGray.copy(alpha = 0.2f)
+    val incColor = if (isIncremental) Color.DarkGray else Color.DarkGray.copy(alpha = 0.2f)
+
     Surface(
         shape = RoundedCornerShape(4.dp),
         modifier = modifier
@@ -200,6 +206,7 @@ private fun AbsRel(
             }) {
             Text(
                 text = "ABS",
+                color = absColor,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .align(Alignment.TopStart)
@@ -207,6 +214,7 @@ private fun AbsRel(
             )
             Text(
                 text = "INC",
+                color = incColor,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .align(Alignment.BottomEnd)

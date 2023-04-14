@@ -3,8 +3,6 @@ package ui.screen.manual.root
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,82 +11,68 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import screen.composables.SettingStatusRow
 
 @Composable
-fun SpindleStatusView(
-    uiModel: SpindleUiModel,
-    modifier: Modifier = Modifier
-) {
+fun SpindleStatusView(uiModel: SpindleUiModel, modifier: Modifier = Modifier) {
 
     data class SpindleModeAndUnits(val mode: String, val value: String, val units: String)
 
-    val spModeWithUnits = when (uiModel.isRpmMode) {
-        true -> SpindleModeAndUnits("RPM", uiModel.setRpm.toString(), "rev/min")
-        else -> SpindleModeAndUnits("CSS", uiModel.setCss.toString(), "m/min")
-    }
+    val spModeWithUnits =
+        when (uiModel.isRpmMode) {
+            true -> SpindleModeAndUnits("RPM", uiModel.setRpm.toString(), "rev/min")
+            else -> SpindleModeAndUnits("CSS", uiModel.setCss.toString(), "m/min")
+        }
 
     Surface(
         shape = RoundedCornerShape(8.dp),
         modifier = modifier,
         border = BorderStroke(1.dp, SolidColor(Color.DarkGray)),
-        shadowElevation = 8.dp,
+        shadowElevation = 4.dp,
     ) {
-        val settingsModifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
+        val settingsModifier = Modifier.fillMaxWidth()
 
-        Column {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    style = MaterialTheme.typography.titleMedium,
-                    text = "Spindle"
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                modifier = Modifier.padding(start = 150.dp),
+                text = "S",
+                fontSize = 45.sp,
+            )
+            Column(modifier = Modifier.width(300.dp)) {
+//                SettingStatusRow(
+//                    "Override:",
+//                    uiModel.spindleOverride.toString(),
+//                    "%",
+//                    modifier = settingsModifier
+//                )
+                SettingStatusRow(
+                    "Set:",
+                    spModeWithUnits.value,
+                    spModeWithUnits.units,
+                    modifier = settingsModifier
                 )
-                Text(
-                    modifier = Modifier.padding(start = 8.dp),
-                    style = MaterialTheme.typography.bodyMedium,
-                    text = "(${uiModel.spindleOverride}%)"
+                if (uiModel.isRpmMode.not()) {
+                    SettingStatusRow(
+                        "Max RPM:",
+                        uiModel.maxRpm.toString(),
+                        "rev/min",
+                        modifier = settingsModifier
+                    )
+                }
+                SettingStatusRow(
+                    "Actual:",
+                    kotlin.math.abs(uiModel.actualRpm).toString(),
+                    "rev/min",
+                    modifier = settingsModifier
                 )
-            }
-            Divider(
-                modifier = Modifier.padding(vertical = 8.dp),
-                color = Color.DarkGray,
-                thickness = 1.dp
-            )
-            /*
-            * RPM
-            * - Set RPM: 1500 rev/min
-            * - Actual RPM
-            * - Stop at:
-            *
-            * CSS
-            * - Set CSS: 200 m/min
-            * - Max RPM: 2000 rev/min
-            * - Actual RPM
-            * - Stop at:
-            * */
-
-            SettingStatusRow(
-                "Set ${spModeWithUnits.mode}:",
-                spModeWithUnits.value,
-                spModeWithUnits.units,
-                modifier = settingsModifier
-            )
-            if (uiModel.isRpmMode.not()) {
-                SettingStatusRow("Max RPM:", uiModel.maxRpm.toString(), "rev/min", modifier = settingsModifier)
-            }
-            SettingStatusRow(
-                "Actual RPM:",
-                kotlin.math.abs(uiModel.actualRpm).toString(),
-                "rev/min",
-                modifier = settingsModifier
-            )
-            uiModel.stopAngle?.let {
-                SettingStatusRow("Oriented stop:", it.toString(), "degrees", modifier = settingsModifier)
+                uiModel.stopAngle?.let {
+                    SettingStatusRow("Oriented stop:", it.toString(), "degrees", modifier = settingsModifier)
+                }
             }
         }
     }

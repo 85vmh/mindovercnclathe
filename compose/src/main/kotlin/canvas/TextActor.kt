@@ -9,9 +9,18 @@ import org.jetbrains.skia.Paint
 import org.jetbrains.skia.TextLine
 import themes.SkiKoFonts
 
+enum class OffsetPlacement {
+    BottomLeft,
+    StartCenter,
+    EndCenter,
+    TopCenter,
+    BottomCenter
+}
+
 class TextActor(
     private val text: String,
     private val offset: Offset,
+    private val offsetPlacement: OffsetPlacement = OffsetPlacement.BottomLeft,
     private val font: Font = SkiKoFonts.default,
     private val paint: Paint = Paint()
 ) : CanvasActor {
@@ -19,8 +28,16 @@ class TextActor(
         drawScope.drawIntoCanvas {
             it.nativeCanvas.apply {
                 val textLine = TextLine.make(text, font)
+                val textOffset = when (offsetPlacement) {
+                    OffsetPlacement.TopCenter -> Offset(offset.x - textLine.width / 2, offset.y + textLine.height)
+                    OffsetPlacement.BottomCenter -> Offset(offset.x - textLine.width / 2, offset.y)
+                    OffsetPlacement.StartCenter -> Offset(offset.x, offset.y + textLine.height/2)
+                    OffsetPlacement.EndCenter -> Offset(offset.x - textLine.width, offset.y + textLine.height / 2)
+                    else -> offset
+                }
+
                 drawTextLine(
-                    textLine, offset.x, offset.y, paint
+                    textLine, textOffset.x, textOffset.y, paint
                 )
             }
         }

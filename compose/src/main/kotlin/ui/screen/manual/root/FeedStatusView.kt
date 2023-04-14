@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import extensions.toFixedDigitsString
 import screen.composables.SettingStatusRow
 
@@ -33,48 +34,43 @@ fun FeedStatusView(
         shape = RoundedCornerShape(8.dp),
         modifier = modifier,
         border = BorderStroke(1.dp, SolidColor(Color.DarkGray)),
-        shadowElevation = 16.dp
+        shadowElevation = 8.dp
     ) {
-        val settingsModifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
+        val settingsModifier = Modifier.fillMaxWidth()
 
         Column {
             Row(
                 modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
             )
             {
                 Text(
-                    modifier = Modifier,
-                    style = MaterialTheme.typography.titleMedium,
-                    text = "Feed"
+                    modifier = Modifier.padding(start = 150.dp),
+                    text = "F",
+                    fontSize = 45.sp,
                 )
-                Text(
-                    modifier = Modifier.padding(start = 8.dp),
-                    style = MaterialTheme.typography.bodyMedium,
-                    text = "(${uiModel.feedOverride.toFixedDigitsString(0)}%)"
-                )
+                Column(modifier = Modifier.width(300.dp)) {
+//                    SettingStatusRow(
+//                        modifier = settingsModifier,
+//                        settingText = "Override:",
+//                        settingValue = uiModel.feedOverride.toFixedDigitsString(0),
+//                        settingUnit = "%"
+//                    )
+                    SettingStatusRow(
+                        settingText = "Set:",
+                        settingValue = uiModel.setFeed.toFixedDigitsString(),
+                        settingUnit = feed.units,
+                        modifier = settingsModifier
+                    )
+                    SettingStatusRow(
+                        settingText = "Actual:",
+                        settingValue = uiModel.actualFeed.toFixedDigitsString(),
+                        settingUnit = feed.units,
+                        modifier = settingsModifier
+                    )
+                }
             }
-            Divider(
-                modifier = Modifier.padding(vertical = 8.dp),
-                color = Color.DarkGray,
-                thickness = 1.dp
-            )
-            SettingStatusRow("Mode:", feed.mode, modifier = settingsModifier)
-            SettingStatusRow(
-                "Set feed:",
-                uiModel.setFeed.toFixedDigitsString(),
-                feed.units,
-                modifier = settingsModifier
-            )
-            SettingStatusRow(
-                "Actual feed:",
-                uiModel.actualFeed.toFixedDigitsString(),
-                feed.units,
-                modifier = settingsModifier
-            )
         }
     }
 }
