@@ -2,6 +2,7 @@ package ui.screen.manual.root
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
+import components.axis.CoordinateAxis
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -67,13 +68,13 @@ class ManualTurningScreenModel(
       .map {
         val xCoordinateUiModel =
           CoordinateUiModel(
-            axis = CoordinateUiModel.Axis.X,
+            axis = CoordinateAxis.X,
             primaryValue = it.xAxisPos.primaryValue,
             secondaryValue = it.xAxisPos.secondaryValue,
           )
         val zCoordinateUiModel =
           CoordinateUiModel(
-            axis = CoordinateUiModel.Axis.Z,
+            axis = CoordinateAxis.Z,
             primaryValue = it.zAxisPos.primaryValue,
             secondaryValue = it.zAxisPos.secondaryValue,
           )
@@ -81,7 +82,9 @@ class ManualTurningScreenModel(
       }
       .onEach {
         mutableState.update { currentState ->
-          currentState.copy(xCoordinateUiModel = it.first, zCoordinateUiModel = it.second)
+          currentState.copy(
+            axisCoordinates = currentState.axisCoordinates.copy(x = it.first, z = it.second)
+          )
         }
       }
       .launchIn(coroutineScope)

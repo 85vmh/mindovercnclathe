@@ -27,13 +27,12 @@ import ui.screen.manual.root.CoordinateUiModel
 
 @Composable
 fun AxisCoordinate(
+  axis: CoordinateAxis,
   uiModel: CoordinateUiModel,
   zeroPosClicked: () -> Unit,
   absRelClicked: () -> Unit,
   toolOffsetsClicked: () -> Unit,
-  setHeight: Dp,
   modifier: Modifier = Modifier,
-  loadedTool: Int? = null,
   isDiameterMode: Boolean = false,
 ) {
   Row(modifier = modifier, horizontalArrangement = Arrangement.SpaceBetween) {
@@ -43,7 +42,12 @@ fun AxisCoordinate(
       isDiameterMode = isDiameterMode,
       modifier = Modifier.alignByBaseline()
     )
-    AxisLetter(uiModel = uiModel, isDiameterMode = isDiameterMode, onClick = toolOffsetsClicked)
+    AxisLetter(
+      axis = axis,
+      uiModel = uiModel,
+      isDiameterMode = isDiameterMode,
+      onClick = toolOffsetsClicked
+    )
 
     Position(
       positionType = PositionType.PRIMARY,
@@ -63,6 +67,7 @@ fun AxisCoordinate(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AxisLetter(
+  axis: CoordinateAxis,
   uiModel: CoordinateUiModel,
   isDiameterMode: Boolean,
   onClick: () -> Unit,
@@ -77,7 +82,7 @@ private fun AxisLetter(
   ) {
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
       Text(text = uiModel.axis.name, fontSize = 36.sp)
-      if (uiModel.axis == CoordinateUiModel.Axis.X && isDiameterMode) {
+      if (uiModel.axis == CoordinateAxis.X && isDiameterMode) {
         Text(
           modifier = Modifier.align(Alignment.TopEnd),
           text = "\u2300",

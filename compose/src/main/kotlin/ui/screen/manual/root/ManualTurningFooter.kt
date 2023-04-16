@@ -25,7 +25,6 @@ fun ManualTurningFooter(
 
   Row(modifier = modifier, horizontalArrangement = Arrangement.Start) {
     Button(
-      modifier = Modifier.width(200.dp),
       onClick = {
         screenModel.openNumPad(InputType.WORKPIECE_ZERO_COORDINATE) {
           screenModel.setWorkpieceZ(it)

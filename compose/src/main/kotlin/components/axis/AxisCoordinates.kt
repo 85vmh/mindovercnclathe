@@ -12,16 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import ui.screen.manual.root.CoordinateUiModel
 
 private val axisItemModifier = Modifier.fillMaxWidth().height(80.dp).padding(8.dp)
 
 @Composable
 fun AxisCoordinates(
-  xCoordinate: CoordinateUiModel,
-  zCoordinate: CoordinateUiModel,
+  uiData: CoordinatesUiData,
   xToolOffsetsClicked: () -> Unit,
   zToolOffsetsClicked: () -> Unit,
   onZeroPosX: () -> Unit,
@@ -29,7 +26,6 @@ fun AxisCoordinates(
   onToggleAbsRelX: () -> Unit,
   onToggleAbsRelZ: () -> Unit,
   modifier: Modifier = Modifier,
-  axisCoordinateHeight: Dp = 60.dp,
 ) {
   Surface(
     modifier = modifier,
@@ -38,23 +34,36 @@ fun AxisCoordinates(
     color = MaterialTheme.colorScheme.surfaceVariant
   ) {
     Column {
-      AxisCoordinate(
-        xCoordinate,
-        setHeight = axisCoordinateHeight,
-        isDiameterMode = true,
-        zeroPosClicked = onZeroPosX,
-        absRelClicked = onToggleAbsRelX,
-        toolOffsetsClicked = xToolOffsetsClicked,
-        modifier = axisItemModifier,
-      )
-      AxisCoordinate(
-        zCoordinate,
-        setHeight = axisCoordinateHeight,
-        zeroPosClicked = onZeroPosZ,
-        absRelClicked = onToggleAbsRelZ,
-        toolOffsetsClicked = zToolOffsetsClicked,
-        modifier = axisItemModifier,
-      )
+      uiData.x?.let { xCoordinate ->
+        AxisCoordinate(
+          CoordinateAxis.X,
+          uiModel = xCoordinate,
+          isDiameterMode = true,
+          zeroPosClicked = onZeroPosX,
+          absRelClicked = onToggleAbsRelX,
+          toolOffsetsClicked = xToolOffsetsClicked,
+          modifier = axisItemModifier,
+        )
+      }
+      //      uiData.y?.let {
+      //        AxisCoordinate(
+      //          CoordinateAxis.Y,
+      //          zeroPosClicked = onZeroPosZ,
+      //          absRelClicked = onToggleAbsRelZ,
+      //          toolOffsetsClicked = zToolOffsetsClicked,
+      //          modifier = axisItemModifier,
+      //        )
+      //      }
+      uiData.z?.let { zCoordinate ->
+        AxisCoordinate(
+          CoordinateAxis.Z,
+          uiModel = zCoordinate,
+          zeroPosClicked = onZeroPosZ,
+          absRelClicked = onToggleAbsRelZ,
+          toolOffsetsClicked = zToolOffsetsClicked,
+          modifier = axisItemModifier,
+        )
+      }
     }
   }
 }

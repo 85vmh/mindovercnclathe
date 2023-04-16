@@ -27,8 +27,7 @@ fun ManualTurningContent(
     modifier = modifier
   ) {
     AxisCoordinates(
-      state.xCoordinateUiModel,
-      state.zCoordinateUiModel,
+      state.axisCoordinates,
       xToolOffsetsClicked = {
         screenModel.openNumPad(
           inputType = InputType.TOOL_X_COORDINATE,
