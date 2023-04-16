@@ -32,13 +32,13 @@ fun FeedStatusView(uiModel: FeedUiModel, onClick: () -> Unit, modifier: Modifier
     Column {
       SettingStatusRow("Mode:", feed.mode, modifier = settingsModifier)
       SettingStatusRow(
-        "Set feed:",
+        "Set:",
         uiModel.setFeed.toFixedDigitsString(),
         feed.units,
         modifier = settingsModifier
       )
       SettingStatusRow(
-        "Actual feed:",
+        "Actual:",
         uiModel.actualFeed.toFixedDigitsString(),
         feed.units,
         modifier = settingsModifier

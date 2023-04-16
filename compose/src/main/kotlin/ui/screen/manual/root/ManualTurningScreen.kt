@@ -21,8 +21,10 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import components.AxisCoordinate
 import di.rememberScreenModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import screen.composables.InputDialogView
+import screen.composables.VerticalDivider
 import screen.uimodel.InputType
 import screen.uimodel.SimpleCycle
 import ui.screen.manual.Manual
@@ -35,8 +37,9 @@ private val axisItemModifier = Modifier.fillMaxWidth().height(80.dp).padding(8.d
 
 class ManualTurningScreen : Manual("Manual Turning") {
 
-  override val drawerEnabled: Boolean
-    @Composable get() = false
+    @OptIn(ExperimentalMaterialApi::class)
+    override val drawerEnabled: Boolean
+        get() = !sheetState.isVisible
 
   @OptIn(ExperimentalMaterial3Api::class)
   @Composable
@@ -81,7 +84,7 @@ class ManualTurningScreen : Manual("Manual Turning") {
     state.wcsUiModel?.let {
       IconButton(
         modifier = iconButtonModifier,
-        onClick = { scope.launch { TODO("show dialog") } }
+        onClick = { scope.launch { TODO("show sheet") } }
       ) {
         BadgedBox(
           badge = {
@@ -151,19 +154,6 @@ class ManualTurningScreen : Manual("Manual Turning") {
         onToggleAbsRelX = screenModel::toggleXAbsRel,
         onToggleAbsRelZ = screenModel::toggleZAbsRel,
       )
-
-      //            Box(modifier = Modifier.fillMaxSize()) {
-      //                Canvas(modifier = Modifier.fillMaxSize()) {
-      //                    CenterLineActor()
-      //                        .translateTo(
-      //                            Offset(0f, this.size.height / 2f)
-      //                        )
-      //                        .drawInto(this)
-      //                }
-      //                ChuckView(modifier = Modifier.absoluteOffset(x = 30.dp, y = 100.dp)) {
-      //
-      //                }
-      //            }
 
       Row(
         modifier = Modifier.fillMaxWidth().padding(8.dp),
@@ -261,6 +251,7 @@ private fun AxisCoordinates(
 ) {
   Surface(
     modifier = modifier,
+    shape = RoundedCornerShape(bottomEnd = 8.dp),
     border = BorderStroke(0.5.dp, SolidColor(Color.DarkGray)),
     color = MaterialTheme.colorScheme.surfaceVariant
   ) {
@@ -272,7 +263,7 @@ private fun AxisCoordinates(
         zeroPosClicked = onZeroPosX,
         absRelClicked = onToggleAbsRelX,
         toolOffsetsClicked = xToolOffsetsClicked,
-        modifier = axisItemModifier
+        modifier = axisItemModifier,
       )
       AxisCoordinate(
         zCoordinate,
@@ -280,7 +271,7 @@ private fun AxisCoordinates(
         zeroPosClicked = onZeroPosZ,
         absRelClicked = onToggleAbsRelZ,
         toolOffsetsClicked = zToolOffsetsClicked,
-        modifier = axisItemModifier
+        modifier = axisItemModifier,
       )
     }
   }

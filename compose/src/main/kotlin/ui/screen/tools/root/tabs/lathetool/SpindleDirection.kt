@@ -23,7 +23,7 @@ fun SpindleDirection(
   selectedDirection: SpindleDirection? = null,
   onDirectionSelected: (SpindleDirection) -> Unit
 ) {
-  val itemModifier = Modifier.width(40.dp).height(50.dp)
+  val itemModifier = Modifier.size(50.dp)
   val items = remember {
     listOf(SpindleDirection.Reverse, SpindleDirection.Both, SpindleDirection.Forward)
   }
@@ -63,9 +63,9 @@ fun DirectionItem(
       else -> LocalContentColor.current
     }
 
-  Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier) {
+  Box(contentAlignemtn = Alignment.Center, modifier = modifier) {
     Icon(
-      modifier = Modifier.size(30.dp),
+      modifier = Modifier.size(50.dp),
       painter = painterResource(fileName),
       tint = selectedTint,
       contentDescription = "",

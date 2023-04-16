@@ -6,7 +6,7 @@ data class CoordinateUiModel(
   val axis: Axis,
   val primaryValue: Double,
   val secondaryValue: Double? = null,
-  val isIncremental: Boolean = false,
+  val isIncremental: Boolean = secondaryValue != null,
   val units: String = "mm",
   val displayDigits: Int = 3
 ) {
