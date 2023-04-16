@@ -41,13 +41,14 @@ class ManualTurningScreen : Manual("Manual Turning") {
     val items = remember { SimpleCycle.values() }
 
     Text(
-      modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+      modifier = Modifier.fillMaxWidth().padding(16.dp),
       textAlign = TextAlign.Center,
       text = "Simple Cycles",
       style = MaterialTheme.typography.headlineSmall,
     )
-    Divider(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp))
-    SimpleCyclesList(
+    Divider(modifier = Modifier.fillMaxWidth().padding())
+
+    SimpleCyclesGrid(
       items = items,
       onCycleSelected = {
         scope.launch {

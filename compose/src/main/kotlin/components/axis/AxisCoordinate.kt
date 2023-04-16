@@ -4,10 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,7 +32,7 @@ fun AxisCoordinate(
   modifier: Modifier = Modifier,
   isDiameterMode: Boolean = false,
 ) {
-  Row(modifier = modifier, horizontalArrangement = Arrangement.SpaceBetween) {
+  Row(modifier = modifier, horizontalArrangement = Arrangement.SpaceEvenly) {
     Position(
       positionType = PositionType.SECONDARY,
       uiModel = uiModel,
@@ -60,7 +57,11 @@ fun AxisCoordinate(
 
     ZeroPos(onClick = zeroPosClicked)
 
-    AbsRel(onClick = absRelClicked, modifier = Modifier.padding(start = 16.dp))
+    AbsRel(
+      onClick = absRelClicked,
+      isIncremental = uiModel.isIncremental,
+      modifier = Modifier.padding(start = 16.dp)
+    )
   }
 }
 
@@ -157,6 +158,7 @@ private fun ZeroPos(onClick: () -> Unit, modifier: Modifier = Modifier) {
     onClick = onClick,
     shadowElevation = 16.dp
   ) {
+    val color = LocalContentColor.current
     Canvas(modifier = Modifier.fillMaxSize()) {
       drawLine(
         start =
@@ -173,7 +175,7 @@ private fun ZeroPos(onClick: () -> Unit, modifier: Modifier = Modifier) {
               ZeroPosTokens.distanceBetweenLines.toPx() / 2,
             0f + ZeroPosTokens.innerPadding.toPx()
           ),
-        color = ZeroPosTokens.linesColor,
+        color = color,
         cap = ZeroPosTokens.linesCap,
         strokeWidth = ZeroPosTokens.lineThickness.toPx()
       )
@@ -188,7 +190,7 @@ private fun ZeroPos(onClick: () -> Unit, modifier: Modifier = Modifier) {
             this.size.width - ZeroPosTokens.innerPadding.toPx(),
             0f + ZeroPosTokens.innerPadding.toPx() + ZeroPosTokens.distanceBetweenLines.toPx() / 2
           ),
-        color = ZeroPosTokens.linesColor,
+        color = color,
         cap = ZeroPosTokens.linesCap,
         strokeWidth = ZeroPosTokens.lineThickness.toPx()
       )
@@ -198,7 +200,7 @@ private fun ZeroPos(onClick: () -> Unit, modifier: Modifier = Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AbsRel(onClick: () -> Unit, modifier: Modifier = Modifier) {
+private fun AbsRel(onClick: () -> Unit, isIncremental: Boolean, modifier: Modifier = Modifier) {
   Surface(
     shape = RoundedCornerShape(8.dp),
     modifier = modifier.size(60.dp),
@@ -217,14 +219,19 @@ private fun AbsRel(onClick: () -> Unit, modifier: Modifier = Modifier) {
           )
         }
     ) {
+      val color = LocalContentColor.current
+      val absColor = if (!isIncremental) color else color.copy(alpha = 0.2f)
+      val incColor = if (isIncremental) color else color.copy(alpha = 0.2f)
       Text(
         text = "ABS",
+        color = absColor,
         style = MaterialTheme.typography.bodyMedium,
         modifier =
           Modifier.align(Alignment.TopStart).padding(start = textPadding, top = textPadding)
       )
       Text(
         text = "INC",
+        color = incColor,
         style = MaterialTheme.typography.bodyMedium,
         modifier =
           Modifier.align(Alignment.BottomEnd).padding(end = textPadding, bottom = textPadding)
