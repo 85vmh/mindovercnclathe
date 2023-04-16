@@ -1,9 +1,13 @@
-package components
+package components.axis
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,26 +18,13 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import components.ZeroPosTokens.distanceBetweenLines
-import components.ZeroPosTokens.innerPadding
-import components.ZeroPosTokens.lineThickness
-import components.ZeroPosTokens.linesCap
-import components.ZeroPosTokens.linesColor
+import components.ZeroPosTokens
 import extensions.toFixedDigitsString
 import themes.ComposeFonts
 import ui.screen.manual.root.CoordinateUiModel
 
-private enum class PositionType(val fontSize: TextUnit, val width: Dp) {
-  PRIMARY(50.sp, 300.dp),
-  SECONDARY(18.sp, 110.dp),
-}
-
-private val imageShape = RoundedCornerShape(6.dp)
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AxisCoordinate(
   uiModel: CoordinateUiModel,
@@ -165,32 +156,36 @@ private fun ZeroPos(onClick: () -> Unit, modifier: Modifier = Modifier) {
       drawLine(
         start =
           Offset(
-            0f + innerPadding.toPx(),
-            this.size.height - innerPadding.toPx() - distanceBetweenLines.toPx() / 2
+            0f + ZeroPosTokens.innerPadding.toPx(),
+            this.size.height -
+              ZeroPosTokens.innerPadding.toPx() -
+              ZeroPosTokens.distanceBetweenLines.toPx() / 2
           ),
         end =
           Offset(
-            this.size.width - innerPadding.toPx() - distanceBetweenLines.toPx() / 2,
-            0f + innerPadding.toPx()
+            this.size.width -
+              ZeroPosTokens.innerPadding.toPx() -
+              ZeroPosTokens.distanceBetweenLines.toPx() / 2,
+            0f + ZeroPosTokens.innerPadding.toPx()
           ),
-        color = linesColor,
-        cap = linesCap,
-        strokeWidth = lineThickness.toPx()
+        color = ZeroPosTokens.linesColor,
+        cap = ZeroPosTokens.linesCap,
+        strokeWidth = ZeroPosTokens.lineThickness.toPx()
       )
       drawLine(
         start =
           Offset(
-            0f + innerPadding.toPx() + distanceBetweenLines.toPx() / 2,
-            this.size.height - innerPadding.toPx()
+            0f + ZeroPosTokens.innerPadding.toPx() + ZeroPosTokens.distanceBetweenLines.toPx() / 2,
+            this.size.height - ZeroPosTokens.innerPadding.toPx()
           ),
         end =
           Offset(
-            this.size.width - innerPadding.toPx(),
-            0f + innerPadding.toPx() + distanceBetweenLines.toPx() / 2
+            this.size.width - ZeroPosTokens.innerPadding.toPx(),
+            0f + ZeroPosTokens.innerPadding.toPx() + ZeroPosTokens.distanceBetweenLines.toPx() / 2
           ),
-        color = linesColor,
-        cap = linesCap,
-        strokeWidth = lineThickness.toPx()
+        color = ZeroPosTokens.linesColor,
+        cap = ZeroPosTokens.linesCap,
+        strokeWidth = ZeroPosTokens.lineThickness.toPx()
       )
     }
   }

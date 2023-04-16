@@ -5,17 +5,20 @@ import java.util.logging.Logger
 
 object CncInitializer {
 
-  private val logger = Logger.getLogger("CncInitializer")
+  private val LOG = Logger.getLogger("CncInitializer")
   private const val libName = "libLinuxCNC.so"
 
   /** Extract .so file into the destination folder */
   operator fun invoke(destFolder: File): File {
     val destFile = File(destFolder, libName)
     if (!destFile.exists()) {
-      logger.info("Copy $libName to $destFolder")
-      CncInitializer::class.java.classLoader.getResourceAsStream(libName).use {
-        it.copyTo(destFile.outputStream())
-      }
+      LOG.info("Copy $libName to $destFolder")
+
+      val resourceStream = CncInitializer::class.java.classLoader.getResourceAsStream(libName)
+
+      requireNotNull(resourceStream) { "$libName not found" }
+
+      resourceStream.use { inputStream -> inputStream.copyTo(destFile.outputStream()) }
     }
     // System.loadLibrary("linuxcncini");
     System.loadLibrary("nml")
