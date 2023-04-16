@@ -21,318 +21,287 @@ import extensions.stripZeros
 import extensions.toFixedDigitsString
 import screen.composables.SettingStatusRow
 import ui.screen.tools.root.tabs.lathetool.DirectionItem
-import ui.screen.tools.root.tabs.lathetool.TipOrientation
-
 
 @Composable
 internal fun LatheToolView(
-    modifier: Modifier = Modifier,
-    latheTool: LatheTool,
-    isSelected: Boolean = false,
-    onSelected: (LatheTool) -> Unit = {}
+  modifier: Modifier = Modifier,
+  latheTool: LatheTool,
+  isSelected: Boolean = false,
+  onSelected: (LatheTool) -> Unit = {}
 ) {
-    val selectedItemColor = if (isSelected) Color.LightGray else Color.Unspecified
+  val selectedItemColor = if (isSelected) Color.LightGray else Color.Unspecified
 
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(selectedItemColor)
-            .clickable { onSelected.invoke(latheTool) },
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            modifier = Modifier.padding(end = 8.dp),
-            text = "#${latheTool.toolId}",
-            style = MaterialTheme.typography.bodyLarge,
-        )
-        Column(modifier = Modifier.weight(1f)) {
-            when (latheTool) {
-                is LatheTool.Turning -> TurningToolView(latheTool)
-                is LatheTool.Boring -> BoringToolView(latheTool)
-                is LatheTool.Parting -> PartingToolView(latheTool)
-                is LatheTool.Grooving -> GroovingToolView(latheTool)
-                is LatheTool.Drilling -> DrillingToolView(latheTool)
-                is LatheTool.Reaming -> ReamingToolView(latheTool)
-                is LatheTool.OdThreading -> ODThreadingToolView(latheTool)
-                is LatheTool.IdThreading -> IDThreadingToolView(latheTool)
-                is LatheTool.Slotting -> SlottingToolView(latheTool)
-            }
-        }
-        val iconsModifier = Modifier
-            .padding(2.dp)
-            .size(40.dp)
-            .border(border = BorderStroke(1.dp, Color.LightGray), shape = RoundedCornerShape(4.dp))
-            .padding(4.dp)
-        TipOrientation(
-            modifier = iconsModifier,
-            orientation = latheTool.tipOrientation,
-        )
-        DirectionItem(
-            modifier = iconsModifier,
-            spindleDirection = latheTool.spindleDirection
-        )
+  Row(
+    modifier =
+      modifier.fillMaxWidth().background(selectedItemColor).clickable {
+        onSelected.invoke(latheTool)
+      },
+    verticalAlignment = Alignment.CenterVertically,
+  ) {
+    Text(
+      modifier = Modifier.padding(end = 8.dp),
+      text = "#${latheTool.toolId}",
+      style = MaterialTheme.typography.bodyLarge,
+    )
+    Column(modifier = Modifier.weight(1f)) {
+      when (latheTool) {
+        is LatheTool.Turning -> TurningToolView(latheTool)
+        is LatheTool.Boring -> BoringToolView(latheTool)
+        is LatheTool.Parting -> PartingToolView(latheTool)
+        is LatheTool.Grooving -> GroovingToolView(latheTool)
+        is LatheTool.Drilling -> DrillingToolView(latheTool)
+        is LatheTool.Reaming -> ReamingToolView(latheTool)
+        is LatheTool.OdThreading -> ODThreadingToolView(latheTool)
+        is LatheTool.IdThreading -> IDThreadingToolView(latheTool)
+        is LatheTool.Slotting -> SlottingToolView(latheTool)
+      }
     }
+    val iconsModifier =
+      Modifier.padding(2.dp)
+        .size(40.dp)
+        .border(border = BorderStroke(1.dp, Color.LightGray), shape = RoundedCornerShape(4.dp))
+        .padding(4.dp)
+
+    /* TODO replace with something.
+    TipOrientation(
+      modifier = iconsModifier,
+      orientation = latheTool.tipOrientation,
+    )*/
+    DirectionItem(modifier = iconsModifier, spindleDirection = latheTool.spindleDirection)
+  }
 }
 
 @Composable
 internal fun TurningToolView(tool: LatheTool.Turning) {
-    Column {
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(
-                text = "Turning",
-                style = MaterialTheme.typography.labelLarge
-            )
-            cuttingInsertView(tool.insert)
-        }
+  Column {
+    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+      Text(text = "Turning", style = MaterialTheme.typography.labelLarge)
+      cuttingInsertView(tool.insert)
     }
+  }
 }
 
 @Composable
 internal fun BoringToolView(tool: LatheTool.Boring) {
-    Column {
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(
-                text = "Boring",
-                style = MaterialTheme.typography.labelLarge
-            )
-            cuttingInsertView(tool.insert)
-        }
-        val settingsRowModifier = Modifier.width(300.dp)
-        Spacer(modifier = Modifier.height(4.dp))
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Min Bore Diameter:",
-            settingValue = tool.minBoreDiameter.toFixedDigitsString(1),
-            settingUnit = "mm"
-        )
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Max Z Depth:",
-            settingValue = tool.maxZDepth.toFixedDigitsString(1),
-            settingUnit = "mm"
-        )
+  Column {
+    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+      Text(text = "Boring", style = MaterialTheme.typography.labelLarge)
+      cuttingInsertView(tool.insert)
     }
+    val settingsRowModifier = Modifier.width(300.dp)
+    Spacer(modifier = Modifier.height(4.dp))
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Min Bore Diameter:",
+      settingValue = tool.minBoreDiameter.toFixedDigitsString(1),
+      settingUnit = "mm"
+    )
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Max Z Depth:",
+      settingValue = tool.maxZDepth.toFixedDigitsString(1),
+      settingUnit = "mm"
+    )
+  }
 }
 
 @Composable
 internal fun PartingToolView(tool: LatheTool.Parting) {
-    Column {
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(
-                text = "Parting",
-                style = MaterialTheme.typography.labelLarge
-            )
-            cuttingInsertView(tool.insert)
-        }
-        val settingsRowModifier = Modifier.width(300.dp)
-        Spacer(modifier = Modifier.height(4.dp))
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Blade Width:",
-            settingValue = tool.bladeWidth.stripZeros(),
-            settingUnit = "mm"
-        )
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Max X Depth:",
-            settingValue = tool.maxXDepth.stripZeros(),
-            settingUnit = "mm"
-        )
+  Column {
+    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+      Text(text = "Parting", style = MaterialTheme.typography.labelLarge)
+      cuttingInsertView(tool.insert)
     }
+    val settingsRowModifier = Modifier.width(300.dp)
+    Spacer(modifier = Modifier.height(4.dp))
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Blade Width:",
+      settingValue = tool.bladeWidth.stripZeros(),
+      settingUnit = "mm"
+    )
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Max X Depth:",
+      settingValue = tool.maxXDepth.stripZeros(),
+      settingUnit = "mm"
+    )
+  }
 }
 
 @Composable
 internal fun GroovingToolView(tool: LatheTool.Grooving) {
-    Column {
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(
-                text = "Grooving",
-                style = MaterialTheme.typography.labelLarge
-            )
-            cuttingInsertView(tool.insert)
-        }
-        val settingsRowModifier = Modifier.width(300.dp)
-        Spacer(modifier = Modifier.height(4.dp))
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Blade Width:",
-            settingValue = tool.bladeWidth.stripZeros(),
-            settingUnit = "mm"
-        )
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Max X Depth:",
-            settingValue = tool.maxXDepth.stripZeros(),
-            settingUnit = "mm"
-        )
+  Column {
+    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+      Text(text = "Grooving", style = MaterialTheme.typography.labelLarge)
+      cuttingInsertView(tool.insert)
     }
+    val settingsRowModifier = Modifier.width(300.dp)
+    Spacer(modifier = Modifier.height(4.dp))
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Blade Width:",
+      settingValue = tool.bladeWidth.stripZeros(),
+      settingUnit = "mm"
+    )
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Max X Depth:",
+      settingValue = tool.maxXDepth.stripZeros(),
+      settingUnit = "mm"
+    )
+  }
 }
 
 @Composable
 internal fun DrillingToolView(tool: LatheTool.Drilling) {
-    Column {
-        Text(
-            text = "Drilling",
-            style = MaterialTheme.typography.labelLarge
-        )
-        val settingsRowModifier = Modifier.width(300.dp)
-        Spacer(modifier = Modifier.height(4.dp))
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Diameter:",
-            settingValue = tool.toolDiameter.stripZeros(),
-            settingUnit = "mm"
-        )
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Max Z Depth:",
-            settingValue = tool.maxZDepth.stripZeros(),
-            settingUnit = "mm"
-        )
-    }
+  Column {
+    Text(text = "Drilling", style = MaterialTheme.typography.labelLarge)
+    val settingsRowModifier = Modifier.width(300.dp)
+    Spacer(modifier = Modifier.height(4.dp))
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Diameter:",
+      settingValue = tool.toolDiameter.stripZeros(),
+      settingUnit = "mm"
+    )
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Max Z Depth:",
+      settingValue = tool.maxZDepth.stripZeros(),
+      settingUnit = "mm"
+    )
+  }
 }
 
 @Composable
 internal fun ReamingToolView(tool: LatheTool.Reaming) {
-    Column {
-        Text(
-            text = "Drilling",
-            style = MaterialTheme.typography.labelLarge
-        )
-        val settingsRowModifier = Modifier.width(300.dp)
-        Spacer(modifier = Modifier.height(4.dp))
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Diameter:",
-            settingValue = tool.toolDiameter.stripZeros(),
-            settingUnit = "mm"
-        )
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Max Z Depth:",
-            settingValue = tool.maxZDepth.stripZeros(),
-            settingUnit = "mm"
-        )
-    }
+  Column {
+    Text(text = "Drilling", style = MaterialTheme.typography.labelLarge)
+    val settingsRowModifier = Modifier.width(300.dp)
+    Spacer(modifier = Modifier.height(4.dp))
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Diameter:",
+      settingValue = tool.toolDiameter.stripZeros(),
+      settingUnit = "mm"
+    )
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Max Z Depth:",
+      settingValue = tool.maxZDepth.stripZeros(),
+      settingUnit = "mm"
+    )
+  }
 }
 
 @Composable
 internal fun ODThreadingToolView(tool: LatheTool.OdThreading) {
-    Column {
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(
-                text = "OD Threading",
-                style = MaterialTheme.typography.labelLarge
-            )
-            cuttingInsertView(tool.insert)
-        }
-        val settingsRowModifier = Modifier.width(300.dp)
-        Spacer(modifier = Modifier.height(4.dp))
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Min Pitch:",
-            settingValue = tool.minPitch.stripZeros(),
-            settingUnit = "mm"
-        )
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Max Pitch:",
-            settingValue = tool.maxPitch.stripZeros(),
-            settingUnit = "mm"
-        )
+  Column {
+    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+      Text(text = "OD Threading", style = MaterialTheme.typography.labelLarge)
+      cuttingInsertView(tool.insert)
     }
+    val settingsRowModifier = Modifier.width(300.dp)
+    Spacer(modifier = Modifier.height(4.dp))
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Min Pitch:",
+      settingValue = tool.minPitch.stripZeros(),
+      settingUnit = "mm"
+    )
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Max Pitch:",
+      settingValue = tool.maxPitch.stripZeros(),
+      settingUnit = "mm"
+    )
+  }
 }
 
 @Composable
 internal fun IDThreadingToolView(tool: LatheTool.IdThreading) {
-    Column {
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(
-                text = "ID Threading",
-                style = MaterialTheme.typography.labelLarge
-            )
-            cuttingInsertView(tool.insert)
-        }
-        val settingsRowModifier = Modifier.width(300.dp)
-        Spacer(modifier = Modifier.height(4.dp))
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Min Pitch:",
-            settingValue = tool.minPitch.stripZeros(),
-            settingUnit = "mm"
-        )
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Max Pitch:",
-            settingValue = tool.maxPitch.stripZeros(),
-            settingUnit = "mm"
-        )
-        tool.maxZDepth?.let {
-            SettingStatusRow(
-                modifier = settingsRowModifier,
-                settingText = "Max Z Depth:",
-                settingValue = it.stripZeros(),
-                settingUnit = "mm"
-            )
-        }
+  Column {
+    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+      Text(text = "ID Threading", style = MaterialTheme.typography.labelLarge)
+      cuttingInsertView(tool.insert)
     }
+    val settingsRowModifier = Modifier.width(300.dp)
+    Spacer(modifier = Modifier.height(4.dp))
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Min Pitch:",
+      settingValue = tool.minPitch.stripZeros(),
+      settingUnit = "mm"
+    )
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Max Pitch:",
+      settingValue = tool.maxPitch.stripZeros(),
+      settingUnit = "mm"
+    )
+    tool.maxZDepth?.let {
+      SettingStatusRow(
+        modifier = settingsRowModifier,
+        settingText = "Max Z Depth:",
+        settingValue = it.stripZeros(),
+        settingUnit = "mm"
+      )
+    }
+  }
 }
 
 @Composable
 internal fun SlottingToolView(tool: LatheTool.Slotting) {
-    Column {
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(
-                text = "Slotting",
-                style = MaterialTheme.typography.labelLarge
-            )
-            tool.insert?.let {
-                cuttingInsertView(it)
-            }
-        }
-        val settingsRowModifier = Modifier.width(300.dp)
-        Spacer(modifier = Modifier.height(4.dp))
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Blade Width:",
-            settingValue = tool.bladeWidth.stripZeros(),
-            settingUnit = "mm"
-        )
-        SettingStatusRow(
-            modifier = settingsRowModifier,
-            settingText = "Max Z Depth:",
-            settingValue = tool.maxZDepth.stripZeros(),
-            settingUnit = "mm"
-        )
+  Column {
+    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+      Text(text = "Slotting", style = MaterialTheme.typography.labelLarge)
+      tool.insert?.let { cuttingInsertView(it) }
     }
+    val settingsRowModifier = Modifier.width(300.dp)
+    Spacer(modifier = Modifier.height(4.dp))
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Blade Width:",
+      settingValue = tool.bladeWidth.stripZeros(),
+      settingUnit = "mm"
+    )
+    SettingStatusRow(
+      modifier = settingsRowModifier,
+      settingText = "Max Z Depth:",
+      settingValue = tool.maxZDepth.stripZeros(),
+      settingUnit = "mm"
+    )
+  }
 }
 
 @Composable
 internal fun cuttingInsertView(insert: CuttingInsert) {
-    val cuttingTipText = when (insert.madeOf) {
-        MadeOf.Carbide, MadeOf.Ceramic, MadeOf.Cbn, MadeOf.Diamond -> insert.code ?: "----"
-        else -> "Custom Ground"
+  val cuttingTipText =
+    when (insert.madeOf) {
+      MadeOf.Carbide,
+      MadeOf.Ceramic,
+      MadeOf.Cbn,
+      MadeOf.Diamond -> insert.code ?: "----"
+      else -> "Custom Ground"
     }
 
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(
-            text = cuttingTipText,
-            style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = "(${insert.tipAngle.stripZeros()}°)",
-            style = MaterialTheme.typography.labelLarge
-        )
-        Text(
-            modifier = Modifier.padding(start = 8.dp),
-            text = "r${insert.tipRadius}",
-            style = MaterialTheme.typography.labelLarge
-        )
-        Text(
-            modifier = Modifier.padding(start = 8.dp),
-            text = "${insert.madeOf}",
-            style = MaterialTheme.typography.labelLarge
-        )
-    }
+  Row(verticalAlignment = Alignment.CenterVertically) {
+    Text(
+      text = cuttingTipText,
+      style = MaterialTheme.typography.labelLarge,
+      fontWeight = FontWeight.Bold
+    )
+    Text(text = "(${insert.tipAngle.stripZeros()}°)", style = MaterialTheme.typography.labelLarge)
+    Text(
+      modifier = Modifier.padding(start = 8.dp),
+      text = "r${insert.tipRadius}",
+      style = MaterialTheme.typography.labelLarge
+    )
+    Text(
+      modifier = Modifier.padding(start = 8.dp),
+      text = "${insert.madeOf}",
+      style = MaterialTheme.typography.labelLarge
+    )
+  }
 }

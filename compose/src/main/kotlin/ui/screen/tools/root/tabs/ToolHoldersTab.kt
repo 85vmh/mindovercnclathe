@@ -150,10 +150,11 @@ private fun ToolHolderView(
       }
       VerticalDivider()
       Column(modifier = Modifier.weight(1f).padding(horizontal = 8.dp)) {
-        if (item.latheTool != null) {
-          LatheToolView(latheTool = item.latheTool)
+        val latheTool = item.latheTool
+        if (latheTool != null) {
+          LatheToolView(latheTool = latheTool)
         } else {
-          Button(onClick = {onMountClicked.invoke(item)}) { Text("Mount a Tool") }
+          Button(onClick = { onMountClicked.invoke(item) }) { Text("Mount a Tool") }
         }
       }
       VerticalDivider()
@@ -194,6 +195,7 @@ fun HolderViewPreview() {
     isCurrent = true,
     onEditClicked = {},
     onDeleteClicked = {},
+    onMountClicked = {},
     onLoadClicked = {}
   )
 }

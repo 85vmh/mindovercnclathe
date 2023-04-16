@@ -21,10 +21,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import components.AxisCoordinate
 import di.rememberScreenModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import screen.composables.InputDialogView
-import screen.composables.VerticalDivider
 import screen.uimodel.InputType
 import screen.uimodel.SimpleCycle
 import ui.screen.manual.Manual
@@ -37,9 +35,8 @@ private val axisItemModifier = Modifier.fillMaxWidth().height(80.dp).padding(8.d
 
 class ManualTurningScreen : Manual("Manual Turning") {
 
-    @OptIn(ExperimentalMaterialApi::class)
-    override val drawerEnabled: Boolean
-        get() = !sheetState.isVisible
+  override val drawerEnabled: Boolean
+    @Composable get() = true
 
   @OptIn(ExperimentalMaterial3Api::class)
   @Composable
@@ -82,10 +79,7 @@ class ManualTurningScreen : Manual("Manual Turning") {
       }
 
     state.wcsUiModel?.let {
-      IconButton(
-        modifier = iconButtonModifier,
-        onClick = { scope.launch { TODO("show sheet") } }
-      ) {
+      IconButton(modifier = iconButtonModifier, onClick = { scope.launch { TODO("show sheet") } }) {
         BadgedBox(
           badge = {
             Badge(containerColor = MaterialTheme.colorScheme.secondary) {
@@ -204,8 +198,8 @@ class ManualTurningScreen : Manual("Manual Turning") {
       }
 
       Row(modifier = Modifier.height(60.dp)) {
-        HandWheelStatus(state.handWheelsUiModel)
-        JoystickStatus()
+        HandWheelStatus(uiModel = state.handWheelsUiModel)
+        JoystickStatus(isTaper = false)
       }
 
       Button(

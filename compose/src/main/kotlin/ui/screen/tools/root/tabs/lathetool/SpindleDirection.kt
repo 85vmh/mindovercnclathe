@@ -63,7 +63,7 @@ fun DirectionItem(
       else -> LocalContentColor.current
     }
 
-  Box(contentAlignemtn = Alignment.Center, modifier = modifier) {
+  Box(contentAlignment = Alignment.Center, modifier = modifier) {
     Icon(
       modifier = Modifier.size(50.dp),
       painter = painterResource(fileName),
