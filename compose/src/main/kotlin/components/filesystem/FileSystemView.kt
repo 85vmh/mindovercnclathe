@@ -1,10 +1,12 @@
 package components.filesystem
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.onClick
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -52,12 +54,29 @@ private fun FileSystemItemView(item: FileSystemItemData, modifier: Modifier = Mo
       else -> MaterialTheme.colorScheme.surfaceVariant
     }
 
-  Surface(color = color, onClick = item.onClick, modifier = modifier) {
-    Row(
-      modifier = Modifier.padding(start = 8.dp).fillMaxWidth().height(60.dp),
-      verticalAlignment = Alignment.CenterVertically,
-      horizontalArrangement = Arrangement.Start
-    ) {
+  ListItem(
+    modifier = modifier.clickable(onClick = item.onClick),
+    colors = ListItemDefaults.colors(containerColor = color),
+    headlineText = {
+      Text(
+        textAlign = TextAlign.Left,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Medium,
+        text = item.title
+      )
+    },
+    supportingText =
+      item.lastModified?.let { lastModified ->
+        {
+          Text(
+            textAlign = TextAlign.Left,
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Light,
+            text = millisToLastModified(lastModified)
+          )
+        }
+      },
+    leadingContent = {
       val resourcePath =
         when {
           item.isDirectory -> "folder-icon.png"
@@ -68,27 +87,8 @@ private fun FileSystemItemView(item: FileSystemItemData, modifier: Modifier = Mo
         contentDescription = "",
         bitmap = useResource(resourcePath) { loadImageBitmap(it) }
       )
-      Column(
-        modifier = Modifier.padding(start = 8.dp),
-        verticalArrangement = Arrangement.SpaceEvenly
-      ) {
-        Text(
-          textAlign = TextAlign.Left,
-          fontSize = 14.sp,
-          fontWeight = FontWeight.Medium,
-          text = item.title
-        )
-        if (item.lastModified != null) {
-          Text(
-            textAlign = TextAlign.Left,
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Light,
-            text = millisToLastModified(item.lastModified)
-          )
-        }
-      }
     }
-  }
+  )
 }
 
 private fun millisToLastModified(millis: Long): String {

@@ -6,6 +6,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,53 +24,61 @@ import extensions.toFixedDigitsString
 import screen.composables.SettingStatusRow
 import ui.screen.tools.root.tabs.lathetool.DirectionItem
 
+private val iconModifier =
+  Modifier.padding(2.dp)
+    .size(40.dp)
+    .border(border = BorderStroke(1.dp, Color.LightGray), shape = RoundedCornerShape(4.dp))
+    .padding(4.dp)
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun LatheToolView(
-  modifier: Modifier = Modifier,
   latheTool: LatheTool,
+  modifier: Modifier = Modifier,
+  onSelected: ((LatheTool) -> Unit)? = null,
   isSelected: Boolean = false,
-  onSelected: (LatheTool) -> Unit = {}
 ) {
   val selectedItemColor = if (isSelected) Color.LightGray else Color.Unspecified
 
-  Row(
-    modifier =
-      modifier.fillMaxWidth().background(selectedItemColor).clickable {
-        onSelected.invoke(latheTool)
-      },
-    verticalAlignment = Alignment.CenterVertically,
-  ) {
-    Text(
-      modifier = Modifier.padding(end = 8.dp),
-      text = "#${latheTool.toolId}",
-      style = MaterialTheme.typography.bodyLarge,
-    )
-    Column(modifier = Modifier.weight(1f)) {
-      when (latheTool) {
-        is LatheTool.Turning -> TurningToolView(latheTool)
-        is LatheTool.Boring -> BoringToolView(latheTool)
-        is LatheTool.Parting -> PartingToolView(latheTool)
-        is LatheTool.Grooving -> GroovingToolView(latheTool)
-        is LatheTool.Drilling -> DrillingToolView(latheTool)
-        is LatheTool.Reaming -> ReamingToolView(latheTool)
-        is LatheTool.OdThreading -> ODThreadingToolView(latheTool)
-        is LatheTool.IdThreading -> IDThreadingToolView(latheTool)
-        is LatheTool.Slotting -> SlottingToolView(latheTool)
-      }
-    }
-    val iconsModifier =
-      Modifier.padding(2.dp)
-        .size(40.dp)
-        .border(border = BorderStroke(1.dp, Color.LightGray), shape = RoundedCornerShape(4.dp))
-        .padding(4.dp)
+  var itemModifier = modifier.fillMaxWidth().background(selectedItemColor)
 
-    /* TODO replace with something.
-    TipOrientation(
-      modifier = iconsModifier,
-      orientation = latheTool.tipOrientation,
-    )*/
-    DirectionItem(modifier = iconsModifier, spindleDirection = latheTool.spindleDirection)
+  if (onSelected != null) {
+    itemModifier = itemModifier.clickable { onSelected.invoke(latheTool) }
   }
+
+  ListItem(
+    modifier = itemModifier,
+    leadingContent = {
+      Text(
+        modifier = Modifier.padding(end = 8.dp),
+        text = "#${latheTool.toolId}",
+        style = MaterialTheme.typography.bodyLarge,
+      )
+    },
+    headlineText = {
+      Column {
+        when (latheTool) {
+          is LatheTool.Turning -> TurningToolView(latheTool)
+          is LatheTool.Boring -> BoringToolView(latheTool)
+          is LatheTool.Parting -> PartingToolView(latheTool)
+          is LatheTool.Grooving -> GroovingToolView(latheTool)
+          is LatheTool.Drilling -> DrillingToolView(latheTool)
+          is LatheTool.Reaming -> ReamingToolView(latheTool)
+          is LatheTool.OdThreading -> ODThreadingToolView(latheTool)
+          is LatheTool.IdThreading -> IDThreadingToolView(latheTool)
+          is LatheTool.Slotting -> SlottingToolView(latheTool)
+        }
+      }
+    },
+    trailingContent = {
+      /* TODO replace with something.
+      TipOrientation(
+        modifier = iconsModifier,
+        orientation = latheTool.tipOrientation,
+      )*/
+      DirectionItem(modifier = iconModifier, spindleDirection = latheTool.spindleDirection)
+    }
+  )
 }
 
 @Composable
