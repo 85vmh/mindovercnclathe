@@ -4,9 +4,10 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -15,18 +16,34 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import canvas.*
 import org.jetbrains.skia.Paint
 
+private data class JoystickStatusSizes(
+    val centerRadius: Float,
+    val outerRadius: Float,
+    val textRadius: Float,
+)
+
+private val defaultColor = Color.DarkGray
 @Composable
 fun JoystickStatus(
     modifier: Modifier = Modifier.size(80.dp),
-    isTaper: Boolean
+    isTaper: Boolean,
 ) {
-    val defaultColor = Color.DarkGray
-    val centerRadius = 10f
-    val outerRadius = 40f
+    val density = LocalDensity.current
+
+    val sizes = remember(density) {
+        with(density){
+            JoystickStatusSizes(
+                centerRadius = 10.dp.toPx(),
+                outerRadius = 40.dp.toPx(),
+                textRadius = 45.dp.toPx(),
+            )
+        }
+    }
 
     val axisAngle: Float by animateFloatAsState(
         targetValue = if (isTaper) 45f else 0f,
@@ -39,13 +56,13 @@ fun JoystickStatus(
     Canvas(modifier = modifier) {
         drawCircle(
             center = center,
-            radius = centerRadius,
+            radius = sizes.centerRadius,
             color = defaultColor
         )
 
         drawCircle(
             center = center,
-            radius = outerRadius,
+            radius = sizes.outerRadius,
             color = defaultColor.copy(alpha = 0.2f),
             style = Stroke(width = 1f)
         )
@@ -54,7 +71,7 @@ fun JoystickStatus(
             AxisDirectionActor(
                 direction = it,
                 centerPoint = center,
-                length = outerRadius,
+                length = sizes.outerRadius,
                 axisColor = defaultColor
             )
                 .rotateBy(angle = axisAngle, pivot = center)
@@ -64,8 +81,8 @@ fun JoystickStatus(
         AxisTextActor(
             centerPoint = center,
             axisColor = defaultColor,
-            lineDrawRadius = 40f,
-            textDrawRadius = 45f
+            lineDrawRadius = sizes.outerRadius,
+            textDrawRadius = sizes.textRadius
         ).drawInto(this)
     }
 }

@@ -73,7 +73,7 @@ class ManualTurningScreen : Manual("Manual Turning") {
 
         state.wcsUiModel?.let { wcs ->
             ManualTurningSheet(
-                modifier = Modifier,
+                modifier = Modifier.fillMaxWidth(),
                 sheetState = sheetState,
                 wcsUiModel = wcs,
                 onOffsetClick = {
@@ -135,7 +135,6 @@ class ManualTurningScreen : Manual("Manual Turning") {
         val screenModel = rememberScreenModel<ManualTurningScreenModel>()
         val state by screenModel.state.collectAsState()
         val navigator = LocalNavigator.currentOrThrow
-        val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
         ManualTurningContent(screenModel, state, navigator)
 
