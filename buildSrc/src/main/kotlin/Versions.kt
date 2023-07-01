@@ -12,7 +12,7 @@ object Versions {
 
   const val ktlcnc = "0.0.2"
 
-  const val logging = "4.0.1"
+  const val logging = "3.0.5"
 
   object Grpc {
     const val plugin = "0.9.2"
