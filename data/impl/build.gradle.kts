@@ -4,7 +4,7 @@ version = "unspecified"
 
 dependencies {
   implementation(Libs.stdlib)
-  implementation(project(":repository"))
+  implementation(project(":data:repository"))
   implementation(project(":logger"))
   implementation(project(":dispatcher"))
   implementation(project(":ktlcnc"))

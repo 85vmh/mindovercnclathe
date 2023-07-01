@@ -38,9 +38,9 @@ dependencies {
   implementation(project(":database"))
   implementation(project(":dispatcher"))
   implementation(project(":editor"))
-  implementation(project(":impl"))
+  implementation(project(":data:impl"))
   implementation(project(":model"))
-  implementation(project(":repository"))
+  implementation(project(":data:repository"))
 
   implementation(project(":grpc"))
   implementation(Libs.Grpc.okhttp)

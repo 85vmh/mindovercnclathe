@@ -1,8 +1,8 @@
 rootProject.name = "MindOverCNC Lathe"
 include("compose")
-include("repository")
+include("data:repository")
 include("database")
-include("impl")
+include("data:impl")
 include("editor")
 include("logger")
 include("model")
