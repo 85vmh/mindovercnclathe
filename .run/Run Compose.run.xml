@@ -16,7 +16,7 @@
       <option name="taskNames">
         <list>
           <option value="run" />
-          <option value="--args=&quot;-tb configs/sim/axis/lathe.ini&quot;" />
+          <option value="--args=&quot;-tb configs/sim/axis/lathe.ini --legacy-communication&quot;" />
         </list>
       </option>
       <option name="vmOptions" />
@@ -24,6 +24,7 @@
     <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
     <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
     <DebugAllEnabled>false</DebugAllEnabled>
+    <ForceTestExec>false</ForceTestExec>
     <method v="2" />
   </configuration>
 </component>

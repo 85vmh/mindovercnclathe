@@ -82,31 +82,16 @@ private fun AxisLetter(
     shadowElevation = 16.dp
   ) {
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-      Text(text = uiModel.axis.name, fontSize = 36.sp)
+      Text(text = uiModel.axis.name, fontSize = 45.sp)
       if (uiModel.axis == CoordinateAxis.X && isDiameterMode) {
         Text(
-          modifier = Modifier.align(Alignment.TopEnd),
+          modifier = Modifier.align(Alignment.CenterEnd).padding(4.dp),
           text = "\u2300",
           textAlign = TextAlign.Right,
           fontSize = 20.sp,
         )
       }
     }
-  }
-}
-
-@Composable
-private fun SpacerOrDiameter(showDiameter: Boolean, modifier: Modifier = Modifier) {
-  val sizeToFill = 35.dp
-  if (showDiameter) {
-    Text(
-      modifier = modifier.width(sizeToFill).padding(top = 16.dp).fillMaxHeight(),
-      text = "\u2300",
-      textAlign = TextAlign.Center,
-      fontSize = 30.sp,
-    )
-  } else {
-    Spacer(modifier = modifier.width(sizeToFill))
   }
 }
 

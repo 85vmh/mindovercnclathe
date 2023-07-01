@@ -3,6 +3,8 @@ package ui.screen
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -19,6 +21,9 @@ abstract class AppScreen(title: String = "") : Screen {
     @Composable get() = false
 
   val iconButtonModifier = Modifier.size(48.dp)
+
+  @OptIn(ExperimentalMaterialApi::class)
+  val sheetState: ModalBottomSheetState = ModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
   val hasCustomTitle = title == ""
 
@@ -40,8 +45,7 @@ abstract class AppScreen(title: String = "") : Screen {
 
   @OptIn(ExperimentalMaterialApi::class)
   @Composable
-  @Deprecated("use AlertDialog instead", level = DeprecationLevel.ERROR)
-  open fun SheetContent() {
+  open fun SheetContent(sheetState: ModalBottomSheetState) {
     // by default, no content
   }
 

@@ -12,10 +12,10 @@ class TaskStatusFactory(
 ) : ParsingFactory<TaskStatus>(descriptor) {
 
   override fun parse(byteBuffer: ByteBuffer) = taskStatus {
-    taskMode = TaskMode.forNumber(byteBuffer.getIntForKey(Key.TaskMode)!!)!!
-    taskState = TaskState.forNumber(byteBuffer.getIntForKey(Key.TaskState)!!)!!
-    execState = TaskExecState.forNumber(byteBuffer.getIntForKey(Key.ExecState)!!)!!
-    interpreterState = InterpreterState.forNumber(byteBuffer.getIntForKey(Key.InterpreterState)!!)!!
+    taskMode = TaskMode.forNumber(byteBuffer.getIntForKey(Key.TaskMode)!! - 1)!!
+    taskState = TaskState.forNumber(byteBuffer.getIntForKey(Key.TaskState)!! - 1)!! //enums start from 0, in linuxcnc it starts from 1
+    execState = TaskExecState.forNumber(byteBuffer.getIntForKey(Key.ExecState)!! - 1)!!
+    interpreterState = InterpreterState.forNumber(byteBuffer.getIntForKey(Key.InterpreterState)!! - 1)!!
     subroutineCallLevel = byteBuffer.getIntForKey(Key.SubroutineCallLevel)!!
     motionLine = byteBuffer.getIntForKey(Key.MotionLine)!!
     readLine = byteBuffer.getIntForKey(Key.ReadLine)!!

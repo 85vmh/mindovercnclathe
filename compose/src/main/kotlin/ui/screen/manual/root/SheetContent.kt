@@ -18,37 +18,37 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun ManualTurningSheet(
-  sheetState: ModalBottomSheetState,
-  wcsUiModel: WcsUiModel,
-  onOffsetClick: (String) -> Unit,
-  modifier: Modifier = Modifier
+    sheetState: ModalBottomSheetState,
+    wcsUiModel: WcsUiModel,
+    onOffsetClick: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-  val scope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
 
-  val wcsOffsets: List<WcsOffset> = wcsUiModel.wcsOffsets
-  val selected = wcsUiModel.selected
+    val wcsOffsets: List<WcsOffset> = wcsUiModel.wcsOffsets
+    val selected = wcsUiModel.selected
 
-  Column(modifier.padding(top = 16.dp).wrapContentHeight()) {
-    Text(
-      modifier = Modifier.fillMaxWidth(),
-      textAlign = TextAlign.Center,
-      text = "Workpiece Coordinate Systems",
-      style = MaterialTheme.typography.headlineSmall,
-      color = LocalContentColor.current
-    )
-    Spacer(modifier = Modifier.height(24.dp))
+    Column(modifier.padding(top = 16.dp).wrapContentHeight()) {
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            text = "Workpiece Coordinate Systems",
+            style = MaterialTheme.typography.headlineSmall,
+            color = LocalContentColor.current
+        )
+        Spacer(modifier = Modifier.height(24.dp))
 
-    WcsOffsetsView(
-      wcsOffsets = wcsOffsets,
-      selected = selected,
-      contentPadding = PaddingValues(8.dp),
-      onOffsetClick = {
-        onOffsetClick.invoke(it)
-        scope.launch {
-          delay(500)
-          sheetState.hide()
-        }
-      }
-    )
-  }
+        WcsOffsetsView(
+            wcsOffsets = wcsOffsets,
+            selected = selected,
+            contentPadding = PaddingValues(8.dp),
+            onOffsetClick = {
+                onOffsetClick.invoke(it)
+                scope.launch {
+                    delay(500)
+                    sheetState.hide()
+                }
+            }
+        )
+    }
 }

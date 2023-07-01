@@ -30,7 +30,7 @@ fun main(args: Array<String>) {
 
 fun startApplication(startupArgs: StartupArgs, onExit: () -> Unit) {
   application {
-    val windowState = rememberWindowState(width = 1024.dp, height = 768.dp)
+    val windowState = rememberWindowState(width = startupArgs.screenSize.width, height = startupArgs.screenSize.height)
     AppWindow(windowState, startupArgs) {
       onExit()
       this.exitApplication()

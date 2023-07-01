@@ -27,7 +27,8 @@ class TextActor(
     override fun drawInto(drawScope: DrawScope) {
         drawScope.drawIntoCanvas {
             it.nativeCanvas.apply {
-                val textLine = TextLine.make(text, font)
+                val textSize = font.size * drawScope.density
+                val textLine = TextLine.make(text, font.makeWithSize(textSize))
                 val textOffset = when (offsetPlacement) {
                     OffsetPlacement.TopCenter -> Offset(offset.x - textLine.width / 2, offset.y + textLine.height)
                     OffsetPlacement.BottomCenter -> Offset(offset.x - textLine.width / 2, offset.y)

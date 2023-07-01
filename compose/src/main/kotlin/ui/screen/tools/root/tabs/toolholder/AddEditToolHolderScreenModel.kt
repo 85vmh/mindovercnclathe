@@ -42,6 +42,7 @@ class AddEditToolHolderScreenModel(
                     )
                 }
             }.launchIn(coroutineScope)
+        setHolderType(ToolHolderType.Generic)
     }
 
     fun setHolderNumber(value: Int) {
@@ -53,11 +54,15 @@ class AddEditToolHolderScreenModel(
     }
 
     fun setHolderType(value: ToolHolderType) {
-        mutableState.update {
-            it.copy(
-                type = value,
-            )
-        }
+        toolsUseCase.getUnmountedLatheTools(value)
+            .onEach { toolsList ->
+                mutableState.update {
+                    it.copy(
+                        type = value,
+                        unmountedLatheTools = toolsList,
+                    )
+                }
+            }.launchIn(coroutineScope)
     }
 
     fun setLatheTool(value: LatheTool) {
