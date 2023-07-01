@@ -1,6 +1,7 @@
 package screen.composables
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,7 +23,7 @@ fun SettingStatusRow(
     ) {
         Text(
             text = settingText,
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Normal
         )
         Row(
@@ -33,7 +34,7 @@ fun SettingStatusRow(
             Text(
                 modifier = Modifier,
                 text = settingValue,
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.SemiBold
             )
             settingUnit?.let {
@@ -41,7 +42,7 @@ fun SettingStatusRow(
                 Text(
                     text = it,
                     modifier = Modifier.width(100.dp),
-                    fontSize = 16.sp,
+                    style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Light
                 )
             }

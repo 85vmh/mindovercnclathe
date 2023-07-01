@@ -4,39 +4,34 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import components.AxisCoordinate
 import di.rememberScreenModel
 import kotlinx.coroutines.launch
 import screen.composables.InputDialogView
-import screen.uimodel.InputType
 import screen.uimodel.SimpleCycle
 import ui.screen.manual.Manual
 import ui.screen.manual.simplecycles.SimpleCyclesScreen
-import ui.screen.manual.tapersettings.TaperSettingsScreen
-import ui.screen.manual.turningsettings.TurningSettingsScreen
-import ui.screen.manual.virtuallimits.VirtualLimitsScreen
-
-private val axisItemModifier = Modifier.fillMaxWidth().height(80.dp).padding(8.dp)
 
 class ManualTurningScreen : Manual("Manual Turning") {
 
   override val drawerEnabled: Boolean
-    @Composable get() = false
+    @Composable get() = true
 
   @OptIn(ExperimentalMaterial3Api::class)
   @Composable
@@ -46,13 +41,14 @@ class ManualTurningScreen : Manual("Manual Turning") {
     val items = remember { SimpleCycle.values() }
 
     Text(
-      modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+      modifier = Modifier.fillMaxWidth().padding(16.dp),
       textAlign = TextAlign.Center,
       text = "Simple Cycles",
       style = MaterialTheme.typography.headlineSmall,
     )
-    Divider(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp))
-    SimpleCyclesList(
+    Divider(modifier = Modifier.fillMaxWidth().padding())
+
+    SimpleCyclesGrid(
       items = items,
       onCycleSelected = {
         scope.launch {
@@ -79,10 +75,7 @@ class ManualTurningScreen : Manual("Manual Turning") {
       }
 
     state.wcsUiModel?.let {
-      IconButton(
-        modifier = iconButtonModifier,
-        onClick = { scope.launch { TODO("show dialog") } }
-      ) {
+      IconButton(modifier = iconButtonModifier, onClick = { scope.launch { TODO("show sheet") } }) {
         BadgedBox(
           badge = {
             Badge(containerColor = MaterialTheme.colorScheme.secondary) {
@@ -110,11 +103,27 @@ class ManualTurningScreen : Manual("Manual Turning") {
     }
   }
 
+  @OptIn(ExperimentalMaterialApi::class)
   @Composable
   override fun Content() {
     val screenModel = rememberScreenModel<ManualTurningScreenModel>()
     val state by screenModel.state.collectAsState()
     val navigator = LocalNavigator.currentOrThrow
+    val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+
+    ModalBottomSheetLayout(
+      sheetContent = {
+        state.wcsUiModel?.let { wcsUiModel ->
+          ManualTurningSheet(
+            sheetState = sheetState,
+            wcsUiModel = wcsUiModel,
+            onOffsetClick = screenModel::setActiveWcs
+          )
+        }
+      },
+    ) {
+      ManualTurningContent(screenModel, state, navigator)
+    }
 
     state.numPadState?.let { numPadState ->
       InputDialogView(
@@ -125,108 +134,6 @@ class ManualTurningScreen : Manual("Manual Turning") {
           screenModel.closeNumPad()
         }
       )
-    }
-
-    Column(
-      verticalArrangement = Arrangement.SpaceBetween,
-      horizontalAlignment = Alignment.End,
-    ) {
-      AxisCoordinates(
-        state.xCoordinateUiModel,
-        state.zCoordinateUiModel,
-        xToolOffsetsClicked = {
-          screenModel.openNumPad(
-            inputType = InputType.TOOL_X_COORDINATE,
-            onSubmitAction = screenModel::setToolOffsetX
-          )
-        },
-        zToolOffsetsClicked = {
-          screenModel.openNumPad(
-            inputType = InputType.TOOL_Z_COORDINATE,
-            onSubmitAction = screenModel::setToolOffsetZ
-          )
-        },
-        onZeroPosX = screenModel::setZeroPosX,
-        onZeroPosZ = screenModel::setZeroPosZ,
-        onToggleAbsRelX = screenModel::toggleXAbsRel,
-        onToggleAbsRelZ = screenModel::toggleZAbsRel,
-      )
-
-      //            Box(modifier = Modifier.fillMaxSize()) {
-      //                Canvas(modifier = Modifier.fillMaxSize()) {
-      //                    CenterLineActor()
-      //                        .translateTo(
-      //                            Offset(0f, this.size.height / 2f)
-      //                        )
-      //                        .drawInto(this)
-      //                }
-      //                ChuckView(modifier = Modifier.absoluteOffset(x = 30.dp, y = 100.dp)) {
-      //
-      //                }
-      //            }
-
-      Row(
-        modifier = Modifier.fillMaxWidth().padding(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-      ) {
-        state.spindleUiModel?.let {
-          SpindleStatusView(
-            uiModel = it,
-            onClick = { navigator.push(TurningSettingsScreen()) },
-            modifier = Modifier.weight(1f)
-          )
-        }
-        state.feedUiModel?.let {
-          FeedStatusView(
-            uiModel = it,
-            onClick = { navigator.push(TurningSettingsScreen()) },
-            modifier = Modifier.weight(1f)
-          )
-        }
-        TaperStatusView(
-          taperAngle = state.taperTurningAngle,
-          modifier = Modifier.weight(1f),
-          enabled = state.taperTurningActive,
-          onClick = { navigator.push(TaperSettingsScreen()) },
-          expanded = state.taperTurningActive,
-          onExpandChange = screenModel::setTaperTurningActive
-        )
-      }
-      state.virtualLimitsUiModel?.let {
-        VirtualLimitsStatusView(
-          virtualLimits = it,
-          modifier =
-            Modifier.width(380.dp)
-              .padding(8.dp)
-              .clickable(onClick = { navigator.push(VirtualLimitsScreen()) })
-        )
-      }
-      state.simpleCycleUiModel?.let {
-        with(it.simpleCycleParameters) {
-          SimpleCycleStatusView(
-            simpleCycleParameters = this,
-            modifier =
-              Modifier.width(380.dp)
-                .padding(8.dp)
-                .clickable(onClick = { navigator.push(SimpleCyclesScreen(simpleCycle)) })
-          )
-        }
-      }
-
-      Row(modifier = Modifier.height(60.dp)) {
-        HandWheelStatus(state.handWheelsUiModel)
-        JoystickStatus()
-      }
-
-      Button(
-        onClick = {
-          screenModel.openNumPad(InputType.WORKPIECE_ZERO_COORDINATE) {
-            screenModel.setWorkpieceZ(it)
-          }
-        },
-      ) {
-        Text("Set Workpiece Z")
-      }
     }
   }
 }
@@ -242,46 +149,6 @@ private fun ChuckView(modifier: Modifier = Modifier, chuckClicked: () -> Unit) {
     Column(modifier = Modifier.padding(8.dp)) {
       Text(text = "Set:", fontSize = 14.sp, textAlign = TextAlign.Left)
       Text(text = "Actual:", fontSize = 14.sp, textAlign = TextAlign.Left)
-    }
-  }
-}
-
-@Composable
-private fun AxisCoordinates(
-  xCoordinate: CoordinateUiModel,
-  zCoordinate: CoordinateUiModel,
-  xToolOffsetsClicked: () -> Unit,
-  zToolOffsetsClicked: () -> Unit,
-  onZeroPosX: () -> Unit,
-  onZeroPosZ: () -> Unit,
-  onToggleAbsRelX: () -> Unit,
-  onToggleAbsRelZ: () -> Unit,
-  modifier: Modifier = Modifier,
-  axisCoordinateHeight: Dp = 60.dp,
-) {
-  Surface(
-    modifier = modifier,
-    border = BorderStroke(0.5.dp, SolidColor(Color.DarkGray)),
-    color = MaterialTheme.colorScheme.surfaceVariant
-  ) {
-    Column {
-      AxisCoordinate(
-        xCoordinate,
-        setHeight = axisCoordinateHeight,
-        isDiameterMode = true,
-        zeroPosClicked = onZeroPosX,
-        absRelClicked = onToggleAbsRelX,
-        toolOffsetsClicked = xToolOffsetsClicked,
-        modifier = axisItemModifier
-      )
-      AxisCoordinate(
-        zCoordinate,
-        setHeight = axisCoordinateHeight,
-        zeroPosClicked = onZeroPosZ,
-        absRelClicked = onToggleAbsRelZ,
-        toolOffsetsClicked = zToolOffsetsClicked,
-        modifier = axisItemModifier
-      )
     }
   }
 }

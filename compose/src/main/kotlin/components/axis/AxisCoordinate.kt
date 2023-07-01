@@ -1,6 +1,7 @@
-package components
+package components.axis
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -14,45 +15,36 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import components.ZeroPosTokens.distanceBetweenLines
-import components.ZeroPosTokens.innerPadding
-import components.ZeroPosTokens.lineThickness
-import components.ZeroPosTokens.linesCap
-import components.ZeroPosTokens.linesColor
+import components.ZeroPosTokens
 import extensions.toFixedDigitsString
 import themes.ComposeFonts
 import ui.screen.manual.root.CoordinateUiModel
 
-private enum class PositionType(val fontSize: TextUnit, val width: Dp) {
-  PRIMARY(50.sp, 300.dp),
-  SECONDARY(18.sp, 110.dp),
-}
-
-private val imageShape = RoundedCornerShape(6.dp)
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AxisCoordinate(
+  axis: CoordinateAxis,
   uiModel: CoordinateUiModel,
   zeroPosClicked: () -> Unit,
   absRelClicked: () -> Unit,
   toolOffsetsClicked: () -> Unit,
-  setHeight: Dp,
   modifier: Modifier = Modifier,
-  loadedTool: Int? = null,
   isDiameterMode: Boolean = false,
 ) {
-  Row(modifier = modifier, horizontalArrangement = Arrangement.SpaceBetween) {
+  Row(modifier = modifier, horizontalArrangement = Arrangement.SpaceEvenly) {
     Position(
       positionType = PositionType.SECONDARY,
       uiModel = uiModel,
       isDiameterMode = isDiameterMode,
       modifier = Modifier.alignByBaseline()
     )
-    AxisLetter(uiModel = uiModel, isDiameterMode = isDiameterMode, onClick = toolOffsetsClicked)
+    AxisLetter(
+      axis = axis,
+      uiModel = uiModel,
+      isDiameterMode = isDiameterMode,
+      onClick = toolOffsetsClicked
+    )
 
     Position(
       positionType = PositionType.PRIMARY,
@@ -65,13 +57,18 @@ fun AxisCoordinate(
 
     ZeroPos(onClick = zeroPosClicked)
 
-    AbsRel(onClick = absRelClicked, modifier = Modifier.padding(start = 16.dp))
+    AbsRel(
+      onClick = absRelClicked,
+      isIncremental = uiModel.isIncremental,
+      modifier = Modifier.padding(start = 16.dp)
+    )
   }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AxisLetter(
+  axis: CoordinateAxis,
   uiModel: CoordinateUiModel,
   isDiameterMode: Boolean,
   onClick: () -> Unit,
@@ -86,7 +83,7 @@ private fun AxisLetter(
   ) {
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
       Text(text = uiModel.axis.name, fontSize = 36.sp)
-      if (uiModel.axis == CoordinateUiModel.Axis.X && isDiameterMode) {
+      if (uiModel.axis == CoordinateAxis.X && isDiameterMode) {
         Text(
           modifier = Modifier.align(Alignment.TopEnd),
           text = "\u2300",
@@ -161,36 +158,41 @@ private fun ZeroPos(onClick: () -> Unit, modifier: Modifier = Modifier) {
     onClick = onClick,
     shadowElevation = 16.dp
   ) {
+    val color = LocalContentColor.current
     Canvas(modifier = Modifier.fillMaxSize()) {
       drawLine(
         start =
           Offset(
-            0f + innerPadding.toPx(),
-            this.size.height - innerPadding.toPx() - distanceBetweenLines.toPx() / 2
+            0f + ZeroPosTokens.innerPadding.toPx(),
+            this.size.height -
+              ZeroPosTokens.innerPadding.toPx() -
+              ZeroPosTokens.distanceBetweenLines.toPx() / 2
           ),
         end =
           Offset(
-            this.size.width - innerPadding.toPx() - distanceBetweenLines.toPx() / 2,
-            0f + innerPadding.toPx()
+            this.size.width -
+              ZeroPosTokens.innerPadding.toPx() -
+              ZeroPosTokens.distanceBetweenLines.toPx() / 2,
+            0f + ZeroPosTokens.innerPadding.toPx()
           ),
-        color = linesColor,
-        cap = linesCap,
-        strokeWidth = lineThickness.toPx()
+        color = color,
+        cap = ZeroPosTokens.linesCap,
+        strokeWidth = ZeroPosTokens.lineThickness.toPx()
       )
       drawLine(
         start =
           Offset(
-            0f + innerPadding.toPx() + distanceBetweenLines.toPx() / 2,
-            this.size.height - innerPadding.toPx()
+            0f + ZeroPosTokens.innerPadding.toPx() + ZeroPosTokens.distanceBetweenLines.toPx() / 2,
+            this.size.height - ZeroPosTokens.innerPadding.toPx()
           ),
         end =
           Offset(
-            this.size.width - innerPadding.toPx(),
-            0f + innerPadding.toPx() + distanceBetweenLines.toPx() / 2
+            this.size.width - ZeroPosTokens.innerPadding.toPx(),
+            0f + ZeroPosTokens.innerPadding.toPx() + ZeroPosTokens.distanceBetweenLines.toPx() / 2
           ),
-        color = linesColor,
-        cap = linesCap,
-        strokeWidth = lineThickness.toPx()
+        color = color,
+        cap = ZeroPosTokens.linesCap,
+        strokeWidth = ZeroPosTokens.lineThickness.toPx()
       )
     }
   }
@@ -198,7 +200,7 @@ private fun ZeroPos(onClick: () -> Unit, modifier: Modifier = Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AbsRel(onClick: () -> Unit, modifier: Modifier = Modifier) {
+private fun AbsRel(onClick: () -> Unit, isIncremental: Boolean, modifier: Modifier = Modifier) {
   Surface(
     shape = RoundedCornerShape(8.dp),
     modifier = modifier.size(60.dp),
@@ -217,14 +219,19 @@ private fun AbsRel(onClick: () -> Unit, modifier: Modifier = Modifier) {
           )
         }
     ) {
+      val color = LocalContentColor.current
+      val absColor = if (!isIncremental) color else color.copy(alpha = 0.2f)
+      val incColor = if (isIncremental) color else color.copy(alpha = 0.2f)
       Text(
         text = "ABS",
+        color = absColor,
         style = MaterialTheme.typography.bodyMedium,
         modifier =
           Modifier.align(Alignment.TopStart).padding(start = textPadding, top = textPadding)
       )
       Text(
         text = "INC",
+        color = incColor,
         style = MaterialTheme.typography.bodyMedium,
         modifier =
           Modifier.align(Alignment.BottomEnd).padding(end = textPadding, bottom = textPadding)

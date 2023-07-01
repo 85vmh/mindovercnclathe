@@ -104,6 +104,10 @@ class ToolsScreenModel(
         loadToolHolders()
     }
 
+    fun onMountTool(toolHolder: ToolHolder) {
+        
+    }
+
     fun loadToolHolder(toolHolder: ToolHolder) {
         coroutineScope.launch {
             toolsUseCase.loadTool(toolHolder.holderNumber)

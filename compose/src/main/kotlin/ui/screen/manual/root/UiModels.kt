@@ -1,20 +1,16 @@
 package ui.screen.manual.root
 
+import components.axis.CoordinateAxis
 import usecase.model.SimpleCycleParameters
 
 data class CoordinateUiModel(
-  val axis: Axis,
+  val axis: CoordinateAxis,
   val primaryValue: Double,
   val secondaryValue: Double? = null,
-  val isIncremental: Boolean = false,
+  val isIncremental: Boolean = secondaryValue != null,
   val units: String = "mm",
   val displayDigits: Int = 3
-) {
-  enum class Axis(val imagePath: String) {
-    X("x.png"),
-    Z("z.png")
-  }
-}
+)
 
 data class SpindleUiModel(
   val isRpmMode: Boolean = true,

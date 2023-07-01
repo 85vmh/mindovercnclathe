@@ -19,7 +19,8 @@ class AddEditToolHolderScreenModel(
         val holderNumber: Int? = null,
         val type: ToolHolderType = ToolHolderType.Generic,
         val latheTool: LatheTool? = null,
-        val latheToolsList: List<LatheTool> = emptyList()
+        val latheToolsList: List<LatheTool> = emptyList(),
+        val unmountedLatheTools: List<LatheTool> = emptyList()
     )
 
     init {

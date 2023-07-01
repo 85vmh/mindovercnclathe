@@ -57,7 +57,7 @@ fun SpindleStatusView(uiModel: SpindleUiModel, onClick: () -> Unit, modifier: Mo
         )
       }
       SettingStatusRow(
-        "Actual RPM:",
+        "Actual:",
         kotlin.math.abs(uiModel.actualRpm).toString(),
         "rev/min",
         modifier = settingsModifier

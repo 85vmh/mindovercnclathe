@@ -1,40 +1,30 @@
 package ui.screen.manual.root
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import extensions.stripZeros
-import screen.composables.SettingStatusRow
-import screen.composables.cards.ExpandableCardWithTitle
-
-private val settingsModifier = Modifier.fillMaxWidth().padding(8.dp)
 
 @Composable
 fun TaperStatusView(
   taperAngle: Double,
-  expanded: Boolean,
-  onExpandChange: (Boolean) -> Unit,
-  onClick: () -> Unit,
-  enabled: Boolean = true,
+  taperTurningActive: Boolean,
+  onCheckedChange: (Boolean) -> Unit,
   modifier: Modifier = Modifier
 ) {
-  ExpandableCardWithTitle(
-    cardTitle = "Taper Turning",
-    expanded = expanded,
-    onExpandChange = onExpandChange,
-    modifier = modifier,
-    onClick = onClick,
-    enabled = enabled,
-    color = MaterialTheme.colorScheme.tertiaryContainer
-  ) {
-    SettingStatusRow(
-      settingText = "Taper angle:",
-      settingValue = taperAngle.stripZeros(),
-      settingUnit = "degrees",
-      modifier = settingsModifier
-    )
+  Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+    Text(modifier = Modifier, style = MaterialTheme.typography.titleSmall, text = "Taper Turning")
+    Switch(checked = taperTurningActive, onCheckedChange = onCheckedChange)
+    if (taperTurningActive) {
+      Text(
+        modifier = Modifier,
+        style = MaterialTheme.typography.titleMedium,
+        text = taperAngle.stripZeros()
+      )
+    }
   }
 }

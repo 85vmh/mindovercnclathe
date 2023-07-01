@@ -47,6 +47,7 @@ private enum class ToolHolderColumn(val text: String, val size: Dp = Dp.Unspecif
 @Composable
 fun ToolHoldersContent(
   state: ToolsScreenModel.State,
+  onMount: (ToolHolder) -> Unit,
   onDelete: (ToolHolder) -> Unit,
   onLoad: (ToolHolder) -> Unit,
   onHolderChanged: () -> Unit,
@@ -67,6 +68,7 @@ fun ToolHoldersContent(
           onEditClicked = { navigator.push(AddEditHolderScreen(it) { onHolderChanged.invoke() }) },
           onDeleteClicked = onDelete,
           onLoadClicked = onLoad,
+          onMountClicked = onMount,
           modifier = itemModifier,
           // color = gridRowColorFor(index)
         )
@@ -111,13 +113,14 @@ fun ToolHolderHeader(modifier: Modifier = Modifier) {
 private fun ToolHolderView(
   item: ToolHolder,
   isCurrent: Boolean,
+  onMountClicked: (ToolHolder) -> Unit,
   onEditClicked: (ToolHolder) -> Unit,
   onDeleteClicked: (ToolHolder) -> Unit,
   onLoadClicked: (ToolHolder) -> Unit,
   modifier: Modifier = Modifier,
   color: Color = Color.Unspecified
 ) {
-  val nonSelectedModifier = Modifier.height(60.dp)
+  val nonSelectedModifier = Modifier.height(80.dp)
   val selectedModifier = nonSelectedModifier.border(BorderStroke(1.dp, Color.Blue))
 
   Surface(modifier = modifier, color = color) {
@@ -128,8 +131,9 @@ private fun ToolHolderView(
     ) {
       Text(
         modifier = Modifier.width(ToolHolderColumn.Id.size),
+        text = item.holderNumber.toString(),
         textAlign = TextAlign.Center,
-        text = item.holderNumber.toString()
+        style = MaterialTheme.typography.labelLarge
       )
       VerticalDivider()
       Text(
@@ -146,10 +150,11 @@ private fun ToolHolderView(
       }
       VerticalDivider()
       Column(modifier = Modifier.weight(1f).padding(horizontal = 8.dp)) {
-        if (item.latheTool != null) {
-          Text(text = item.latheTool.toString())
+        val latheTool = item.latheTool
+        if (latheTool != null) {
+          LatheToolView(latheTool = latheTool)
         } else {
-          Button(onClick = {}) { Text("Mount a Tool") }
+          Button(onClick = { onMountClicked.invoke(item) }) { Text("Mount a Tool") }
         }
       }
       VerticalDivider()
@@ -190,6 +195,7 @@ fun HolderViewPreview() {
     isCurrent = true,
     onEditClicked = {},
     onDeleteClicked = {},
+    onMountClicked = {},
     onLoadClicked = {}
   )
 }
