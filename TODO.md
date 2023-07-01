@@ -1,4 +1,4 @@
-De rezolvat saptamana asta!
+### De rezolvat saptamana asta!
 
 1. Ideally, partea de rendering...
 2. File system filtering
@@ -6,5 +6,5 @@ De rezolvat saptamana asta!
 4. Conversational threading
 5. NumPad input bugfixes & error handling
 
-X-Diameter Measure
-Z-Face Measure
+- X-Diameter Measure
+- Z-Face Measure
