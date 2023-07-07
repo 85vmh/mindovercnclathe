@@ -10,16 +10,16 @@ import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import ui.screen.manual.root.HandWheelsUiModel
 
 class HandWheelsUseCase(
-  taskStatusRepository: TaskStatusRepository,
-  halRepository: HalRepository,
+    taskStatusRepository: TaskStatusRepository,
+    halRepository: HalRepository,
 ) {
 
-  @OptIn(FlowPreview::class)
-  val handWheelsUiModel =
-    combine(
-      taskStatusRepository.taskStatusFlow.map { it.taskMode == TaskMode.TaskModeManual },
-      halRepository.jogIncrementValue().debounce(200L)
-    ) { isManualMode, jogIncrement ->
-      HandWheelsUiModel(isManualMode, jogIncrement)
-    }
+    @OptIn(FlowPreview::class)
+    val handWheelsUiModel =
+        combine(
+            taskStatusRepository.taskStatusFlow.map { it.taskMode == TaskMode.TaskModeManual },
+            halRepository.jogIncrementValue().debounce(200L)
+        ) { isManualMode, jogIncrement ->
+            HandWheelsUiModel(isManualMode, jogIncrement)
+        }
 }

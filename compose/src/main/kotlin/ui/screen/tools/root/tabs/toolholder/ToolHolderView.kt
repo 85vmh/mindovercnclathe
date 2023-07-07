@@ -28,9 +28,9 @@ fun ToolHolderView(
   val imageResource =
     when (type) {
       ToolHolderType.Generic -> "multifix_generic"
-      ToolHolderType.Boring -> "multifix_bore"
-      ToolHolderType.DrillHolder -> "multifix_drill"
-      ToolHolderType.Parting -> "multifix_part"
+      ToolHolderType.Boring -> "multifix_boring"
+      ToolHolderType.Centered -> "multifix_centered"
+      ToolHolderType.Parting -> "multifix_parting"
     }
 
   val color =

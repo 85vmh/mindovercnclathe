@@ -8,6 +8,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 class WorkpieceMaterialEntity(id: EntityID<Int>) : IntEntity(id) {
 
     var name by WorkpieceMaterialTable.name
+    var category by WorkpieceMaterialTable.category
 
     companion object : IntEntityClass<WorkpieceMaterialEntity>(WorkpieceMaterialTable)
 }

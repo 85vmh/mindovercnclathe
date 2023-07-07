@@ -63,6 +63,12 @@ The list of hal pins defined by this app is listed below. The names are quite se
 
 ## Build
 
+When cloning the project, you need to run the following command in the root of the project:
+```shell
+git submodule update --init --recursive
+```
+This will clone the 3rd party library that this project depends on.
+
 Set the required arguments in `gradle.properties` **or** environment variables.
 
 | Env          | Property      | Description                |

@@ -55,10 +55,29 @@ class ToolsUseCase(
 
     fun getUnmountedLatheTools(holderType: ToolHolderType): Flow<List<LatheTool>> {
         val allTools = latheToolsRepository.getUnmountedLatheTools()
-//        val filter = when(holderType){
-//            ToolHolderType.Generic -> LatheTool.Boring
-//        }
-        return flowOf(allTools)
+        val filteredTools = when (holderType) {
+            ToolHolderType.Generic -> allTools.filter {
+                it is LatheTool.Turning || it is LatheTool.Boring ||
+                        it is LatheTool.Parting || it is LatheTool.Grooving ||
+                        it is LatheTool.OdThreading || it is LatheTool.IdThreading ||
+                        it is LatheTool.Slotting
+            }
+
+            ToolHolderType.Centered -> allTools.filter {
+                it is LatheTool.Drilling || it is LatheTool.Reaming
+            }
+
+            ToolHolderType.Parting -> allTools.filter {
+                it is LatheTool.Parting ||
+                        (it is LatheTool.Grooving && it.tipOrientation == TipOrientation.Position6)
+            }
+
+            ToolHolderType.Boring -> allTools.filter {
+                it is LatheTool.Boring ||
+                        (it is LatheTool.Grooving && it.tipOrientation == TipOrientation.Position8)
+            }
+        }
+        return flowOf(filteredTools)
     }
 
     fun createLatheTool(latheTool: LatheTool) = latheToolsRepository.createLatheTool(latheTool)
@@ -132,17 +151,4 @@ class ToolsUseCase(
         commandRepository.setTaskMode(initialTaskMode)
         commandRepository.setTeleopEnable(true)
     }
-
-    val toolState =
-        AddEditToolState(
-            toolNo = 1,
-            toolType = ToolType.PROFILING,
-            spindleDirection = AllowedSpindleDirection.CCW,
-            xOffset = 0.0,
-            zOffset = 0.0,
-            tipRadius = 0.1,
-            diameter = 6.0,
-            bladeWidth = 0.0,
-            orientation = 1
-        )
 }

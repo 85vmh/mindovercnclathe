@@ -56,6 +56,7 @@ class AddEditToolHolderScreenModel(
     fun setHolderType(value: ToolHolderType) {
         toolsUseCase.getUnmountedLatheTools(value)
             .onEach { toolsList ->
+                println("holderType $value, toolsList: $toolsList")
                 mutableState.update {
                     it.copy(
                         type = value,

@@ -2,10 +2,12 @@ package ui.screen.tools.root.tabs.toolholder
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -86,25 +88,35 @@ fun AddEditHolderContent(
         }
         VerticalDivider()
         Column(
-            modifier = Modifier.padding(horizontal = 8.dp),
+            modifier = Modifier.padding(horizontal = 8.dp).weight(1f),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
+            val headerText = when (state.unmountedLatheTools.isEmpty()) {
+                true -> "No tools of this type"
+                false -> "Tools not mounted yet"
+            }
+
             Text(
                 modifier = Modifier.padding(4.dp),
-                text = "Tools not mounted yet",
+                text = headerText,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineSmall
             )
 
+            Spacer(Modifier.height(24.dp))
+
             LazyColumn(modifier = Modifier.draggableScroll(toolsScrollState, scope), state = toolsScrollState) {
-                itemsIndexed(state.unmountedLatheTools) { _, item ->
+                itemsIndexed(state.unmountedLatheTools) { index, item ->
+                    Divider(color = Color.LightGray, thickness = 0.5.dp)
                     LatheToolView(
                         latheTool = item,
                         onSelected = onLatheTool,
                         isSelected = item == state.latheTool
                     )
-                    Divider(color = Color.LightGray, thickness = 0.5.dp)
+                    if (state.unmountedLatheTools.lastIndex == index) {
+                        Divider(color = Color.LightGray, thickness = 0.5.dp)
+                    }
                 }
             }
         }

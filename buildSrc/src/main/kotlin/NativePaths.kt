@@ -14,5 +14,5 @@ object NativePaths {
   }
 
   fun createJvmArgs(project: Project) =
-    "-Djava.library.path=${NativePaths.getNativePaths(project).joinToString(":")}"
+    "-Djava.library.path=${getNativePaths(project).joinToString(":")}"
 }
