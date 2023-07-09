@@ -21,14 +21,6 @@ class AppInitializer(
         }
         */
 
-        val appDir = Files.appDir
-        FileSystem.SYSTEM.createDirectories(appDir)
-
-        println(appDir)
-        logger.info { "Created appDir $appDir" }
-
-        CncInitializer(appDir.toFile())
-
         databaseInitializer.initialise()
 
         // start listening for status

@@ -9,6 +9,7 @@ import app.AppWindow
 import mu.KotlinLogging
 import okio.FileSystem
 import startup.ArgProcessor
+import startup.KtlCncInitializer
 import startup.StartupArgs
 import startup.StartupWindow
 
@@ -18,6 +19,9 @@ fun main(args: Array<String>) {
     val startupArgs = ArgProcessor(FileSystem.SYSTEM).process(args)
 
     logger.info("Starting app with args $startupArgs")
+
+    KtlCncInitializer.initialise()
+
     startApplication(
         startupArgs,
         onExit = {
