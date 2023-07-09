@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.TipOrientation
 import screen.composables.cards.CardWithTitle
 import screen.uimodel.InputType
-import ui.widget.ValueSetting
+import ui.widget.listitem.ValueSetting
 
 @Composable
 fun OrientationAnglesCard(

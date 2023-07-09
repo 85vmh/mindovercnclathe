@@ -11,16 +11,6 @@ import canvas.*
 import usecase.model.VisualTurningState
 
 
-@Preview
-@Composable
-fun VisualTurningPreview() {
-    VisualTurning(
-        VisualTurningState(
-
-        )
-    )
-}
-
 @Composable
 fun VisualTurning(
     state: VisualTurningState,
@@ -63,4 +53,10 @@ fun VisualTurning(
                 .drawInto(this)
         }
     }
+}
+
+@Preview
+@Composable
+private fun VisualTurningPreview() {
+    VisualTurning(VisualTurningState())
 }

@@ -8,7 +8,6 @@ import androidx.compose.ui.window.application
 import app.AppWindow
 import mu.KotlinLogging
 import okio.FileSystem
-import startup.AppInitializer
 import startup.ArgProcessor
 import startup.StartupArgs
 import startup.StartupWindow
@@ -38,7 +37,7 @@ fun startApplication(startupArgs: StartupArgs, onExit: () -> Unit) {
                 this.exitApplication()
             }
         } else {
-            StartupWindow(onInitialise = { setInitialised(true) })
+            StartupWindow(startupArgs, onInitialise = { setInitialised(true) })
         }
     }
 }

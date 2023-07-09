@@ -13,7 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import screen.composables.DropDownSetting
+import ui.widget.listitem.DropDownSetting
 import screen.uimodel.InputType
 
 private class ThreadTechnologyDataState(

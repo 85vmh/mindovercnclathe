@@ -19,7 +19,7 @@ import extensions.toFixedDigitsString
 import screen.composables.cards.CardWithTitle
 import screen.uimodel.InputType
 import ui.screen.manual.Manual
-import ui.widget.ValueSetting
+import ui.widget.listitem.ValueSetting
 
 class TaperSettingsScreen : Manual("Taper Settings") {
 

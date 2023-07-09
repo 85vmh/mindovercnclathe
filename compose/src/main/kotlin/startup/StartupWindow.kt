@@ -13,13 +13,14 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
+import di.withAppDi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import org.kodein.di.compose.rememberInstance
-import org.kodein.di.compose.withDI
 
 @Composable
 fun StartupWindow(
+    startupArgs: StartupArgs,
     onInitialise: () -> Unit
 ) {
     val windowState = rememberWindowState(size = DpSize(320.dp, 240.dp))
@@ -28,7 +29,7 @@ fun StartupWindow(
         state = windowState,
         undecorated = true
     ) {
-        withDI(InitializerModule) {
+        withAppDi(startupArgs) {
             val initializer: AppInitializer by rememberInstance()
             LaunchedEffect(Unit) {
                 initializer.initialise()
