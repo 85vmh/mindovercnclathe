@@ -1,13 +1,11 @@
 package ui.screen.tools.root.tabs.cuttinginsert
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.FeedsAndSpeeds
 import com.mindovercnc.model.MaterialCategory
@@ -15,12 +13,12 @@ import screen.composables.DropDownSetting
 import screen.uimodel.InputType
 import ui.widget.NumericInputWithUnit
 
+// TODO refactor duplicate code
 @Composable
 fun AddEditFeedsAndSpeeds(
     modifier: Modifier = Modifier,
     initialFeedsAndSpeeds: FeedsAndSpeeds? = null,
-
-    ) {
+) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)

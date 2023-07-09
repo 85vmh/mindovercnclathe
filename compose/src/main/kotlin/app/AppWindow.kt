@@ -8,7 +8,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.WindowState
+import androidx.compose.ui.window.rememberWindowState
+import com.mindovercnc.database.module.DatabaseModule
 import com.mindovercnc.dispatchers.DispatchersModule
 import di.*
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +19,12 @@ import startup.StartupArgs
 import themes.AppTheme
 
 @Composable
-fun AppWindow(windowState: WindowState, startupArgs: StartupArgs, onCloseRequest: () -> Unit) =
+fun AppWindow(
+    startupArgs: StartupArgs,
+    onCloseRequest: () -> Unit
+) {
+    val windowState = rememberWindowState(width = startupArgs.screenSize.width, height = startupArgs.screenSize.height)
+
     Window(
         onCloseRequest = onCloseRequest,
         title = "MindOverCNC Lathe",
@@ -37,14 +43,16 @@ fun AppWindow(windowState: WindowState, startupArgs: StartupArgs, onCloseRequest
             ParseFactoryModule,
             BuffDescriptorModule,
             EditorModule,
-            GrpcModule
+            GrpcModule,
+            DatabaseModule
         ) {
             val statusWatcher by rememberInstance<StatusWatcher>()
             statusWatcher.launchIn(scope)
 
             val newDensity = Density(density = startupArgs.density.toFloat())
-            CompositionLocalProvider(LocalDensity provides newDensity){
+            CompositionLocalProvider(LocalDensity provides newDensity) {
                 AppTheme(startupArgs.darkMode) { MindOverCNCLathe() }
             }
         }
     }
+}

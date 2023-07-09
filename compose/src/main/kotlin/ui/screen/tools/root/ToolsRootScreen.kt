@@ -38,8 +38,8 @@ class ToolsRootScreen : Tools() {
 
         ToolTabsView(
             modifier = Modifier.width(450.dp).height(48.dp),
-            currentTabIndex = state.currentTabIndex,
-            onTabSelected = screenModel::selectTabWithIndex
+            currentTab = state.currentTab,
+            onTabSelected = screenModel::selectTab
         )
     }
 
@@ -49,8 +49,8 @@ class ToolsRootScreen : Tools() {
         val screenModel = rememberScreenModel<ToolsScreenModel>()
         val state by screenModel.state.collectAsState()
 
-        when (state.currentTabIndex) {
-            0 ->
+        when (state.currentTab) {
+            ToolsTabItem.ToolHolders -> {
                 ExtendedFloatingActionButton(
                     text = { Text("New Holder") },
                     onClick = { navigator.push(AddEditHolderScreen { screenModel.loadToolHolders() }) },
@@ -61,8 +61,9 @@ class ToolsRootScreen : Tools() {
                         )
                     }
                 )
+            }
 
-            1 ->
+            ToolsTabItem.LatheTools -> {
                 ExtendedFloatingActionButton(
                     text = { Text("New Tool") },
                     onClick = { navigator.push(AddEditLatheToolScreen { screenModel.loadLatheTools() }) },
@@ -73,8 +74,9 @@ class ToolsRootScreen : Tools() {
                         )
                     }
                 )
+            }
 
-            2 ->
+            ToolsTabItem.CuttingInserts -> {
                 ExtendedFloatingActionButton(
                     text = { Text("New Insert") },
                     onClick = {
@@ -87,6 +89,7 @@ class ToolsRootScreen : Tools() {
                         )
                     }
                 )
+            }
         }
     }
 
@@ -96,8 +99,8 @@ class ToolsRootScreen : Tools() {
         val state by screenModel.state.collectAsState()
 
         Column(modifier = Modifier.fillMaxWidth()) {
-            when (ToolsTabItem.values()[state.currentTabIndex]) {
-                ToolsTabItem.ToolHolders ->
+            when (state.currentTab) {
+                ToolsTabItem.ToolHolders -> {
                     ToolHoldersContent(
                         state = state,
                         onDelete = screenModel::requestDeleteToolHolder,
@@ -106,22 +109,25 @@ class ToolsRootScreen : Tools() {
                         onMount = screenModel::onMountTool,
                         modifier = tabContentModifier
                     )
+                }
 
-                ToolsTabItem.LatheTools ->
+                ToolsTabItem.LatheTools -> {
                     LatheToolsContent(
                         state,
                         onDelete = screenModel::requestDeleteLatheTool,
                         onToolChanged = screenModel::loadLatheTools,
                         modifier = tabContentModifier
                     )
+                }
 
-                ToolsTabItem.CuttingInserts ->
+                ToolsTabItem.CuttingInserts -> {
                     CuttingInsertsContent(
                         state,
                         onDelete = screenModel::requestDeleteCuttingInsert,
                         onInsertChanged = screenModel::loadCuttingInserts,
                         modifier = tabContentModifier
                     )
+                }
             }
 
             state.toolHolderDeleteModel?.let {

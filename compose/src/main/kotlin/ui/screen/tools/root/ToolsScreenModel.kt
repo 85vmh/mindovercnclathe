@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import screen.composables.ToolsTabItem
 import usecase.ToolsUseCase
 
 class ToolsScreenModel(
@@ -16,7 +17,7 @@ class ToolsScreenModel(
 ) : StateScreenModel<ToolsScreenModel.State>(State()) {
 
     data class State(
-        val currentTabIndex: Int = 0,
+        val currentTab: ToolsTabItem = ToolsTabItem.ToolHolders,
         val toolHolders: List<ToolHolder> = emptyList(),
         val latheTools: List<LatheTool> = emptyList(),
         val cuttingInserts: List<CuttingInsert> = emptyList(),
@@ -74,11 +75,9 @@ class ToolsScreenModel(
             }.launchIn(coroutineScope)
     }
 
-    fun selectTabWithIndex(tabIndex: Int) {
+    fun selectTab(tab: ToolsTabItem) {
         mutableState.update {
-            it.copy(
-                currentTabIndex = tabIndex,
-            )
+            it.copy(currentTab = tab)
         }
     }
 
@@ -105,7 +104,7 @@ class ToolsScreenModel(
     }
 
     fun onMountTool(toolHolder: ToolHolder) {
-        
+
     }
 
     fun loadToolHolder(toolHolder: ToolHolder) {

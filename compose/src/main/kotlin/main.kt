@@ -2,38 +2,43 @@
 // Apache 2.0 license that can be found in the LICENSE file.
 @file:Suppress("FunctionName")
 
-import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.window.application
-import androidx.compose.ui.window.rememberWindowState
 import app.AppWindow
 import mu.KotlinLogging
 import okio.FileSystem
+import startup.AppInitializer
 import startup.ArgProcessor
-import startup.Initializer
 import startup.StartupArgs
+import startup.StartupWindow
 
 fun main(args: Array<String>) {
-  val logger = KotlinLogging.logger("Main")
+    val logger = KotlinLogging.logger("Main")
 
-  val startupArgs = ArgProcessor(FileSystem.SYSTEM).process(args)
+    val startupArgs = ArgProcessor(FileSystem.SYSTEM).process(args)
 
-  Initializer(startupArgs)
-
-  logger.info("Starting app with args $startupArgs")
-  startApplication(
-    startupArgs,
-    onExit = {
-      // no-op
-    }
-  )
+    logger.info("Starting app with args $startupArgs")
+    startApplication(
+        startupArgs,
+        onExit = {
+            // no-op
+        }
+    )
 }
 
 fun startApplication(startupArgs: StartupArgs, onExit: () -> Unit) {
-  application {
-    val windowState = rememberWindowState(width = startupArgs.screenSize.width, height = startupArgs.screenSize.height)
-    AppWindow(windowState, startupArgs) {
-      onExit()
-      this.exitApplication()
+    application {
+        val (initialised, setInitialised) = rememberSaveable {
+            mutableStateOf(false)
+        }
+        if (initialised) {
+            AppWindow(startupArgs) {
+                onExit()
+                this.exitApplication()
+            }
+        } else {
+            StartupWindow(onInitialise = { setInitialised(true) })
+        }
     }
-  }
 }

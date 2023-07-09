@@ -5,21 +5,29 @@ import components.filesystem.FileSystemData
 import components.filesystem.FileSystemItemData
 import okio.FileSystem
 import okio.Path
+import java.awt.Toolkit
+import java.awt.datatransfer.StringSelection
 
 class FileSystemDataUseCase constructor(private val fileSystem: FileSystem) {
+
+    // TODO change with an expect/actual for MPP
+    private val clipboard = Toolkit.getDefaultToolkit().systemClipboard
 
     fun Path.toFileSystemData(onItemClick: (Path) -> Unit): FileSystemData {
         val items =
             fileSystem
                 .list(this)
                 .filter { it.isDisplayable() }
-                .map {
-                    val metadata = fileSystem.metadata(it)
+                .map { item ->
+                    val metadata = fileSystem.metadata(item)
                     FileSystemItemData(
-                        title = it.name,
+                        title = item.name,
                         isDirectory = metadata.isDirectory,
-                        onClick = { onItemClick(it) },
-                        lastModified = metadata.lastModifiedAtMillis
+                        lastModified = metadata.lastModifiedAtMillis,
+                        onClick = { onItemClick(item) },
+                        onCopy = {
+                            clipboard.setContents(StringSelection(item.toString()), null)
+                        }
                     )
                 }
                 .sortedWith(compareBy({ it.isDirectory }, { it.title }))
