@@ -20,39 +20,38 @@ import screen.composables.DropDownView
 
 @Composable
 internal fun <T> InsertLetter(
-  items: List<T>,
-  selectedItem: T?,
-  dropDownWidth: Dp,
-  nothingSelectedString: String,
-  onValueChanged: (T) -> Unit,
-  modifier: Modifier = Modifier,
-  openedItemContent: @Composable (T) -> Unit
+    items: List<T>,
+    selectedItem: T?,
+    dropDownWidth: Dp,
+    nothingSelectedString: String,
+    onValueChanged: (T) -> Unit,
+    modifier: Modifier = Modifier,
+    openedItemContent: @Composable (T) -> Unit
 ) {
-  val scope = rememberCoroutineScope()
-  val scrollState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+    val scrollState = rememberLazyListState()
 
-  DropDownView(
-    items = items,
-    selected = selectedItem,
-    dropDownListModifier = Modifier.draggableScroll(scrollState, scope),
-    modifier =
-      modifier
-        .width(dropDownWidth)
-        .border(border = BorderStroke(1.dp, Color.LightGray), shape = RoundedCornerShape(4.dp)),
-    onSelected = onValueChanged,
-    closedItemContent = {
-      DropDownClosedItem(modifier = Modifier.size(height = 40.dp, width = dropDownWidth)) {
-        val text =
-          when {
-            it != null -> it.toString()
-            else -> nothingSelectedString
-          }
-        Text(
-          text = text,
-          style = MaterialTheme.typography.bodyLarge,
-        )
-      }
-    },
-    openedItemContent = openedItemContent
-  )
+    DropDownView(
+        items = items,
+        selected = selectedItem,
+        dropDownListModifier = Modifier.draggableScroll(scrollState, scope),
+        modifier = modifier
+            .width(dropDownWidth)
+            .border(border = BorderStroke(1.dp, Color.LightGray), shape = RoundedCornerShape(4.dp)),
+        onSelected = onValueChanged,
+        closedItemContent = {
+            DropDownClosedItem(modifier = Modifier.size(height = 40.dp, width = dropDownWidth)) {
+                val text =
+                    when {
+                        it != null -> it.toString()
+                        else -> nothingSelectedString
+                    }
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+            }
+        },
+        openedItemContent = openedItemContent
+    )
 }

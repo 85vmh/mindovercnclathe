@@ -11,9 +11,9 @@ import ro.dragossusi.proto.linuxcnc.isOn
 /** Use case to know when the machine is usable */
 class MachineUsableUseCase(private val cncStatusRepository: CncStatusRepository) {
 
-  val machineUsableFlow: Flow<Boolean>
-    get() =
-      cncStatusRepository.cncStatusFlow
-        .map { it.taskStatus.isEstop.not() && it.taskStatus.isOn && it.motionStatus.isHomed(2) }
-        .distinctUntilChanged()
+    val machineUsableFlow: Flow<Boolean>
+        get() =
+            cncStatusRepository.cncStatusFlow
+                .map { it.taskStatus.isEstop.not() && it.taskStatus.isOn && it.motionStatus.isHomed(2) }
+                .distinctUntilChanged()
 }

@@ -13,24 +13,24 @@ import screen.uimodel.InputType
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ValueSetting(
-  settingName: String,
-  value: String,
-  inputType: InputType,
-  onValueChanged: (String) -> Unit,
-  modifier: Modifier = Modifier,
-  inputModifier: Modifier = Modifier.width(200.dp)
+    settingName: String,
+    value: String,
+    inputType: InputType,
+    onValueChanged: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    inputModifier: Modifier = Modifier.width(200.dp)
 ) {
-  ListItem(
-    headlineText = { Text(text = settingName) },
-    trailingContent = {
-      NumericInputWithUnit(
-        value = value,
-        inputType = inputType,
-        verticalAlignment = Alignment.CenterVertically,
-        onValueChanged = onValueChanged,
-        modifier = inputModifier
-      )
-    },
-    modifier = modifier
-  )
+    ListItem(
+        headlineText = { Text(text = settingName) },
+        trailingContent = {
+            NumericInputWithUnit(
+                value = value,
+                inputType = inputType,
+                verticalAlignment = Alignment.CenterVertically,
+                onValueChanged = onValueChanged,
+                modifier = inputModifier
+            )
+        },
+        modifier = modifier
+    )
 }

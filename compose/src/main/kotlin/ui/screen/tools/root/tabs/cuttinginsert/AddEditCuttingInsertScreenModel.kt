@@ -25,10 +25,20 @@ class AddEditCuttingInsertScreenModel(
         val tipAngle: Int = 0,
         val tipRadius: Double = 0.0,
         val size: Double = 0.0,
+        val feedsAndSpeedsList: List<FeedsAndSpeeds> = emptyList(),
     ) {
         val isCustomGroundTool: Boolean
             get() = madeOf == MadeOf.Hss || madeOf == MadeOf.HssCo
     }
+
+    val dummyFeedsAndSpeeds = listOf(
+        FeedsAndSpeeds("Steel", MaterialCategory.P, 0.2f..2.0f, 0.1f..0.3f, 100..200),
+        FeedsAndSpeeds("Delrin", MaterialCategory.N, 0.2f..2.0f, 0.1f..0.3f, 100..200),
+        FeedsAndSpeeds("Aluminium", MaterialCategory.N, 0.2f..2.0f, 0.1f..0.3f, 100..200),
+        FeedsAndSpeeds("Cast Iron", MaterialCategory.K, 0.2f..2.0f, 0.1f..0.3f, 100..200),
+        FeedsAndSpeeds("304 Stainless", MaterialCategory.M, 0.2f..2.0f, 0.1f..0.3f, 100..200),
+        FeedsAndSpeeds("306 Stainless", MaterialCategory.M, 0.2f..2.0f, 0.1f..0.3f, 100..200),
+    )
 
     init {
         cuttingInsert?.let { insert ->
@@ -42,7 +52,8 @@ class AddEditCuttingInsertScreenModel(
                     insertShape = InsertShape.fromCode(insert.code),
                     insertClearance = InsertClearance.fromCode(insert.code),
                     toleranceClass = ToleranceClass.fromCode(insert.code),
-                    mountingAndChipBreaker = MountingAndChipBreaker.fromCode(insert.code)
+                    mountingAndChipBreaker = MountingAndChipBreaker.fromCode(insert.code),
+                    feedsAndSpeedsList = dummyFeedsAndSpeeds
                 )
             }
         }

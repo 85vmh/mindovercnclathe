@@ -13,46 +13,49 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 enum class ToolsTabItem(val tabTitle: String) {
-  ToolHolders("Tool Holders"),
-  LatheTools("Lathe Tools"),
-  CuttingInserts("Cutting Inserts")
+    ToolHolders("Tool Holders"),
+    LatheTools("Lathe Tools"),
+    CuttingInserts("Cutting Inserts")
 }
 
 @Composable
 fun ToolTabsView(
-  currentTabIndex: Int,
-  onTabSelected: (Int) -> Unit,
-  modifier: Modifier = Modifier,
+    currentTabIndex: Int,
+    onTabSelected: (Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
 
-  val shape = RoundedCornerShape(24.dp) // define border radius here
-  val background = MaterialTheme.colorScheme.primaryContainer
-  val selected = MaterialTheme.colorScheme.primary
+    val shape = RoundedCornerShape(24.dp) // define border radius here
+    val background = MaterialTheme.colorScheme.primaryContainer
+    val selected = MaterialTheme.colorScheme.primary
 
-  TabRow(
-    selectedTabIndex = currentTabIndex,
-    modifier = modifier.clip(shape = shape).border(1.dp, selected, shape = shape),
-    indicator = { TabRowDefaults.Indicator(color = Color.Transparent) },
+    TabRow(
+        selectedTabIndex = currentTabIndex,
+        modifier = modifier
+          .clip(shape = shape)
+          .border(1.dp, selected, shape = shape)
+      ,
+        indicator = { TabRowDefaults.Indicator(color = Color.Transparent) },
 //    containerColor = background
-  ) {
-    ToolsTabItem.values().forEachIndexed { index, tabItem ->
-      Tab(
-        selected = currentTabIndex == index,
-        onClick = { onTabSelected(index) },
-        text = {
-          Text(
-            text = tabItem.tabTitle,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onPrimary,
-          )
-        },
-        modifier =
-          Modifier.background(if (currentTabIndex == index) selected else background).drawBehind {
-            drawLine(selected, Offset(size.width, 0f), Offset(size.width, size.height), 2f)
-          },
-        //                selectedContentColor = background,
-        //                unselectedContentColor = selected
-      )
+    ) {
+        ToolsTabItem.values().forEachIndexed { index, tabItem ->
+            Tab(
+                selected = currentTabIndex == index,
+                onClick = { onTabSelected(index) },
+                text = {
+                    Text(
+                        text = tabItem.tabTitle,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                    )
+                },
+                modifier =
+                Modifier.background(if (currentTabIndex == index) selected else background).drawBehind {
+                    drawLine(selected, Offset(size.width, 0f), Offset(size.width, size.height), 2f)
+                },
+                //                selectedContentColor = background,
+                //                unselectedContentColor = selected
+            )
+        }
     }
-  }
 }

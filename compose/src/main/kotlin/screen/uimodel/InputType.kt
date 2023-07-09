@@ -52,4 +52,10 @@ enum class InputType {
     MAX_Z_DEPTH,
     THREADING_MIN_PITCH,
     THREADING_MAX_PITCH,
+    MIN_AP,
+    MAX_AP,
+    MIN_FN,
+    MAX_FN,
+    MIN_VC,
+    MAX_VC,
 }

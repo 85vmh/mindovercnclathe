@@ -1,4 +1,4 @@
-package ui.screen.tools.root.tabs
+package ui.screen.tools.root.tabs.cuttinginsert
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -17,44 +17,32 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import com.mindovercnc.model.CuttingInsert
+import com.mindovercnc.model.FeedsAndSpeeds
 import extensions.draggableScroll
 import extensions.toFixedDigitsString
 import screen.composables.VerticalDivider
 import screen.composables.platform.VerticalScrollbar
-import ui.screen.tools.root.ToolsScreenModel
-import ui.screen.tools.root.tabs.cuttinginsert.AddEditCuttingInsertScreen
-import ui.screen.tools.root.tabs.lathetool.AddEditLatheToolScreen
 
-private val itemModifier = Modifier.fillMaxWidth()
-
-private enum class CuttingInsertsColumns(val text: String, val size: Dp = Dp.Unspecified) {
-    Id("ID", 50.dp),
-    MadeOf("Made Of"),
-    Code("Code"),
-    TipRadius("Tip Radius"),
-    TipAngle("Tip Angle"),
-    Size("Size"),
-    Materials("Materials", 400.dp),
-    Actions("Actions", 140.dp),
+private enum class FeedsAndSpeedsColumns(val text: String, val unit: String? = null, val size: Dp = Dp.Unspecified) {
+    Material(text = "Material", size = 120.dp),
+    Category(text = "Code", size = 40.dp),
+    DOC(text = "DoC (ap)", unit = "mm"),
+    Feed(text = "Feed (fn)", unit = "mm/rev"),
+    Speed(text = "Speed (vc)", unit = "m/min"),
+    Actions(text = "Actions", size = 140.dp),
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CuttingInsertsContent(
-    state: ToolsScreenModel.State,
-    onInsertChanged: () -> Unit,
-    onDelete: (CuttingInsert) -> Unit,
-    modifier: Modifier = Modifier,
+fun FeedsAndSpeedsTable(
+    feedsAndSpeedsList: List<FeedsAndSpeeds>,
+    editableIndex: Int? = null,
+    onEdit: (FeedsAndSpeeds) -> Unit,
+    onDelete: (FeedsAndSpeeds) -> Unit,
+    itemModifier: Modifier = Modifier,
 ) {
-    val scope = rememberCoroutineScope()
-    val navigator = LocalNavigator.currentOrThrow
-
-    Box(
-        modifier = modifier
-    ) {
+    Box {
+        val scope = rememberCoroutineScope()
         val scrollState = rememberLazyListState()
 
         LazyColumn(
@@ -62,23 +50,31 @@ fun CuttingInsertsContent(
             state = scrollState
         ) {
             stickyHeader {
-                CuttingInsertHeader(modifier = Modifier.height(40.dp))
+                FeedsAndSpeedsHeader(modifier = Modifier.height(40.dp))
             }
-            itemsIndexed(state.cuttingInserts) { index, item ->
+            itemsIndexed(feedsAndSpeedsList) { index, item ->
                 Surface(
                     //color = gridRowColorFor(index)
                 ) {
-                    CuttingInsertView(
-                        index = index,
-                        item = item,
-                        onEditClicked = {
-                            navigator.push(AddEditCuttingInsertScreen(it) {
-                                onInsertChanged.invoke()
-                            })
-                        },
-                        onDeleteClicked = onDelete,
-                        modifier = itemModifier
-                    )
+                    if (editableIndex == index) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(250.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            AddEditFeedsAndSpeeds(
+                                initialFeedsAndSpeeds = item,
+                            )
+                        }
+                    } else {
+                        FeedsAndSpeedsItemView(
+                            item = item,
+                            onEditClicked = onEdit,
+                            onDeleteClicked = onDelete,
+                            modifier = itemModifier
+                        )
+                    }
                 }
                 Divider(color = Color.LightGray, thickness = 0.5.dp)
             }
@@ -87,14 +83,14 @@ fun CuttingInsertsContent(
         VerticalScrollbar(
             Modifier.align(Alignment.CenterEnd).width(30.dp),
             scrollState,
-            state.toolHolders.size,
+            feedsAndSpeedsList.size,
             60.dp
         )
     }
 }
 
 @Composable
-private fun CuttingInsertHeader(
+private fun FeedsAndSpeedsHeader(
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -104,18 +100,29 @@ private fun CuttingInsertHeader(
             modifier = modifier,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CuttingInsertsColumns.values().forEach {
-                val textModifier = when (it.size) {
+            FeedsAndSpeedsColumns.values().forEach {
+                val columnModifier = when (it.size) {
                     Dp.Unspecified -> Modifier.weight(1f)
                     else -> Modifier.width(it.size)
                 }
-                Text(
-                    modifier = textModifier,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleSmall,
-                    text = it.text
-                )
-                if (it != CuttingInsertsColumns.values().last()) {
+                Column(
+                    modifier = columnModifier,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleSmall,
+                        text = it.text
+                    )
+                    if (it.unit != null) {
+                        Text(
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.bodySmall,
+                            text = it.unit
+                        )
+                    }
+                }
+                if (it != FeedsAndSpeedsColumns.values().last()) {
                     VerticalDivider(color = Color.LightGray)
                 }
             }
@@ -124,11 +131,10 @@ private fun CuttingInsertHeader(
 }
 
 @Composable
-private fun CuttingInsertView(
-    index: Int,
-    item: CuttingInsert,
-    onEditClicked: (CuttingInsert) -> Unit,
-    onDeleteClicked: (CuttingInsert) -> Unit,
+private fun FeedsAndSpeedsItemView(
+    item: FeedsAndSpeeds,
+    onEditClicked: (FeedsAndSpeeds) -> Unit,
+    onDeleteClicked: (FeedsAndSpeeds) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -137,56 +143,49 @@ private fun CuttingInsertView(
         modifier = modifier.height(60.dp)
     ) {
         Text(
-            modifier = Modifier.width(CuttingInsertsColumns.Id.size),
+            modifier = Modifier.width(FeedsAndSpeedsColumns.Material.size),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium,
-            text = (index + 1).toString()
+            text = item.materialName
         )
         VerticalDivider()
+        Text(
+            modifier = Modifier.width(FeedsAndSpeedsColumns.Category.size),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyMedium,
+            text = item.materialCategory.name
+        )
+        VerticalDivider()
+        val formattedAp = "${item.ap.start.toDouble().toFixedDigitsString(2)} - ${
+            item.ap.endInclusive.toDouble().toFixedDigitsString(2)
+        }"
         Text(
             modifier = Modifier.weight(1f),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium,
-            text = item.madeOf.toString()
+            text = formattedAp
         )
         VerticalDivider()
+        val formattedFn = "${item.fn.start.toDouble().toFixedDigitsString(2)} - ${
+            item.fn.endInclusive.toDouble().toFixedDigitsString(2)
+        }"
         Text(
             modifier = Modifier.weight(1f),
             textAlign = TextAlign.Center,
+            text = formattedFn,
             style = MaterialTheme.typography.bodyMedium,
-            text = item.code ?: "--"
         )
         VerticalDivider()
+        val formattedVc = "${item.vc.first} - ${item.vc.last}"
         Text(
             modifier = Modifier.weight(1f),
             textAlign = TextAlign.Center,
-            text = item.tipRadius.toFixedDigitsString(1),
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        VerticalDivider()
-        Text(
-            modifier = Modifier.weight(1f),
-            textAlign = TextAlign.Center,
-            text = "${item.tipAngle.toFixedDigitsString(0)}°",
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        VerticalDivider()
-        Text(
-            modifier = Modifier.weight(1f),
-            textAlign = TextAlign.Center,
-            text = item.size.toFixedDigitsString(1),
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        VerticalDivider()
-        Text(
-            modifier = Modifier.width(CuttingInsertsColumns.Materials.size),
-            textAlign = TextAlign.Center,
-            text = "Materials here",
+            text = formattedVc,
             style = MaterialTheme.typography.bodyMedium,
         )
         VerticalDivider()
         Row(
-            modifier = Modifier.width(CuttingInsertsColumns.Actions.size),
+            modifier = Modifier.width(FeedsAndSpeedsColumns.Actions.size),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {

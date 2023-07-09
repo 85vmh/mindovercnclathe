@@ -360,5 +360,38 @@ object NumericInputs {
             maxDecimalPlaces = 2,
 //            unit = "degrees"
         )
+        map[InputType.MIN_AP] = NumInputParameters(
+            valueDescription = "Min - Depth of Cut (ap)",
+            allowsNegativeValues = false,
+            maxDecimalPlaces = 2,
+        )
+        map[InputType.MAX_AP] = NumInputParameters(
+            valueDescription = "Max - Depth of Cut (ap)",
+            allowsNegativeValues = false,
+            maxDecimalPlaces = 2,
+            unit = "mm"
+        )
+        map[InputType.MIN_FN] = NumInputParameters(
+            valueDescription = "Min - Feed per rev (ap)",
+            allowsNegativeValues = false,
+            maxDecimalPlaces = 2,
+        )
+        map[InputType.MAX_FN] = NumInputParameters(
+            valueDescription = "Max - Feed per rev (ap)",
+            allowsNegativeValues = false,
+            maxDecimalPlaces = 2,
+            unit = "mm/rev"
+        )
+        map[InputType.MIN_VC] = NumInputParameters(
+            valueDescription = "Min - Cutting speed (vc)",
+            allowsNegativeValues = false,
+            maxDecimalPlaces = 2,
+        )
+        map[InputType.MAX_VC] = NumInputParameters(
+            valueDescription = "Max - Cutting speed (vc)",
+            allowsNegativeValues = false,
+            maxDecimalPlaces = 2,
+            unit = "m/min"
+        )
     }
 }

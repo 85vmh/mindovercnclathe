@@ -11,7 +11,7 @@ import com.mindovercnc.repository.SettingsRepository
 import java.util.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-
+@Deprecated("This is a deprecated class")
 class ConversationalUseCase(
   ioDispatcher: IoDispatcher,
   private val statusRepository: CncStatusRepository,

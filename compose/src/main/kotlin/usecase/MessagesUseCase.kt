@@ -9,33 +9,34 @@ import ro.dragossusi.proto.linuxcnc.status.MessageType
 import usecase.model.Message
 
 class MessagesUseCase(private val messagesRepository: MessagesRepository) {
-  fun getAllMessages(): Flow<List<Message>> {
-    return messagesRepository
-      .messagesFlow()
-      .map {
-        buildList {
-          it.emcMessages.forEach { emcMsg ->
-            when (emcMsg.type) {
-              MessageType.NML_Error,
-              MessageType.Operator_Error -> {
-                this.add(Message(emcMsg.message, Message.Level.ERROR))
-              }
-              else -> {
-                this.add(Message(emcMsg.message, Message.Level.INFO))
-              }
+    fun getAllMessages(): Flow<List<Message>> {
+        return messagesRepository
+            .messagesFlow()
+            .map {
+                buildList {
+                    it.emcMessages.forEach { emcMsg ->
+                        when (emcMsg.type) {
+                            MessageType.NML_Error,
+                            MessageType.Operator_Error -> {
+                                this.add(Message(emcMsg.message, Message.Level.ERROR))
+                            }
+
+                            else -> {
+                                this.add(Message(emcMsg.message, Message.Level.INFO))
+                            }
+                        }
+                    }
+                    it.uiMessages.forEach { uiMsg ->
+                        val level =
+                            when (uiMsg.key.level) {
+                                UiMessage.Level.Error -> Message.Level.ERROR
+                                UiMessage.Level.Warning -> Message.Level.WARNING
+                                UiMessage.Level.Info -> Message.Level.INFO
+                            }
+                        this.add(Message(uiMsg.key.name, level))
+                    }
+                }
             }
-          }
-          it.uiMessages.forEach { uiMsg ->
-            val level =
-              when (uiMsg.key.level) {
-                UiMessage.Level.Error -> Message.Level.ERROR
-                UiMessage.Level.Warning -> Message.Level.WARNING
-                UiMessage.Level.Info -> Message.Level.INFO
-              }
-            this.add(Message(uiMsg.key.name, level))
-          }
-        }
-      }
-      .onEach { println("Message list is: $it") }
-  }
+            .onEach { println("Message list is: $it") }
+    }
 }
