@@ -1,17 +1,13 @@
 package usecase
 
+import clipboard.Clipboard
 import com.mindovercnc.model.extension
 import components.filesystem.FileSystemData
 import components.filesystem.FileSystemItemData
 import okio.FileSystem
 import okio.Path
-import java.awt.Toolkit
-import java.awt.datatransfer.StringSelection
 
 class FileSystemDataUseCase constructor(private val fileSystem: FileSystem) {
-
-    // TODO change with an expect/actual for MPP
-    private val clipboard = Toolkit.getDefaultToolkit().systemClipboard
 
     fun Path.toFileSystemData(onItemClick: (Path) -> Unit): FileSystemData {
         val items =
@@ -26,7 +22,7 @@ class FileSystemDataUseCase constructor(private val fileSystem: FileSystem) {
                         lastModified = metadata.lastModifiedAtMillis,
                         onClick = { onItemClick(item) },
                         onCopy = {
-                            clipboard.setContents(StringSelection(item.toString()), null)
+                            Clipboard.write(item.toString())
                         }
                     )
                 }

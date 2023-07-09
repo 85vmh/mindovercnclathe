@@ -4,7 +4,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Path
 import com.mindovercnc.model.PathElement
-import java.awt.geom.Point2D
 import kotlin.math.acos
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -47,4 +46,14 @@ private fun angleBetweenThreePoints(start: Offset, center: Offset, end: Offset):
     return acos(cosValue) * (180 / Math.PI)
 }
 
-private fun Offset.distanceTo(point: Offset) = Point2D.distance(x.toDouble(), y.toDouble(), point.x.toDouble(), point.y.toDouble())
+private fun Offset.distanceTo(point: Offset) =
+    distance(x.toDouble(), y.toDouble(), point.x.toDouble(), point.y.toDouble())
+
+private fun distance(
+    x1: Double, y1: Double,
+    x2: Double, y2: Double
+): Double {
+    val x = x1 - x2
+    val y = y1 - y2
+    return sqrt(x * x + y * y)
+}
