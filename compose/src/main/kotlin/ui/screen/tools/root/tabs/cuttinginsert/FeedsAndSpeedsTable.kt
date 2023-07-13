@@ -39,7 +39,6 @@ fun FeedsAndSpeedsTable(
     editableIndex: Int? = null,
     onEdit: (FeedsAndSpeeds) -> Unit,
     onDelete: (FeedsAndSpeeds) -> Unit,
-    itemModifier: Modifier = Modifier,
 ) {
     Box {
         val scope = rememberCoroutineScope()
@@ -53,28 +52,21 @@ fun FeedsAndSpeedsTable(
                 FeedsAndSpeedsHeader(modifier = Modifier.height(40.dp))
             }
             itemsIndexed(feedsAndSpeedsList) { index, item ->
-                Surface(
-                    //color = gridRowColorFor(index)
-                ) {
-                    if (editableIndex == index) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(250.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            AddEditFeedsAndSpeeds(
-                                initialFeedsAndSpeeds = item,
-                            )
-                        }
-                    } else {
-                        FeedsAndSpeedsItemView(
-                            item = item,
-                            onEditClicked = onEdit,
-                            onDeleteClicked = onDelete,
-                            modifier = itemModifier
-                        )
+                if (editableIndex == index) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(250.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        AddEditFeedsAndSpeeds(initialFeedsAndSpeeds = item)
                     }
+                } else {
+                    FeedsAndSpeedsItemView(
+                        item = item,
+                        onEditClicked = onEdit,
+                        onDeleteClicked = onDelete
+                    )
                 }
                 Divider(color = Color.LightGray, thickness = 0.5.dp)
             }

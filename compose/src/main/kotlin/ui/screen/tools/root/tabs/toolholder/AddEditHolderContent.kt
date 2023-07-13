@@ -25,7 +25,7 @@ import extensions.draggableScroll
 import screen.composables.VerticalDivider
 import screen.uimodel.InputType
 import ui.screen.tools.root.tabs.LatheToolView
-import ui.widget.ValueSetting
+import ui.widget.listitem.ValueSetting
 
 @Composable
 fun AddEditHolderContent(

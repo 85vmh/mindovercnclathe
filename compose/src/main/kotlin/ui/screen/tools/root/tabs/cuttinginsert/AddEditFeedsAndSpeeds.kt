@@ -1,29 +1,28 @@
 package ui.screen.tools.root.tabs.cuttinginsert
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.FeedsAndSpeeds
 import com.mindovercnc.model.MaterialCategory
-import screen.composables.DropDownSetting
 import screen.uimodel.InputType
 import ui.widget.NumericInputWithUnit
+import ui.widget.listitem.DropDownSetting
 
+// TODO refactor duplicate code
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditFeedsAndSpeeds(
-    modifier: Modifier = Modifier,
-    initialFeedsAndSpeeds: FeedsAndSpeeds? = null,
-
-    ) {
+    initialFeedsAndSpeeds: FeedsAndSpeeds,
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -31,7 +30,7 @@ fun AddEditFeedsAndSpeeds(
         ) {
             OutlinedTextField(
                 modifier = Modifier.weight(1f),
-                value = initialFeedsAndSpeeds?.materialName ?: "",
+                value = initialFeedsAndSpeeds.materialName,
                 onValueChange = {},
                 label = { Text("Material") },
                 singleLine = true
@@ -41,76 +40,74 @@ fun AddEditFeedsAndSpeeds(
                 settingName = "Category",
                 items = MaterialCategory.values().toList(),
                 dropDownWidth = 150.dp,
-                selectedItem = initialFeedsAndSpeeds?.materialCategory,
+                selectedItem = initialFeedsAndSpeeds.materialCategory,
                 onValueChanged = {}
             )
         }
 
-        val inputModifier: Modifier = Modifier.width(100.dp)
-        val labelModifier = Modifier.width(100.dp)
-        val rowModifier = Modifier.fillMaxWidth()
-        val rowAlignment = Alignment.CenterVertically
-        val rowArrangement = Arrangement.spacedBy(16.dp)
+        val itemModifier = Modifier.fillMaxWidth()
 
-        Row(modifier = rowModifier, verticalAlignment = rowAlignment, horizontalArrangement = rowArrangement) {
-            Text(modifier = labelModifier, text = "DoC (ap)")
+        RangeView(
+            "DoC (ap)",
+            initialFeedsAndSpeeds.ap.start.toString(),
+            InputType.MIN_AP,
+            initialFeedsAndSpeeds.ap.start.toString(),
+            InputType.MAX_AP,
+            itemModifier
+        )
+        RangeView(
+            "Feed (fn)",
+            initialFeedsAndSpeeds.fn.start.toString(),
+            InputType.MIN_FN,
+            initialFeedsAndSpeeds.fn.start.toString(),
+            InputType.MAX_FN,
+            itemModifier
+        )
+        RangeView(
+            "Speed (vc)",
+            initialFeedsAndSpeeds.vc.first.toString(),
+            InputType.MIN_VC,
+            initialFeedsAndSpeeds.vc.first.toString(),
+            InputType.MAX_VC,
+            itemModifier
+        )
+    }
+}
 
-            Text("between")
-            NumericInputWithUnit(
-                value = initialFeedsAndSpeeds?.ap?.start.toString(),
-                inputType = InputType.MIN_AP,
-                verticalAlignment = Alignment.CenterVertically,
-                onValueChanged = { },
-                modifier = inputModifier
-            )
-            Text("and")
-            NumericInputWithUnit(
-                value = initialFeedsAndSpeeds?.ap?.endInclusive.toString(),
-                inputType = InputType.MAX_AP,
-                verticalAlignment = Alignment.CenterVertically,
-                onValueChanged = { },
-                modifier = inputModifier
-            )
-        }
-        Row(modifier = rowModifier, verticalAlignment = rowAlignment, horizontalArrangement = rowArrangement) {
-            Text(modifier = labelModifier, text = "Feed (fn)")
+private val inputModifier: Modifier = Modifier.width(100.dp)
 
-            Text("between")
-            NumericInputWithUnit(
-                value = initialFeedsAndSpeeds?.fn?.start.toString(),
-                inputType = InputType.MIN_FN,
-                verticalAlignment = Alignment.CenterVertically,
-                onValueChanged = { },
-                modifier = inputModifier
-            )
-            Text("and")
-            NumericInputWithUnit(
-                value = initialFeedsAndSpeeds?.fn?.endInclusive.toString(),
-                inputType = InputType.MAX_FN,
-                verticalAlignment = Alignment.CenterVertically,
-                onValueChanged = { },
-                modifier = inputModifier
-            )
-        }
-        Row(modifier = rowModifier, verticalAlignment = rowAlignment, horizontalArrangement = rowArrangement) {
-            Text(modifier = labelModifier, text = "Speed (vc)")
+//TODO rename
+@Composable
+private fun RangeView(
+    title: String,
+    min: String,
+    minType: InputType,
+    max: String,
+    maxType: InputType,
+    modifier: Modifier
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text(text = title, modifier = Modifier.width(100.dp))
 
-            Text("between")
-            NumericInputWithUnit(
-                value = initialFeedsAndSpeeds?.fn?.start.toString(),
-                inputType = InputType.MIN_VC,
-                verticalAlignment = Alignment.CenterVertically,
-                onValueChanged = { },
-                modifier = inputModifier
-            )
-            Text("and")
-            NumericInputWithUnit(
-                value = initialFeedsAndSpeeds?.fn?.endInclusive.toString(),
-                inputType = InputType.MAX_VC,
-                verticalAlignment = Alignment.CenterVertically,
-                onValueChanged = { },
-                modifier = inputModifier
-            )
-        }
+        Text("between")
+        NumericInputWithUnit(
+            value = min,
+            inputType = minType,
+            verticalAlignment = Alignment.CenterVertically,
+            onValueChanged = { },
+            modifier = inputModifier
+        )
+        Text("and")
+        NumericInputWithUnit(
+            value = max,
+            inputType = maxType,
+            verticalAlignment = Alignment.CenterVertically,
+            onValueChanged = { },
+            modifier = inputModifier
+        )
     }
 }

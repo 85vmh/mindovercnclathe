@@ -3,7 +3,6 @@ package usecase
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.repository.HalRepository
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 
 class ManualToolChangeUseCase(

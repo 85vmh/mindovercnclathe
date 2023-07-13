@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -15,16 +16,21 @@ import com.mindovercnc.model.ToleranceClass
 
 @Composable
 fun StandardInsert(
-    state: AddEditCuttingInsertScreenModel.State,
+    state: AddEditCuttingInsertState,
     insertShapeChange: (InsertShape) -> Unit,
     insertClearanceChange: (InsertClearance) -> Unit,
     toleranceClassChange: (ToleranceClass) -> Unit,
     mountingChipBreakerChange: (MountingAndChipBreaker) -> Unit
 ) {
+    val insertShapes = remember { InsertShape.values().toList() }
+    val insertClearances = remember { InsertClearance.values().toList() }
+    val toleranceClasses = remember { ToleranceClass.values().toList() }
+    val mountingAndChipBreakerLists = remember { MountingAndChipBreaker.values().toList() }
+
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         InsertLetter(
             modifier = Modifier.width(50.dp),
-            items = state.insertShapes,
+            items = insertShapes,
             dropDownWidth = 50.dp,
             nothingSelectedString = "--",
             selectedItem = state.insertShape,
@@ -44,7 +50,7 @@ fun StandardInsert(
         }
         InsertLetter(
             modifier = Modifier.width(50.dp),
-            items = state.insertClearances,
+            items = insertClearances,
             dropDownWidth = 50.dp,
             nothingSelectedString = "--",
             selectedItem = state.insertClearance,
@@ -61,7 +67,7 @@ fun StandardInsert(
         }
         InsertLetter(
             modifier = Modifier.width(50.dp),
-            items = state.toleranceClasses,
+            items = toleranceClasses,
             dropDownWidth = 50.dp,
             nothingSelectedString = "--",
             selectedItem = state.toleranceClass,
@@ -77,7 +83,7 @@ fun StandardInsert(
         }
         InsertLetter(
             modifier = Modifier.width(50.dp),
-            items = state.mountingAndChipBreakerLists,
+            items = mountingAndChipBreakerLists,
             dropDownWidth = 50.dp,
             nothingSelectedString = "--",
             selectedItem = state.mountingAndChipBreaker,

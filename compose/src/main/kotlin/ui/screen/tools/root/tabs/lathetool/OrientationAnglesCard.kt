@@ -4,14 +4,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mindovercnc.model.TipOrientation
 import screen.composables.cards.CardWithTitle
 import screen.uimodel.InputType
-import ui.widget.ValueSetting
+import ui.widget.listitem.ValueSetting
 
 @Composable
 fun OrientationAnglesCard(
   state: AddEditLatheToolScreenModel.State,
-  orientationSelected: (Int) -> Unit,
+  orientationSelected: (TipOrientation) -> Unit,
   onFrontAngleChanged: (Int) -> Unit,
   onBackAngleChanged: (Int) -> Unit,
   modifier: Modifier = Modifier

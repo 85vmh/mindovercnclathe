@@ -7,17 +7,20 @@ version = "unspecified"
 repositories { mavenCentral() }
 
 dependencies {
-  implementation(kotlin("stdlib"))
-  api(Libs.Coroutines.core)
-  api(Libs.Kodein.core)
+    implementation(kotlin("stdlib"))
+    api(Libs.Coroutines.core)
+    api(Libs.Kodein.core)
 
-  api(Libs.Exposed.core)
-  api(Libs.Exposed.dao)
-  api(Libs.Exposed.jdbc)
+    api(Libs.Exposed.core)
+    api(Libs.Exposed.dao)
+    api(Libs.Exposed.jdbc)
 
-  implementation("org.xerial:sqlite-jdbc:$sqliteJdbc")
+    implementation(Libs.logging)
 
-  implementation(project(":model"))
+    implementation("org.xerial:sqlite-jdbc:$sqliteJdbc")
 
-  implementation(project(":ktlcnc:model"))
+    implementation(project(":model"))
+    implementation(project(":dispatcher"))
+
+    implementation(project(":ktlcnc:model"))
 }

@@ -1,39 +1,19 @@
-package com.mindovercnc.database
+package com.mindovercnc.database.initializer.step
 
 import com.mindovercnc.database.entity.CuttingInsertEntity
 import com.mindovercnc.database.entity.LatheToolEntity
 import com.mindovercnc.database.entity.ToolHolderEntity
 import com.mindovercnc.database.entity.WorkpieceMaterialEntity
-import com.mindovercnc.database.table.*
+import com.mindovercnc.database.table.CuttingInsertTable
 import com.mindovercnc.database.table.MaterialCategory
 import com.mindovercnc.model.*
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.StdOutSqlLogger
-import org.jetbrains.exposed.sql.addLogger
-import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.sql.Connection
 import kotlin.random.Random
 
-object DbInitializer {
-    private const val DB_NAME = "LatheTools.db"
-
-    operator fun invoke() {
-        Database.connect(url = "jdbc:sqlite:$DB_NAME", driver = "org.sqlite.JDBC")
-
-        TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE
-
-        transaction {
-            addLogger(StdOutSqlLogger)
-            SchemaUtils.create(
-                CuttingInsertTable,
-                WorkpieceMaterialTable,
-                FeedsAndSpeedsTable,
-                LatheToolTable,
-                ToolHolderTable
-            )
-        }
+internal class DummyToolsInitializer(
+    private val count: Int
+) : DatabaseInitializerStep {
+    override suspend fun initialise() {
         transaction {
             if (CuttingInsertEntity.count() == 0L) {
                 createDummyInserts()
@@ -52,7 +32,7 @@ object DbInitializer {
 
     private fun createDummyHolders() {
         val types = ToolHolderType.values()
-        repeat(5) {
+        repeat(count) {
             ToolHolderEntity.new {
                 holderNumber = it + 1
                 holderType = types.random()

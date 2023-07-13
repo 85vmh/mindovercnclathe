@@ -4,79 +4,80 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  kotlin("jvm")
-  id("org.jetbrains.compose")
+    kotlin("jvm")
+    id("org.jetbrains.compose")
 }
 
 version = Versions.app
 
 dependencies {
-  implementation(Libs.stdlib)
-  implementation(Libs.Coroutines.core)
-  implementation(Libs.Coroutines.swing)
-  implementation(Libs.Serialization.json)
-  implementation(Libs.cli)
+    implementation(Libs.stdlib)
+    implementation(Libs.Coroutines.core)
+    implementation(Libs.Coroutines.swing)
+    implementation(Libs.Serialization.json)
+    implementation(Libs.cli)
 
-  // logging
-  implementation(Libs.logging)
+    // logging
+    implementation(Libs.logging)
 
-  // okio
-  implementation(Libs.okio)
+    // okio
+    implementation(Libs.okio)
 
-  // compose
-  implementation(compose.desktop.currentOs)
-  implementation(compose.uiTooling)
-  @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3)
+    // compose
+    implementation(compose.desktop.currentOs)
+    implementation(compose.uiTooling)
+    @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3)
 
-  // jars
-  implementation(fileTree(mapOf("dir" to "lib", "include" to listOf("*.jar"))))
+    // jars
+    implementation(fileTree(mapOf("dir" to "lib", "include" to listOf("*.jar"))))
 
-  // the library that contains the JNI interface for communicating with LinuxCNC library
-  implementation(project(":ktlcnc"))
+    // the library that contains the JNI interface for communicating with LinuxCNC library
+    implementation(project(":ktlcnc"))
 
-  // internal modules
-  implementation(project(":database"))
-  implementation(project(":dispatcher"))
-  implementation(project(":editor"))
-  implementation(project(":impl"))
-  implementation(project(":model"))
-  implementation(project(":repository"))
+    // internal modules
+    implementation(project(":clipboard"))
+    implementation(project(":database"))
+    implementation(project(":dispatcher"))
+    implementation(project(":editor"))
+    implementation(project(":data:impl"))
+    implementation(project(":model"))
+    implementation(project(":data:repository"))
 
-  implementation(project(":grpc"))
-  implementation(Libs.Grpc.okhttp)
-  implementation(Libs.Compose.splitpane)
+    implementation(project(":grpc"))
+    implementation(Libs.Grpc.okhttp)
+    implementation(Libs.Compose.splitpane)
 
-  //    implementation(project(":vtk"))
-  implementation(Libs.Kodein.compose)
+    //    implementation(project(":vtk"))
+    implementation(Libs.Kodein.compose)
 
-  // navigation
-  implementation("cafe.adriel.voyager:voyager-navigator:${Versions.voyager}")
-  implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:${Versions.voyager}")
-  implementation("cafe.adriel.voyager:voyager-tab-navigator:${Versions.voyager}")
-  implementation("cafe.adriel.voyager:voyager-transitions:${Versions.voyager}")
+    // navigation
+    implementation("cafe.adriel.voyager:voyager-navigator:${Versions.voyager}")
+    implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:${Versions.voyager}")
+    implementation("cafe.adriel.voyager:voyager-tab-navigator:${Versions.voyager}")
+    implementation("cafe.adriel.voyager:voyager-transitions:${Versions.voyager}")
 
-  // State Machine
-  implementation("io.github.nsk90:kstatemachine:0.9.4")
+    // State Machine
+    implementation("io.github.nsk90:kstatemachine:0.9.4")
 
-  testImplementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
-  testImplementation("io.mockk:mockk:1.12.4")
-  testImplementation(Libs.Coroutines.test)
+    testImplementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
+    testImplementation("io.mockk:mockk:1.12.4")
+    testImplementation(Libs.Coroutines.test)
 }
 
 compose.desktop {
-  application {
-    mainClass = "MainKt"
+    application {
+        mainClass = "MainKt"
 
-    jvmArgs(NativePaths.createJvmArgs(rootProject))
+        jvmArgs(NativePaths.createJvmArgs(rootProject))
 
-    nativeDistributions {
-      // needed by the database
-      modules("java.sql")
-      targetFormats(TargetFormat.Deb)
+        nativeDistributions {
+            // needed by the database
+            modules("java.sql")
+            targetFormats(TargetFormat.Deb)
+        }
     }
-  }
 }
 
 tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+    kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
 }

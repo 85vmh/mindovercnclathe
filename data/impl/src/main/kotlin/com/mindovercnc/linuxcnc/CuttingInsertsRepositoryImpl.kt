@@ -2,9 +2,7 @@ package com.mindovercnc.linuxcnc
 
 import com.mindovercnc.database.entity.CuttingInsertEntity
 import com.mindovercnc.database.table.CuttingInsertTable
-import com.mindovercnc.database.table.LatheToolTable
 import com.mindovercnc.model.CuttingInsert
-import com.mindovercnc.repository.ActiveLimitsRepository
 import com.mindovercnc.repository.CuttingInsertsRepository
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere

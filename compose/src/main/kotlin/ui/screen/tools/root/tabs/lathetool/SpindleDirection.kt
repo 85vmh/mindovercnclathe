@@ -58,8 +58,8 @@ fun DirectionItem(
 
   val selectedTint =
     when (active) {
-      true -> Color(0xff04b55f)
-      false -> Color(0x33000000)
+      true -> MaterialTheme.colorScheme.primary
+      false -> MaterialTheme.colorScheme.surfaceVariant
       else -> LocalContentColor.current
     }
 

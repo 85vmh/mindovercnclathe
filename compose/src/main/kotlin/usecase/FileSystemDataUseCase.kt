@@ -1,5 +1,6 @@
 package usecase
 
+import clipboard.Clipboard
 import com.mindovercnc.model.extension
 import components.filesystem.FileSystemData
 import components.filesystem.FileSystemItemData
@@ -13,13 +14,16 @@ class FileSystemDataUseCase constructor(private val fileSystem: FileSystem) {
             fileSystem
                 .list(this)
                 .filter { it.isDisplayable() }
-                .map {
-                    val metadata = fileSystem.metadata(it)
+                .map { item ->
+                    val metadata = fileSystem.metadata(item)
                     FileSystemItemData(
-                        title = it.name,
+                        title = item.name,
                         isDirectory = metadata.isDirectory,
-                        onClick = { onItemClick(it) },
-                        lastModified = metadata.lastModifiedAtMillis
+                        lastModified = metadata.lastModifiedAtMillis,
+                        onClick = { onItemClick(item) },
+                        onCopy = {
+                            Clipboard.write(item.toString())
+                        }
                     )
                 }
                 .sortedWith(compareBy({ it.isDirectory }, { it.title }))

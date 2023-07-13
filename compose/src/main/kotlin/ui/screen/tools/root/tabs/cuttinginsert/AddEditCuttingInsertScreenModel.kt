@@ -8,28 +8,7 @@ import usecase.ToolsUseCase
 class AddEditCuttingInsertScreenModel(
     val cuttingInsert: CuttingInsert? = null,
     val toolsUseCase: ToolsUseCase
-) : StateScreenModel<AddEditCuttingInsertScreenModel.State>(State()) {
-
-    data class State(
-        val cuttingInsertId: Int? = null,
-        val madeOfList: List<MadeOf> = MadeOf.values().toList(),
-        val madeOf: MadeOf? = null,
-        val insertShapes: List<InsertShape> = InsertShape.values().toList(),
-        val insertShape: InsertShape? = null,
-        val insertClearances: List<InsertClearance> = InsertClearance.values().toList(),
-        val insertClearance: InsertClearance? = null,
-        val toleranceClasses: List<ToleranceClass> = ToleranceClass.values().toList(),
-        val toleranceClass: ToleranceClass? = null,
-        val mountingAndChipBreakerLists: List<MountingAndChipBreaker> = MountingAndChipBreaker.values().toList(),
-        val mountingAndChipBreaker: MountingAndChipBreaker? = null,
-        val tipAngle: Int = 0,
-        val tipRadius: Double = 0.0,
-        val size: Double = 0.0,
-        val feedsAndSpeedsList: List<FeedsAndSpeeds> = emptyList(),
-    ) {
-        val isCustomGroundTool: Boolean
-            get() = madeOf == MadeOf.Hss || madeOf == MadeOf.HssCo
-    }
+) : StateScreenModel<AddEditCuttingInsertState>(AddEditCuttingInsertState()) {
 
     val dummyFeedsAndSpeeds = listOf(
         FeedsAndSpeeds("Steel", MaterialCategory.P, 0.2f..2.0f, 0.1f..0.3f, 100..200),
@@ -130,22 +109,12 @@ class AddEditCuttingInsertScreenModel(
         }
     }
 
-    private fun getCodeFromSelection(state: State): String? {
-        return if (state.insertShape != null && state.insertClearance != null && state.toleranceClass != null && state.mountingAndChipBreaker != null) {
-            val letter1 = state.insertShape.name
-            val letter2 = state.insertClearance.name
-            val letter3 = state.toleranceClass.name
-            val letter4 = state.mountingAndChipBreaker.name
-            return letter1 + letter2 + letter3 + letter4
-        } else null
-    }
-
     fun applyChanges() {
         with(mutableState.value) {
             val insert = CuttingInsert(
                 id = cuttingInsertId,
                 madeOf = madeOf!!,
-                code = getCodeFromSelection(this),
+                code = this.getCodeFromSelection(),
                 tipRadius = tipRadius,
                 tipAngle = tipAngle.toDouble(),
                 size = size

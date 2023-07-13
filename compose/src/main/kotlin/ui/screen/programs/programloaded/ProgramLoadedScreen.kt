@@ -12,10 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.font.FontWeight
@@ -24,7 +21,7 @@ import di.rememberScreenModel
 import okio.Path
 import org.kodein.di.bindProvider
 import screen.composables.VerticalDivider
-import screen.composables.VisualTurning
+import ui.widget.VisualTurning
 import screen.composables.editor.EditorView
 import ui.screen.programs.Programs
 

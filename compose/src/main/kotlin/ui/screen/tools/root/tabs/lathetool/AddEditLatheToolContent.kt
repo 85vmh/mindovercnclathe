@@ -1,6 +1,5 @@
 package ui.screen.tools.root.tabs.lathetool
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -14,17 +13,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.CuttingInsert
 import com.mindovercnc.model.SpindleDirection
+import com.mindovercnc.model.TipOrientation
 import com.mindovercnc.model.ToolType
 import extensions.draggableScroll
 import screen.composables.DropDownInserts
 import screen.composables.VerticalDivider
 import screen.uimodel.InputType
-import ui.widget.ValueSetting
+import ui.widget.listitem.ValueSetting
 
 @Composable
 fun AddEditLatheToolContent(
@@ -32,7 +31,7 @@ fun AddEditLatheToolContent(
     onToolId: (Int) -> Unit,
     onToolType: (ToolType) -> Unit,
     onCuttingInsert: (CuttingInsert) -> Unit,
-    onToolOrientation: (Int) -> Unit,
+    onToolOrientation: (TipOrientation) -> Unit,
     onToolDiameter: (Double) -> Unit,
     onBackAngle: (Int) -> Unit,
     onFrontAngle: (Int) -> Unit,
@@ -57,22 +56,6 @@ fun AddEditLatheToolContent(
             modifier = Modifier.width(300.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (state.latheToolId == null) {
-                ValueSetting(
-                    settingName = "Lathe Tool ID",
-                    value = "0",
-                    inputType = InputType.TOOL_ID,
-                    onValueChanged = {
-                        val doubleValue = it.toDouble()
-                        onToolId(doubleValue.toInt())
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    inputModifier = Modifier.width(100.dp)
-                )
-                Divider()
-                Spacer(Modifier.height(24.dp))
-            }
-
             Text(
                 modifier = Modifier.padding(4.dp),
                 text = "Tool Type",
@@ -101,7 +84,21 @@ fun AddEditLatheToolContent(
             modifier = Modifier.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
+            if (state.latheToolId == null) {
+                ValueSetting(
+                    settingName = "Lathe Tool ID",
+                    value = "0",
+                    inputType = InputType.TOOL_ID,
+                    onValueChanged = {
+                        val doubleValue = it.toDouble()
+                        onToolId(doubleValue.toInt())
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    inputModifier = Modifier.width(100.dp)
+                )
+                Divider()
+                Spacer(Modifier.height(24.dp))
+            }
             Text(
                 modifier = Modifier.padding(bottom = 16.dp),
                 text = "Tool properties",
@@ -168,7 +165,7 @@ private fun TurningBoringToolProperties(
     state: AddEditLatheToolScreenModel.State,
     isBoring: Boolean = false,
     onCuttingInsert: (CuttingInsert) -> Unit,
-    onToolOrientation: (Int) -> Unit,
+    onToolOrientation: (TipOrientation) -> Unit,
     onBackAngle: (Int) -> Unit,
     onFrontAngle: (Int) -> Unit,
     onSpindleDirection: (SpindleDirection) -> Unit,

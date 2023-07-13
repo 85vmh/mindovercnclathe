@@ -28,7 +28,7 @@ import com.mindovercnc.model.ToolHolder
 import com.mindovercnc.model.ToolHolderType
 import extensions.draggableScroll
 import extensions.toFixedDigitsString
-import screen.composables.LabelWithValue
+import ui.widget.listitem.LabelWithValue
 import screen.composables.VerticalDivider
 import screen.composables.platform.VerticalScrollbar
 import ui.screen.tools.root.ToolsScreenModel

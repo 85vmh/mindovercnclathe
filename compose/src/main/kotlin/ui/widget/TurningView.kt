@@ -1,26 +1,15 @@
-package screen.composables
+package ui.widget
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.translate
 import canvas.*
 import usecase.model.VisualTurningState
 
-
-@Preview
-@Composable
-fun VisualTurningPreview() {
-    VisualTurning(
-        VisualTurningState(
-
-        )
-    )
-}
 
 @Composable
 fun VisualTurning(
@@ -64,4 +53,10 @@ fun VisualTurning(
                 .drawInto(this)
         }
     }
+}
+
+@Preview
+@Composable
+private fun VisualTurningPreview() {
+    VisualTurning(VisualTurningState())
 }
