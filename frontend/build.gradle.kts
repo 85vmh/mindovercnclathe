@@ -41,9 +41,7 @@ dependencies {
     implementation(project(":editor"))
     implementation(project(":data:impl"))
     implementation(project(":model"))
-    implementation(project(":initializer"))
     implementation(project(":data:repository"))
-    implementation(project(":data:legacy"))
 
     implementation(project(":protos"))
     implementation(Libs.Grpc.okhttp)

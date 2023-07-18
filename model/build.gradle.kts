@@ -1,11 +1,21 @@
-plugins { kotlin("jvm") }
+plugins { kotlin("multiplatform") }
 
 version = Versions.app
 
-dependencies {
-  implementation(Libs.stdlib)
-  implementation(Libs.Coroutines.core)
-  implementation(project(":ktlcnc"))
-  implementation(project(":grpc"))
-  implementation(Libs.okio)
+kotlin {
+    jvm()
+    js(IR)
+
+    sourceSets {
+        val commonMain by getting {
+
+            dependencies {
+                implementation(Libs.stdlib)
+                implementation(Libs.Coroutines.core)
+                implementation(project(":ktlcnc"))
+                implementation(project(":protos"))
+                implementation(Libs.okio)
+            }
+        }
+    }
 }

@@ -7,7 +7,7 @@ plugins {
 
 apply(plugin = "dev.icerock.mobile.multiplatform-resources")
 
-version = "unspecified"
+version = Versions.app
 
 repositories {
     mavenCentral()

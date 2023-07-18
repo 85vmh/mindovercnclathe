@@ -1,8 +1,17 @@
-plugins { kotlin("jvm") }
+plugins { kotlin("multiplatform") }
 
-version = "0.0.1"
+version = Versions.app
 
-dependencies {
-  implementation(Libs.Coroutines.core)
-  implementation(Libs.Kodein.core)
+kotlin {
+    jvm()
+    js(IR)
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(Libs.Coroutines.core)
+                implementation(Libs.Kodein.core)
+            }
+        }
+    }
 }

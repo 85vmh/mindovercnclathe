@@ -15,7 +15,14 @@ import startup.InitializerModule
 import startup.StartupArgs
 
 val BaseAppModule = DI.Module("AppModule") {
-    import(DispatchersModule)
+    importAll(
+        DispatchersModule,
+        EditorModule,
+        DatabaseModule,
+        InitializerModule,
+        ScreenModelModule,
+        DomainModule,
+    )
     bindSingleton { StatusWatcher(instance(), instance(), instance(), instance()) }
 
     bindProvider { TabViewModel(instance(), instance()) }
@@ -27,14 +34,9 @@ val BaseAppModule = DI.Module("AppModule") {
 fun withAppDi(startupArgs: StartupArgs, content: @Composable () -> Unit) = withDI(
     startupModule(startupArgs),
     BaseAppModule,
-    ScreenModelModule,
-    UseCaseModule,
     repositoryModule(startupArgs.legacyCommunication),
     ParseFactoryModule,
     BuffDescriptorModule,
-    EditorModule,
     GrpcModule,
-    DatabaseModule,
-    InitializerModule,
     content = content
 )

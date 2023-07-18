@@ -5,11 +5,14 @@ import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.linuxcnc.StatusReader
 import com.mindovercnc.linuxcnc.parsing.CncStatusFactory
 import com.mindovercnc.repository.CncStatusRepository
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 
 class CncStatusRepositoryLegacy
 constructor(ioDispatcher: IoDispatcher, private val cncStatusFactory: CncStatusFactory) :
-  CncStatusRepository {
+    CncStatusRepository {
 
   private val statusReader: StatusReader = StatusReader()
 

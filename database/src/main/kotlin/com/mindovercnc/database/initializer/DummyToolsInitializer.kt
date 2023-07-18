@@ -1,4 +1,4 @@
-package com.mindovercnc.database.initializer.step
+package com.mindovercnc.database.initializer
 
 import com.mindovercnc.database.entity.CuttingInsertEntity
 import com.mindovercnc.database.entity.LatheToolEntity
@@ -7,12 +7,13 @@ import com.mindovercnc.database.entity.WorkpieceMaterialEntity
 import com.mindovercnc.database.table.CuttingInsertTable
 import com.mindovercnc.database.table.MaterialCategory
 import com.mindovercnc.model.*
+import initializer.InitializerStep
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.random.Random
 
 internal class DummyToolsInitializer(
     private val count: Int
-) : DatabaseInitializerStep {
+) : InitializerStep {
     override suspend fun initialise() {
         transaction {
             if (CuttingInsertEntity.count() == 0L) {
