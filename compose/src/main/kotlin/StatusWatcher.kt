@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.plus
+import linuxcnc.*
 import ro.dragossusi.proto.linuxcnc.*
 
 class StatusWatcher(

@@ -1,7 +1,7 @@
-package ro.dragossusi.proto.linuxcnc
+package linuxcnc
 
 import ro.dragossusi.proto.linuxcnc.status.IoStatus
 
 // todo check this
 val IoStatus.currentToolNo
-  get() = toolStatus.toolInSpindle
+    get() = tool_status?.tool_in_spindle

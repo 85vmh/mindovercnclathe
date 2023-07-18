@@ -10,7 +10,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("com.squareup.wire:wire-grpc-client:4.7.2")
+                api("com.squareup.wire:wire-grpc-client:4.7.2")
             }
         }
     }
@@ -22,6 +22,6 @@ wire {
     }
     kotlin {
         rpcRole = "client"
-        rpcCallStyle = "suspending"
+        rpcCallStyle = "blocking"
     }
 }
