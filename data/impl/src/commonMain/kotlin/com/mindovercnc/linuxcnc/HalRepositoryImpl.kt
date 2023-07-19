@@ -6,6 +6,7 @@ import com.mindovercnc.model.SpindleSwitchStatus
 import com.mindovercnc.repository.HalRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import mu.KotlinLogging
 import ro.dragossusi.proto.linuxcnc.CreateComponentRequest
 import ro.dragossusi.proto.linuxcnc.CreatePinRequest
 import ro.dragossusi.proto.linuxcnc.LinuxCncClient
@@ -263,9 +264,15 @@ class HalRepositoryImpl(private val linuxCncGrpc: LinuxCncClient) : HalRepositor
 
     private fun HalPin.setPinValue(value: Boolean) {
         //TODO
+        logger.warn { "Setting pin value is not yet supported" }
     }
 
     private fun HalPin.setPinValue(value: Float) {
         //TODO
+        logger.warn { "Setting pin value is not yet supported" }
+    }
+
+    companion object {
+        private val logger = KotlinLogging.logger("HalRepository")
     }
 }

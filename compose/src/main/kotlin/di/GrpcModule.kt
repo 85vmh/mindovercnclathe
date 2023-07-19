@@ -13,7 +13,7 @@ val GrpcModule =
         bindSingleton {
             val grpcClient = GrpcClient.Builder()
                 .client(OkHttpClient.Builder().build())
-                .baseUrl("localhost:$PORT")
+                .baseUrl("http://localhost:$PORT")
                 .build()
             grpcClient.create<LinuxCncClient>()
         }

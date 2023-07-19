@@ -21,7 +21,7 @@ class TabViewModel(
             .launchIn(coroutineScope)
 
         ioStatusRepository.ioStatusFlow
-            .map { it.toolStatus.toolInSpindle }
+            .map { it.tool_status!!.tool_in_spindle }
             .onEach { tool -> mutableState.update { it.copy(currentTool = tool) } }
             .launchIn(coroutineScope)
     }

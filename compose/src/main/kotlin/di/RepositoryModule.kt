@@ -26,9 +26,7 @@ private val GrpcRepositoryModule =
     DI.Module("grpc_repository") {
         bindSingleton<CncCommandRepository> { CncCommandRepositoryImpl(instance()) }
         bindSingleton<HalRepository> { HalRepositoryImpl(instance()) }
-        bindSingleton<CncStatusRepository> {
-            CncStatusRepositoryImpl(instance(), instance(), instance())
-        }
+        bindSingleton<CncStatusRepository> { CncStatusRepositoryImpl(instance(), instance()) }
     }
 
 fun startupModule(startupArgs: StartupArgs) =

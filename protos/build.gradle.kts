@@ -21,6 +21,7 @@ wire {
         srcDir("src/main")
     }
     kotlin {
+        javaInterop = true
         rpcRole = "client"
         rpcCallStyle = "blocking"
     }
