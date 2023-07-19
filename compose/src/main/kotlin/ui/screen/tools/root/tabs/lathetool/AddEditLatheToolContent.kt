@@ -20,11 +20,14 @@ import com.mindovercnc.model.SpindleDirection
 import com.mindovercnc.model.TipOrientation
 import com.mindovercnc.model.ToolType
 import extensions.draggableScroll
+import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
+import org.jetbrains.compose.splitpane.HorizontalSplitPane
 import screen.composables.DropDownInserts
-import screen.composables.VerticalDivider
 import screen.uimodel.InputType
+import ui.widget.handle.defaultSplitter
 import ui.widget.listitem.ValueSetting
 
+@OptIn(ExperimentalSplitPaneApi::class)
 @Composable
 fun AddEditLatheToolContent(
     state: AddEditLatheToolScreenModel.State,
@@ -44,116 +47,163 @@ fun AddEditLatheToolContent(
     onMaxThreadPitch: (Double) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-    val scope = rememberCoroutineScope()
-    val toolTypeScrollState = rememberLazyGridState()
-    val toolPropertiesScrollState = rememberLazyListState()
-
-    Row(
+    HorizontalSplitPane(
         modifier = modifier.fillMaxSize()
     ) {
-        Column(
-            modifier = Modifier.width(300.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                modifier = Modifier.padding(4.dp),
-                text = "Tool Type",
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.headlineSmall
-            )
+        first(300.dp) {
+            StartContent(state, onToolType)
+        }
+        defaultSplitter()
 
-            LazyVerticalGrid(
-                modifier = modifier.draggableScroll(toolTypeScrollState, scope),
-                state = toolTypeScrollState,
-                contentPadding = PaddingValues(8.dp),
-                columns = GridCells.Adaptive(120.dp),
-            ) {
-                items(state.toolTypes.size) { index ->
-                    ToolTypeView(
-                        modifier = Modifier.padding(8.dp),
-                        type = state.toolTypes[index],
-                        onClick = onToolType,
-                        isSelected = state.toolTypes[index] == state.toolType
-                    )
-                }
+        second {
+            EndContent(
+                state,
+                onToolId,
+                onCuttingInsert,
+                onToolOrientation,
+                onToolDiameter,
+                onBackAngle,
+                onFrontAngle,
+                onSpindleDirection,
+                onMinBoreDiameter,
+                onMaxZDepth,
+                onMaxXDepth,
+                onBladeWidth,
+                onMinThreadPitch,
+                onMaxThreadPitch
+            )
+        }
+    }
+}
+
+@Composable
+private fun StartContent(
+    state: AddEditLatheToolScreenModel.State,
+    onToolType: (ToolType) -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    val toolTypeScrollState = rememberLazyGridState()
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            modifier = Modifier.padding(4.dp),
+            text = "Tool Type",
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.headlineSmall
+        )
+
+        LazyVerticalGrid(
+            modifier = Modifier.draggableScroll(toolTypeScrollState, scope),
+            state = toolTypeScrollState,
+            contentPadding = PaddingValues(8.dp),
+            columns = GridCells.Adaptive(120.dp),
+        ) {
+            items(state.toolTypes.size) { index ->
+                ToolTypeView(
+                    modifier = Modifier.padding(8.dp),
+                    type = state.toolTypes[index],
+                    onClick = onToolType,
+                    isSelected = state.toolTypes[index] == state.toolType
+                )
             }
         }
-        VerticalDivider()
-        Column(
-            modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            if (state.latheToolId == null) {
-                ValueSetting(
-                    settingName = "Lathe Tool ID",
-                    value = "0",
-                    inputType = InputType.TOOL_ID,
-                    onValueChanged = {
-                        val doubleValue = it.toDouble()
-                        onToolId(doubleValue.toInt())
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    inputModifier = Modifier.width(100.dp)
-                )
-                Divider()
-                Spacer(Modifier.height(24.dp))
-            }
-            Text(
-                modifier = Modifier.padding(bottom = 16.dp),
-                text = "Tool properties",
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.headlineSmall
+    }
+}
+
+@Composable
+private fun EndContent(
+    state: AddEditLatheToolScreenModel.State,
+    onToolId: (Int) -> Unit,
+    onCuttingInsert: (CuttingInsert) -> Unit,
+    onToolOrientation: (TipOrientation) -> Unit,
+    onToolDiameter: (Double) -> Unit,
+    onBackAngle: (Int) -> Unit,
+    onFrontAngle: (Int) -> Unit,
+    onSpindleDirection: (SpindleDirection) -> Unit,
+    onMinBoreDiameter: (Double) -> Unit,
+    onMaxZDepth: (Double) -> Unit,
+    onMaxXDepth: (Double) -> Unit,
+    onBladeWidth: (Double) -> Unit,
+    onMinThreadPitch: (Double) -> Unit,
+    onMaxThreadPitch: (Double) -> Unit,
+) {
+    val toolPropertiesScrollState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        if (state.latheToolId == null) {
+            ValueSetting(
+                settingName = "Lathe Tool ID",
+                value = "0",
+                inputType = InputType.TOOL_ID,
+                onValueChanged = {
+                    val doubleValue = it.toDouble()
+                    onToolId(doubleValue.toInt())
+                },
+                modifier = Modifier.fillMaxWidth(),
+                inputModifier = Modifier.width(100.dp)
             )
+            Divider()
+            Spacer(Modifier.height(24.dp))
+        }
+        Text(
+            modifier = Modifier.padding(bottom = 16.dp),
+            text = "Tool properties",
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.headlineSmall
+        )
 
-            LazyColumn(
-                modifier = Modifier.draggableScroll(toolPropertiesScrollState, scope),
-                state = toolPropertiesScrollState
-            ) {
-                item {
-                    when (state.toolType) {
-                        ToolType.Turning,
-                        ToolType.Boring -> TurningBoringToolProperties(
-                            state = state,
-                            isBoring = state.toolType == ToolType.Boring,
-                            onCuttingInsert,
-                            onToolOrientation = onToolOrientation,
-                            onBackAngle = onBackAngle,
-                            onFrontAngle = onFrontAngle,
-                            onSpindleDirection = onSpindleDirection,
-                            onMinBoreDiameter = onMinBoreDiameter,
-                            onMaxZDepth = onMaxZDepth
-                        )
+        LazyColumn(
+            modifier = Modifier.draggableScroll(toolPropertiesScrollState, scope),
+            state = toolPropertiesScrollState
+        ) {
+            item {
+                when (state.toolType) {
+                    ToolType.Turning,
+                    ToolType.Boring -> TurningBoringToolProperties(
+                        state = state,
+                        isBoring = state.toolType == ToolType.Boring,
+                        onCuttingInsert,
+                        onToolOrientation = onToolOrientation,
+                        onBackAngle = onBackAngle,
+                        onFrontAngle = onFrontAngle,
+                        onSpindleDirection = onSpindleDirection,
+                        onMinBoreDiameter = onMinBoreDiameter,
+                        onMaxZDepth = onMaxZDepth
+                    )
 
-                        ToolType.Drilling,
-                        ToolType.Reaming -> DrillingReamingToolProperties(
-                            state = state,
-                            onToolDiameter = onToolDiameter,
-                            onMaxZDepth = onMaxZDepth
-                        )
+                    ToolType.Drilling,
+                    ToolType.Reaming -> DrillingReamingToolProperties(
+                        state = state,
+                        onToolDiameter = onToolDiameter,
+                        onMaxZDepth = onMaxZDepth
+                    )
 
-                        ToolType.Parting,
-                        ToolType.Grooving -> PartingGroovingToolProperties(
-                            state = state,
-                            onBladeWidth = onBladeWidth,
-                            onMaxXDepth = onMaxXDepth
-                        )
+                    ToolType.Parting,
+                    ToolType.Grooving -> PartingGroovingToolProperties(
+                        state = state,
+                        onBladeWidth = onBladeWidth,
+                        onMaxXDepth = onMaxXDepth
+                    )
 
-                        ToolType.OdThreading,
-                        ToolType.IdThreading -> ThreadingToolProperties(
-                            state = state,
-                            onMinThreadPitch = onMinThreadPitch,
-                            onMaxThreadPitch = onMaxThreadPitch
-                        )
+                    ToolType.OdThreading,
+                    ToolType.IdThreading -> ThreadingToolProperties(
+                        state = state,
+                        onMinThreadPitch = onMinThreadPitch,
+                        onMaxThreadPitch = onMaxThreadPitch
+                    )
 
-                        ToolType.Slotting -> SlottingToolProperties(
-                            state = state,
-                            onBladeWidth = onBladeWidth,
-                            onMaxZDepth = onMaxZDepth
-                        )
+                    ToolType.Slotting -> SlottingToolProperties(
+                        state = state,
+                        onBladeWidth = onBladeWidth,
+                        onMaxZDepth = onMaxZDepth
+                    )
 
-                        else -> Unit
-                    }
+                    else -> Unit
                 }
             }
         }

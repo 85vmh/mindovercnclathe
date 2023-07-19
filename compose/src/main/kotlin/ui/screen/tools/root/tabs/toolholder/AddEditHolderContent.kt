@@ -1,10 +1,12 @@
 package ui.screen.tools.root.tabs.toolholder
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -22,11 +24,14 @@ import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.LatheTool
 import com.mindovercnc.model.ToolHolderType
 import extensions.draggableScroll
-import screen.composables.VerticalDivider
+import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
+import org.jetbrains.compose.splitpane.HorizontalSplitPane
 import screen.uimodel.InputType
 import ui.screen.tools.root.tabs.LatheToolView
+import ui.widget.handle.defaultSplitter
 import ui.widget.listitem.ValueSetting
 
+@OptIn(ExperimentalSplitPaneApi::class)
 @Composable
 fun AddEditHolderContent(
     state: AddEditToolHolderScreenModel.State,
@@ -35,89 +40,114 @@ fun AddEditHolderContent(
     onLatheTool: (LatheTool) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val scope = rememberCoroutineScope()
-    val items = remember { ToolHolderType.values() }
-    val toolsScrollState = rememberLazyListState()
-    val holdersScrollState = rememberLazyGridState()
-
-    Row(
+    HorizontalSplitPane(
         modifier = modifier.fillMaxSize()
     ) {
-        Column(
-            modifier = Modifier.width(300.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            if (state.holderNumber == null) {
-                ValueSetting(
-                    settingName = "Holder #",
-                    value = "0",
-                    inputType = InputType.TOOL_HOLDER_NO,
-                    onValueChanged = {
-                        val doubleValue = it.toDouble()
-                        onHolderNumber(doubleValue.toInt())
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    inputModifier = Modifier.width(100.dp)
-                )
-                Divider()
-                Spacer(Modifier.height(24.dp))
-            }
+        first(300.dp) {
+            StartContent(state, onHolderNumber, onHolderType)
+        }
+        defaultSplitter()
 
-            Text(
-                modifier = Modifier.padding(4.dp),
-                text = "Tool Holder Type",
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.headlineSmall
+        second {
+            EndContent(state, onLatheTool, modifier = Modifier.fillMaxWidth())
+        }
+    }
+}
+
+@Composable
+private fun StartContent(
+    state: AddEditToolHolderScreenModel.State,
+    onHolderNumber: (Int) -> Unit,
+    onHolderType: (ToolHolderType) -> Unit,
+) {
+    val items = remember { ToolHolderType.values() }
+    val holdersScrollState = rememberLazyGridState()
+    val scope = rememberCoroutineScope()
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        if (state.holderNumber == null) {
+            ValueSetting(
+                settingName = "Holder #",
+                value = "0",
+                inputType = InputType.TOOL_HOLDER_NO,
+                onValueChanged = {
+                    val doubleValue = it.toDouble()
+                    onHolderNumber(doubleValue.toInt())
+                },
+                modifier = Modifier.fillMaxWidth(),
+                inputModifier = Modifier.width(100.dp)
             )
+            Divider()
+            Spacer(Modifier.height(24.dp))
+        }
 
-            LazyVerticalGrid(
-                modifier = modifier.draggableScroll(holdersScrollState, scope),
-                state = holdersScrollState,
-                contentPadding = PaddingValues(8.dp),
-                columns = GridCells.Adaptive(120.dp),
-            ) {
-                items(items.size) { index ->
-                    ToolHolderView(
-                        modifier = Modifier.padding(8.dp),
-                        type = items[index],
-                        onClick = onHolderType,
-                        isSelected = items[index] == state.type
-                    )
-                }
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = "Tool Holder Type",
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.headlineSmall
+        )
+
+        LazyVerticalGrid(
+            modifier = Modifier.draggableScroll(holdersScrollState, scope),
+            state = holdersScrollState,
+            contentPadding = PaddingValues(8.dp),
+            columns = GridCells.Adaptive(120.dp),
+        ) {
+            items(items) { item ->
+                ToolHolderView(
+                    modifier = Modifier.padding(8.dp),
+                    type = item,
+                    onClick = onHolderType,
+                    isSelected = item == state.type
+                )
             }
         }
-        VerticalDivider()
-        Column(
-            modifier = Modifier.padding(horizontal = 8.dp).weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+    }
+}
 
-            val headerText = when (state.unmountedLatheTools.isEmpty()) {
-                true -> "No tools of this type"
-                false -> "Tools not mounted yet"
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun EndContent(
+    state: AddEditToolHolderScreenModel.State,
+    onLatheTool: (LatheTool) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val scope = rememberCoroutineScope()
+
+    val toolsScrollState = rememberLazyListState()
+    LazyColumn(
+        modifier = modifier.draggableScroll(toolsScrollState, scope),
+        state = toolsScrollState
+    ) {
+
+        stickyHeader {
+            val headerText = remember(state.unmountedLatheTools.isEmpty()) {
+                when (state.unmountedLatheTools.isEmpty()) {
+                    true -> "No tools of this type"
+                    false -> "Tools not mounted yet"
+                }
             }
 
             Text(
-                modifier = Modifier.padding(4.dp),
+                modifier = Modifier.fillMaxWidth().padding(8.dp),
                 text = headerText,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineSmall
             )
+        }
 
-            Spacer(Modifier.height(24.dp))
-
-            LazyColumn(modifier = Modifier.draggableScroll(toolsScrollState, scope), state = toolsScrollState) {
-                itemsIndexed(state.unmountedLatheTools) { index, item ->
-                    Divider(color = Color.LightGray, thickness = 0.5.dp)
-                    LatheToolView(
-                        latheTool = item,
-                        onSelected = onLatheTool,
-                        isSelected = item == state.latheTool
-                    )
-                    if (state.unmountedLatheTools.lastIndex == index) {
-                        Divider(color = Color.LightGray, thickness = 0.5.dp)
-                    }
-                }
+        itemsIndexed(state.unmountedLatheTools) { index, item ->
+            Divider(color = Color.LightGray, thickness = 0.5.dp)
+            LatheToolView(
+                latheTool = item,
+                onSelected = onLatheTool,
+                isSelected = item == state.latheTool
+            )
+            if (state.unmountedLatheTools.lastIndex == index) {
+                Divider(color = Color.LightGray, thickness = 0.5.dp)
             }
         }
     }
