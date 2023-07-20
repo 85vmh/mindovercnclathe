@@ -41,7 +41,7 @@ class SpindleUseCase(
   private fun spindleOverride(): Flow<Double> =
     statusRepository
       .cncStatusFlow
-      .map { it.motionStatus.spindleStatusList[0].spindleScale }
+      .map { it.motion_status!!.spindle_status[0].spindle_scale }
       .distinctUntilChanged()
 
   private fun actualSpindleSpeed() =

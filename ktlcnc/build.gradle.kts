@@ -15,7 +15,7 @@ repositories { mavenCentral() }
 dependencies {
   implementation(Libs.Coroutines.core)
   api(project(":ktlcnc:model"))
-  api(project(":grpc"))
+  api(project(":protos"))
 
   testImplementation(kotlin("test"))
 }

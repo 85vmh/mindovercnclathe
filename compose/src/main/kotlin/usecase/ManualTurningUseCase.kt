@@ -5,16 +5,13 @@ import codegen.Point
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.model.*
-import com.mindovercnc.model.Axis
-import com.mindovercnc.model.Direction
-import com.mindovercnc.model.JoystickStatus
-import com.mindovercnc.model.SpindleSwitchStatus
-import com.mindovercnc.model.UiMessage
 import com.mindovercnc.repository.*
 import extensions.stripZeros
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
-import ro.dragossusi.proto.linuxcnc.*
+import kotlinx.coroutines.launch
+import linuxcnc.*
 import ro.dragossusi.proto.linuxcnc.status.JogMode
 import ro.dragossusi.proto.linuxcnc.status.TaskMode
 
@@ -188,7 +185,7 @@ class ManualTurningUseCase(
                 isTaperTurning.value -> {
                     val startPoint =
                         cncStatusRepository.cncStatusFlow
-                            .map { it.g53Position }
+                            .map { it.g53Position!! }
                             .map { Point(it.x * 2, it.z) } // *2 due to diameter mode
                             .first()
                     ManualTurningHelper.getTaperTurningCommand(
@@ -247,7 +244,7 @@ class ManualTurningUseCase(
             delay(100L)
         }
         commandRepository.setTaskMode(TaskMode.TaskModeManual)
-        val jogVelocity = motionStatusRepository.motionStatusFlow.map { it.jogVelocity }.first()
+        val jogVelocity = motionStatusRepository.motionStatusFlow.map { it.jogVelocity!! }.first()
         val jogDirection =
             when (feedDirection) {
                 Direction.Positive -> jogVelocity
@@ -274,7 +271,7 @@ class ManualTurningUseCase(
     }
 
     private val setFeedRate =
-        cncStatusRepository.cncStatusFlow.map { it.taskStatus.setFeedRate }.distinctUntilChanged()
+        cncStatusRepository.cncStatusFlow.map { it.task_status!!.setFeedRate }.distinctUntilChanged()
 
     private fun SettingsRepository.getSpindleStartParameters(): String {
         val parameters = StringBuilder()

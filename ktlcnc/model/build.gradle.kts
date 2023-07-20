@@ -7,7 +7,7 @@ version = Versions.app
 repositories { mavenCentral() }
 
 dependencies {
-  implementation(project(":grpc"))
+  implementation(project(":protos"))
 
   implementation(Libs.Coroutines.core)
   api(Libs.Grpc.proto_kotlin)

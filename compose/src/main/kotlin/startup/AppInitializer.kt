@@ -1,16 +1,13 @@
 package startup
 
 import StatusWatcher
-import app.Files
-import com.mindovercnc.database.initializer.DatabaseInitializer
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
-import com.mindovercnc.linuxcnc.CncInitializer
+import initializer.Initializer
 import mu.KotlinLogging
-import okio.FileSystem
 
 class AppInitializer(
-    private val databaseInitializer: DatabaseInitializer,
+    private val databaseInitializer: Initializer,
     private val statusWatcher: StatusWatcher,
     private val ioDispatcher: IoDispatcher
 ) {

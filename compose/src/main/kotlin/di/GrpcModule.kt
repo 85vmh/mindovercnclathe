@@ -1,17 +1,20 @@
 package di
 
-import io.grpc.ManagedChannelBuilder
+import com.squareup.wire.GrpcClient
+import okhttp3.OkHttpClient
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
-import ro.dragossusi.proto.linuxcnc.LinuxCncGrpc
+import ro.dragossusi.proto.linuxcnc.LinuxCncClient
+
+private val PORT = 50051
 
 val GrpcModule =
-  DI.Module("grpc") {
-    bindSingleton {
-      val localhost =
-        ManagedChannelBuilder.forAddress(/* name = */ "localhost", /* port = */ 50051)
-          .usePlaintext()
-          .build()
-      LinuxCncGrpc.newBlockingStub(localhost)
+    DI.Module("grpc") {
+        bindSingleton {
+            val grpcClient = GrpcClient.Builder()
+                .client(OkHttpClient.Builder().build())
+                .baseUrl("http://localhost:$PORT")
+                .build()
+            grpcClient.create<LinuxCncClient>()
+        }
     }
-  }

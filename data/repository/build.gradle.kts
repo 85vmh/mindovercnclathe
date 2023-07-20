@@ -1,22 +1,26 @@
-plugins { kotlin("jvm") }
+plugins { kotlin("multiplatform") }
 
-version = "unspecified"
+version = Versions.app
 
-repositories { mavenCentral() }
+kotlin {
+    jvm()
+//    js(IR)
 
-dependencies {
-  implementation(kotlin("stdlib"))
-  api(Libs.Coroutines.core)
-  implementation(Libs.Kodein.core)
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(kotlin("stdlib"))
+                api(Libs.Coroutines.core)
+                implementation(Libs.Kodein.core)
 
-  implementation(project(":database"))
-  implementation(project(":editor"))
+                implementation(project(":database"))
+                implementation(project(":editor"))
 
-  api(project(":model"))
+                api(project(":model"))
 
-  /** @deprecated Will be replaced by grpc. */
-  api(project(":ktlcnc:model"))
-
-  api(project(":grpc"))
-  implementation(Libs.okio)
+                api(project(":protos"))
+                implementation(Libs.okio)
+            }
+        }
+    }
 }

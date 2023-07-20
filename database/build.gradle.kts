@@ -2,7 +2,7 @@ import Versions.sqliteJdbc
 
 plugins { kotlin("jvm") }
 
-version = "unspecified"
+version = Versions.app
 
 repositories { mavenCentral() }
 
@@ -19,8 +19,9 @@ dependencies {
 
     implementation("org.xerial:sqlite-jdbc:$sqliteJdbc")
 
-    implementation(project(":model"))
     implementation(project(":dispatcher"))
+    implementation(project(":initializer"))
+    implementation(project(":model"))
 
     implementation(project(":ktlcnc:model"))
 }

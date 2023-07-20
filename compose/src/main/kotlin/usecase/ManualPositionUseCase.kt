@@ -1,8 +1,8 @@
 package usecase
 
 import com.mindovercnc.repository.CncStatusRepository
-import ro.dragossusi.proto.linuxcnc.getDisplayablePosition
 import kotlinx.coroutines.flow.*
+import linuxcnc.getDisplayablePosition
 import ro.dragossusi.proto.linuxcnc.status.Position
 import screen.uimodel.AxisPosition
 import screen.uimodel.PositionModel
@@ -25,11 +25,23 @@ class ManualPositionUseCase(
         .distinctUntilChanged()
         .map {
             val xAxisPosition = when (it.xRelative) {
-                true -> AxisPosition(AxisPosition.Axis.X, it.position.x - xZeroPos, it.position.x, AxisPosition.Units.MM)
+                true -> AxisPosition(
+                    AxisPosition.Axis.X,
+                    it.position.x - xZeroPos,
+                    it.position.x,
+                    AxisPosition.Units.MM
+                )
+
                 false -> AxisPosition(AxisPosition.Axis.X, it.position.x, null, AxisPosition.Units.MM)
             }
             val zAxisPosition = when (it.zRelative) {
-                true -> AxisPosition(AxisPosition.Axis.Z, it.position.z - zZeroPos, it.position.z, AxisPosition.Units.MM)
+                true -> AxisPosition(
+                    AxisPosition.Axis.Z,
+                    it.position.z - zZeroPos,
+                    it.position.z,
+                    AxisPosition.Units.MM
+                )
+
                 false -> AxisPosition(AxisPosition.Axis.Z, it.position.z, null, AxisPosition.Units.MM)
             }
             PositionModel(xAxisPosition, zAxisPosition, true)

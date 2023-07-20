@@ -1,19 +1,27 @@
-plugins { kotlin("jvm") }
+plugins { kotlin("multiplatform") }
 
-version = "unspecified"
+version = Versions.app
 
-dependencies {
-  implementation(Libs.stdlib)
-  implementation(project(":data:repository"))
-  implementation(project(":logger"))
-  implementation(project(":dispatcher"))
-  implementation(project(":ktlcnc"))
-  implementation(project(":database"))
-  implementation(project(":model"))
-  implementation(project(":grpc"))
-  implementation(project(":editor"))
-  implementation(Libs.okio)
+kotlin {
+    jvm()
+    js(IR)
 
-  // logging
-  implementation(Libs.logging)
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(Libs.stdlib)
+                implementation(project(":data:repository"))
+                implementation(project(":logger"))
+                implementation(project(":dispatcher"))
+                implementation(project(":database"))
+                implementation(project(":model"))
+                implementation(project(":protos"))
+                implementation(project(":editor"))
+                implementation(Libs.okio)
+
+                // logging
+                implementation(Libs.logging)
+            }
+        }
+    }
 }

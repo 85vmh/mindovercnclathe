@@ -6,12 +6,9 @@ import com.mindovercnc.model.*
 import com.mindovercnc.repository.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
-import ro.dragossusi.proto.linuxcnc.currentToolNo
-import ro.dragossusi.proto.linuxcnc.isHomed
+import linuxcnc.currentToolNo
+import linuxcnc.isHomed
 import ro.dragossusi.proto.linuxcnc.status.TaskMode
-import screen.uimodel.AllowedSpindleDirection
-import screen.uimodel.ToolType
-import usecase.model.AddEditToolState
 
 class ToolsUseCase(
     ioDispatcher: IoDispatcher,
@@ -112,7 +109,7 @@ class ToolsUseCase(
     }
 
     suspend fun loadTool(toolNo: Int) {
-        val initialTaskMode = statusRepository.cncStatusFlow.map { it.taskStatus.taskMode }.first()
+        val initialTaskMode = statusRepository.cncStatusFlow.map { it.task_status!!.taskMode }.first()
         commandRepository.setTaskMode(TaskMode.TaskModeMDI)
         commandRepository.executeMdiCommand("M61 Q$toolNo G43")
         delay(200)
@@ -125,7 +122,7 @@ class ToolsUseCase(
 
     fun getCurrentToolNo(): Flow<Int> {
         return ioStatusRepository.ioStatusFlow
-            .map { it.currentToolNo }
+            .map { it.currentToolNo!! }
             .distinctUntilChanged()
             .onEach { settingsRepository.put(IntegerKey.LastToolUsed, it) }
     }
@@ -140,7 +137,7 @@ class ToolsUseCase(
     //    }
 
     private suspend fun toolTouchOff(axisWithValue: String) {
-        val initialTaskMode = statusRepository.cncStatusFlow.map { it.taskStatus.taskMode }.first()
+        val initialTaskMode = statusRepository.cncStatusFlow.map { it.task_status!!.taskMode }.first()
         val currentTool = ioStatusRepository.ioStatusFlow.map { it.currentToolNo }.first()
         commandRepository.setTaskMode(TaskMode.TaskModeMDI)
         commandRepository.executeMdiCommand("G10 L10 P$currentTool $axisWithValue")

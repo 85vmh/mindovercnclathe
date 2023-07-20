@@ -8,8 +8,8 @@ import com.mindovercnc.repository.*
 import extensions.toFixedDigits
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ro.dragossusi.proto.linuxcnc.currentToolNo
-import ro.dragossusi.proto.linuxcnc.getRelativeToolPosition
+import linuxcnc.currentToolNo
+import linuxcnc.getRelativeToolPosition
 import usecase.model.VirtualLimits
 
 class VirtualLimitsUseCase(
