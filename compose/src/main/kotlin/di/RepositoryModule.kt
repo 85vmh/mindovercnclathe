@@ -5,8 +5,6 @@ import com.mindovercnc.linuxcnc.CncStatusRepositoryImpl
 import com.mindovercnc.linuxcnc.CommonDataModule
 import com.mindovercnc.linuxcnc.HalRepositoryImpl
 import com.mindovercnc.linuxcnc.legacy.LegacyDataModule
-import com.mindovercnc.linuxcnc.nml.BuffDescriptor
-import com.mindovercnc.linuxcnc.nml.BuffDescriptorV29
 import com.mindovercnc.linuxcnc.parsing.*
 import com.mindovercnc.repository.CncCommandRepository
 import com.mindovercnc.repository.CncStatusRepository
@@ -31,9 +29,6 @@ private val GrpcRepositoryModule =
 
 fun startupModule(startupArgs: StartupArgs) =
     DI.Module("startup") { bindSingleton { startupArgs.iniFilePath } }
-
-val BuffDescriptorModule =
-    DI.Module("buffDescriptor") { bindSingleton<BuffDescriptor> { BuffDescriptorV29() } }
 
 val ParseFactoryModule =
     DI.Module("parseFactory") {

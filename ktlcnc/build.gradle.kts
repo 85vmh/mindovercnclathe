@@ -1,4 +1,7 @@
-plugins { kotlin("jvm") }
+plugins {
+  kotlin("jvm")
+  kotlin("plugin.serialization")
+}
 
 group = "ro.dragossusi"
 
@@ -14,8 +17,12 @@ repositories { mavenCentral() }
 
 dependencies {
   implementation(Libs.Coroutines.core)
+  implementation(Libs.Serialization.json)
+  implementation(Libs.Serialization.json_okio)
+  implementation(project(":initializer"))
   api(project(":ktlcnc:model"))
   api(project(":protos"))
+  api(Libs.Kodein.core)
 
   testImplementation(kotlin("test"))
 }

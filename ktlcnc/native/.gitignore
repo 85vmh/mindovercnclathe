@@ -2,6 +2,8 @@
 *.o
 *.d
 *.map
+*.json
 TestNML
 DumpBufDesc
+BufferDescriptorToJson
 .vscode/

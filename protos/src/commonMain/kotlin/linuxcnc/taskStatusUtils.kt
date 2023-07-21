@@ -30,7 +30,7 @@ val TaskStatus.isOn
 fun TaskStatus.getRelativeToolPosition(): Position {
     val g5xOffset = g5xOffset!!
     val toolOffset = toolOffset!!
-    val rotationXY = rotationXY!!
+    val rotationXY = rotationXY
     val g92Offset = g92Offset!!
 
     var position = Position(

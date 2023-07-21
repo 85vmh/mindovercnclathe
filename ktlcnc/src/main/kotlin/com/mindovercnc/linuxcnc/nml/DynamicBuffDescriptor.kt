@@ -1,0 +1,152 @@
+package com.mindovercnc.linuxcnc.nml
+
+import java.util.*
+
+class DynamicBuffDescriptor(private val memoryEntries: MemoryEntries) : BuffDescriptor {
+
+    override val entries: Map<Key, DecodingInfo> = createMap()
+
+    private fun createMap(): Map<Key, DecodingInfo> {
+        val map: MutableMap<Key, DecodingInfo> = EnumMap(Key::class.java)
+
+        with(memoryEntries) {
+            // Mapping for the fields of EMC_TASK_STAT
+            map[Key.TaskMode] = DecodingInfo(taskMode, DecodingInfo.DataType.Integer)
+            map[Key.TaskState] = DecodingInfo(taskState, DecodingInfo.DataType.Integer)
+            map[Key.ExecState] = DecodingInfo(execState, DecodingInfo.DataType.Integer)
+            map[Key.InterpreterState] = DecodingInfo(interpreterState, DecodingInfo.DataType.Integer)
+            map[Key.SubroutineCallLevel] = DecodingInfo(subroutineCallLevel, DecodingInfo.DataType.Integer)
+            map[Key.MotionLine] = DecodingInfo(motionLine, DecodingInfo.DataType.Integer)
+            map[Key.CurrentLine] = DecodingInfo(currentLine, DecodingInfo.DataType.Integer)
+            map[Key.ReadLine] = DecodingInfo(readLine, DecodingInfo.DataType.Integer)
+            map[Key.IsOptionalStop] = DecodingInfo(isOptionalStop, DecodingInfo.DataType.Byte)
+            map[Key.IsBlockDelete] = DecodingInfo(isBlockDelete, DecodingInfo.DataType.Byte)
+            map[Key.IsDigitalInTimeout] = DecodingInfo(isDigitalInTimeout, DecodingInfo.DataType.Byte)
+            map[Key.LoadedFilePath] = DecodingInfo(loadedFilePath, DecodingInfo.DataType.String)
+            map[Key.Command] = DecodingInfo(command, DecodingInfo.DataType.String)
+            map[Key.G5xOffsetXStart] = DecodingInfo(g5xOffsetXStart, DecodingInfo.DataType.Object)
+            map[Key.G5xActiveIndex] = DecodingInfo(g5xActiveIndex, DecodingInfo.DataType.Integer)
+            map[Key.G92OffsetXStart] = DecodingInfo(g92OffsetXStart, DecodingInfo.DataType.Object)
+            map[Key.RotationXY] = DecodingInfo(rotationXY, DecodingInfo.DataType.Double)
+            map[Key.ToolOffsetXStart] = DecodingInfo(toolOffsetXStart, DecodingInfo.DataType.Object)
+            map[Key.ActiveGCodes] = DecodingInfo(activeGCodes, DecodingInfo.DataType.Object)
+            map[Key.ActiveMCodes] = DecodingInfo(activeMCodes, DecodingInfo.DataType.Object)
+            map[Key.ActiveSettings] =
+                DecodingInfo(activeSettings, DecodingInfo.DataType.Object) // 40 bytes -> 5 double values
+            map[Key.ProgramUnits] = DecodingInfo(programUnits, DecodingInfo.DataType.Integer)
+            map[Key.InterpreterErrorCode] = DecodingInfo(interpreterErrorCode, DecodingInfo.DataType.Integer)
+            map[Key.TaskPaused] = DecodingInfo(taskPaused, DecodingInfo.DataType.Integer)
+            map[Key.DelayLeft] = DecodingInfo(delayLeft, DecodingInfo.DataType.Double)
+            map[Key.QueuedMdiCommands] = DecodingInfo(queuedMdiCommands, DecodingInfo.DataType.Integer)
+            // Mapping for EMC_MOTION_STAT -> EMC_TRAJ_STAT
+            map[Key.LinearUnits] = DecodingInfo(linearUnits, DecodingInfo.DataType.Double)
+            map[Key.AngularUnits] = DecodingInfo(angularUnits, DecodingInfo.DataType.Double)
+            map[Key.CycleTimeSeconds] = DecodingInfo(cycleTimeSeconds, DecodingInfo.DataType.Double)
+            map[Key.JointsCount] = DecodingInfo(jointsCount, DecodingInfo.DataType.Integer)
+            map[Key.SpindlesCount] = DecodingInfo(spindlesCount, DecodingInfo.DataType.Integer)
+            map[Key.AxisMask] = DecodingInfo(axisMask, DecodingInfo.DataType.Integer)
+            map[Key.MotionMode] = DecodingInfo(motionMode, DecodingInfo.DataType.Integer)
+            map[Key.IsEnabled] = DecodingInfo(isEnabled, DecodingInfo.DataType.Byte)
+            map[Key.IsInPosition] = DecodingInfo(isInPosition, DecodingInfo.DataType.Byte)
+            map[Key.PendingMotions] = DecodingInfo(pendingMotions, DecodingInfo.DataType.Integer)
+            map[Key.ActiveMotions] = DecodingInfo(activeMotions, DecodingInfo.DataType.Integer)
+            map[Key.IsMotionQueueFull] = DecodingInfo(isMotionQueueFull, DecodingInfo.DataType.Byte)
+            map[Key.CurrentMotionId] = DecodingInfo(currentMotionId, DecodingInfo.DataType.Integer)
+            map[Key.IsMotionPaused] = DecodingInfo(isMotionPaused, DecodingInfo.DataType.Byte)
+            map[Key.VelocityScaleFactor] = DecodingInfo(velocityScaleFactor, DecodingInfo.DataType.Double)
+            map[Key.RapidScaleFactor] = DecodingInfo(rapidScaleFactor, DecodingInfo.DataType.Double)
+            map[Key.CommandedPositionXStart] =
+                DecodingInfo(commandedPositionXStart, DecodingInfo.DataType.Object) // current commanded position
+            map[Key.ActualPositionXStart] = DecodingInfo(
+                actualPositionXStart,
+                DecodingInfo.DataType.Object
+            ) // current actual position, from forward kins
+            map[Key.SystemVelocity] = DecodingInfo(systemVelocity, DecodingInfo.DataType.Double)
+            map[Key.SystemAcceleration] = DecodingInfo(systemAcceleration, DecodingInfo.DataType.Double)
+            map[Key.MaxVelocity] = DecodingInfo(maxVelocity, DecodingInfo.DataType.Double)
+            map[Key.MaxAcceleration] = DecodingInfo(maxAcceleration, DecodingInfo.DataType.Double)
+            map[Key.ProbedPositionXStart] = DecodingInfo(probedPositionXStart, DecodingInfo.DataType.Object)
+            map[Key.IsProbeTripped] = DecodingInfo(isProbeTripped, DecodingInfo.DataType.Byte)
+            map[Key.IsProbing] = DecodingInfo(isProbing, DecodingInfo.DataType.Byte)
+            map[Key.ProbeInputValue] = DecodingInfo(probeInputValue, DecodingInfo.DataType.Integer)
+            map[Key.KinematicsType] = DecodingInfo(kinematicsType, DecodingInfo.DataType.Integer)
+            map[Key.MotionType] = DecodingInfo(motionType, DecodingInfo.DataType.Integer)
+            map[Key.CurrentMoveDtg] = DecodingInfo(currentMoveDtg, DecodingInfo.DataType.Double)
+            map[Key.DtgPositionXStart] = DecodingInfo(dtgPositionXStart, DecodingInfo.DataType.Object)
+            map[Key.CurrentMoveVelocity] = DecodingInfo(currentMoveVelocity, DecodingInfo.DataType.Double)
+            map[Key.IsFeedOverrideEnabled] = DecodingInfo(isFeedOverrideEnabled, DecodingInfo.DataType.Byte)
+            map[Key.IsAdaptiveFeedEnabled] = DecodingInfo(isAdaptiveFeedEnabled, DecodingInfo.DataType.Byte)
+            map[Key.IsFeedHoldEnabled] = DecodingInfo(isFeedHoldEnabled, DecodingInfo.DataType.Byte)
+            map[Key.Joint0] = DecodingInfo(joint0, DecodingInfo.DataType.Object)
+            map[Key.Joint1] = DecodingInfo(joint1, DecodingInfo.DataType.Object)
+            map[Key.Joint0Type] = DecodingInfo(joint0Type, DecodingInfo.DataType.Integer)
+            map[Key.Joint0Units] = DecodingInfo(joint0Units, DecodingInfo.DataType.Double)
+            map[Key.Joint0Backlash] = DecodingInfo(joint0Backlash, DecodingInfo.DataType.Double)
+            map[Key.Joint0MinPositionLimit] = DecodingInfo(joint0MinPositionLimit, DecodingInfo.DataType.Double)
+            map[Key.Joint0MaxPositionLimit] = DecodingInfo(joint0MaxPositionLimit, DecodingInfo.DataType.Double)
+            map[Key.Joint0MaxFollowingError] = DecodingInfo(joint0MaxFollowingError, DecodingInfo.DataType.Double)
+            map[Key.Joint0MinFollowingError] = DecodingInfo(joint0MinFollowingError, DecodingInfo.DataType.Double)
+            map[Key.Joint0FollowingErrorCurrent] =
+                DecodingInfo(joint0FollowingErrorCurrent, DecodingInfo.DataType.Double)
+            map[Key.Joint0FollowingErrorHighMark] =
+                DecodingInfo(joint0FollowingErrorHighMark, DecodingInfo.DataType.Double)
+            map[Key.Joint0CommandedOutputPosition] =
+                DecodingInfo(joint0CommandedOutputPosition, DecodingInfo.DataType.Double)
+            map[Key.Joint0CurrentInputPosition] = DecodingInfo(joint0CurrentInputPosition, DecodingInfo.DataType.Double)
+            map[Key.Joint0CurrentVelocity] = DecodingInfo(joint0CurrentVelocity, DecodingInfo.DataType.Double)
+            map[Key.Joint0IsInPosition] = DecodingInfo(joint0IsInPosition, DecodingInfo.DataType.Byte)
+            map[Key.Joint0IsHoming] = DecodingInfo(joint0IsHoming, DecodingInfo.DataType.Byte)
+            map[Key.Joint0IsHomed] = DecodingInfo(joint0IsHomed, DecodingInfo.DataType.Byte)
+            map[Key.Joint0IsFaulted] = DecodingInfo(joint0IsFaulted, DecodingInfo.DataType.Byte)
+            map[Key.Joint0IsEnabled] = DecodingInfo(isEnabled, DecodingInfo.DataType.Byte)
+            map[Key.Joint0IsMinSoftLimitReached] = DecodingInfo(joint0IsMinSoftLimitReached, DecodingInfo.DataType.Byte)
+            map[Key.Joint0IsMaxSoftLimitReached] = DecodingInfo(joint0IsMaxSoftLimitReached, DecodingInfo.DataType.Byte)
+            map[Key.Joint0IsMinHardLimitReached] = DecodingInfo(joint0IsMinHardLimitReached, DecodingInfo.DataType.Byte)
+            map[Key.Joint0IsMaxHardLimitReached] = DecodingInfo(joint0IsMaxHardLimitReached, DecodingInfo.DataType.Byte)
+            map[Key.Joint0IsLimitOverrideOn] = DecodingInfo(joint0IsLimitOverrideOn, DecodingInfo.DataType.Byte)
+            map[Key.Axis0] = DecodingInfo(axis0, DecodingInfo.DataType.Object)
+            map[Key.Axis1] = DecodingInfo(axis1, DecodingInfo.DataType.Object)
+            map[Key.Axis0MinPositionLimit] = DecodingInfo(axis0MinPositionLimit, DecodingInfo.DataType.Double)
+            map[Key.Axis0MaxPositionLimit] = DecodingInfo(axis0MaxPositionLimit, DecodingInfo.DataType.Double)
+            map[Key.Axis0Velocity] = DecodingInfo(axis0Velocity, DecodingInfo.DataType.Double)
+            map[Key.Spindle0] = DecodingInfo(spindle0, DecodingInfo.DataType.Object)
+            map[Key.Spindle1] = DecodingInfo(spindle1, DecodingInfo.DataType.Object)
+            map[Key.Spindle0Speed] = DecodingInfo(spindle0Speed, DecodingInfo.DataType.Double)
+            map[Key.Spindle0Scale] = DecodingInfo(spindle0Scale, DecodingInfo.DataType.Double)
+            map[Key.Spindle0CssMaximum] = DecodingInfo(spindle0CssMaximum, DecodingInfo.DataType.Double)
+            map[Key.Spindle0CssFactor] = DecodingInfo(spindle0CssFactor, DecodingInfo.DataType.Double)
+            map[Key.Spindle0State] = DecodingInfo(spindle0State, DecodingInfo.DataType.Integer)
+            map[Key.Spindle0Direction] = DecodingInfo(spindle0Direction, DecodingInfo.DataType.Integer)
+            map[Key.Spindle0Brake] = DecodingInfo(spindle0Brake, DecodingInfo.DataType.Integer)
+            map[Key.Spindle0Increasing] = DecodingInfo(spindle0Increasing, DecodingInfo.DataType.Integer)
+            map[Key.Spindle0Enabled] = DecodingInfo(spindle0Enabled, DecodingInfo.DataType.Integer)
+            map[Key.Spindle0OrientState] = DecodingInfo(spindle0OrientState, DecodingInfo.DataType.Integer)
+            map[Key.Spindle0OrientFault] = DecodingInfo(spindle0OrientFault, DecodingInfo.DataType.Integer)
+            map[Key.Spindle0OverrideEnabled] = DecodingInfo(spindle0OverrideEnabled, DecodingInfo.DataType.Byte)
+            map[Key.Spindle0Homed] = DecodingInfo(spindle0Homed, DecodingInfo.DataType.Byte)
+            map[Key.Motion64DigitalInputsInt] = DecodingInfo(motion64DigitalInputsInt, DecodingInfo.DataType.Object)
+            map[Key.Motion64DigitalOutputsInt] = DecodingInfo(motion64DigitalOutputsInt, DecodingInfo.DataType.Object)
+            map[Key.Motion64AnalogInputsDouble] = DecodingInfo(motion64AnalogInputsDouble, DecodingInfo.DataType.Object)
+            map[Key.Motion64AnalogOutputsDouble] =
+                DecodingInfo(motion64AnalogOutputsDouble, DecodingInfo.DataType.Object)
+            map[Key.MotionDebug] = DecodingInfo(motionDebug, DecodingInfo.DataType.Integer)
+            map[Key.MotionOnSoftLimit] = DecodingInfo(motionOnSoftLimit, DecodingInfo.DataType.Integer)
+            map[Key.ExternalOffsetsApplied] = DecodingInfo(externalOffsetsApplied, DecodingInfo.DataType.Integer)
+            map[Key.ExternalOffsetsPositionXStart] =
+                DecodingInfo(externalOffsetsPositionXStart, DecodingInfo.DataType.Object)
+            map[Key.NumExtraJoints] = DecodingInfo(numExtraJoints, DecodingInfo.DataType.Integer)
+            map[Key.IoCycleTime] = DecodingInfo(ioCycleTime, DecodingInfo.DataType.Double)
+            map[Key.IoDebug] = DecodingInfo(ioDebug, DecodingInfo.DataType.Integer)
+            map[Key.IoReason] = DecodingInfo(ioReason, DecodingInfo.DataType.Integer)
+            map[Key.IoFaultDuringM6] = DecodingInfo(ioFaultDuringM6, DecodingInfo.DataType.Integer)
+            map[Key.IoPocketPrepared] = DecodingInfo(ioPocketPrepared, DecodingInfo.DataType.Integer)
+            map[Key.IoLoadedTool] = DecodingInfo(ioLoadedTool, DecodingInfo.DataType.Integer)
+            map[Key.IoCoolantMist] = DecodingInfo(ioCoolantMist, DecodingInfo.DataType.Integer)
+            map[Key.IoCoolantFlood] = DecodingInfo(ioCoolantFlood, DecodingInfo.DataType.Integer)
+            map[Key.IoAuxEstop] = DecodingInfo(ioAuxEstop, DecodingInfo.DataType.Integer)
+            map[Key.IoAuxLubeOn] = DecodingInfo(ioAuxLubeOn, DecodingInfo.DataType.Integer)
+            map[Key.IoAuxLubeLevelOk] = DecodingInfo(ioAuxLubeLevelOk, DecodingInfo.DataType.Integer)
+        }
+        return map
+    }
+}

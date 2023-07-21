@@ -39,14 +39,17 @@ LC_OBJS = $(abspath ${LINUXCNC_HOME}/src/objects/emc/nml_intf/emc.o) \
  $(abspath ${LINUXCNC_HOME}/src/objects/emc/tooldata/tooldata_db.o) \
  $(abspath ${LINUXCNC_HOME}/lib/libnml.so.0)
 
-all: 	libLinuxCNC.so DumpBufDesc
+all: libLinuxCNC.so DumpBufDesc BufferDescriptorToJson
 
 clean:
 	rm *.o
 	rm *.d
 	rm *.so
 	rm DumpBufDesc
+	rm BufferDescriptorToJson
+	rm bufferDescriptor.json
 	rm ../src/main/resources/libLinuxCNC.so
+	rm ../src/main/resources/bufferDescriptor.json
 
 # copy:
 
@@ -66,6 +69,11 @@ libLinuxCNC.so: $(O_NML) $(LC_OBJS)
 
 DumpBufDesc:	dumpBufDesc.o
 	$(GCC) $(LC_FLAGS) -o $@ $^
+
+BufferDescriptorToJson:	bufferDescriptorToJson.o
+	$(GCC) $(LC_FLAGS) -o $@ $^
+	./BufferDescriptorToJson
+	cp bufferDescriptor.json ../src/main/resources/bufferDescriptor.json
 
 TestNML:	TestNML.o $(LC_OBJS)
 	$(GCC) $(LC_FLAGS) -o $@ $^
