@@ -21,5 +21,5 @@ constructor(ioDispatcher: IoDispatcher, private val cncStatusFactory: CncStatusF
       .refresh(100L)
       .filterNotNull()
       .map { cncStatusFactory.parse(it) }
-      .shareIn(ioDispatcher.createScope(), SharingStarted.Eagerly, replay = 1)
+      .shareIn(ioDispatcher.createScope(), SharingStarted.Lazily, replay = 1)
 }

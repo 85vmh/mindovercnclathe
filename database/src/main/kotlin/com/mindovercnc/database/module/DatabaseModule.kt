@@ -11,7 +11,7 @@ import org.kodein.di.bindSingleton
 private const val DB_NAME = "LatheTools.db"
 
 val DatabaseModule = DI.Module("db") {
-    bindSingleton<Initializer> {
+    bindSingleton<Initializer>("database") {
         SimpleInitializer(
             ConnectionInitializer(DB_NAME),
             SchemaInitializer(true),

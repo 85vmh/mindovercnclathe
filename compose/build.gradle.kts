@@ -18,6 +18,7 @@ dependencies {
     implementation(Libs.cli)
 
     // logging
+    implementation("ch.qos.logback:logback-classic:1.4.8")
     implementation(Libs.logging)
 
     // okio
