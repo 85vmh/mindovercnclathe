@@ -1,6 +1,4 @@
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.compose
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -27,16 +25,15 @@ dependencies {
     // compose
     implementation(compose.desktop.currentOs)
     implementation(compose.uiTooling)
-    @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3)
+    implementation(compose.material3)
 
-    // jars
-    implementation(fileTree(mapOf("dir" to "lib", "include" to listOf("*.jar"))))
 
     // the library that contains the JNI interface for communicating with LinuxCNC library
     implementation(project(":ktlcnc"))
 
     // internal modules
     implementation(project(":clipboard"))
+    implementation(project(":actor"))
     implementation(project(":database"))
     implementation(project(":dispatcher"))
     implementation(project(":editor"))
@@ -66,20 +63,6 @@ dependencies {
     testImplementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
     testImplementation("io.mockk:mockk:1.12.4")
     testImplementation(Libs.Coroutines.test)
-}
-
-compose.desktop {
-    application {
-        mainClass = "MainKt"
-
-        jvmArgs(NativePaths.createJvmArgs(rootProject))
-
-        nativeDistributions {
-            // needed by the database
-            modules("java.sql")
-            targetFormats(TargetFormat.Deb)
-        }
-    }
 }
 
 tasks.withType<KotlinCompile>().configureEach {

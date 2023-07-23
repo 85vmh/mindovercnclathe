@@ -4,65 +4,76 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm")
+    kotlin("multiplatform")
     id("org.jetbrains.compose")
 }
 
 version = Versions.app
 
-dependencies {
-    implementation(Libs.stdlib)
-    implementation(Libs.Coroutines.core)
-    implementation(Libs.Coroutines.swing)
-    implementation(Libs.Serialization.json)
-    implementation(Libs.cli)
+kotlin {
+    jvm()
 
-    // logging
-    implementation(Libs.logging)
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(Libs.stdlib)
+                implementation(Libs.Coroutines.core)
+                implementation(Libs.Coroutines.swing)
+                implementation(Libs.Serialization.json)
+                implementation(Libs.cli)
 
-    // okio
-    implementation(Libs.okio)
+                // logging
+                implementation(Libs.logging)
 
-    // compose
-    implementation(compose.desktop.currentOs)
-    implementation(compose.uiTooling)
-    @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3)
+                // okio
+                implementation(Libs.okio)
 
-    // jars
-    implementation(fileTree(mapOf("dir" to "lib", "include" to listOf("*.jar"))))
+                // compose
+                implementation(compose.desktop.currentOs)
+                implementation(compose.uiTooling)
+                @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3)
 
-    // the library that contains the JNI interface for communicating with LinuxCNC library
-    implementation(project(":ktlcnc"))
+                // jars
+                implementation(fileTree(mapOf("dir" to "lib", "include" to listOf("*.jar"))))
 
-    // internal modules
-    implementation(project(":clipboard"))
-    implementation(project(":database"))
-    implementation(project(":dispatcher"))
-    implementation(project(":editor"))
-    implementation(project(":data:impl"))
-    implementation(project(":model"))
-    implementation(project(":data:repository"))
+                // the library that contains the JNI interface for communicating with LinuxCNC library
+                implementation(project(":ktlcnc"))
 
-    implementation(project(":protos"))
-    implementation(Libs.Grpc.okhttp)
-    implementation(Libs.Compose.splitpane)
+                // internal modules
+                implementation(project(":clipboard"))
+                implementation(project(":compose"))
+                implementation(project(":database"))
+                implementation(project(":dispatcher"))
+                implementation(project(":editor"))
+                implementation(project(":data:impl"))
+                implementation(project(":model"))
+                implementation(project(":data:repository"))
 
-    //    implementation(project(":vtk"))
-    implementation(Libs.Kodein.compose)
+                implementation(project(":protos"))
+                implementation(Libs.Grpc.okhttp)
+                implementation(Libs.Compose.splitpane)
 
-    // navigation
-    implementation("cafe.adriel.voyager:voyager-navigator:${Versions.voyager}")
-    implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:${Versions.voyager}")
-    implementation("cafe.adriel.voyager:voyager-tab-navigator:${Versions.voyager}")
-    implementation("cafe.adriel.voyager:voyager-transitions:${Versions.voyager}")
+                //    implementation(project(":vtk"))
+                implementation(Libs.Kodein.compose)
 
-    // State Machine
-    implementation("io.github.nsk90:kstatemachine:0.9.4")
+                // navigation
+                implementation("cafe.adriel.voyager:voyager-navigator:${Versions.voyager}")
+                implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:${Versions.voyager}")
+                implementation("cafe.adriel.voyager:voyager-tab-navigator:${Versions.voyager}")
+                implementation("cafe.adriel.voyager:voyager-transitions:${Versions.voyager}")
+            }
+        }
 
-    testImplementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
-    testImplementation("io.mockk:mockk:1.12.4")
-    testImplementation(Libs.Coroutines.test)
+        val commonTest by getting {
+            dependencies {
+                implementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
+                implementation("io.mockk:mockk:1.12.4")
+                implementation(Libs.Coroutines.test)
+            }
+        }
+    }
 }
+
 
 compose.desktop {
     application {

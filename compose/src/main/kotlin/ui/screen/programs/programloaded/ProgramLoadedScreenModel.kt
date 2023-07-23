@@ -23,7 +23,7 @@ import screen.uimodel.PositionModel
 import usecase.*
 import usecase.model.ActiveCode
 import usecase.model.PathUiState
-import usecase.model.ProgramData
+import actor.ProgramData
 import usecase.model.VisualTurningState
 
 class ProgramLoadedScreenModel(

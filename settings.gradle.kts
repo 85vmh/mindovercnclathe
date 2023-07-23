@@ -1,4 +1,5 @@
 rootProject.name = "MindOverCNC Lathe"
+include("actor")
 include("compose")
 include("clipboard")
 include("database")
@@ -11,6 +12,7 @@ include("editor")
 include("logger")
 include("model")
 include("frontend")
+include("statemachine")
 include("initializer")
 include("dispatcher")
 include("protos")
