@@ -5,7 +5,6 @@ import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
-import java.util.prefs.Preferences
 
 val CommonDataModule = DI.Module("common_data") {
     bindSingleton<SystemMessageRepository> { SystemMessageRepositoryImpl(instance(), instance()) }
@@ -15,8 +14,8 @@ val CommonDataModule = DI.Module("common_data") {
     bindSingleton<MotionStatusRepository> { MotionStatusRepositoryImpl(instance()) }
     bindSingleton<IoStatusRepository> { IoStatusRepositoryImpl(instance()) }
 
-    bindSingleton<IniFileRepository> { IniFileRepositoryImpl(instance()) }
-    bindSingleton<VarFileRepository> { VarFileRepositoryImpl(instance(), instance(), instance()) }
+    bindSingleton<IniFileRepository> { IniFileRepositoryImpl() }
+    bindSingleton<VarFileRepository> { VarFileRepositoryImpl() }
 
     bindSingleton<ToolHolderRepository> { ToolHolderRepositoryImpl() }
     bindSingleton<LatheToolsRepository> { LatheToolsRepositoryImpl() }
@@ -29,8 +28,7 @@ val CommonDataModule = DI.Module("common_data") {
         println("Program Dir $file")
         FileSystemRepositoryImpl(instance(), file, instance())
     }
-    bindSingleton { Preferences.userRoot() }
-    bindSingleton<SettingsRepository> { SettingsRepositoryImpl(instance()) }
+    bindSingleton<SettingsRepository> { SettingsRepositoryImpl() }
     bindSingleton<ActiveLimitsRepository> { ActiveLimitsRepositoryImpl() }
 
     bindProvider { ToolFilePath(instance<IniFileRepository>().getIniFile().toolTableFile) }
@@ -38,10 +36,6 @@ val CommonDataModule = DI.Module("common_data") {
     bindProvider { VarFilePath(instance<IniFileRepository>().getIniFile().parameterFile) }
 
     bindSingleton<GCodeRepository> {
-        GCodeRepositoryImpl(
-            iniFilePath = instance(),
-            toolFilePath = instance(),
-            varFilePath = instance()
-        )
+        GCodeRepositoryImpl()
     }
 }

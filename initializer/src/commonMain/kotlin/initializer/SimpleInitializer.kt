@@ -8,7 +8,7 @@ import mu.KotlinLogging
 
 /** Initializer for the KtCncDb. */
 class SimpleInitializer(
-    vararg val steps: InitializerStep
+    private vararg val steps: InitializerStep
 ) : Initializer {
 
     override val stepCount: Int = steps.size
@@ -22,7 +22,7 @@ class SimpleInitializer(
     override suspend fun initialise() {
         steps.forEachIndexed { index, step ->
             logger.info { "Initialising database $index / ${steps.lastIndex}" }
-            _currentStepNumber.value = index
+            _currentStepNumber.value++
             step.initialise()
         }
     }

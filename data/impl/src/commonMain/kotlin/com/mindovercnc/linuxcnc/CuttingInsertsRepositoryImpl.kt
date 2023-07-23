@@ -1,52 +1,34 @@
 package com.mindovercnc.linuxcnc
 
-import com.mindovercnc.database.entity.CuttingInsertEntity
-import com.mindovercnc.database.table.CuttingInsertTable
 import com.mindovercnc.model.CuttingInsert
 import com.mindovercnc.repository.CuttingInsertsRepository
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
+import mu.KotlinLogging
 
 /** Implementation for [CuttingInsertsRepository]. */
 class CuttingInsertsRepositoryImpl : CuttingInsertsRepository {
 
+    init {
+        LOG.warn { "Remote implementation is missing" }
+    }
+
     override fun insert(cuttingInsert: CuttingInsert) {
-        transaction {
-            CuttingInsertEntity.new {
-                madeOf = cuttingInsert.madeOf
-                code = cuttingInsert.code
-                tipRadius = cuttingInsert.tipRadius
-                tipAngle = cuttingInsert.tipAngle
-                size = cuttingInsert.size
-            }
-        }
+        /* no-op */
     }
 
     override fun update(cuttingInsert: CuttingInsert) {
-        transaction {
-            CuttingInsertTable.update({ CuttingInsertTable.id eq cuttingInsert.id }) {
-                it[code] = cuttingInsert.code
-                it[madeOf] = cuttingInsert.madeOf
-                it[tipRadius] = cuttingInsert.tipRadius
-                it[tipAngle] = cuttingInsert.tipAngle
-                it[size] = cuttingInsert.size
-            }
-        }
+        /* no-op */
     }
 
     override fun findAll(): List<CuttingInsert> {
-        return transaction {
-            CuttingInsertEntity.all().map {
-                it.toCuttingInsert()
-            }
-        }
+        /* no-op */
+        return emptyList()
     }
 
     override fun delete(cuttingInsert: CuttingInsert) {
-        return transaction {
-            CuttingInsertTable.deleteWhere { CuttingInsertTable.id eq cuttingInsert.id } != 0
-        }
+        /* no-op */
+    }
+
+    companion object {
+        private val LOG = KotlinLogging.logger("CuttingInsertsRepository")
     }
 }

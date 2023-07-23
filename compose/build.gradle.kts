@@ -2,67 +2,71 @@ import org.jetbrains.compose.compose
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm")
+    kotlin("multiplatform")
     id("org.jetbrains.compose")
 }
 
 version = Versions.app
 
-dependencies {
-    implementation(Libs.stdlib)
-    implementation(Libs.Coroutines.core)
-    implementation(Libs.Coroutines.swing)
-    implementation(Libs.Serialization.json)
-    implementation(Libs.cli)
+kotlin {
+    jvm()
+    js(IR)
 
-    // logging
-    implementation("ch.qos.logback:logback-classic:1.4.8")
-    implementation(Libs.logging)
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(Libs.stdlib)
+                implementation(Libs.Coroutines.core)
+                implementation(Libs.Serialization.json)
 
-    // okio
-    implementation(Libs.okio)
+                // logging
+                implementation(Libs.logging)
 
-    // compose
-    implementation(compose.desktop.currentOs)
-    implementation(compose.uiTooling)
-    implementation(compose.material3)
+                // okio
+                implementation(Libs.okio)
 
+                // compose
+//                implementation(compose.uiTooling)
+                implementation(compose.material3)
 
-    // the library that contains the JNI interface for communicating with LinuxCNC library
-    implementation(project(":ktlcnc"))
+                // internal modules
+                implementation(project(":clipboard"))
+                implementation(project(":actor"))
+                implementation(project(":dispatcher"))
+                implementation(project(":editor"))
+                implementation(project(":model"))
+                implementation(project(":initializer"))
 
-    // internal modules
-    implementation(project(":clipboard"))
-    implementation(project(":actor"))
-    implementation(project(":database"))
-    implementation(project(":dispatcher"))
-    implementation(project(":editor"))
-    implementation(project(":model"))
-    implementation(project(":initializer"))
+                implementation(project(":data:impl"))
+                implementation(project(":data:repository"))
 
-    implementation(project(":data:impl"))
-    implementation(project(":data:legacy"))
-    implementation(project(":data:repository"))
+                implementation(project(":startup:args"))
 
-    implementation(project(":protos"))
-    implementation(Libs.Grpc.okhttp)
-    implementation(Libs.Compose.splitpane)
+                implementation(project(":protos"))
+                implementation(Libs.Grpc.okhttp)
+//                implementation(Libs.Compose.splitpane)
 
-    //    implementation(project(":vtk"))
-    implementation(Libs.Kodein.compose)
+                //    implementation(project(":vtk"))
+                implementation(Libs.Kodein.compose)
 
-    // navigation
-    implementation("cafe.adriel.voyager:voyager-navigator:${Versions.voyager}")
-    implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:${Versions.voyager}")
-    implementation("cafe.adriel.voyager:voyager-tab-navigator:${Versions.voyager}")
-    implementation("cafe.adriel.voyager:voyager-transitions:${Versions.voyager}")
+                // navigation
+                implementation("cafe.adriel.voyager:voyager-navigator:${Versions.voyager}")
+                implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:${Versions.voyager}")
+                implementation("cafe.adriel.voyager:voyager-tab-navigator:${Versions.voyager}")
+                implementation("cafe.adriel.voyager:voyager-transitions:${Versions.voyager}")
+            }
 
-    // State Machine
-    implementation("io.github.nsk90:kstatemachine:0.9.4")
+        }
 
-    testImplementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
-    testImplementation("io.mockk:mockk:1.12.4")
-    testImplementation(Libs.Coroutines.test)
+        val jvmTest by getting {
+            dependencies {
+                implementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
+                implementation("io.mockk:mockk:1.12.4")
+                implementation(Libs.Coroutines.test)
+                implementation(compose.material)
+            }
+        }
+    }
 }
 
 tasks.withType<KotlinCompile>().configureEach {

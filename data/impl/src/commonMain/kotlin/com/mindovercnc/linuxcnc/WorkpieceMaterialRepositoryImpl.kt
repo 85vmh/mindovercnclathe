@@ -1,25 +1,28 @@
 package com.mindovercnc.linuxcnc
 
-import com.mindovercnc.database.entity.WorkpieceMaterialEntity
 import com.mindovercnc.model.WorkpieceMaterial
 import com.mindovercnc.repository.WorkpieceMaterialRepository
-import org.jetbrains.exposed.sql.transactions.transaction
+import mu.KotlinLogging
 
-fun WorkpieceMaterialEntity.toWorkpieceMaterial(): WorkpieceMaterial {
-    return WorkpieceMaterial(
-        id = id.value,
-        name = name,
-    )
-}
 
 /** Implementation for [WorkpieceMaterialRepository]. */
 class WorkpieceMaterialRepositoryImpl : WorkpieceMaterialRepository {
 
+
+    init {
+        LOG.warn { "Remote implementation is missing" }
+    }
+
     override fun insert(wpMaterial: WorkpieceMaterial) {
-        WorkpieceMaterialEntity.new { name = wpMaterial.name }
+        /* no-op */
     }
 
     override fun findAll(): List<WorkpieceMaterial> {
-        return transaction { WorkpieceMaterialEntity.all().map { it.toWorkpieceMaterial() } }
+        /* no-op */
+        return emptyList()
+    }
+
+    companion object {
+        private val LOG = KotlinLogging.logger("WorkpieceMaterialRepository")
     }
 }

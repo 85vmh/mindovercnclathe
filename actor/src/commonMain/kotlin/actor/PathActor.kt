@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import org.jetbrains.skia.Point
 
 private const val dash = 2f
 private const val space = 5f
@@ -55,6 +56,7 @@ data class PathActor(
                         PathElement.Line.Type.Traverse -> tp.addLine(it, pixelPerUnit)
                     }
                 }
+
                 is PathElement.Arc -> fp.addArc(it, pixelPerUnit)
             }
         }
@@ -67,15 +69,15 @@ data class PathActor(
         )
     }
 
-    private fun List<Point2D>.toPath(pixelPerUnit: Float): Path {
+    private fun List<Point>.toPath(pixelPerUnit: Float): Path {
         val path = Path()
         val previousPoint = firstOrNull()
         if (previousPoint != null) {
-            with(previousPoint.toOffset(pixelPerUnit)) {
+            with(previousPoint.scale(pixelPerUnit)) {
                 path.moveTo(x, y)
             }
             this.forEach {
-                with(it.toOffset(pixelPerUnit)) {
+                with(it.scale(pixelPerUnit)) {
                     path.lineTo(x, y)
                 }
             }

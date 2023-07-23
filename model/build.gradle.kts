@@ -12,7 +12,7 @@ kotlin {
             dependencies {
                 implementation(Libs.stdlib)
                 implementation(Libs.Coroutines.core)
-                implementation(project(":ktlcnc"))
+//                implementation(project(":ktlcnc"))
                 implementation(project(":protos"))
                 implementation(Libs.okio)
             }

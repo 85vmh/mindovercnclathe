@@ -4,7 +4,7 @@ version = Versions.app
 
 kotlin {
     jvm()
-//    js(IR)
+    js(IR)
 
     sourceSets {
         val commonMain by getting {
@@ -13,7 +13,7 @@ kotlin {
                 api(Libs.Coroutines.core)
                 implementation(Libs.Kodein.core)
 
-                implementation(project(":database"))
+//                implementation(project(":database"))
                 implementation(project(":editor"))
 
                 api(project(":model"))
