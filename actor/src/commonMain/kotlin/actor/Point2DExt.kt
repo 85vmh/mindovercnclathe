@@ -1,7 +1,6 @@
 package actor
 
 import androidx.compose.ui.geometry.Offset
-import com.mindovercnc.model.Point2D
 
 fun Point2D.toOffset(multiplicationFactor: Float = 1f) = Offset(
     x = (z * multiplicationFactor).toFloat(),

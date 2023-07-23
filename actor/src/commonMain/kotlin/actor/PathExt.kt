@@ -3,7 +3,6 @@ package actor
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Path
-import com.mindovercnc.model.PathElement
 import kotlin.math.acos
 import kotlin.math.pow
 import kotlin.math.sqrt
