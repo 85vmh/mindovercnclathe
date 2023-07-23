@@ -1,6 +1,6 @@
 package com.mindovercnc.vtk
 
-import com.mindovercnc.model.Point2D
+import actor.Point2D
 import vtk.*
 
 

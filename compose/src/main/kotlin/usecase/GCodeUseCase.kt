@@ -1,7 +1,7 @@
 package usecase
 
 import actor.PathElement
-import com.mindovercnc.model.Point2D
+import actor.Point2D
 import com.mindovercnc.repository.GCodeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

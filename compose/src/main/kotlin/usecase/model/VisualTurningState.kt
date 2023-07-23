@@ -1,12 +1,11 @@
 package usecase.model
 
+import actor.*
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.IntSize
-import canvas.*
 import com.mindovercnc.model.MachineLimits
-import com.mindovercnc.model.Point2D
 import com.mindovercnc.model.WcsLimits
 
 const val extraAxisLength = 20 //add another 30 px for the tip of the arrow to exit the path

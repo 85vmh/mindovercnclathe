@@ -1,7 +1,7 @@
 package com.mindovercnc.vtk
 
 import com.mindovercnc.model.PathElement
-import com.mindovercnc.model.Point2D
+import actor.Point2D
 import vtk.*
 
 const val length = 2.5 //taken from py

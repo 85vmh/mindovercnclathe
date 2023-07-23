@@ -1,6 +1,6 @@
 package usecase
 
-import com.mindovercnc.model.Point2D
+import actor.Point2D
 import com.mindovercnc.repository.CncStatusRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged

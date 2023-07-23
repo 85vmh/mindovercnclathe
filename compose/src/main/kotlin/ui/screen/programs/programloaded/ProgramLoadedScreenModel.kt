@@ -9,7 +9,7 @@ import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.editor.Editor
 import com.mindovercnc.editor.EditorLoader
 import com.mindovercnc.model.MachineLimits
-import com.mindovercnc.model.Point2D
+import actor.Point2D
 import com.mindovercnc.repository.IniFileRepository
 import kotlin.math.min
 import kotlinx.coroutines.flow.filterNotNull

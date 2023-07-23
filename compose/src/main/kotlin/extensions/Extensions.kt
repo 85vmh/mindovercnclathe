@@ -1,10 +1,10 @@
 package extensions
 
+import actor.Point2D
 import androidx.compose.foundation.gestures.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import com.mindovercnc.model.Point2D
 import java.math.BigDecimal
 import java.math.RoundingMode
 import kotlin.math.roundToInt
