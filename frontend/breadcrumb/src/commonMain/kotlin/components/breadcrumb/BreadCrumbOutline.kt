@@ -4,7 +4,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 
-fun BreadCrumbOutline(xOffset: Float, size: Size): Outline.Generic {
+internal fun BreadCrumbOutline(xOffset: Float, size: Size): Outline.Generic {
   val path =
     Path().apply {
       moveTo(xOffset, 0f)

@@ -14,9 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import extensions.draggableScroll
 import screen.composables.DropDownClosedItem
 import screen.composables.DropDownView
+import scroll.draggableScroll
 
 @Composable
 internal fun <T> InsertLetter(

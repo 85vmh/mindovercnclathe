@@ -11,7 +11,7 @@ import startup.AppDirInitializer
 import startup.StatusWatchInitializer
 
 val InitializerModule = DI.Module("initializer") {
-    bindSingleton("app_initializer") {
+    bindSingleton("app") {
         val appDirInitializer: AppDirInitializer = instance()
         val ktlCncInitializer: KtlCncInitializer = instance()
         val databaseInitializer: Initializer = instance("database")
@@ -23,4 +23,5 @@ val InitializerModule = DI.Module("initializer") {
     bindSingleton { AppDirInitializer(instance()) }
 
     bindSingleton { KtlCncInitializer(Files.appDir.toFile()) }
+    bindSingleton { StatusWatchInitializer(instance(), instance()) }
 }

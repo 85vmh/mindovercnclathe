@@ -1,5 +1,4 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -68,7 +67,8 @@ kotlin {
 
         val commonTest by getting {
             dependencies {
-                implementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
+                @OptIn(ExperimentalComposeLibrary::class)
+                implementation(compose.uiTestJUnit4)
                 implementation("io.mockk:mockk:1.12.4")
                 implementation(Libs.Coroutines.test)
             }

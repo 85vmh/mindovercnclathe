@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import screen.composables.DropDownClosedItem
 import screen.composables.DropDownView
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> DropDownSetting(
     settingName: String,
@@ -30,7 +28,7 @@ fun <T> DropDownSetting(
 ) {
     ListItem(
         modifier = modifier,
-        headlineText = { Text(text = settingName) },
+        headlineContent = { Text(text = settingName) },
         trailingContent = {
             DropDownView(
                 items = items,

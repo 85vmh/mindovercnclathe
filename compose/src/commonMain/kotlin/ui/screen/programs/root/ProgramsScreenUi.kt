@@ -7,15 +7,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import components.breadcrumb.BreadcrumbView
 import components.filesystem.FileSystemView
-import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
-import org.jetbrains.compose.splitpane.HorizontalSplitPane
-import org.jetbrains.compose.splitpane.rememberSplitPaneState
+import screen.composables.VerticalDivider
 import screen.composables.common.Settings
 import screen.composables.editor.EditorEmptyView
 import screen.composables.editor.EditorView
-import ui.widget.handle.defaultSplitter
 
-@OptIn(ExperimentalSplitPaneApi::class)
 @Composable
 fun ProgramsScreenUi(state: ProgramsState, modifier: Modifier = Modifier) {
     val settings = Settings()
@@ -27,25 +23,23 @@ fun ProgramsScreenUi(state: ProgramsState, modifier: Modifier = Modifier) {
             contentPadding = PaddingValues(horizontal = 8.dp)
         )
         Divider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp)
-        val splitPaneState = rememberSplitPaneState(initialPositionPercentage = 0.5f)
-        HorizontalSplitPane(splitPaneState = splitPaneState) {
-            // file explorer
-            first(120.dp) {
-                FileSystemView(data = state.fileSystemData, modifier = Modifier.fillMaxSize())
-            }
+        Row {
+            val itemModifier = Modifier.fillMaxSize()
+                .weight(1f)
+                .widthIn(min = 120.dp)
 
-            // editor
-            second(120.dp) {
-                val editorModifier = Modifier.fillMaxSize()
-                if (state.editor != null) {
-                    EditorView(model = state.editor, settings = settings, modifier = editorModifier)
-                } else {
-                    EditorEmptyView(modifier = editorModifier)
-                }
-            }
+            // file explorer
+            FileSystemView(data = state.fileSystemData, modifier = itemModifier)
 
             // divider
-            defaultSplitter()
+            VerticalDivider()
+
+            // editor
+            if (state.editor != null) {
+                EditorView(model = state.editor, settings = settings, modifier = itemModifier)
+            } else {
+                EditorEmptyView(modifier = itemModifier)
+            }
         }
     }
 }

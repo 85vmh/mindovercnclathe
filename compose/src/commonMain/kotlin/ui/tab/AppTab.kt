@@ -39,7 +39,6 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
 
     private val iconButtonModifier = Modifier.size(48.dp)
 
-    @OptIn(ExperimentalMaterial3Api::class)
     val drawerState: DrawerState = DrawerState(DrawerValue.Closed)
 
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)

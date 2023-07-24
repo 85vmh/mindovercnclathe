@@ -1,4 +1,4 @@
-package ui.widget.handle
+package splitpane.handle
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

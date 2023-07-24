@@ -20,7 +20,7 @@ class IniFileRepositoryImpl : IniFileRepository {
 
     override fun getActiveLimits(): G53AxisLimits {
         /* no-op */
-        return G53AxisLimits()
+        return G53AxisLimits(0.0, 0.0, 0.0, 0.0)
     }
 
     override fun setCustomG53AxisLimits(g53AxisLimits: G53AxisLimits) {

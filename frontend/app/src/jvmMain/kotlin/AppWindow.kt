@@ -1,4 +1,3 @@
-import MindOverCNCLathe
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalDensity
@@ -6,7 +5,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
 import di.withAppDi
-import startup.StartupArgs
+import startup.args.StartupArgs
 import themes.AppTheme
 
 @Composable

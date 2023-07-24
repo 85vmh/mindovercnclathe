@@ -1,9 +1,6 @@
 package ui.screen.tools.root
 
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.PopupAlertDialogProvider
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,7 +20,6 @@ fun LatheToolDeleteDialog(
     deleteClick: (LatheTool) -> Unit,
     abortClick: () -> Unit
 ) {
-
     AlertDialog(
         modifier = Modifier.width(400.dp),
         onDismissRequest = { },

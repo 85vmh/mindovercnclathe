@@ -12,7 +12,7 @@ import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 
-private val GrpcRepositoryModule =
+val GrpcRepositoryModule =
     DI.Module("grpc_repository") {
         bindSingleton<CncCommandRepository> { CncCommandRepositoryImpl(instance()) }
         bindSingleton<HalRepository> { HalRepositoryImpl(instance()) }

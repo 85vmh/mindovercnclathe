@@ -18,10 +18,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.FeedsAndSpeeds
-import extensions.draggableScroll
 import extensions.toFixedDigitsString
 import screen.composables.VerticalDivider
-import screen.composables.platform.VerticalScrollbar
+import scroll.VerticalScrollbar
+import scroll.draggableScroll
 
 private enum class FeedsAndSpeedsColumns(val text: String, val unit: String? = null, val size: Dp = Dp.Unspecified) {
     Material(text = "Material", size = 120.dp),
@@ -74,9 +74,7 @@ fun FeedsAndSpeedsTable(
 
         VerticalScrollbar(
             Modifier.align(Alignment.CenterEnd).width(30.dp),
-            scrollState,
-            feedsAndSpeedsList.size,
-            60.dp
+            scrollState
         )
     }
 }

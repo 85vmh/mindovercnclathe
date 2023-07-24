@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
 import di.withAppDi
+import initializer.Initializer
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import org.kodein.di.compose.rememberInstance
@@ -31,7 +32,7 @@ fun StartupWindow(
         undecorated = true
     ) {
         withAppDi(startupArgs) {
-            val initializer: Initializer by rememberInstance()
+            val initializer: Initializer by rememberInstance("app")
             LaunchedEffect(Unit) {
                 initializer.initialise()
 

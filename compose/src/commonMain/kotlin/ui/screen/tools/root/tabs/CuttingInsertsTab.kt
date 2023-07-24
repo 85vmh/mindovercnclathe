@@ -20,13 +20,12 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.model.CuttingInsert
-import extensions.draggableScroll
 import extensions.toFixedDigitsString
 import screen.composables.VerticalDivider
-import screen.composables.platform.VerticalScrollbar
+import scroll.VerticalScrollbar
+import scroll.draggableScroll
 import ui.screen.tools.root.ToolsScreenModel
 import ui.screen.tools.root.tabs.cuttinginsert.AddEditCuttingInsertScreen
-import ui.screen.tools.root.tabs.lathetool.AddEditLatheToolScreen
 
 private val itemModifier = Modifier.fillMaxWidth()
 
@@ -86,9 +85,7 @@ fun CuttingInsertsContent(
 
         VerticalScrollbar(
             Modifier.align(Alignment.CenterEnd).width(30.dp),
-            scrollState,
-            state.toolHolders.size,
-            60.dp
+            scrollState
         )
     }
 }
@@ -192,9 +189,8 @@ private fun CuttingInsertView(
         ) {
             IconButton(
                 modifier = Modifier,
-                onClick = {
-                    onEditClicked.invoke(item)
-                }) {
+                onClick = { onEditClicked.invoke(item) }
+            ) {
                 Icon(Icons.Default.Edit, contentDescription = "")
             }
             VerticalDivider()

@@ -1,9 +1,15 @@
 package components.filesystem
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ContextMenuArea
+import androidx.compose.foundation.ContextMenuItem
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.*
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -16,9 +22,8 @@ import androidx.compose.ui.unit.sp
 import java.text.SimpleDateFormat
 import java.util.*
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FileSystemItemView(item: FileSystemItemData, modifier: Modifier = Modifier) {
+actual fun FileSystemItemView(item: FileSystemItemData, modifier: Modifier) {
     val color =
         when {
             item.isDirectory -> MaterialTheme.colorScheme.tertiaryContainer
@@ -33,7 +38,7 @@ fun FileSystemItemView(item: FileSystemItemData, modifier: Modifier = Modifier) 
         ListItem(
             modifier = modifier.clickable(onClick = item.onClick),
             colors = ListItemDefaults.colors(containerColor = color),
-            headlineText = {
+            headlineContent = {
                 Text(
                     textAlign = TextAlign.Left,
                     fontSize = 14.sp,
@@ -41,7 +46,7 @@ fun FileSystemItemView(item: FileSystemItemData, modifier: Modifier = Modifier) 
                     text = item.title
                 )
             },
-            supportingText = item.lastModified?.let { lastModified ->
+            supportingContent = item.lastModified?.let { lastModified ->
                 {
                     Text(
                         textAlign = TextAlign.Left,

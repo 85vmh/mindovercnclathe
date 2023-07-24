@@ -23,15 +23,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.LatheTool
 import com.mindovercnc.model.ToolHolderType
-import extensions.draggableScroll
-import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
-import org.jetbrains.compose.splitpane.HorizontalSplitPane
+import screen.composables.VerticalDivider
 import screen.uimodel.InputType
+import scroll.draggableScroll
 import ui.screen.tools.root.tabs.LatheToolView
-import ui.widget.handle.defaultSplitter
 import ui.widget.listitem.ValueSetting
 
-@OptIn(ExperimentalSplitPaneApi::class)
 @Composable
 fun AddEditHolderContent(
     state: AddEditToolHolderScreenModel.State,
@@ -40,17 +37,14 @@ fun AddEditHolderContent(
     onLatheTool: (LatheTool) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    HorizontalSplitPane(
+    Row(
         modifier = modifier.fillMaxSize()
     ) {
-        first(300.dp) {
-            StartContent(state, onHolderNumber, onHolderType)
-        }
-        defaultSplitter()
+        StartContent(state, onHolderNumber, onHolderType, modifier = Modifier.weight(1f).widthIn(min = 300.dp))
 
-        second {
-            EndContent(state, onLatheTool, modifier = Modifier.fillMaxWidth())
-        }
+        VerticalDivider()
+
+        EndContent(state, onLatheTool, modifier = Modifier.weight(1f))
     }
 }
 
@@ -59,12 +53,14 @@ private fun StartContent(
     state: AddEditToolHolderScreenModel.State,
     onHolderNumber: (Int) -> Unit,
     onHolderType: (ToolHolderType) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val items = remember { ToolHolderType.values() }
     val holdersScrollState = rememberLazyGridState()
     val scope = rememberCoroutineScope()
+
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (state.holderNumber == null) {

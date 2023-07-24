@@ -20,7 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
-import extensions.draggableScroll
+import scroll.draggableScroll
 import usecase.model.ActiveCode
 
 @Composable

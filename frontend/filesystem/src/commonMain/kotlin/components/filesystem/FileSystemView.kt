@@ -11,8 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import extensions.draggableScroll
-import screen.composables.platform.VerticalScrollbar
+import scroll.VerticalScrollbar
+import scroll.draggableScroll
 
 @Composable
 fun FileSystemView(data: FileSystemData, modifier: Modifier = Modifier) {
@@ -28,9 +28,7 @@ fun FileSystemView(data: FileSystemData, modifier: Modifier = Modifier) {
         }
         VerticalScrollbar(
             modifier = Modifier.align(Alignment.CenterEnd),
-            scrollState = scrollState,
-            itemCount = data.items.size,
-            averageItemSize = 60.dp
+            scrollState = scrollState
         )
     }
 }

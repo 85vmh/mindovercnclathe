@@ -22,8 +22,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.useResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import extensions.draggableScroll
 import screen.uimodel.SimpleCycle
+import scroll.draggableScroll
 
 @Composable
 fun SimpleCyclesGrid(

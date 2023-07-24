@@ -7,7 +7,9 @@ import components.filesystem.FileSystemItemData
 import okio.FileSystem
 import okio.Path
 
-class FileSystemDataUseCase constructor(private val fileSystem: FileSystem) {
+class FileSystemDataUseCase constructor(
+    private val fileSystem: FileSystem
+) {
 
     fun Path.toFileSystemData(onItemClick: (Path) -> Unit): FileSystemData {
         val items =
@@ -32,10 +34,12 @@ class FileSystemDataUseCase constructor(private val fileSystem: FileSystem) {
 
     private fun Path.isDisplayable(): Boolean {
         val metadata = fileSystem.metadata(this)
+        // todo change to real implementation
+        val isHidden = false // toFile().isHidden
         return if (metadata.isDirectory) {
-            !toFile().isHidden
+            !isHidden
         } else {
-            !toFile().isHidden && extension.equals("ngc", true)
+            !isHidden && extension.equals("ngc", true)
         }
     }
 }

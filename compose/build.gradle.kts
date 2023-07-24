@@ -27,6 +27,7 @@ kotlin {
 
                 // compose
 //                implementation(compose.uiTooling)
+                implementation(compose.material)
                 implementation(compose.material3)
 
                 // internal modules
@@ -39,6 +40,10 @@ kotlin {
 
                 implementation(project(":data:impl"))
                 implementation(project(":data:repository"))
+
+                implementation(project(":frontend:breadcrumb"))
+                implementation(project(":frontend:filesystem"))
+                implementation(project(":frontend:scroll"))
 
                 implementation(project(":startup:args"))
 
@@ -55,9 +60,13 @@ kotlin {
                 implementation("cafe.adriel.voyager:voyager-tab-navigator:${Versions.voyager}")
                 implementation("cafe.adriel.voyager:voyager-transitions:${Versions.voyager}")
             }
-
         }
 
+        val jvmMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
+        }
         val jvmTest by getting {
             dependencies {
                 implementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))

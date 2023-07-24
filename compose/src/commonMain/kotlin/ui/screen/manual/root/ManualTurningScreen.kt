@@ -1,24 +1,18 @@
 package ui.screen.manual.root
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
-import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,7 +31,6 @@ class ManualTurningScreen : Manual("Manual Turning") {
     override val drawerEnabled: Boolean
         @Composable get() = true
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun ColumnScope.DrawerContent(drawerState: DrawerState) {
         val scope = rememberCoroutineScope()
@@ -129,7 +122,6 @@ class ManualTurningScreen : Manual("Manual Turning") {
         }
     }
 
-    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
         val screenModel = rememberScreenModel<ManualTurningScreenModel>()

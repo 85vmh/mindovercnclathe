@@ -19,15 +19,12 @@ import com.mindovercnc.model.CuttingInsert
 import com.mindovercnc.model.SpindleDirection
 import com.mindovercnc.model.TipOrientation
 import com.mindovercnc.model.ToolType
-import extensions.draggableScroll
-import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
-import org.jetbrains.compose.splitpane.HorizontalSplitPane
 import screen.composables.DropDownInserts
+import screen.composables.VerticalDivider
 import screen.uimodel.InputType
-import ui.widget.handle.defaultSplitter
+import scroll.draggableScroll
 import ui.widget.listitem.ValueSetting
 
-@OptIn(ExperimentalSplitPaneApi::class)
 @Composable
 fun AddEditLatheToolContent(
     state: AddEditLatheToolScreenModel.State,
@@ -47,32 +44,30 @@ fun AddEditLatheToolContent(
     onMaxThreadPitch: (Double) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    HorizontalSplitPane(
+    Row(
         modifier = modifier.fillMaxSize()
     ) {
-        first(300.dp) {
-            StartContent(state, onToolType)
-        }
-        defaultSplitter()
+        StartContent(state, onToolType, modifier = Modifier.weight(1f).widthIn(min = 300.dp))
 
-        second {
-            EndContent(
-                state,
-                onToolId,
-                onCuttingInsert,
-                onToolOrientation,
-                onToolDiameter,
-                onBackAngle,
-                onFrontAngle,
-                onSpindleDirection,
-                onMinBoreDiameter,
-                onMaxZDepth,
-                onMaxXDepth,
-                onBladeWidth,
-                onMinThreadPitch,
-                onMaxThreadPitch
-            )
-        }
+        VerticalDivider()
+
+        EndContent(
+            state,
+            onToolId,
+            onCuttingInsert,
+            onToolOrientation,
+            onToolDiameter,
+            onBackAngle,
+            onFrontAngle,
+            onSpindleDirection,
+            onMinBoreDiameter,
+            onMaxZDepth,
+            onMaxXDepth,
+            onBladeWidth,
+            onMinThreadPitch,
+            onMaxThreadPitch,
+            modifier = Modifier.weight(1f)
+        )
     }
 }
 
@@ -80,11 +75,12 @@ fun AddEditLatheToolContent(
 private fun StartContent(
     state: AddEditLatheToolScreenModel.State,
     onToolType: (ToolType) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val scope = rememberCoroutineScope()
     val toolTypeScrollState = rememberLazyGridState()
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -128,11 +124,12 @@ private fun EndContent(
     onBladeWidth: (Double) -> Unit,
     onMinThreadPitch: (Double) -> Unit,
     onMaxThreadPitch: (Double) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val toolPropertiesScrollState = rememberLazyListState()
     val scope = rememberCoroutineScope()
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (state.latheToolId == null) {

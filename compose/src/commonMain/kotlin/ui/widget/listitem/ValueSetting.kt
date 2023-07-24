@@ -1,7 +1,6 @@
 package ui.widget.listitem
 
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,7 +10,6 @@ import androidx.compose.ui.unit.dp
 import screen.uimodel.InputType
 import ui.widget.NumericInputWithUnit
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ValueSetting(
     settingName: String,
@@ -22,7 +20,7 @@ fun ValueSetting(
     inputModifier: Modifier = Modifier.width(200.dp)
 ) {
     ListItem(
-        headlineText = { Text(text = settingName) },
+        headlineContent = { Text(text = settingName) },
         trailingContent = {
             NumericInputWithUnit(
                 value = value,

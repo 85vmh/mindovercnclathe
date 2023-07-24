@@ -23,10 +23,10 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.model.CuttingInsert
 import com.mindovercnc.model.LatheTool
-import extensions.draggableScroll
 import extensions.toFixedDigitsString
 import screen.composables.VerticalDivider
-import screen.composables.platform.VerticalScrollbar
+import scroll.VerticalScrollbar
+import scroll.draggableScroll
 import ui.screen.tools.root.ToolsScreenModel
 import ui.screen.tools.root.tabs.lathetool.AddEditLatheToolScreen
 import ui.screen.tools.root.tabs.lathetool.DirectionItem
@@ -91,9 +91,7 @@ fun LatheToolsContent(
 
         VerticalScrollbar(
             Modifier.align(Alignment.CenterEnd).width(30.dp),
-            scrollState,
-            state.toolHolders.size,
-            60.dp
+            scrollState
         )
     }
 }
@@ -145,7 +143,7 @@ private fun GenericToolView(
         )
         VerticalDivider()
         Text(
-            text = item.javaClass.simpleName,
+            text = item::class.simpleName!!,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.labelLarge,
             modifier = Modifier.width(LatheToolColumns.ToolType.size)
