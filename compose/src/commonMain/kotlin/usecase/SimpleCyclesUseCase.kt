@@ -1,9 +1,9 @@
 package usecase
 
+import com.mindovercnc.data.linuxcnc.CncCommandRepository
+import com.mindovercnc.data.linuxcnc.HalRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
-import com.mindovercnc.repository.CncCommandRepository
-import com.mindovercnc.repository.HalRepository
 import com.mindovercnc.repository.SettingsRepository
 import com.mindovercnc.repository.TaskStatusRepository
 import extensions.stripZeros

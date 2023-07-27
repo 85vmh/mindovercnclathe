@@ -1,7 +1,7 @@
-package com.mindovercnc.linuxcnc.legacy
+package com.mindovercnc.data.linuxcnc.legacy
 
+import com.mindovercnc.data.linuxcnc.CncCommandRepository
 import com.mindovercnc.linuxcnc.CommandWriter
-import com.mindovercnc.repository.CncCommandRepository
 import linuxcnc.mode
 import linuxcnc.stateNum
 import ro.dragossusi.proto.linuxcnc.status.JogMode

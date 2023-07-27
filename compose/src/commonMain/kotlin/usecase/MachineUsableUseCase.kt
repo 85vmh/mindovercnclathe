@@ -1,6 +1,6 @@
 package usecase
 
-import com.mindovercnc.repository.CncStatusRepository
+import com.mindovercnc.data.linuxcnc.CncStatusRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map

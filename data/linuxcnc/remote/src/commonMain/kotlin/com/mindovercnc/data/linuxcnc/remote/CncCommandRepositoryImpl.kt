@@ -1,6 +1,6 @@
-package com.mindovercnc.linuxcnc
+package com.mindovercnc.data.linuxcnc.remote
 
-import com.mindovercnc.repository.CncCommandRepository
+import com.mindovercnc.data.linuxcnc.CncCommandRepository
 import mu.KotlinLogging
 import ro.dragossusi.proto.linuxcnc.*
 import ro.dragossusi.proto.linuxcnc.status.JogMode
@@ -10,8 +10,9 @@ import ro.dragossusi.proto.linuxcnc.status.auto.AutoMode
 import ro.dragossusi.proto.linuxcnc.status.motion.MotionMode
 
 /** Implementation for [CncCommandRepository]. */
-class CncCommandRepositoryImpl(private val linuxCncGrpc: LinuxCncClient) :
-    CncCommandRepository {
+class CncCommandRepositoryImpl(
+    private val linuxCncGrpc: LinuxCncClient
+) : CncCommandRepository {
 
     override fun setTaskMode(taskMode: TaskMode) {
         val request = SetTaskModeRequest(task_mode = taskMode)
@@ -171,12 +172,12 @@ class CncCommandRepositoryImpl(private val linuxCncGrpc: LinuxCncClient) :
     }
 
     override fun executeMdiCommand(command: String): Boolean {
-        println("----MDI: $command")
+        logger.info { "----MDI: $command" }
         val request = SendMdiCommandRequest(command = command)
         val result = linuxCncGrpc.SendMdiCommand().executeBlocking(request).result > 0
 
         if (!result) {
-            println("-----MDI cmd failed: $command")
+            logger.info { "-----MDI cmd failed: $command" }
         }
 
         return result

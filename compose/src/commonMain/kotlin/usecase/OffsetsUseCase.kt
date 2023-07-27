@@ -1,6 +1,8 @@
 package usecase
 
-import com.mindovercnc.repository.*
+import com.mindovercnc.data.linuxcnc.CncCommandRepository
+import com.mindovercnc.data.linuxcnc.CncStatusRepository
+import com.mindovercnc.repository.VarFileRepository
 import kotlinx.coroutines.flow.*
 import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import usecase.model.OffsetEntry

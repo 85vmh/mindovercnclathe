@@ -11,16 +11,12 @@ kotlin {
             dependencies {
                 implementation(Libs.stdlib)
                 implementation(Libs.Kodein.core)
-                implementation(Libs.Settings.core)
-                implementation(Libs.Settings.coroutines)
-                implementation(project(":data:repository"))
+                implementation(Libs.Coroutines.core)
                 implementation(project(":data:linuxcnc:api"))
                 implementation(project(":logger"))
                 implementation(project(":dispatcher"))
-//                implementation(project(":database"))
-                implementation(project(":model"))
                 implementation(project(":protos"))
-                implementation(project(":editor"))
+                implementation(project(":model"))
                 implementation(Libs.okio)
 
                 // logging

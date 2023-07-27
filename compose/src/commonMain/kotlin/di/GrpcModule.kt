@@ -6,7 +6,6 @@ import okhttp3.Protocol
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import ro.dragossusi.proto.linuxcnc.LinuxCncClient
-import java.util.concurrent.TimeUnit
 
 private val PORT = 50051
 

@@ -3,11 +3,12 @@ package di
 import StatusWatcher
 import TabViewModel
 import androidx.compose.runtime.Composable
+import com.mindovercnc.data.linuxcnc.legacy.LinuxcncLegacyDataModule
+import com.mindovercnc.data.linuxcnc.remote.LinuxcncRemoteDataModule
 import com.mindovercnc.database.module.DatabaseModule
 import com.mindovercnc.dispatchers.DispatchersModule
 import com.mindovercnc.linuxcnc.CommonDataModule
 import com.mindovercnc.linuxcnc.di.ParseFactoryModule
-import com.mindovercnc.linuxcnc.legacy.LegacyDataModule
 import com.mindovercnc.linuxcnc.module.KtLcncModule
 import okio.FileSystem
 import org.kodein.di.DI
@@ -36,7 +37,7 @@ val BaseAppModule = DI.Module("AppModule") {
 fun repositoryModule(legacyCommunication: Boolean) =
     DI.Module("repository") {
         import(CommonDataModule)
-        import(if (legacyCommunication) LegacyDataModule else GrpcRepositoryModule)
+        import(if (legacyCommunication) LinuxcncLegacyDataModule else LinuxcncRemoteDataModule)
     }
 
 @Composable

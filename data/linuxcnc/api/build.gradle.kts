@@ -14,7 +14,6 @@ kotlin {
                 implementation(Libs.Settings.core)
                 implementation(Libs.Settings.coroutines)
                 implementation(project(":data:repository"))
-                implementation(project(":data:linuxcnc:api"))
                 implementation(project(":logger"))
                 implementation(project(":dispatcher"))
 //                implementation(project(":database"))

@@ -5,9 +5,11 @@ include("clipboard")
 include("database")
 
 // data
-include("data:impl")
-include("data:legacy")
+include("data:linuxcnc:remote")
+include("data:linuxcnc:legacy")
+include("data:linuxcnc:api")
 include("data:local")
+include("data:impl")
 include("data:repository")
 
 include("editor")

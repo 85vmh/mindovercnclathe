@@ -1,13 +1,13 @@
-package com.mindovercnc.linuxcnc.legacy
+package com.mindovercnc.data.linuxcnc.legacy
 
-import com.mindovercnc.repository.CncCommandRepository
-import com.mindovercnc.repository.CncStatusRepository
-import com.mindovercnc.repository.HalRepository
+import com.mindovercnc.data.linuxcnc.CncCommandRepository
+import com.mindovercnc.data.linuxcnc.CncStatusRepository
+import com.mindovercnc.data.linuxcnc.HalRepository
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 
-val LegacyDataModule = DI.Module("legacy_data") {
+val LinuxcncLegacyDataModule = DI.Module("linuxcnc_legacy_data") {
     bindSingleton<CncCommandRepository> { CncCommandRepositoryLegacy() }
     bindSingleton<HalRepository> { HalRepositoryLegacy() }
     bindSingleton<CncStatusRepository> { CncStatusRepositoryLegacy(instance(), instance()) }

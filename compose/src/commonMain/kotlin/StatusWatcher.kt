@@ -1,5 +1,9 @@
+import com.mindovercnc.data.linuxcnc.CncStatusRepository
 import com.mindovercnc.model.UiMessage
-import com.mindovercnc.repository.*
+import com.mindovercnc.repository.MessagesRepository
+import com.mindovercnc.repository.MotionStatusRepository
+import com.mindovercnc.repository.TaskStatusRepository
+import com.mindovercnc.repository.handleMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
@@ -9,7 +13,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.plus
 import linuxcnc.*
-import ro.dragossusi.proto.linuxcnc.*
 
 class StatusWatcher(
     private val cncStatusRepository: CncStatusRepository,

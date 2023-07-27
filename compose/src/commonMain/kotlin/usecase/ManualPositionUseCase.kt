@@ -1,6 +1,6 @@
 package usecase
 
-import com.mindovercnc.repository.CncStatusRepository
+import com.mindovercnc.data.linuxcnc.CncStatusRepository
 import kotlinx.coroutines.flow.*
 import linuxcnc.getDisplayablePosition
 import ro.dragossusi.proto.linuxcnc.status.Position

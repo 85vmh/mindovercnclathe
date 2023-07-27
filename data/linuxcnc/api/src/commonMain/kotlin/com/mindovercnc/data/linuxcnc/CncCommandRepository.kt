@@ -1,4 +1,4 @@
-package com.mindovercnc.repository
+package com.mindovercnc.data.linuxcnc
 
 import ro.dragossusi.proto.linuxcnc.status.JogMode
 import ro.dragossusi.proto.linuxcnc.status.TaskMode

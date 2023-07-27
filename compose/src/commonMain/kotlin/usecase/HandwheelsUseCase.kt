@@ -1,6 +1,6 @@
 package usecase
 
-import com.mindovercnc.repository.HalRepository
+import com.mindovercnc.data.linuxcnc.HalRepository
 import com.mindovercnc.repository.TaskStatusRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.combine

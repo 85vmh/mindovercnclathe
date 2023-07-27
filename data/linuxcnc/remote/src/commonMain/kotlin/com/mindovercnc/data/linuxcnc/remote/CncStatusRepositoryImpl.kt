@@ -1,8 +1,6 @@
-package com.mindovercnc.linuxcnc
+package com.mindovercnc.data.linuxcnc.remote
 
-import com.mindovercnc.dispatchers.NewSingleThreadDispatcher
-import com.mindovercnc.dispatchers.createScope
-import com.mindovercnc.repository.CncStatusRepository
+import com.mindovercnc.data.linuxcnc.CncStatusRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,12 +12,10 @@ import ro.dragossusi.proto.linuxcnc.ReadStatusRequest
 /** Implementation for [CncStatusRepository]. */
 class CncStatusRepositoryImpl
 constructor(
-    newSingleThreadDispatcher: NewSingleThreadDispatcher, private val linuxCncGrpc: LinuxCncClient
+    private val linuxCncGrpc: LinuxCncClient
 ) : CncStatusRepository {
 
     private val logger = KotlinLogging.logger("CncStatusRepositoryImpl")
-
-    private val scope = newSingleThreadDispatcher.createScope()
 
     private val grpcStatusFlow = flow {
         while (true) {

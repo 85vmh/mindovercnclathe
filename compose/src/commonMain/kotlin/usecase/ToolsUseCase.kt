@@ -1,5 +1,8 @@
 package usecase
 
+import com.mindovercnc.data.linuxcnc.CncCommandRepository
+import com.mindovercnc.data.linuxcnc.CncStatusRepository
+import com.mindovercnc.data.linuxcnc.HalRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.model.*

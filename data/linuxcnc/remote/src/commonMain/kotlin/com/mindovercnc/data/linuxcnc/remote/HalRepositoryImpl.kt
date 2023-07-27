@@ -1,47 +1,23 @@
-package com.mindovercnc.linuxcnc
+package com.mindovercnc.data.linuxcnc.remote
 
+import com.mindovercnc.data.linuxcnc.HalRepository
 import com.mindovercnc.model.JoystickPosition
 import com.mindovercnc.model.JoystickStatus
 import com.mindovercnc.model.SpindleSwitchStatus
-import com.mindovercnc.repository.HalRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import mu.KotlinLogging
 import ro.dragossusi.proto.linuxcnc.CreateComponentRequest
 import ro.dragossusi.proto.linuxcnc.CreatePinRequest
 import ro.dragossusi.proto.linuxcnc.LinuxCncClient
+import ro.dragossusi.proto.linuxcnc.hal.HalComponent
 import ro.dragossusi.proto.linuxcnc.hal.HalPin
 import ro.dragossusi.proto.linuxcnc.hal.HalPinDir
 import ro.dragossusi.proto.linuxcnc.hal.HalPinType
-import ro.dragossusi.proto.linuxcnc.hal.HalComponent as PHalComponent
-
-private const val RefreshRate = 5L
-private const val RpmRefreshRate = 300L
-private const val ComponentName = "weiler-e30"
-private const val PinJoystickXPlus = "joystick-x-plus"
-private const val PinJoystickXMinus = "joystick-x-minus"
-private const val PinJoystickZPlus = "joystick-z-plus"
-private const val PinJoystickZMinus = "joystick-z-minus"
-private const val PinJoystickRapid = "joystick-rapid"
-private const val PinIsPowerFeeding = "is-power-feeding"
-private const val PinCycleStart = "cycle-start"
-private const val PinCycleStop = "cycle-stop"
-private const val PinSpindleSwitchRevIn = "spindle.switch-rev-in"
-private const val PinSpindleSwitchFwdIn = "spindle.switch-fwd-in"
-private const val PinSpindleStarted = "spindle.started"
-private const val PinSpindleActualRpm = "spindle.actual-rpm"
-private const val PinJogIncrement = "jog-increment-value"
-private const val PinToolChangeToolNo = "tool-change.number"
-private const val PinToolChangeRequest = "tool-change.change"
-private const val PinToolChangeResponse = "tool-change.changed"
-private const val PinAxisLimitXMin = "axis-limits.x-min"
-private const val PinAxisLimitXMax = "axis-limits.x-max"
-private const val PinAxisLimitZMin = "axis-limits.z-min"
-private const val PinAxisLimitZMax = "axis-limits.z-max"
 
 /** Implementation for [HalRepository]. */
 class HalRepositoryImpl(private val linuxCncGrpc: LinuxCncClient) : HalRepository {
-    private var halComponent: PHalComponent? = null
+    private var halComponent: HalComponent? = null
     private var pinJoystickXPlus: HalPin? = null
     private var pinJoystickXMinus: HalPin? = null
     private var pinJoystickZPlus: HalPin? = null
@@ -68,19 +44,19 @@ class HalRepositoryImpl(private val linuxCncGrpc: LinuxCncClient) : HalRepositor
         halComponent = linuxCncGrpc.CreateComponent().executeBlocking(request)
     }
 
-    private fun createComponent(name: String): PHalComponent {
+    private fun createComponent(name: String): HalComponent {
         val request = CreateComponentRequest(name = name)
         return linuxCncGrpc.CreateComponent().executeBlocking(request)
     }
 
-    private fun PHalComponent.addPin(name: String, type: HalPinType, dir: HalPinDir): HalPin {
+    private fun HalComponent.addPin(name: String, type: HalPinType, dir: HalPinDir): HalPin {
         val request = CreatePinRequest(
             component_id = component_id.toString(), name = name, type = type, dir = dir
         )
         return linuxCncGrpc.CreatePin().executeBlocking(request)
     }
 
-    private fun initPins(component: PHalComponent) {
+    private fun initPins(component: HalComponent) {
         pinJoystickXPlus = component.addPin(PinJoystickXPlus, HalPinType.TYPE_BIT, HalPinDir.IN)
         pinJoystickXMinus = component.addPin(PinJoystickXMinus, HalPinType.TYPE_BIT, HalPinDir.IN)
         pinJoystickZPlus = component.addPin(PinJoystickZPlus, HalPinType.TYPE_BIT, HalPinDir.IN)
@@ -274,5 +250,29 @@ class HalRepositoryImpl(private val linuxCncGrpc: LinuxCncClient) : HalRepositor
 
     companion object {
         private val logger = KotlinLogging.logger("HalRepository")
+
+        private const val RefreshRate = 5L
+        private const val RpmRefreshRate = 300L
+        private const val ComponentName = "weiler-e30"
+        private const val PinJoystickXPlus = "joystick-x-plus"
+        private const val PinJoystickXMinus = "joystick-x-minus"
+        private const val PinJoystickZPlus = "joystick-z-plus"
+        private const val PinJoystickZMinus = "joystick-z-minus"
+        private const val PinJoystickRapid = "joystick-rapid"
+        private const val PinIsPowerFeeding = "is-power-feeding"
+        private const val PinCycleStart = "cycle-start"
+        private const val PinCycleStop = "cycle-stop"
+        private const val PinSpindleSwitchRevIn = "spindle.switch-rev-in"
+        private const val PinSpindleSwitchFwdIn = "spindle.switch-fwd-in"
+        private const val PinSpindleStarted = "spindle.started"
+        private const val PinSpindleActualRpm = "spindle.actual-rpm"
+        private const val PinJogIncrement = "jog-increment-value"
+        private const val PinToolChangeToolNo = "tool-change.number"
+        private const val PinToolChangeRequest = "tool-change.change"
+        private const val PinToolChangeResponse = "tool-change.changed"
+        private const val PinAxisLimitXMin = "axis-limits.x-min"
+        private const val PinAxisLimitXMax = "axis-limits.x-max"
+        private const val PinAxisLimitZMin = "axis-limits.z-min"
+        private const val PinAxisLimitZMax = "axis-limits.z-max"
     }
 }

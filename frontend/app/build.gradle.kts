@@ -45,8 +45,10 @@ kotlin {
                 implementation(project(":database"))
                 implementation(project(":dispatcher"))
                 implementation(project(":editor"))
-                implementation(project(":data:impl"))
+                // todo uncomment
+//                implementation(project(":data:impl"))
                 implementation(project(":model"))
+                implementation(project(":data:linuxcnc:api"))
                 implementation(project(":data:repository"))
                 implementation(project(":startup:args"))
 
@@ -77,7 +79,9 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(project(":startup:args"))
-                implementation(project(":data:legacy"))
+                implementation(project(":data:impl"))
+                implementation(project(":data:linuxcnc:legacy"))
+                implementation(project(":data:linuxcnc:remote"))
                 implementation(project(":initializer"))
             }
         }

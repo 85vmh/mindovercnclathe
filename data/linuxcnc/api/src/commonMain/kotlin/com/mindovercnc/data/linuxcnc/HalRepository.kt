@@ -1,4 +1,4 @@
-package com.mindovercnc.repository
+package com.mindovercnc.data.linuxcnc
 
 import com.mindovercnc.model.JoystickPosition
 import com.mindovercnc.model.JoystickStatus
