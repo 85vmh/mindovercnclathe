@@ -1,4 +1,4 @@
-package com.mindovercnc.repository
+package com.mindovercnc.data.linuxcnc
 
 import kotlinx.coroutines.flow.Flow
 import ro.dragossusi.proto.linuxcnc.status.SystemMessage

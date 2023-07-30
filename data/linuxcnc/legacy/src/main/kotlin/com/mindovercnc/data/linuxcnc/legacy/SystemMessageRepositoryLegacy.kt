@@ -1,13 +1,11 @@
-package com.mindovercnc.linuxcnc
+package com.mindovercnc.data.linuxcnc.legacy
 
 import com.mindovercnc.dispatchers.NewSingleThreadDispatcher
 import com.mindovercnc.dispatchers.createScope
-import com.mindovercnc.repository.SystemMessageRepository
+import com.mindovercnc.data.linuxcnc.SystemMessageRepository
+import com.mindovercnc.linuxcnc.ErrorReader
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.*
 import mu.KotlinLogging
 import ro.dragossusi.proto.linuxcnc.LinuxCncClient
 import ro.dragossusi.proto.linuxcnc.ReadErrorRequest
@@ -15,16 +13,19 @@ import ro.dragossusi.proto.linuxcnc.status.SystemMessage
 
 // TODO split into legacy and remote
 /** Implementation for [SystemMessageRepository]. */
-class SystemMessageRepositoryImpl
+class SystemMessageRepositoryLegacy
 constructor(
-    private val linuxCncGrpc: LinuxCncClient, newSingleThreadDispatcher: NewSingleThreadDispatcher
+    private val errorReader: ErrorReader
+    newSingleThreadDispatcher: NewSingleThreadDispatcher
 ) : SystemMessageRepository {
 
     private val logger = KotlinLogging.logger("SystemMessageRepositoryImpl")
 
     private val scope = newSingleThreadDispatcher.createScope()
 
-    override val systemMessageFlow: Flow<SystemMessage> = flow {
+    override val systemMessageFlow: Flow<SystemMessage> =
+        errorReader.refresh(10L).filterNotNull()
+        flow {
         while (true) {
             val request = ReadErrorRequest()
             try {

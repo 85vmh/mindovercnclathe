@@ -5,7 +5,7 @@ import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.model.MessageBundle
 import com.mindovercnc.model.UiMessage
 import com.mindovercnc.repository.MessagesRepository
-import com.mindovercnc.repository.SystemMessageRepository
+import com.mindovercnc.data.linuxcnc.SystemMessageRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -13,9 +13,9 @@ import ro.dragossusi.proto.linuxcnc.status.SystemMessage
 
 /** Implementation for [MessagesRepository]. */
 class MessagesRepositoryImpl(
-  private val clock: Clock,
-  systemMessageRepository: SystemMessageRepository,
-  ioDispatcher: IoDispatcher,
+    private val clock: Clock,
+    systemMessageRepository: SystemMessageRepository,
+    ioDispatcher: IoDispatcher,
 ) : MessagesRepository {
 
   private val emcMessages = MutableStateFlow(emptyList<SystemMessage>())

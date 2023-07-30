@@ -1,5 +1,6 @@
 package com.mindovercnc.linuxcnc
 
+import com.mindovercnc.data.linuxcnc.SystemMessageRepository
 import com.mindovercnc.repository.*
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
