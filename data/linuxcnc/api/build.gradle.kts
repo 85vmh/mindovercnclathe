@@ -13,7 +13,7 @@ kotlin {
                 implementation(Libs.Kodein.core)
                 implementation(Libs.Settings.core)
                 implementation(Libs.Settings.coroutines)
-                implementation(project(":data:repository"))
+                implementation(project(":data:common:api"))
                 implementation(project(":logger"))
                 implementation(project(":dispatcher"))
 //                implementation(project(":database"))

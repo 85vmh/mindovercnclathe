@@ -50,7 +50,7 @@ kotlin {
 //                implementation(project(":data:impl"))
                 implementation(project(":model"))
                 implementation(project(":data:linuxcnc:api"))
-                implementation(project(":data:repository"))
+                implementation(project(":data:common:api"))
                 implementation(project(":startup:args"))
 
                 implementation(project(":protos"))
@@ -80,7 +80,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(project(":startup:args"))
-                implementation(project(":data:impl"))
+                implementation(project(":data:common:impl"))
                 implementation(project(":data:linuxcnc:legacy"))
                 implementation(project(":data:linuxcnc:remote"))
                 implementation(project(":initializer"))

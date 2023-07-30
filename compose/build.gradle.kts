@@ -40,7 +40,7 @@ kotlin {
                 implementation(project(":model"))
                 implementation(project(":initializer"))
 
-                implementation(project(":data:repository"))
+                implementation(project(":data:common:api"))
                 implementation(project(":data:linuxcnc:api"))
 
                 implementation(project(":frontend:breadcrumb"))

@@ -8,9 +8,10 @@ include("database")
 include("data:linuxcnc:remote")
 include("data:linuxcnc:legacy")
 include("data:linuxcnc:api")
-include("data:local")
-include("data:impl")
-include("data:repository")
+
+include("data:common:local")
+include("data:common:impl")
+include("data:common:api")
 
 include("editor")
 include("logger")

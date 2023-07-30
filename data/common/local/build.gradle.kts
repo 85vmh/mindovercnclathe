@@ -4,7 +4,7 @@ version = Versions.app
 
 dependencies {
     implementation(Libs.stdlib)
-    implementation(project(":data:repository"))
+    implementation(project(":data:common:api"))
     implementation(project(":logger"))
     implementation(project(":dispatcher"))
     implementation(project(":ktlcnc"))
