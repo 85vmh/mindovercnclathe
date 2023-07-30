@@ -1,6 +1,5 @@
 package com.mindovercnc.linuxcnc
 
-import com.mindovercnc.data.linuxcnc.SystemMessageRepository
 import com.mindovercnc.repository.*
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
@@ -8,8 +7,7 @@ import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 
 val CommonDataModule = DI.Module("common_data") {
-    bindSingleton<SystemMessageRepository> { SystemMessageRepositoryImpl(instance(), instance()) }
-    bindSingleton<MessagesRepository> { MessagesRepositoryImpl(instance(),instance(), instance()) }
+    bindSingleton<MessagesRepository> { MessagesRepositoryImpl(instance(), instance(), instance()) }
 
     bindSingleton<TaskStatusRepository> { TaskStatusRepositoryImpl(instance()) }
     bindSingleton<MotionStatusRepository> { MotionStatusRepositoryImpl(instance()) }

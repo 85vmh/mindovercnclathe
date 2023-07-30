@@ -1,5 +1,6 @@
 package com.mindovercnc.linuxcnc.di
 
+import com.mindovercnc.linuxcnc.ErrorReader
 import com.mindovercnc.linuxcnc.parsing.*
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
@@ -17,6 +18,7 @@ val ParseFactoryModule =
         }
         bindSingleton { IoStatusFactory(instance()) }
         bindSingleton { CncStatusFactory(instance(), instance(), instance(), instance()) }
+        bindSingleton { ErrorReader() }
     }
 
 val KtlCncModule = DI.Module("ktlcnc") {

@@ -11,7 +11,7 @@ import usecase.model.Message
 class MessagesUseCase(private val messagesRepository: MessagesRepository) {
     fun getAllMessages(): Flow<List<Message>> {
         return messagesRepository
-            .messagesFlow()
+            .messagesFlow
             .map {
                 buildList {
                     it.emcMessages.forEach { emcMsg ->
