@@ -19,7 +19,7 @@ class AddEditLatheToolScreenModel(
 
   data class State(
     val latheToolId: Int? = null,
-    val toolTypes: List<ToolType> = ToolType.values().toList(),
+    val toolTypes: List<ToolType> = ToolType.entries,
     val toolType: ToolType? = null,
     val cuttingInserts: List<CuttingInsert> = emptyList(),
     val cuttingInsert: CuttingInsert? = null,

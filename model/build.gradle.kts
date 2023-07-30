@@ -15,6 +15,7 @@ kotlin {
 //                implementation(project(":ktlcnc"))
                 implementation(project(":protos"))
                 implementation(Libs.okio)
+                implementation(Libs.datetime)
             }
         }
     }

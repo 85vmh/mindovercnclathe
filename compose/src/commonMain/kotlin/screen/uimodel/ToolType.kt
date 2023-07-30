@@ -9,7 +9,7 @@ enum class ToolType(val text: String) {
 
     companion object {
         fun fromString(text: String): ToolType? {
-            return values().find { it.text == text }
+            return entries.find { it.text == text }
         }
     }
 }

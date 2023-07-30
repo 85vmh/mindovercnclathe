@@ -86,7 +86,7 @@ fun ToolHoldersContent(
 fun ToolHolderHeader(modifier: Modifier = Modifier) {
     Surface(color = MaterialTheme.colorScheme.primaryContainer) {
         Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
-            ToolHolderColumn.values().forEach {
+            ToolHolderColumn.entries.forEach {
                 val textModifier =
                     when (it.size) {
                         Dp.Unspecified -> Modifier.weight(1f)
@@ -98,7 +98,7 @@ fun ToolHolderHeader(modifier: Modifier = Modifier) {
                     style = MaterialTheme.typography.titleSmall,
                     text = it.text
                 )
-                if (it != ToolHolderColumn.values().last()) {
+                if (it != ToolHolderColumn.entries.last()) {
                     VerticalDivider(color = Color.LightGray)
                 }
             }

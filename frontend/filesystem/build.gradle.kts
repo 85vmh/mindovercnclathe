@@ -15,6 +15,7 @@ kotlin {
                 implementation(Libs.Coroutines.core)
                 implementation(Libs.Serialization.json)
                 implementation(Libs.okio)
+                implementation(Libs.datetime)
 
                 implementation(compose.runtime)
                 implementation(compose.ui)

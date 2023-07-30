@@ -6,7 +6,7 @@ enum class CutDirection {
 
     companion object {
         fun fromString(text: String): CutDirection? {
-            return values().find { it.name == text }
+            return entries.find { it.name == text }
         }
     }
 }

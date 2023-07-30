@@ -13,7 +13,7 @@ enum class TipOrientation(val orient: Int, val angle: Int) {
 
   companion object {
     fun getOrientation(orient: Int): TipOrientation {
-      return values().find { it.orient == orient } ?: Position9
+      return entries.find { it.orient == orient } ?: Position9
     }
 
     fun asMatrix() =

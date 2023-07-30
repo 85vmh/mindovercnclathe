@@ -13,6 +13,7 @@ import ro.dragossusi.proto.linuxcnc.LinuxCncClient
 import ro.dragossusi.proto.linuxcnc.ReadErrorRequest
 import ro.dragossusi.proto.linuxcnc.status.SystemMessage
 
+// TODO split into legacy and remote
 /** Implementation for [SystemMessageRepository]. */
 class SystemMessageRepositoryImpl
 constructor(

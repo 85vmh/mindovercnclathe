@@ -90,7 +90,7 @@ private fun FeedsAndSpeedsHeader(
             modifier = modifier,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            FeedsAndSpeedsColumns.values().forEach {
+            FeedsAndSpeedsColumns.entries.forEach {
                 val columnModifier = when (it.size) {
                     Dp.Unspecified -> Modifier.weight(1f)
                     else -> Modifier.width(it.size)
@@ -112,7 +112,7 @@ private fun FeedsAndSpeedsHeader(
                         )
                     }
                 }
-                if (it != FeedsAndSpeedsColumns.values().last()) {
+                if (it != FeedsAndSpeedsColumns.entries.last()) {
                     VerticalDivider(color = Color.LightGray)
                 }
             }

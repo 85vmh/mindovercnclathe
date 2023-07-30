@@ -13,7 +13,7 @@ enum class Wcs(val text: String) {
 
     companion object {
         fun fromString(text: String): Wcs? {
-            return values().find { it.text == text }
+            return entries.find { it.text == text }
         }
     }
 }

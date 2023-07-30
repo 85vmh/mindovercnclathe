@@ -19,8 +19,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.text.SimpleDateFormat
-import java.util.*
+import kotlinx.datetime.Instant
+import kotlinx.datetime.toJavaInstant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @Composable
 actual fun FileSystemItemView(item: FileSystemItemData, modifier: Modifier) {
@@ -77,6 +79,8 @@ private fun FileImage(item: FileSystemItemData) {
     )
 }
 
-private fun millisToLastModified(millis: Long): String {
-    return SimpleDateFormat("dd/MM/yyyy").format(Date(millis))
+private val formatter = DateTimeFormatter.ISO_DATE.withZone(ZoneId.systemDefault())
+
+internal fun millisToLastModified(instant: Instant): String {
+    return formatter.format(instant.toJavaInstant())
 }

@@ -10,6 +10,7 @@ import com.mindovercnc.dispatchers.DispatchersModule
 import com.mindovercnc.linuxcnc.CommonDataModule
 import com.mindovercnc.linuxcnc.di.ParseFactoryModule
 import com.mindovercnc.linuxcnc.module.KtLcncModule
+import kotlinx.datetime.Clock
 import okio.FileSystem
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
@@ -32,12 +33,17 @@ val BaseAppModule = DI.Module("AppModule") {
     bindProvider { TabViewModel(instance(), instance()) }
 
     bindSingleton { FileSystem.SYSTEM }
+    bindSingleton<Clock> { Clock.System }
 }
 
 fun repositoryModule(legacyCommunication: Boolean) =
     DI.Module("repository") {
         import(CommonDataModule)
-        import(if (legacyCommunication) LinuxcncLegacyDataModule else LinuxcncRemoteDataModule)
+        if (legacyCommunication) {
+            import(LinuxcncLegacyDataModule)
+        } else {
+            importAll(LinuxcncRemoteDataModule, GrpcModule)
+        }
     }
 
 @Composable
@@ -47,6 +53,5 @@ fun withAppDi(startupArgs: StartupArgs, content: @Composable () -> Unit) = withD
     BaseAppModule,
     repositoryModule(startupArgs.legacyCommunication),
     ParseFactoryModule,
-    GrpcModule,
     content = content
 )

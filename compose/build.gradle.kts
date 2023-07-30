@@ -25,6 +25,8 @@ kotlin {
                 // okio
                 implementation(Libs.okio)
 
+                implementation(Libs.datetime)
+
                 // compose
 //                implementation(compose.uiTooling)
                 implementation(compose.material)

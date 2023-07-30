@@ -35,7 +35,7 @@ class ManualTurningScreen : Manual("Manual Turning") {
     override fun ColumnScope.DrawerContent(drawerState: DrawerState) {
         val scope = rememberCoroutineScope()
         val navigator = LocalNavigator.currentOrThrow
-        val items = remember { SimpleCycle.values() }
+        val items = remember { SimpleCycle.entries }
 
         Text(
             modifier = Modifier.fillMaxWidth().padding(16.dp),

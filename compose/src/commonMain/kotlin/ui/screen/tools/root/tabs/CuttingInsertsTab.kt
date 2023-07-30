@@ -101,7 +101,7 @@ private fun CuttingInsertHeader(
             modifier = modifier,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CuttingInsertsColumns.values().forEach {
+            CuttingInsertsColumns.entries.forEach {
                 val textModifier = when (it.size) {
                     Dp.Unspecified -> Modifier.weight(1f)
                     else -> Modifier.width(it.size)
@@ -112,7 +112,7 @@ private fun CuttingInsertHeader(
                     style = MaterialTheme.typography.titleSmall,
                     text = it.text
                 )
-                if (it != CuttingInsertsColumns.values().last()) {
+                if (it != CuttingInsertsColumns.entries.last()) {
                     VerticalDivider(color = Color.LightGray)
                 }
             }

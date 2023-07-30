@@ -10,11 +10,12 @@ import com.mindovercnc.repository.FileSystemRepository
 import com.mindovercnc.repository.SettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.util.*
+import kotlinx.datetime.Clock
 
 @Deprecated("This is a deprecated class")
 class ConversationalUseCase(
     ioDispatcher: IoDispatcher,
+    private val clock: Clock,
     private val statusRepository: CncStatusRepository,
     private val commandRepository: CncCommandRepository,
     private val settingsRepository: SettingsRepository,
@@ -32,7 +33,7 @@ class ConversationalUseCase(
             ConversationalProgram(
                 programName = programName,
                 // todo replace with kotlin-date
-                creationDate = Date(),
+                creationDate = clock.now(),
                 operations = listOf(turningOp)
             )
 

@@ -21,7 +21,7 @@ fun ToolTabsView(
     onTabSelected: (ToolsTabItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val tabs = remember { ToolsTabItem.values() }
+    val tabs = remember { ToolsTabItem.entries }
     val background = MaterialTheme.colorScheme.background
     val selectedColor = MaterialTheme.colorScheme.primary
 

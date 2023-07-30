@@ -10,7 +10,7 @@ enum class CuttingStrategy(val text: String) {
 
     companion object {
         fun fromText(text: String): CuttingStrategy? {
-            return values().find { it.text == text }
+            return entries.find { it.text == text }
         }
     }
 }

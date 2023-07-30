@@ -8,7 +8,7 @@ import org.kodein.di.instance
 
 val CommonDataModule = DI.Module("common_data") {
     bindSingleton<SystemMessageRepository> { SystemMessageRepositoryImpl(instance(), instance()) }
-    bindSingleton<MessagesRepository> { MessagesRepositoryImpl(instance(), instance()) }
+    bindSingleton<MessagesRepository> { MessagesRepositoryImpl(instance(),instance(), instance()) }
 
     bindSingleton<TaskStatusRepository> { TaskStatusRepositoryImpl(instance()) }
     bindSingleton<MotionStatusRepository> { MotionStatusRepositoryImpl(instance()) }

@@ -22,10 +22,10 @@ fun StandardInsert(
     toleranceClassChange: (ToleranceClass) -> Unit,
     mountingChipBreakerChange: (MountingAndChipBreaker) -> Unit
 ) {
-    val insertShapes = remember { InsertShape.values().toList() }
-    val insertClearances = remember { InsertClearance.values().toList() }
-    val toleranceClasses = remember { ToleranceClass.values().toList() }
-    val mountingAndChipBreakerLists = remember { MountingAndChipBreaker.values().toList() }
+    val insertShapes = remember { InsertShape.entries }
+    val insertClearances = remember { InsertClearance.entries }
+    val toleranceClasses = remember { ToleranceClass.entries }
+    val mountingAndChipBreakerLists = remember { MountingAndChipBreaker.entries }
 
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         InsertLetter(

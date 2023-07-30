@@ -55,7 +55,7 @@ private fun StartContent(
     onHolderType: (ToolHolderType) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val items = remember { ToolHolderType.values() }
+    val items = remember { ToolHolderType.entries }
     val holdersScrollState = rememberLazyGridState()
     val scope = rememberCoroutineScope()
 

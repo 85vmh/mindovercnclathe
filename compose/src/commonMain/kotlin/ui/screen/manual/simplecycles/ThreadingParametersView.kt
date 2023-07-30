@@ -5,10 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -22,6 +22,9 @@ fun ThreadingParametersView(
     viewModel: SimpleCyclesScreenModel,
     parametersState: SimpleCycleParameters.ThreadingParameters
 ) {
+    val items = remember{
+        SimpleCycleParameters.ThreadingParameters.ThreadType.entries.map { it.name }
+    }
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -33,11 +36,11 @@ fun ThreadingParametersView(
 
         DropDownSetting(
             settingName = "Thread Type",
-            items = SimpleCycleParameters.ThreadingParameters.ThreadType.values().map { it.name },
+            items = items,
             dropDownWidth = 90.dp,
             selectedItem = parametersState.threadType.name,
             onValueChanged = { selectedValue ->
-                SimpleCycleParameters.ThreadingParameters.ThreadType.values()
+                SimpleCycleParameters.ThreadingParameters.ThreadType.entries
                     .find { it.name == selectedValue }
                     ?.let {
                         viewModel.setThreadType(it)
@@ -135,7 +138,6 @@ fun ThreadingParametersView(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ThreadLocation(
     isExternalThread: Boolean,

@@ -27,7 +27,7 @@ import scroll.draggableScroll
 
 @Composable
 fun SimpleCyclesGrid(
-  items: Array<SimpleCycle>,
+  items: List<SimpleCycle>,
   onCycleSelected: (SimpleCycle) -> Unit,
   modifier: Modifier = Modifier,
   contentPadding: PaddingValues = PaddingValues(0.dp)

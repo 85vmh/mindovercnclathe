@@ -140,7 +140,7 @@ enum class Key(val textDescription: String) {
   IoAuxLubeLevelOk("io.aux.lubeLevelOk");
 
   companion object {
-    private val map = values().associateBy(Key::textDescription)
+    private val map = entries.associateBy(Key::textDescription)
     fun fromString(text: String) = map[text]
   }
 }

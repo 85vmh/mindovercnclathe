@@ -1,11 +1,11 @@
 package codegen
 
+import kotlinx.datetime.Instant
 import screen.uimodel.Wcs
-import java.util.*
 
 class ConversationalProgram(
     private val programName: String,
-    private val creationDate: Date,
+    private val creationDate: Instant,
     private val wcs: Wcs = Wcs.G54,
 //    private val stockDetails: StockDetails,
     private val operations: List<Operation>

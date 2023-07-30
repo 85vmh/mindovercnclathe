@@ -22,6 +22,7 @@ kotlin {
                 implementation(project(":protos"))
                 implementation(project(":editor"))
                 implementation(Libs.okio)
+                implementation(Libs.datetime)
 
                 // logging
                 implementation(Libs.logging)

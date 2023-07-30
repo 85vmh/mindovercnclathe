@@ -67,7 +67,7 @@ fun JoystickStatus(
             style = Stroke(width = 1f)
         )
 
-        Direction.values().forEach {
+        Direction.entries.forEach {
             AxisDirectionActor(
                 direction = it,
                 centerPoint = center,
@@ -105,7 +105,7 @@ private class AxisTextActor(
             color = axisColor.toArgb()
         }
 
-        Direction.values().forEach {
+        Direction.entries.forEach {
             val lineEndPoint = when (it) {
                 Direction.XMinus -> Offset(centerPoint.x, centerPoint.y - lineDrawRadius)
                 Direction.XPlus -> Offset(centerPoint.x, centerPoint.y + lineDrawRadius)

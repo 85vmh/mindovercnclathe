@@ -34,7 +34,7 @@ fun ConversationalView(modifier: Modifier, onNewOpClicked: (ConversationalOperat
                 .padding(top = 16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            ConversationalOperation.values().forEach {
+            ConversationalOperation.entries.forEach {
                 Operation(it) {
                     onNewOpClicked.invoke(it)
                 }

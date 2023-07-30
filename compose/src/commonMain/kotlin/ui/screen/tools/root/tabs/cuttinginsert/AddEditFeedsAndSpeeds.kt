@@ -38,7 +38,7 @@ fun AddEditFeedsAndSpeeds(
             DropDownSetting(
                 modifier = Modifier.width(300.dp),
                 settingName = "Category",
-                items = MaterialCategory.values().toList(),
+                items = MaterialCategory.entries,
                 dropDownWidth = 150.dp,
                 selectedItem = initialFeedsAndSpeeds.materialCategory,
                 onValueChanged = {}

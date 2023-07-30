@@ -32,7 +32,7 @@ internal class DummyToolsInitializer(
     }
 
     private fun createDummyHolders() {
-        val types = ToolHolderType.values()
+        val types = ToolHolderType.entries
         repeat(count) {
             ToolHolderEntity.new {
                 holderNumber = it + 1

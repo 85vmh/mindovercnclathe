@@ -53,7 +53,7 @@ private fun Properties(
     screenModel: AddEditCuttingInsertScreenModel,
     modifier: Modifier = Modifier
 ) {
-    val madeOfList = remember { MadeOf.values().toList() }
+    val madeOfList = remember { MadeOf.entries }
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text(
             modifier = Modifier.fillMaxWidth().padding(8.dp),

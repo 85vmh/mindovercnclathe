@@ -7,7 +7,7 @@ enum class AllowedSpindleDirection(val text: String) {
 
     companion object {
         fun fromString(text: String): AllowedSpindleDirection? {
-            return values().find { it.text == text }
+            return entries.find { it.text == text }
         }
     }
 }

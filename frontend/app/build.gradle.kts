@@ -20,6 +20,7 @@ kotlin {
                 implementation(Libs.Coroutines.swing)
                 implementation(Libs.Serialization.json)
                 implementation(Libs.cli)
+                implementation(Libs.datetime)
 
                 // logging
                 implementation("ch.qos.logback:logback-classic:1.4.8")

@@ -9,15 +9,14 @@ import mu.KotlinLogging
 import okio.FileSystem
 import okio.Path
 import okio.Path.Companion.toPath
-
-val LinuxCncHome = System.getenv("LINUXCNC_HOME").toPath()
+import kotlin.jvm.JvmInline
 
 class ArgProcessor(private val fileSystem: FileSystem) {
     fun process(args: Array<String>): StartupArgs {
+        LOG.debug { "Parsing ${args.joinToString()}" }
         val parser = ArgParser("MindOverCNCLathe")
 
-        val darkMode by
-        parser
+        val darkMode by parser
             .option(
                 ArgType.Choice<DarkMode>(),
                 shortName = "dm",
@@ -26,8 +25,7 @@ class ArgProcessor(private val fileSystem: FileSystem) {
             )
             .default(DarkMode.SYSTEM)
 
-        val legacyCommunication by
-        parser
+        val legacyCommunication by parser
             .option(
                 ArgType.Boolean,
                 fullName = "legacy-communication",
@@ -35,8 +33,7 @@ class ArgProcessor(private val fileSystem: FileSystem) {
             )
             .default(false)
 
-        val topBarEnabled by
-        parser
+        val topBarEnabled by parser
             .option(
                 ArgType.Boolean,
                 shortName = "tb",
@@ -76,22 +73,22 @@ class ArgProcessor(private val fileSystem: FileSystem) {
             screenSize = sizeFromArg(sizeString),
             density = density
         )
-            .also { startupArgs -> LOG.info("Received startup args $startupArgs") }
+            .also { startupArgs -> LOG.info { "Received startup args $startupArgs" } }
     }
 
     private fun sizeFromArg(sizeString: String?): DpSize {
         if (sizeString == null) return defaultScreenSize
         val parts = sizeString.split("x")
         if (parts.size != 2) {
-            LOG.warn("Invalid screen size $sizeString, using default $defaultScreenSize")
+            LOG.warn { "Invalid screen size $sizeString, using default $defaultScreenSize" }
             return defaultScreenSize
         }
         val width = parts[0].toIntOrNull() ?: run {
-            LOG.warn("Invalid screen width ${parts[0]}, using default $defaultScreenSize")
+            LOG.warn { "Invalid screen width ${parts[0]}, using default $defaultScreenSize" }
             return defaultScreenSize
         }
         val height = parts[1].toIntOrNull() ?: run {
-            LOG.warn("Invalid screen height ${parts[1]}, using default $defaultScreenSize")
+            LOG.warn { "Invalid screen height ${parts[1]}, using default $defaultScreenSize" }
             return defaultScreenSize
         }
         return DpSize(width.dp, height.dp)

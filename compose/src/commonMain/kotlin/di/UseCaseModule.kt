@@ -96,6 +96,7 @@ val DomainModule = DI.Module("domain") {
     bindSingleton {
         ConversationalUseCase(
             ioDispatcher = instance(),
+            clock = instance(),
             statusRepository = instance(),
             commandRepository = instance(),
             settingsRepository = instance(),

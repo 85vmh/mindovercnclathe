@@ -9,7 +9,7 @@ enum class WorkpieceMaterial(val text: String) {
 
     companion object {
         fun fromString(text: String): WorkpieceMaterial? {
-            return values().find { it.text == text }
+            return entries.find { it.text == text }
         }
     }
 }

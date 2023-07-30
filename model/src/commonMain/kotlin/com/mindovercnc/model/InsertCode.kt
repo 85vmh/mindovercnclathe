@@ -23,7 +23,7 @@ enum class InsertShape(val shape: String, val angle: Int? = null) {
     companion object {
         fun fromCode(code: String?): InsertShape? {
             return when {
-                code != null && code.length == 4 -> InsertShape.values().find { it.name == code[0].toString() }
+                code != null && code.length == 4 -> entries.find { it.name == code[0].toString() }
                 else -> null
             }
         }
@@ -45,7 +45,7 @@ enum class InsertClearance(val angle: Int? = null) {
     companion object {
         fun fromCode(code: String?): InsertClearance? {
             return when {
-                code != null && code.length == 4 -> InsertClearance.values().find { it.name == code[1].toString() }
+                code != null && code.length == 4 -> entries.find { it.name == code[1].toString() }
                 else -> null
             }
         }
@@ -58,7 +58,7 @@ enum class ToleranceClass {
     companion object {
         fun fromCode(code: String?): ToleranceClass? {
             return when {
-                code != null && code.length == 4 -> ToleranceClass.values().find { it.name == code[2].toString() }
+                code != null && code.length == 4 -> entries.find { it.name == code[2].toString() }
                 else -> null
             }
         }
@@ -85,7 +85,7 @@ enum class MountingAndChipBreaker(val mountingType: MountingType? = null, val ch
     companion object {
         fun fromCode(code: String?): MountingAndChipBreaker? {
             return when {
-                code != null && code.length == 4 -> MountingAndChipBreaker.values().find { it.name == code[3].toString() }
+                code != null && code.length == 4 -> entries.find { it.name == code[3].toString() }
                 else -> null
             }
         }
