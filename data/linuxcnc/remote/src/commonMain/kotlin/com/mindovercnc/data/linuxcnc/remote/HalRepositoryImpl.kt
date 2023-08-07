@@ -17,7 +17,7 @@ import ro.dragossusi.proto.linuxcnc.hal.HalPinType
 
 /** Implementation for [HalRepository]. */
 class HalRepositoryImpl(private val linuxCncGrpc: LinuxCncClient) : HalRepository {
-    private var halComponent: HalComponent? = null
+    private val halComponent: HalComponent?
     private var pinJoystickXPlus: HalPin? = null
     private var pinJoystickXMinus: HalPin? = null
     private var pinJoystickZPlus: HalPin? = null
@@ -40,13 +40,20 @@ class HalRepositoryImpl(private val linuxCncGrpc: LinuxCncClient) : HalRepositor
     private var pinToolChangeResponse: HalPin? = null
 
     init {
-        val request = CreateComponentRequest(name = ComponentName)
-        halComponent = linuxCncGrpc.CreateComponent().executeBlocking(request)
+        halComponent = createComponent(ComponentName)
+        if (halComponent != null) {
+            initPins(halComponent)
+        }
     }
 
-    private fun createComponent(name: String): HalComponent {
+    private fun createComponent(name: String): HalComponent? {
         val request = CreateComponentRequest(name = name)
-        return linuxCncGrpc.CreateComponent().executeBlocking(request)
+        return try {
+            linuxCncGrpc.CreateComponent().executeBlocking(request)
+        } catch (e:Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
     private fun HalComponent.addPin(name: String, type: HalPinType, dir: HalPinDir): HalPin {
@@ -176,20 +183,17 @@ class HalRepositoryImpl(private val linuxCncGrpc: LinuxCncClient) : HalRepositor
         pinSpindleStarted?.setPinValue(isStarted)
     }
 
+
     override fun getSpindleSwitchStatus(): Flow<SpindleSwitchStatus> {
-        if (pinSpindleSwitchRevIn != null && pinSpindleSwitchFwdIn != null) {
-            return combine(
-                pinSpindleSwitchRevIn!!.valueFlow(RefreshRate), pinSpindleSwitchFwdIn!!.valueFlow(RefreshRate)
-            ) { isRev, isFwd ->
-                when {
-                    isRev.bool_value!! -> SpindleSwitchStatus.REV
-                    isFwd.bool_value!! -> SpindleSwitchStatus.FWD
-                    else -> SpindleSwitchStatus.NEUTRAL
-                }
-            }.distinctUntilChanged()
-        } else {
-            return flowOf(SpindleSwitchStatus.NEUTRAL)
-        }
+        val revIn = pinSpindleSwitchRevIn?.valueFlow(RefreshRate) ?: return flowOf(SpindleSwitchStatus.NEUTRAL)
+        val fwdIn = pinSpindleSwitchFwdIn?.valueFlow(RefreshRate) ?:return flowOf(SpindleSwitchStatus.NEUTRAL)
+        return combine(revIn, fwdIn) { isRev, isFwd ->
+            when {
+                isRev.bool_value == true -> SpindleSwitchStatus.REV
+                isFwd.bool_value == true -> SpindleSwitchStatus.FWD
+                else -> SpindleSwitchStatus.NEUTRAL
+            }
+        }.distinctUntilChanged()
     }
 
     override fun getCycleStartStatus(): Flow<Boolean> {

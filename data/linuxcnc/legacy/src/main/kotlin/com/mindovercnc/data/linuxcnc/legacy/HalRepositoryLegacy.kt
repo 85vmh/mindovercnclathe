@@ -2,7 +2,6 @@ package com.mindovercnc.data.linuxcnc.legacy
 
 import com.mindovercnc.data.linuxcnc.HalRepository
 import com.mindovercnc.linuxcnc.HalHandler
-import com.mindovercnc.linuxcnc.model.HalComponent
 import com.mindovercnc.linuxcnc.model.HalPin
 import com.mindovercnc.model.JoystickPosition
 import com.mindovercnc.model.JoystickStatus
@@ -16,7 +15,8 @@ import kotlinx.coroutines.flow.flowOf
 class HalRepositoryLegacy : HalRepository {
     private val halHandler = HalHandler()
 
-    private var halComponent: HalComponent? = null
+    private val halComponent = halHandler.createComponent(ComponentName)
+
     private var pinJoystickXPlus: HalPin<Boolean>? = null
     private var pinJoystickXMinus: HalPin<Boolean>? = null
     private var pinJoystickZPlus: HalPin<Boolean>? = null
@@ -39,51 +39,55 @@ class HalRepositoryLegacy : HalRepository {
     private var pinToolChangeResponse: HalPin<Boolean>? = null
 
     init {
-        halComponent = halHandler.createComponent(ComponentName)
-        halComponent?.let {
-            pinJoystickXPlus =
-                it.addPin(PinJoystickXPlus, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
-            pinJoystickXMinus =
-                it.addPin(PinJoystickXMinus, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
-            pinJoystickZPlus =
-                it.addPin(PinJoystickZPlus, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
-            pinJoystickZMinus =
-                it.addPin(PinJoystickZMinus, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
-            pinJoystickRapid =
-                it.addPin(PinJoystickRapid, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
-            pinIsPowerFeeding =
-                it.addPin(PinIsPowerFeeding, HalPin.Type.BIT, HalPin.Dir.OUT) as? HalPin<Boolean>
-            pinSpindleSwitchRevIn =
-                it.addPin(PinSpindleSwitchRevIn, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
-            pinSpindleSwitchFwdIn =
-                it.addPin(PinSpindleSwitchFwdIn, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
-            pinSpindleStarted =
-                it.addPin(PinSpindleStarted, HalPin.Type.BIT, HalPin.Dir.OUT) as? HalPin<Boolean>
-            pinCycleStart = it.addPin(PinCycleStart, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
-            pinCycleStop = it.addPin(PinCycleStop, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
-            pinJogIncrementValue =
-                it.addPin(PinJogIncrement, HalPin.Type.FLOAT, HalPin.Dir.IN) as? HalPin<Float>
-            pinSpindleActualRpm =
-                it.addPin(PinSpindleActualRpm, HalPin.Type.FLOAT, HalPin.Dir.IN) as? HalPin<Float>
+        initComponent()
+    }
 
-            pinAxisLimitXMin =
-                it.addPin(PinAxisLimitXMin, HalPin.Type.FLOAT, HalPin.Dir.OUT) as? HalPin<Float>
-            pinAxisLimitXMax =
-                it.addPin(PinAxisLimitXMax, HalPin.Type.FLOAT, HalPin.Dir.OUT) as? HalPin<Float>
-            pinAxisLimitZMin =
-                it.addPin(PinAxisLimitZMin, HalPin.Type.FLOAT, HalPin.Dir.OUT) as? HalPin<Float>
-            pinAxisLimitZMax =
-                it.addPin(PinAxisLimitZMax, HalPin.Type.FLOAT, HalPin.Dir.OUT) as? HalPin<Float>
+    @Suppress("UNCHECKED_CAST")
+    private fun initComponent() {
+        if (halComponent == null) return
 
-            pinToolChangeToolNo =
-                it.addPin(PinToolChangeToolNo, HalPin.Type.S32, HalPin.Dir.IN) as? HalPin<Int>
-            pinToolChangeRequest =
-                it.addPin(PinToolChangeRequest, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
-            pinToolChangeResponse =
-                it.addPin(PinToolChangeResponse, HalPin.Type.BIT, HalPin.Dir.OUT) as? HalPin<Boolean>
+        pinJoystickXPlus =
+            halComponent.addPin(PinJoystickXPlus, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
+        pinJoystickXMinus =
+            halComponent.addPin(PinJoystickXMinus, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
+        pinJoystickZPlus =
+            halComponent.addPin(PinJoystickZPlus, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
+        pinJoystickZMinus =
+            halComponent.addPin(PinJoystickZMinus, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
+        pinJoystickRapid =
+            halComponent.addPin(PinJoystickRapid, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
+        pinIsPowerFeeding =
+            halComponent.addPin(PinIsPowerFeeding, HalPin.Type.BIT, HalPin.Dir.OUT) as? HalPin<Boolean>
+        pinSpindleSwitchRevIn =
+            halComponent.addPin(PinSpindleSwitchRevIn, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
+        pinSpindleSwitchFwdIn =
+            halComponent.addPin(PinSpindleSwitchFwdIn, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
+        pinSpindleStarted =
+            halComponent.addPin(PinSpindleStarted, HalPin.Type.BIT, HalPin.Dir.OUT) as? HalPin<Boolean>
+        pinCycleStart = halComponent.addPin(PinCycleStart, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
+        pinCycleStop = halComponent.addPin(PinCycleStop, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
+        pinJogIncrementValue =
+            halComponent.addPin(PinJogIncrement, HalPin.Type.FLOAT, HalPin.Dir.IN) as? HalPin<Float>
+        pinSpindleActualRpm =
+            halComponent.addPin(PinSpindleActualRpm, HalPin.Type.FLOAT, HalPin.Dir.IN) as? HalPin<Float>
 
-            it.setReady(it.componentId)
-        }
+        pinAxisLimitXMin =
+            halComponent.addPin(PinAxisLimitXMin, HalPin.Type.FLOAT, HalPin.Dir.OUT) as? HalPin<Float>
+        pinAxisLimitXMax =
+            halComponent.addPin(PinAxisLimitXMax, HalPin.Type.FLOAT, HalPin.Dir.OUT) as? HalPin<Float>
+        pinAxisLimitZMin =
+            halComponent.addPin(PinAxisLimitZMin, HalPin.Type.FLOAT, HalPin.Dir.OUT) as? HalPin<Float>
+        pinAxisLimitZMax =
+            halComponent.addPin(PinAxisLimitZMax, HalPin.Type.FLOAT, HalPin.Dir.OUT) as? HalPin<Float>
+
+        pinToolChangeToolNo =
+            halComponent.addPin(PinToolChangeToolNo, HalPin.Type.S32, HalPin.Dir.IN) as? HalPin<Int>
+        pinToolChangeRequest =
+            halComponent.addPin(PinToolChangeRequest, HalPin.Type.BIT, HalPin.Dir.IN) as? HalPin<Boolean>
+        pinToolChangeResponse =
+            halComponent.addPin(PinToolChangeResponse, HalPin.Type.BIT, HalPin.Dir.OUT) as? HalPin<Boolean>
+
+        halComponent.setReady(halComponent.componentId)
     }
 
     override fun getJoystickStatus(): Flow<JoystickStatus> {
@@ -151,21 +155,15 @@ class HalRepositoryLegacy : HalRepository {
     }
 
     override fun getSpindleSwitchStatus(): Flow<SpindleSwitchStatus> {
-        if (pinSpindleSwitchRevIn != null && pinSpindleSwitchFwdIn != null) {
-            return combine(
-                pinSpindleSwitchRevIn!!.valueFlow(RefreshRate),
-                pinSpindleSwitchFwdIn!!.valueFlow(RefreshRate)
-            ) { isRev, isFwd ->
-                when {
-                    isRev -> SpindleSwitchStatus.REV
-                    isFwd -> SpindleSwitchStatus.FWD
-                    else -> SpindleSwitchStatus.NEUTRAL
-                }
+        val revIn = pinSpindleSwitchRevIn?.valueFlow(RefreshRate) ?: return flowOf(SpindleSwitchStatus.NEUTRAL)
+        val fwdIn = pinSpindleSwitchFwdIn?.valueFlow(RefreshRate) ?: return flowOf(SpindleSwitchStatus.NEUTRAL)
+        return combine(revIn, fwdIn) { isRev, isFwd ->
+            when {
+                isRev -> SpindleSwitchStatus.REV
+                isFwd -> SpindleSwitchStatus.FWD
+                else -> SpindleSwitchStatus.NEUTRAL
             }
-                .distinctUntilChanged()
-        } else {
-            return flowOf(SpindleSwitchStatus.NEUTRAL)
-        }
+        }.distinctUntilChanged()
     }
 
     override fun getCycleStartStatus(): Flow<Boolean> {

@@ -11,13 +11,15 @@ version = Versions.app
 
 kotlin {
     jvm()
+    js(IR) {
+        browser()
+    }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(Libs.stdlib)
                 implementation(Libs.Coroutines.core)
-                implementation(Libs.Coroutines.swing)
                 implementation(Libs.Serialization.json)
                 implementation(Libs.cli)
                 implementation(Libs.datetime)
@@ -30,20 +32,12 @@ kotlin {
                 implementation(Libs.okio)
 
                 // compose
-                implementation(compose.desktop.currentOs)
-                implementation(compose.uiTooling)
-                @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3)
+                implementation(compose.material3)
 
-                // jars
-                implementation(fileTree(mapOf("dir" to "lib", "include" to listOf("*.jar"))))
-
-                // the library that contains the JNI interface for communicating with LinuxCNC library
-                implementation(project(":ktlcnc"))
 
                 // internal modules
                 implementation(project(":clipboard"))
                 implementation(project(":compose"))
-                implementation(project(":database"))
                 implementation(project(":dispatcher"))
                 implementation(project(":editor"))
                 // todo uncomment
@@ -55,7 +49,6 @@ kotlin {
 
                 implementation(project(":protos"))
                 implementation(Libs.Grpc.okhttp)
-                implementation(Libs.Compose.splitpane)
 
                 //    implementation(project(":vtk"))
                 implementation(Libs.Kodein.compose)
@@ -68,11 +61,11 @@ kotlin {
             }
         }
 
-        val commonTest by getting {
+        val jvmTest by getting {
             dependencies {
                 @OptIn(ExperimentalComposeLibrary::class)
                 implementation(compose.uiTestJUnit4)
-                implementation("io.mockk:mockk:1.12.4")
+                implementation(Libs.mockk)
                 implementation(Libs.Coroutines.test)
             }
         }
@@ -84,6 +77,20 @@ kotlin {
                 implementation(project(":data:linuxcnc:legacy"))
                 implementation(project(":data:linuxcnc:remote"))
                 implementation(project(":initializer"))
+
+                implementation(Libs.Coroutines.swing)
+
+                //compose
+                implementation(compose.desktop.currentOs)
+                implementation(compose.uiTooling)
+
+                // todo remove
+                implementation(Libs.Compose.splitpane)
+
+                // the library that contains the JNI interface for communicating with LinuxCNC library
+                implementation(project(":ktlcnc"))
+
+                implementation(project(":database"))
             }
         }
     }
