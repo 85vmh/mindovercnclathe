@@ -1,6 +1,6 @@
 package com.mindovercnc.linuxcnc.nml
 
-import com.mindovercnc.linuxcnc.CncInitializer
+import com.mindovercnc.linuxcnc.KtlCncInitializer
 import com.mindovercnc.linuxcnc.HalHandler
 import com.mindovercnc.linuxcnc.model.HalPin
 import java.io.File
@@ -10,7 +10,7 @@ class CreateComponentTest {
 
   @Test
   internal fun `Try creating a new component`() {
-    CncInitializer.invoke(File("."))
+    KtlCncInitializer.invoke(File("."))
     val halHandler = HalHandler()
     val halComponent = halHandler.createComponent("WeilerE30Testsss")
     println("Component created: $halComponent")

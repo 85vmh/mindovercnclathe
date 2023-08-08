@@ -7,7 +7,9 @@ version = Versions.app
 
 kotlin {
     jvm()
-    js(IR)
+    js(IR) {
+        browser()
+    }
 
     sourceSets {
         val commonMain by getting {
@@ -18,7 +20,6 @@ kotlin {
                 implementation(Libs.Serialization.json)
                 implementation(Libs.Coroutines.core)
                 implementation(Libs.Serialization.json_okio)
-                implementation(project(":ktlcnc"))
                 implementation(Libs.okio)
             }
         }

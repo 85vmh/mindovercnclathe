@@ -5,6 +5,7 @@ import com.mindovercnc.linuxcnc.nml.BuffDescriptorV29
 import com.mindovercnc.linuxcnc.nml.DynamicBuffDescriptor
 import com.mindovercnc.linuxcnc.nml.MemoryEntries
 import kotlinx.serialization.json.Json
+import mu.KotlinLogging
 import okio.Path.Companion.toPath
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
@@ -19,13 +20,15 @@ val KtLcncModule = DI.Module("ktlcnc") {
         val file = appDir.div("bufferDescriptor.json").toFile()
 
         if (!file.exists()) {
-            println("Buff Descriptor file not found, use the default one")
+            LOG.info("Buff Descriptor file not found, use the default one")
             return@bindSingleton BuffDescriptorV29()
         } else {
             val contents = file.readText()
             val memoryEntries = Json.decodeFromString<MemoryEntries>(contents)
-            println("Dynamic Buff Descriptor loaded from file: $file")
+            LOG.info("Dynamic Buff Descriptor loaded from file: $file")
             DynamicBuffDescriptor(memoryEntries)
         }
     }
 }
+
+private val LOG = KotlinLogging.logger("KtlCnc")

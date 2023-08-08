@@ -1,8 +1,11 @@
 package com.mindovercnc.editor
 
+import kotlin.concurrent.Volatile
+
 /** Compact version of List<Int> (without unboxing Int and using IntArray under the hood) */
 class IntList(initialCapacity: Int = 16) {
-  @Volatile private var array = IntArray(initialCapacity)
+  @Volatile
+  private var array = IntArray(initialCapacity)
 
   @Volatile
   var size: Int = 0
@@ -30,7 +33,7 @@ class IntList(initialCapacity: Int = 16) {
 
   private fun doubleCapacity() {
     val newArray = IntArray(array.size * 2 + 1)
-    System.arraycopy(array, 0, newArray, 0, size)
+    array.copyInto(destination = newArray, endIndex = size)
     array = newArray
   }
 

@@ -2,7 +2,7 @@ package com.mindovercnc.vtk
 
 import com.mindovercnc.model.MachineLimits
 import com.mindovercnc.model.PathElement
-import com.mindovercnc.model.Point2D
+import actor.Point2D
 import vtk.vtkCamera
 import vtk.vtkPanel
 import vtk.vtkTransform

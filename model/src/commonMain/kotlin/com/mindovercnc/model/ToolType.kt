@@ -15,7 +15,7 @@ enum class ToolType(val displayableValue: String, val type: KClass<*>) {
 
     companion object {
         fun fromLatheTool(latheTool: LatheTool): ToolType {
-            return ToolType.values().find { it.type == latheTool.javaClass.kotlin }!!
+            return entries.find { it.type == latheTool::class }!!
         }
     }
 }

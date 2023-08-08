@@ -4,7 +4,9 @@ plugins {
 
 kotlin {
     jvm()
-    js(IR)
+    js(IR) {
+        browser()
+    }
 
     sourceSets {
         val commonMain by getting {

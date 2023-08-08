@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
 import com.mindovercnc.model.MachineLimits
 import com.mindovercnc.model.PathElement
-import com.mindovercnc.model.Point2D
+import actor.Point2D
 
 data class VtkUiState(
     val machineLimits: MachineLimits? = null,
