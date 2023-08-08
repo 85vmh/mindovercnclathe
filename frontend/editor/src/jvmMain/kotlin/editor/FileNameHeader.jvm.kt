@@ -1,4 +1,4 @@
-package screen.composables.editor
+package editor
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.TooltipArea
@@ -16,23 +16,23 @@ import okio.Path
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FileNameHeader(
-  file: Path,
-  modifier: Modifier = Modifier,
+actual fun FileNameHeader(
+    file: Path,
+    modifier: Modifier,
 ) {
-  TooltipArea(
-    modifier = modifier,
-    tooltip = {
-      Surface(shape = RoundedCornerShape(8.dp), shadowElevation = 3.dp) {
-        Text(file.toString(), modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp))
-      }
+    TooltipArea(
+        modifier = modifier,
+        tooltip = {
+            Surface(shape = RoundedCornerShape(8.dp), shadowElevation = 3.dp) {
+                Text(file.toString(), modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp))
+            }
+        }
+    ) {
+        Text(
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            text = file.name,
+            style = MaterialTheme.typography.titleSmall,
+            textAlign = TextAlign.Center,
+        )
     }
-  ) {
-    Text(
-      modifier = Modifier.fillMaxWidth().padding(8.dp),
-      text = file.name,
-      style = MaterialTheme.typography.titleSmall,
-      textAlign = TextAlign.Center,
-    )
-  }
 }

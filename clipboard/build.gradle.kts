@@ -4,5 +4,7 @@ version = Versions.app
 
 kotlin {
     jvm()
-    js(IR)
+    js(IR) {
+        browser()
+    }
 }

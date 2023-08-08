@@ -10,7 +10,9 @@ version = Versions.app
 
 kotlin {
     jvm()
-    js(IR)
+    js(IR) {
+        browser()
+    }
 
     sourceSets {
         val commonMain by getting {
@@ -46,6 +48,7 @@ kotlin {
                 implementation(project(":frontend:breadcrumb"))
                 implementation(project(":frontend:filesystem"))
                 implementation(project(":frontend:scroll"))
+                implementation(project(":frontend:editor"))
 
                 implementation(project(":startup:args"))
 
@@ -55,6 +58,8 @@ kotlin {
 
                 //    implementation(project(":vtk"))
                 implementation(Libs.Kodein.compose)
+
+                implementation("com.ionspin.kotlin:bignum:0.3.8")
 
                 // navigation
                 implementation("cafe.adriel.voyager:voyager-navigator:${Versions.voyager}")

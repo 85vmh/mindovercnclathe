@@ -1,4 +1,4 @@
-package screen.composables.editor
+package editor
 
 object EditorConstants {
   val gcodeCharacters =

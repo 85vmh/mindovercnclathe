@@ -94,12 +94,12 @@ class ArgProcessor(private val fileSystem: FileSystem) {
         return DpSize(width.dp, height.dp)
     }
 
-    private fun createIniFile(file: Path): Path {
-        if (fileSystem.exists(file)) return file
-        if (file.isAbsolute) throw IllegalArgumentException("$file does not exist")
+    private fun createIniFile(path: Path): Path {
+        if (fileSystem.exists(path)) return path
+        if (path.isAbsolute) throw IllegalArgumentException("$path does not exist")
 
         // try finding it in linuxcnc folder
-        val file = LinuxCncHome.div(file)
+        val file = LinuxCncHome.div(path)
         if (!fileSystem.exists(file)) throw IllegalArgumentException("$file does not exist")
         return file
     }

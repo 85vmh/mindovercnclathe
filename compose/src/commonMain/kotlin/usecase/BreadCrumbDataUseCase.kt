@@ -2,37 +2,40 @@ package usecase
 
 import components.breadcrumb.BreadCrumbData
 import components.breadcrumb.BreadCrumbItemData
+import okio.FileSystem
 import okio.Path
-import okio.Path.Companion.toOkioPath
 
-class BreadCrumbDataUseCase {
+class BreadCrumbDataUseCase constructor(
+    private val fileSystem: FileSystem
+) {
 
-  fun Path.toBreadCrumbData(onItemClick: (Path) -> Unit): BreadCrumbData {
-    val directories = directories()
+    fun Path.toBreadCrumbData(onItemClick: (Path) -> Unit): BreadCrumbData {
+        val directories = directories()
 
-    return BreadCrumbData(
-      directories.map { path ->
-        BreadCrumbItemData(
-          title = path.segments.lastOrNull() ?: "/",
-          onClick = { onItemClick(path) }
+        return BreadCrumbData(
+            directories.map { path ->
+                BreadCrumbItemData(
+                    title = path.segments.lastOrNull() ?: "/",
+                    onClick = { onItemClick(path) }
+                )
+            }
         )
-      }
-    )
-  }
-}
+    }
 
-fun Path.directories(): List<Path> {
-  val list = mutableListOf<Path>()
 
-  val file = toFile()
-  if (file.isDirectory) {
-    list += this
-  }
+    private fun Path.directories(): List<Path> {
+        val list = mutableListOf<Path>()
 
-  var parent = file.parentFile
-  while (parent != null) {
-    list += parent.toOkioPath()
-    parent = parent.parentFile
-  }
-  return list.reversed()
+        val metadata = fileSystem.metadata(this)
+        if (metadata.isDirectory) {
+            list += this
+        }
+
+        var parent = this.parent
+        while (parent != null) {
+            list += parent
+            parent = parent.parent
+        }
+        return list.reversed()
+    }
 }

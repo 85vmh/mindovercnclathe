@@ -7,14 +7,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import components.breadcrumb.BreadcrumbView
 import components.filesystem.FileSystemView
+import editor.EditorEmptyView
+import editor.EditorSettings
+import editor.EditorView
 import screen.composables.VerticalDivider
-import screen.composables.common.Settings
-import screen.composables.editor.EditorEmptyView
-import screen.composables.editor.EditorView
 
 @Composable
 fun ProgramsScreenUi(state: ProgramsState, modifier: Modifier = Modifier) {
-    val settings = Settings()
+    val settings = EditorSettings()
 
     Column(modifier = modifier) {
         BreadcrumbView(

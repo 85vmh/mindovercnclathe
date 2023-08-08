@@ -1,16 +1,16 @@
 package usecase
 
 import actor.PathElement
+import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.repository.GCodeRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okio.Path
 import org.jetbrains.skia.Point
 
-class GCodeUseCase(private val gCodeRepository: GCodeRepository) {
+class GCodeUseCase(private val gCodeRepository: GCodeRepository, private val ioDispatcher: IoDispatcher) {
 
     suspend fun getPathElements(file: Path): List<PathElement> =
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher.dispatcher) {
             val pathElements = mutableListOf<PathElement>()
             var lastPoint: Point? = null
 

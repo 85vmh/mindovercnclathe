@@ -1,8 +1,6 @@
-package com.mindovercnc.editor.reader.com.mindovercnc.editor.reader
+package com.mindovercnc.editor.reader
 
 import com.mindovercnc.editor.IntList
-import com.mindovercnc.editor.reader.EditorReader
-import com.mindovercnc.editor.reader.averageLineLength
 import com.mindovercnc.editor.textlines.TextLineContent
 import com.mindovercnc.editor.textlines.TextLines
 import java.io.FileInputStream

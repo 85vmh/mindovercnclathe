@@ -10,6 +10,7 @@ import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.editor.Editor
 import com.mindovercnc.editor.EditorLoader
 import com.mindovercnc.repository.IniFileRepository
+import editor.EditorSettings
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -17,7 +18,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import okio.Path
 import org.jetbrains.skia.Point
-import screen.composables.common.Settings
 import screen.uimodel.PositionModel
 import usecase.*
 import usecase.model.ActiveCode
@@ -42,7 +42,7 @@ class ProgramLoadedScreenModel(
 
     data class State(
         val editor: Editor? = null,
-        val settings: Settings = Settings(),
+        val settings: EditorSettings = EditorSettings(),
         val positionModel: PositionModel? = null,
         val currentWcs: String = "--",
         val currentFolder: Path? = null,

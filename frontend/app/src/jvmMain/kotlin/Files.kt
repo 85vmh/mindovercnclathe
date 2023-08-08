@@ -1,5 +1,3 @@
-package app
-
 import okio.Path.Companion.toPath
 
 object Files {

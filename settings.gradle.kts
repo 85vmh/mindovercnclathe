@@ -1,4 +1,13 @@
-rootProject.name = "MindOverCNC Lathe"
+rootProject.name = "ktcnc"
+
+pluginManagement{
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
 include("actor")
 include("compose")
 include("clipboard")
@@ -23,6 +32,7 @@ include("frontend:breadcrumb")
 include("frontend:filesystem")
 include("frontend:splitpane")
 include("frontend:scroll")
+include("frontend:editor")
 
 include("statemachine")
 include("initializer")

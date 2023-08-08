@@ -1,4 +1,4 @@
-package screen.composables.editor
+package editor
 
 import androidx.compose.runtime.compositionLocalOf
 import com.mindovercnc.editor.type.EditorFileType

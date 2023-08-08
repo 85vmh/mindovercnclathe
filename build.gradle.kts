@@ -11,11 +11,12 @@ buildscript {
 }
 
 plugins {
-    kotlin("jvm") version Versions.kotlin apply false
+    kotlin("multiplatform") version Versions.kotlin apply false
     kotlin("plugin.serialization") version Versions.kotlin apply false
     id("org.jetbrains.compose") version Versions.compose apply false
     id("com.google.protobuf") version Versions.Grpc.plugin apply false
     id("com.squareup.wire") version Versions.Grpc.Wire.plugin apply false
+    id("com.android.application") version Versions.Android.plugin apply false
 }
 
 allprojects {

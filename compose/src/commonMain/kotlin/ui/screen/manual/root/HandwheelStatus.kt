@@ -57,7 +57,6 @@ fun HandWheelStatus(uiModel: HandWheelsUiModel?, modifier: Modifier = Modifier) 
 
 @Composable
 private fun JogWheel(axisLetter: Char, activeColor: Color, modifier: Modifier = Modifier) {
-
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         Image(
             modifier = Modifier.fillMaxSize(),

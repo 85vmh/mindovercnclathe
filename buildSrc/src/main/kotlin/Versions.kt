@@ -30,5 +30,9 @@ object Versions {
     }
   }
 
+  object Android {
+    const val plugin = "8.1.0"
+  }
+
   const val app = "1.0"
 }

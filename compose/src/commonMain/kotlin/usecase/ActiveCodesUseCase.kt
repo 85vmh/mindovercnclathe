@@ -1,11 +1,12 @@
 package usecase
 
+import com.ionspin.kotlin.bignum.decimal.DecimalMode
+import com.ionspin.kotlin.bignum.decimal.RoundingMode
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.mindovercnc.data.linuxcnc.CncStatusRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import usecase.model.ActiveCode
-import java.math.BigDecimal
-import java.math.RoundingMode
 
 class ActiveCodesUseCase(
     private val statusRepository: CncStatusRepository,
@@ -43,9 +44,7 @@ class ActiveCodesUseCase(
     }
 
     private fun Float.stripZeros(): String {
-        return BigDecimal(this.toDouble())
-            .setScale(1, RoundingMode.HALF_UP)
-            .stripTrailingZeros()
+        return this.toBigDecimal(decimalMode = DecimalMode(scale = 1, roundingMode = RoundingMode.ROUND_HALF_CEILING))
             .toPlainString()
     }
 }

@@ -1,18 +1,18 @@
-package screen.composables.util
+package editor.util
 
 import androidx.compose.runtime.*
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 
-@Composable
-fun <T : Any> loadable(load: () -> T): MutableState<T?> {
-    return loadableScoped { load() }
-}
-
 private val loadingKey = Any()
 
 @Composable
-fun <T : Any> loadableScoped(load: CoroutineScope.() -> T): MutableState<T?> {
+internal fun <T : Any> loadable(load: () -> T): MutableState<T?> {
+    return loadableScoped { load() }
+}
+
+@Composable
+internal fun <T : Any> loadableScoped(load: CoroutineScope.() -> T): MutableState<T?> {
     val state: MutableState<T?> = remember { mutableStateOf(null) }
     LaunchedEffect(loadingKey) {
         try {

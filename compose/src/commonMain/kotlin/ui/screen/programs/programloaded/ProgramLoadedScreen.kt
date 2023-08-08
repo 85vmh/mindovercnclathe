@@ -18,12 +18,12 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import di.rememberScreenModel
+import editor.EditorView
 import okio.Path
 import org.kodein.di.bindProvider
 import screen.composables.VerticalDivider
-import ui.widget.VisualTurning
-import screen.composables.editor.EditorView
 import ui.screen.programs.Programs
+import ui.widget.VisualTurning
 
 private fun Path.displayableFilePath(): String {
     val elements = segments

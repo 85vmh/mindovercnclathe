@@ -7,7 +7,9 @@ version = Versions.app
 
 kotlin {
     jvm()
-    js()
+    js(IR) {
+        browser()
+    }
 
     sourceSets {
         val commonMain by getting {

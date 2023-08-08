@@ -8,7 +8,9 @@ import kotlinx.datetime.Instant
 import okio.FileSystem
 import okio.Path
 
-class FileSystemDataUseCase constructor(private val fileSystem: FileSystem) {
+class FileSystemDataUseCase constructor(
+    private val fileSystem: FileSystem
+) {
 
     fun Path.toFileSystemData(onItemClick: (Path) -> Unit): FileSystemData {
         val items = fileSystem

@@ -6,8 +6,8 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import editor.LocalEditorTheme
 import screen.composables.common.AppTheme
-import screen.composables.editor.LocalEditorTheme
 import startup.args.DarkMode
 
 private val LightThemeColors =
@@ -67,8 +67,6 @@ private val DarkThemeColors =
         inverseSurface = md_theme_dark_inverseSurface,
     )
 
-private val editorModel = Any()
-
 @Composable
 fun AppTheme(darkMode: DarkMode, content: @Composable () -> Unit) {
     val useDarkTheme =
@@ -84,7 +82,7 @@ fun AppTheme(darkMode: DarkMode, content: @Composable () -> Unit) {
             LightThemeColors
         }
 
-    val theme = AppTheme.Editor.theme
+    val theme = AppTheme.editor
     val themeVariant = if (useDarkTheme) theme.dark else theme.light
 
     CompositionLocalProvider(LocalEditorTheme provides themeVariant) {

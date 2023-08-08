@@ -1,4 +1,4 @@
-package screen.composables.editor
+package editor
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle

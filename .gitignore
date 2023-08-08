@@ -18,3 +18,4 @@ bin*
 
 **/build
 *.bazel
+/kotlin-js-store/yarn.lock

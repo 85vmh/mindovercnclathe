@@ -7,6 +7,6 @@ import screen.composables.common.AppTheme
 class EditorThemeUseCase(private val editorThemeRepository: EditorThemeRepository) {
 
   suspend fun getEditorTheme(): EditorTheme {
-    return editorThemeRepository.getEditorTheme() ?: AppTheme.Editor.theme
+    return editorThemeRepository.getEditorTheme() ?: AppTheme.editor
   }
 }

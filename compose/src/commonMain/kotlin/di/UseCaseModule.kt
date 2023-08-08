@@ -147,12 +147,13 @@ val DomainModule = DI.Module("domain") {
     bindSingleton {
         GCodeUseCase(
             gCodeRepository = instance(),
+            ioDispatcher = instance()
         )
     }
 
     bindSingleton { ActiveCodesUseCase(instance()) }
 
-    bindSingleton { BreadCrumbDataUseCase() }
+    bindSingleton { BreadCrumbDataUseCase(instance()) }
 
     bindSingleton { FileSystemDataUseCase(instance()) }
 

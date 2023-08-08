@@ -1,4 +1,4 @@
-package screen.composables.editor
+package editor
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.editor.Editor
@@ -26,13 +27,11 @@ import com.mindovercnc.editor.textlines.TextLineContent
 import com.mindovercnc.editor.textlines.TextLines
 import com.mindovercnc.editor.type.EditorFileType
 import com.mindovercnc.editor.type.EditorFileTypeHandler
+import editor.line.LineNumber
+import editor.util.loadableScoped
+import editor.util.withoutWidthConstraints
 import okio.Path
 import org.kodein.di.compose.rememberInstance
-import screen.composables.common.Fonts
-import screen.composables.common.Settings
-import screen.composables.editor.line.LineNumber
-import screen.composables.util.loadableScoped
-import screen.composables.util.withoutWidthConstraints
 import scroll.VerticalScrollbar
 import scroll.draggableScroll
 import kotlin.text.Regex.Companion.fromLiteral
@@ -40,7 +39,7 @@ import kotlin.text.Regex.Companion.fromLiteral
 @Composable
 fun EditorView(
     model: Editor,
-    settings: Settings,
+    settings: EditorSettings,
     showFileName: Boolean = true,
     modifier: Modifier = Modifier
 ) =
@@ -90,7 +89,7 @@ private fun Lines(
     file: Path,
     lines: TextLines,
     showFileName: Boolean,
-    settings: Settings,
+    settings: EditorSettings,
     modifier: Modifier = Modifier
 ) {
     val size by lines.size.collectAsState()
@@ -139,7 +138,7 @@ private fun Lines(
 private fun Line(
     maxNum: String,
     line: TextLineContent,
-    settings: Settings,
+    settings: EditorSettings,
     modifier: Modifier = Modifier
 ) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
@@ -168,7 +167,7 @@ private fun Line(
 }
 
 @Composable
-private fun LineContent(line: TextLineContent, settings: Settings, modifier: Modifier = Modifier) {
+private fun LineContent(line: TextLineContent, settings: EditorSettings, modifier: Modifier = Modifier) {
     Text(
         text =
         when (LocalEditorFileType.current) {
@@ -176,7 +175,7 @@ private fun LineContent(line: TextLineContent, settings: Settings, modifier: Mod
             EditorFileType.NORMAL -> normalString(line.text)
         },
         fontSize = settings.fontSize,
-        fontFamily = Fonts.jetbrainsMono(),
+        fontFamily = FontFamily.Monospace,
         modifier = modifier,
         softWrap = false
     )
