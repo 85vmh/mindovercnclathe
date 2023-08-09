@@ -1,5 +1,4 @@
-import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.compose.compose
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -13,7 +12,6 @@ kotlin {
     jvm()
     js(IR) {
         browser()
-        binaries.executable()
     }
 
     sourceSets {
@@ -22,37 +20,47 @@ kotlin {
                 implementation(Libs.stdlib)
                 implementation(Libs.Coroutines.core)
                 implementation(Libs.Serialization.json)
-                implementation(Libs.cli)
-                implementation(Libs.datetime)
 
                 // logging
-                implementation("ch.qos.logback:logback-classic:1.4.8")
                 implementation(Libs.logging)
 
                 // okio
                 implementation(Libs.okio)
 
-                // compose
-                implementation(compose.material3)
+                implementation(Libs.datetime)
 
+                // compose
+//                implementation(compose.uiTooling)
+                implementation(compose.material)
+                implementation(compose.material3)
 
                 // internal modules
                 implementation(project(":frontend:clipboard"))
-                implementation(project(":frontend:compose"))
+                implementation(project(":actor"))
                 implementation(project(":dispatcher"))
                 implementation(project(":editor"))
-                // todo uncomment
-//                implementation(project(":data:impl"))
                 implementation(project(":model"))
-                implementation(project(":data:linuxcnc:api"))
+                implementation(project(":initializer"))
+
                 implementation(project(":data:common:api"))
+                implementation(project(":data:linuxcnc:api"))
+                implementation(project(":data:tools:api"))
+
+                implementation(project(":frontend:breadcrumb"))
+                implementation(project(":frontend:filesystem"))
+                implementation(project(":frontend:scroll"))
+                implementation(project(":frontend:editor"))
+
                 implementation(project(":startup:args"))
 
                 implementation(project(":protos"))
                 implementation(Libs.Grpc.okhttp)
+//                implementation(Libs.Compose.splitpane)
 
                 //    implementation(project(":vtk"))
                 implementation(Libs.Kodein.compose)
+
+                implementation("com.ionspin.kotlin:bignum:0.3.8")
 
                 // navigation
                 implementation("cafe.adriel.voyager:voyager-navigator:${Versions.voyager}")
@@ -62,54 +70,18 @@ kotlin {
             }
         }
 
-        val jvmTest by getting {
-            dependencies {
-                @OptIn(ExperimentalComposeLibrary::class)
-                implementation(compose.uiTestJUnit4)
-                implementation(Libs.mockk)
-                implementation(Libs.Coroutines.test)
-            }
-        }
-
         val jvmMain by getting {
             dependencies {
-                implementation(project(":startup:args"))
-                implementation(project(":data:common:impl"))
-                implementation(project(":data:linuxcnc:legacy"))
-                implementation(project(":data:linuxcnc:remote"))
-                implementation(project(":data:tools:local"))
-                implementation(project(":data:tools:remote"))
-                implementation(project(":initializer"))
-
-                implementation(Libs.Coroutines.swing)
-
-                //compose
                 implementation(compose.desktop.currentOs)
-                implementation(compose.uiTooling)
-
-                // todo remove
-                implementation(Libs.Compose.splitpane)
-
-                // the library that contains the JNI interface for communicating with LinuxCNC library
-                implementation(project(":ktlcnc"))
-
-                implementation(project(":backend:database"))
             }
         }
-    }
-}
-
-
-compose.desktop {
-    application {
-        mainClass = "MainKt"
-
-        jvmArgs(NativePaths.createJvmArgs(rootProject))
-
-        nativeDistributions {
-            // needed by the database
-            modules("java.sql")
-            targetFormats(TargetFormat.Deb)
+        val jvmTest by getting {
+            dependencies {
+                implementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
+                implementation("io.mockk:mockk:1.12.4")
+                implementation(Libs.Coroutines.test)
+                implementation(compose.material)
+            }
         }
     }
 }

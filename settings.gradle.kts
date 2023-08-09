@@ -9,9 +9,7 @@ pluginManagement{
 }
 
 include("actor")
-include("compose")
-include("clipboard")
-include("database")
+include("backend:database")
 
 // data
 include("data:linuxcnc:remote")
@@ -22,11 +20,17 @@ include("data:common:local")
 include("data:common:impl")
 include("data:common:api")
 
+include("data:tools:local")
+include("data:tools:remote")
+include("data:tools:api")
+
 include("editor")
 include("logger")
 include("model")
 
 // frontend
+include("frontend:compose")
+include("frontend:clipboard")
 include("frontend:app")
 include("frontend:breadcrumb")
 include("frontend:filesystem")
