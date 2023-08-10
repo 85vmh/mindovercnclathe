@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import org.kodein.di.compose.rememberInstance
 import usecase.ConversationalUseCase
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ConversationalView(modifier: Modifier, onNewOpClicked: (ConversationalOperation) -> Unit) {
     val useCase: ConversationalUseCase by rememberInstance()

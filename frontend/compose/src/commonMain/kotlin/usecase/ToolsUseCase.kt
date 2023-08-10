@@ -5,6 +5,8 @@ import com.mindovercnc.data.linuxcnc.CncStatusRepository
 import com.mindovercnc.data.linuxcnc.HalRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
+import com.mindovercnc.linuxcnc.settings.IntegerKey
+import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.linuxcnc.tools.CuttingInsertsRepository
 import com.mindovercnc.linuxcnc.tools.LatheToolsRepository
 import com.mindovercnc.linuxcnc.tools.ToolHolderRepository
@@ -13,7 +15,6 @@ import com.mindovercnc.model.*
 import com.mindovercnc.repository.IoStatusRepository
 import com.mindovercnc.repository.MessagesRepository
 import com.mindovercnc.repository.MotionStatusRepository
-import com.mindovercnc.repository.SettingsRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import linuxcnc.currentToolNo

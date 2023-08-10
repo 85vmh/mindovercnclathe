@@ -75,13 +75,21 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(project(":startup:args"))
+
                 implementation(project(":data:common:impl"))
+
                 implementation(project(":data:linuxcnc:legacy"))
                 implementation(project(":data:linuxcnc:remote"))
+
                 implementation(project(":data:tools:local"))
                 implementation(project(":data:tools:remote"))
+
                 implementation(project(":data:gcode:remote"))
                 implementation(project(":data:gcode:local"))
+
+                implementation(project(":data:settings:local"))
+                implementation(project(":data:settings:remote"))
+
                 implementation(project(":initializer"))
 
                 implementation(Libs.Coroutines.swing)

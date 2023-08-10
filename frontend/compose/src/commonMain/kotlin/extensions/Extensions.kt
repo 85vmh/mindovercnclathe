@@ -5,7 +5,6 @@ import com.ionspin.kotlin.bignum.decimal.RoundingMode
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import kotlin.math.PI
 import kotlin.math.roundToInt
-import kotlin.text.format
 
 fun Double.toPercent(): Int = (this * 100).roundToInt()
 
@@ -24,17 +23,13 @@ fun Double.toFixedDigits(maxDigits: Int = 3): Double {
 
 /** Strips the decimal points digits that are zero. */
 fun Double.stripZeros(maxDigits: Int = 3): String {
-    val format = createDecimalFormat(maxDigits)
-    return format.format(this)
-    // TODO
-//    return toBigDecimal(
-//        decimalMode = DecimalMode(scale = maxDigits.toLong(), roundingMode = RoundingMode.ROUND_HALF_TO_EVEN)
-//    )
-//        // todo
-//        // .stripTrailingZeros()
-//        .toPlainString()
+    return toBigDecimal(
+        decimalMode = DecimalMode(scale = maxDigits.toLong(), roundingMode = RoundingMode.ROUND_HALF_TO_EVEN)
+    )
+        // todo
+        // .stripTrailingZeros()
+        .toPlainString()
 }
 
-private fun createDecimalFormat(maxDigits: Int) = "%.${maxDigits}f"
 
 internal fun toRadians(degrees: Double) = degrees * PI / 180.0

@@ -4,7 +4,7 @@ import com.mindovercnc.data.linuxcnc.CncCommandRepository
 import com.mindovercnc.data.linuxcnc.HalRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
-import com.mindovercnc.repository.SettingsRepository
+import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.repository.TaskStatusRepository
 import extensions.stripZeros
 import kotlinx.coroutines.flow.*

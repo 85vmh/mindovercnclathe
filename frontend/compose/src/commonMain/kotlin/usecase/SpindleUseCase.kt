@@ -2,10 +2,10 @@ package usecase
 
 import com.mindovercnc.data.linuxcnc.CncStatusRepository
 import com.mindovercnc.data.linuxcnc.HalRepository
-import com.mindovercnc.model.BooleanKey
-import com.mindovercnc.model.DoubleKey
-import com.mindovercnc.model.IntegerKey
-import com.mindovercnc.repository.SettingsRepository
+import com.mindovercnc.linuxcnc.settings.BooleanKey
+import com.mindovercnc.linuxcnc.settings.DoubleKey
+import com.mindovercnc.linuxcnc.settings.IntegerKey
+import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import ui.screen.manual.root.SpindleUiModel

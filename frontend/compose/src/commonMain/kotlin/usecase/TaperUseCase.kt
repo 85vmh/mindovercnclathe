@@ -1,7 +1,7 @@
 package usecase
 
-import com.mindovercnc.repository.SettingsRepository
-import com.mindovercnc.model.DoubleKey
+import com.mindovercnc.linuxcnc.settings.DoubleKey
+import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 
 class TaperUseCase(

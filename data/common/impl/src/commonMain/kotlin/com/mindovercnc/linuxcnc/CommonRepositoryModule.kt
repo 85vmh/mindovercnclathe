@@ -22,7 +22,6 @@ val CommonDataModule = DI.Module("common_data") {
         println("Program Dir $file")
         FileSystemRepositoryImpl(instance(), file, instance())
     }
-    bindSingleton<SettingsRepository> { SettingsRepositoryImpl() }
     bindSingleton<ActiveLimitsRepository> { ActiveLimitsRepositoryImpl() }
 
     bindProvider { ToolFilePath(instance<IniFileRepository>().getIniFile().toolTableFile) }

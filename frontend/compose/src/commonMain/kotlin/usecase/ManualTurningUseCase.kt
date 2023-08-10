@@ -8,10 +8,13 @@ import com.mindovercnc.data.linuxcnc.HalRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.linuxcnc.gcode.IniFileRepository
+import com.mindovercnc.linuxcnc.settings.BooleanKey
+import com.mindovercnc.linuxcnc.settings.DoubleKey
+import com.mindovercnc.linuxcnc.settings.IntegerKey
+import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.model.*
 import com.mindovercnc.repository.MessagesRepository
 import com.mindovercnc.repository.MotionStatusRepository
-import com.mindovercnc.repository.SettingsRepository
 import extensions.stripZeros
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

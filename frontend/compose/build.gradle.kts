@@ -46,6 +46,7 @@ kotlin {
                 implementation(project(":data:linuxcnc:api"))
                 implementation(project(":data:tools:api"))
                 implementation(project(":data:gcode:api"))
+                implementation(project(":data:settings:api"))
 
                 implementation(project(":frontend:breadcrumb"))
                 implementation(project(":frontend:filesystem"))

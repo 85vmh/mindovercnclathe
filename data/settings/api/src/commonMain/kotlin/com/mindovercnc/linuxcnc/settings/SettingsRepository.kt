@@ -1,8 +1,5 @@
-package com.mindovercnc.repository
+package com.mindovercnc.linuxcnc.settings
 
-import com.mindovercnc.model.BooleanKey
-import com.mindovercnc.model.DoubleKey
-import com.mindovercnc.model.IntegerKey
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
