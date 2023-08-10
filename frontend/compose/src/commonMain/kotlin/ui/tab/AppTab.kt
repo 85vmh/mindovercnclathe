@@ -140,7 +140,6 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
                 }
             },
             actions = {
-                currentScreen.Fab()
                 with(currentScreen) { Actions() }
             },
             modifier = Modifier.shadow(elevation = 8.dp)
