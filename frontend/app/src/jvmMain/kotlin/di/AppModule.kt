@@ -10,6 +10,8 @@ import com.mindovercnc.dispatchers.DispatchersModule
 import com.mindovercnc.linuxcnc.CommonDataModule
 import com.mindovercnc.linuxcnc.di.ParseFactoryModule
 import com.mindovercnc.linuxcnc.module.KtLcncModule
+import com.mindovercnc.linuxcnc.tools.local.di.ToolsLocalModule
+import com.mindovercnc.linuxcnc.tools.remote.di.ToolsRemoteModule
 import kotlinx.datetime.Clock
 import okio.FileSystem
 import org.kodein.di.DI
@@ -40,9 +42,16 @@ fun repositoryModule(legacyCommunication: Boolean) =
     DI.Module("repository") {
         import(CommonDataModule)
         if (legacyCommunication) {
-            import(LinuxcncLegacyDataModule)
+            importAll(
+                LinuxcncLegacyDataModule,
+                ToolsLocalModule
+            )
         } else {
-            importAll(LinuxcncRemoteDataModule, GrpcModule)
+            importAll(
+                LinuxcncRemoteDataModule,
+                ToolsRemoteModule,
+                GrpcModule
+            )
         }
     }
 

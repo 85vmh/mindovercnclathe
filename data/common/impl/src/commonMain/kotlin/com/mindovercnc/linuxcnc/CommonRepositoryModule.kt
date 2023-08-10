@@ -14,11 +14,7 @@ val CommonDataModule = DI.Module("common_data") {
     bindSingleton<IoStatusRepository> { IoStatusRepositoryImpl(instance()) }
 
     bindSingleton<IniFileRepository> { IniFileRepositoryImpl() }
-    bindSingleton<VarFileRepository> { VarFileRepositoryImpl() }
 
-    bindSingleton<ToolHolderRepository> { ToolHolderRepositoryImpl() }
-    bindSingleton<LatheToolsRepository> { LatheToolsRepositoryImpl() }
-    bindSingleton<CuttingInsertsRepository> { CuttingInsertsRepositoryImpl() }
     bindSingleton<WorkpieceMaterialRepository> { WorkpieceMaterialRepositoryImpl() }
 
     bindSingleton<FileSystemRepository> {
