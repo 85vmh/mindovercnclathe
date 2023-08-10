@@ -1,5 +1,6 @@
 package ui.screen.tools.root.tabs.lathetool
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
@@ -26,7 +27,7 @@ class AddEditLatheToolScreen(
     ) {
 
     @Composable
-    override fun Actions() {
+    override fun RowScope.Actions() {
         val screenModel: AddEditLatheToolScreenModel =
             when (latheTool) {
                 null -> rememberScreenModel()

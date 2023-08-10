@@ -16,7 +16,7 @@ class CncCommandRepositoryLegacy : CncCommandRepository {
     }
 
     override fun setTaskState(taskState: TaskState) {
-        commandWriter.setTaskState(taskState.stateNum!!)
+        commandWriter.setTaskState(taskState.stateNum)
     }
 
     override fun taskAbort() {
@@ -87,19 +87,19 @@ class CncCommandRepositoryLegacy : CncCommandRepository {
     }
 
     override fun jogContinuous(jogMode: JogMode, axisOrJoint: Int, speed: Double) {
-        commandWriter.jogContinuous(jogMode.value!!, axisOrJoint, speed)
+        commandWriter.jogContinuous(jogMode.value, axisOrJoint, speed)
     }
 
     override fun jogIncremental(jogMode: JogMode, axisOrJoint: Int, stepSize: Double, speed: Double) {
-        commandWriter.jogIncremental(jogMode.value!!, axisOrJoint, stepSize, speed)
+        commandWriter.jogIncremental(jogMode.value, axisOrJoint, stepSize, speed)
     }
 
     override fun jogAbsolute(jogMode: JogMode, axisOrJoint: Int, position: Double, speed: Double) {
-        commandWriter.jogAbsolute(jogMode.value!!, axisOrJoint, position, speed)
+        commandWriter.jogAbsolute(jogMode.value, axisOrJoint, position, speed)
     }
 
     override fun jogStop(jogMode: JogMode, axisOrJoint: Int) {
-        commandWriter.jogStop(jogMode.value!!, axisOrJoint)
+        commandWriter.jogStop(jogMode.value, axisOrJoint)
     }
 
     override fun setMinPositionLimit(jointNumber: Int, limit: Double) {

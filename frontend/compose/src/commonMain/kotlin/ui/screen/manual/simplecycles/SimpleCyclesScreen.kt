@@ -1,5 +1,6 @@
 package ui.screen.manual.simplecycles
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
@@ -20,7 +21,7 @@ class SimpleCyclesScreen(
 ) : Manual(simpleCycle.displayableString) {
 
     @Composable
-    override fun Actions() {
+    override fun RowScope.Actions() {
         val screenModel: SimpleCyclesScreenModel = rememberScreenModel {
             bindProvider { simpleCycle }
         }

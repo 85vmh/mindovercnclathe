@@ -7,7 +7,7 @@ version = Versions.app
 repositories { mavenCentral() }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation(Libs.stdlib)
     api(Libs.Coroutines.core)
     api(Libs.Kodein.core)
 

@@ -63,7 +63,7 @@ object Libs {
 
     const val logging = "io.github.microutils:kotlin-logging:${Versions.logging}"
 
-    const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib"
+    const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
 
     const val mockk = "io.mockk:mockk:1.12.4"
 }
