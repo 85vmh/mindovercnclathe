@@ -9,7 +9,7 @@ import cafe.adriel.voyager.core.model.coroutineScope
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.editor.Editor
 import com.mindovercnc.editor.EditorLoader
-import com.mindovercnc.repository.IniFileRepository
+import com.mindovercnc.linuxcnc.gcode.IniFileRepository
 import editor.EditorSettings
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn

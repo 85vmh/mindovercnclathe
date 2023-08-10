@@ -11,7 +11,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(kotlin("stdlib"))
+                implementation(Libs.stdlib)
                 api(Libs.Coroutines.core)
                 implementation(Libs.Kodein.core)
 

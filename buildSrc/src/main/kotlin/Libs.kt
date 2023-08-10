@@ -1,5 +1,6 @@
 object Libs {
     const val okio = "com.squareup.okio:okio:${Versions.okio}"
+    const val wire = "com.squareup.wire:wire-grpc-client:${Versions.wire}"
 
     const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.Kotlinx.datetime}"
 
@@ -47,23 +48,9 @@ object Libs {
 
     const val cli = "org.jetbrains.kotlinx:kotlinx-cli:${Versions.Kotlinx.cli}"
 
-    @Deprecated(
-        "Use local module",
-        replaceWith = ReplaceWith("""project(":ktlcnc")"""),
-        level = DeprecationLevel.ERROR,
-    )
-    const val ktlcnc = "ro.dragossusi.ktlcnc:ktlcnc:${Versions.ktlcnc}"
-
-    @Deprecated(
-        "Use local module",
-        replaceWith = ReplaceWith("""project(":ktlcnc:model")"""),
-        level = DeprecationLevel.ERROR,
-    )
-    const val ktlcnc_model = "ro.dragossusi.ktlcnc:ktlcnc-model:${Versions.ktlcnc}"
-
     const val logging = "io.github.microutils:kotlin-logging:${Versions.logging}"
 
-    const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib"
+    const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
 
     const val mockk = "io.mockk:mockk:1.12.4"
 }

@@ -7,9 +7,13 @@ import com.mindovercnc.data.linuxcnc.legacy.LinuxcncLegacyDataModule
 import com.mindovercnc.data.linuxcnc.remote.LinuxcncRemoteDataModule
 import com.mindovercnc.database.module.DatabaseModule
 import com.mindovercnc.dispatchers.DispatchersModule
+import com.mindovercnc.editor.reader.EditorReader
+import com.mindovercnc.editor.reader.FileEditorReader
 import com.mindovercnc.linuxcnc.CommonDataModule
 import com.mindovercnc.linuxcnc.di.ParseFactoryModule
+import com.mindovercnc.linuxcnc.gcode.local.di.GCodeLocalModule
 import com.mindovercnc.linuxcnc.module.KtLcncModule
+import com.mindovercnc.linuxcnc.settings.local.di.SettingsLocalModule
 import com.mindovercnc.linuxcnc.tools.local.di.ToolsLocalModule
 import com.mindovercnc.linuxcnc.tools.remote.di.ToolsRemoteModule
 import kotlinx.datetime.Clock
@@ -36,6 +40,9 @@ val BaseAppModule = DI.Module("AppModule") {
 
     bindSingleton { FileSystem.SYSTEM }
     bindSingleton<Clock> { Clock.System }
+
+    //TODO change based on platform
+    bindSingleton<EditorReader> { FileEditorReader }
 }
 
 fun repositoryModule(legacyCommunication: Boolean) =
@@ -44,7 +51,9 @@ fun repositoryModule(legacyCommunication: Boolean) =
         if (legacyCommunication) {
             importAll(
                 LinuxcncLegacyDataModule,
-                ToolsLocalModule
+                ToolsLocalModule,
+                GCodeLocalModule,
+                SettingsLocalModule
             )
         } else {
             importAll(

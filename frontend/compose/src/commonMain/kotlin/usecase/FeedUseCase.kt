@@ -1,9 +1,9 @@
 package usecase
 
 import com.mindovercnc.data.linuxcnc.CncStatusRepository
-import com.mindovercnc.model.BooleanKey
-import com.mindovercnc.model.DoubleKey
-import com.mindovercnc.repository.SettingsRepository
+import com.mindovercnc.linuxcnc.settings.BooleanKey
+import com.mindovercnc.linuxcnc.settings.DoubleKey
+import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged

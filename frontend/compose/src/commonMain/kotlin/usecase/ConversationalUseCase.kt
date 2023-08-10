@@ -6,8 +6,8 @@ import com.mindovercnc.data.linuxcnc.CncCommandRepository
 import com.mindovercnc.data.linuxcnc.CncStatusRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
+import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.repository.FileSystemRepository
-import com.mindovercnc.repository.SettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.datetime.Clock

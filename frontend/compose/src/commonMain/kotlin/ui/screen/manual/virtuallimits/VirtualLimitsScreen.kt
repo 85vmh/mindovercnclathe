@@ -21,7 +21,7 @@ import ui.screen.manual.Manual
 class VirtualLimitsScreen : Manual("Virtual Limits") {
 
     @Composable
-    override fun Actions() {
+    override fun RowScope.Actions() {
         val screenModel = rememberScreenModel<VirtualLimitsScreenModel>()
         val navigator = LocalNavigator.currentOrThrow
         IconButton(

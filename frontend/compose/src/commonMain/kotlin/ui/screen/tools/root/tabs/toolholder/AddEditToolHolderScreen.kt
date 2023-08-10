@@ -1,5 +1,6 @@
 package ui.screen.tools.root.tabs.toolholder
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
@@ -26,7 +27,7 @@ class AddEditHolderScreen(
   ) {
 
   @Composable
-  override fun Actions() {
+  override fun RowScope.Actions() {
     val screenModel: AddEditToolHolderScreenModel =
       when (toolHolder) {
         null -> rememberScreenModel()

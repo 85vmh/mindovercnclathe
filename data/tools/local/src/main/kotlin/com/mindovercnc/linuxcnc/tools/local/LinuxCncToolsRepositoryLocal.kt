@@ -2,10 +2,10 @@ package com.mindovercnc.linuxcnc.tools.local
 
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
+import com.mindovercnc.linuxcnc.gcode.ToolFilePath
 import com.mindovercnc.linuxcnc.tools.LinuxCncToolsRepository
 import com.mindovercnc.model.LinuxCncTool
 import com.mindovercnc.model.TipOrientation
-import com.mindovercnc.repository.ToolFilePath
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import okio.FileSystem

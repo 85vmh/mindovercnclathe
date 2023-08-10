@@ -2,6 +2,7 @@ package ui.screen.manual.tapersettings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -24,7 +25,7 @@ import ui.widget.listitem.ValueSetting
 class TaperSettingsScreen : Manual("Taper Settings") {
 
     @Composable
-    override fun Actions() {
+    override fun RowScope.Actions() {
         val screenModel = rememberScreenModel<TaperSettingsScreenModel>()
         val navigator = LocalNavigator.currentOrThrow
         IconButton(

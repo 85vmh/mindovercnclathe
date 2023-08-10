@@ -10,14 +10,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
-import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
@@ -41,7 +37,7 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
 
     val drawerState: DrawerState = DrawerState(DrawerValue.Closed)
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     final override fun Content() {
         val tabNavigator = LocalTabNavigator.current
@@ -91,35 +87,7 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
                     Scaffold(
                         modifier = Modifier.fillMaxSize(),
                         topBar = {
-                            CenterAlignedTopAppBar(
-                                title = {
-                                    when (currentScreen.hasCustomTitle) {
-                                        true -> currentScreen.Title()
-                                        false -> Text(currentScreen.title.value)
-                                    }
-                                },
-                                navigationIcon = {
-                                    when {
-                                        currentScreen.drawerEnabled -> {
-                                            val scope = rememberCoroutineScope()
-                                            IconButton(
-                                                modifier = iconButtonModifier,
-                                                onClick = { scope.launch { drawerState.open() } }
-                                            ) {
-                                                Icon(Icons.Default.Menu, contentDescription = "")
-                                            }
-                                        }
-
-                                        navigator.canPop -> {
-                                            IconButton(modifier = iconButtonModifier, onClick = { navigator.pop() }) {
-                                                Icon(Icons.Default.ArrowBack, contentDescription = "")
-                                            }
-                                        }
-                                    }
-                                },
-                                actions = { currentScreen.Actions() },
-                                modifier = Modifier.shadow(elevation = 8.dp)
-                            )
+                            TopAppBar(currentScreen, navigator)
                         },
                         bottomBar = {
                             BottomBar(
@@ -137,6 +105,45 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
                 }
             }
         }
+    }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    private fun <S : AppScreen> TopAppBar(
+        currentScreen: S,
+        navigator: Navigator
+    ) {
+        CenterAlignedTopAppBar(
+            title = {
+                when (currentScreen.hasCustomTitle) {
+                    true -> currentScreen.Title()
+                    false -> Text(currentScreen.title.value)
+                }
+            },
+            navigationIcon = {
+                when {
+                    currentScreen.drawerEnabled -> {
+                        val scope = rememberCoroutineScope()
+                        IconButton(
+                            modifier = iconButtonModifier,
+                            onClick = { scope.launch { drawerState.open() } }
+                        ) {
+                            Icon(Icons.Default.Menu, contentDescription = "")
+                        }
+                    }
+
+                    navigator.canPop -> {
+                        IconButton(modifier = iconButtonModifier, onClick = { navigator.pop() }) {
+                            Icon(Icons.Default.ArrowBack, contentDescription = "")
+                        }
+                    }
+                }
+            },
+            actions = {
+                with(currentScreen) { Actions() }
+            },
+            modifier = Modifier.shadow(elevation = 8.dp)
+        )
     }
 
     @Composable

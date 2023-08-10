@@ -9,6 +9,7 @@ dependencies {
     implementation(Libs.Settings.coroutines)
     implementation(project(":data:tools:api"))
     implementation(project(":data:common:api"))
+    implementation(project(":data:gcode:api"))
     implementation(project(":logger"))
     implementation(project(":dispatcher"))
     implementation(project(":backend:database"))

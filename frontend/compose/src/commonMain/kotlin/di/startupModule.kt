@@ -1,6 +1,6 @@
 package di
 
-import com.mindovercnc.repository.IniFilePath
+import com.mindovercnc.linuxcnc.gcode.IniFilePath
 import okio.Path
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton

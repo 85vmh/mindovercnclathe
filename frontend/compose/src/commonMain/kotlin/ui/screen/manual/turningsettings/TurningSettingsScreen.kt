@@ -23,7 +23,7 @@ import ui.screen.manual.Manual
 class TurningSettingsScreen : Manual("Turning Settings") {
 
   @Composable
-  override fun Actions() {
+  override fun RowScope.Actions() {
     val screenModel = rememberScreenModel<TurningSettingsScreenModel>()
     val navigator = LocalNavigator.currentOrThrow
     IconButton(

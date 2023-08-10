@@ -31,4 +31,5 @@ fun Double.stripZeros(maxDigits: Int = 3): String {
         .toPlainString()
 }
 
+
 internal fun toRadians(degrees: Double) = degrees * PI / 180.0

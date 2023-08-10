@@ -1,5 +1,6 @@
 package ui.screen.tools.root.tabs.cuttinginsert
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
@@ -24,7 +25,7 @@ class AddEditCuttingInsertScreen(
 ) {
 
     @Composable
-    override fun Actions() {
+    override fun RowScope.Actions() {
         val screenModel: AddEditCuttingInsertScreenModel = when (cuttingInsert) {
             null -> rememberScreenModel()
             else -> rememberScreenModel { bindProvider { cuttingInsert } }

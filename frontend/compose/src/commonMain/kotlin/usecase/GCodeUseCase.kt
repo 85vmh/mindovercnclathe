@@ -2,7 +2,7 @@ package usecase
 
 import actor.PathElement
 import com.mindovercnc.dispatchers.IoDispatcher
-import com.mindovercnc.repository.GCodeRepository
+import com.mindovercnc.linuxcnc.gcode.GCodeRepository
 import kotlinx.coroutines.withContext
 import okio.Path
 import org.jetbrains.skia.Point

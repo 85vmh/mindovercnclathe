@@ -24,6 +24,14 @@ include("data:tools:local")
 include("data:tools:remote")
 include("data:tools:api")
 
+include("data:gcode:local")
+include("data:gcode:remote")
+include("data:gcode:api")
+
+include("data:settings:local")
+include("data:settings:remote")
+include("data:settings:api")
+
 include("editor")
 include("logger")
 include("model")

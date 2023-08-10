@@ -7,7 +7,9 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -15,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import di.rememberScreenModel
 import editor.EditorView
@@ -25,34 +26,15 @@ import screen.composables.VerticalDivider
 import ui.screen.programs.Programs
 import ui.widget.VisualTurning
 
-private fun Path.displayableFilePath(): String {
-    val elements = segments
-    return if (elements.size > 2) {
-        "../${elements.subList(elements.size - 2, elements.size).joinToString("/")}"
-    } else {
-        toString()
-    }
-}
-
 class ProgramLoadedScreen(private val file: Path) : Programs() {
 
     @Composable
     override fun Title() {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(text = "Program Loaded")
-            Text(
-                text = "[${file.displayableFilePath()}]",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
-            )
-        }
+        ProgramLoadedTitle(file)
     }
 
     @Composable
-    override fun Actions() {
+    override fun RowScope.Actions() {
         val screenModel = rememberScreenModel<ProgramLoadedScreenModel> { bindProvider { file } }
         val state by screenModel.state.collectAsState()
 

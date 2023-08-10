@@ -1,9 +1,6 @@
 package ui.screen.manual.root
 
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.icons.Icons
@@ -81,7 +78,7 @@ class ManualTurningScreen : Manual("Manual Turning") {
 
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
-    override fun Actions() {
+    override fun RowScope.Actions() {
         val screenModel = rememberScreenModel<ManualTurningScreenModel>()
         val state by screenModel.state.collectAsState()
         val scope = rememberCoroutineScope()
@@ -93,21 +90,8 @@ class ManualTurningScreen : Manual("Manual Turning") {
                 else -> LocalContentColor.current
             }
 
-        state.wcsUiModel?.let {
-            IconButton(modifier = iconButtonModifier, onClick = { scope.launch { sheetState.show() } }) {
-                BadgedBox(
-                    badge = {
-                        Badge(containerColor = MaterialTheme.colorScheme.secondary) {
-                            Text(fontSize = 14.sp, text = it.activeOffset)
-                        }
-                    }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Face,
-                        contentDescription = "",
-                    )
-                }
-            }
+        state.wcsUiModel?.let { uiModel ->
+            WcsAction(uiModel, onClick = { scope.launch { sheetState.show() } }, iconButtonModifier)
         }
         IconButton(
             enabled = state.virtualLimitsAvailable,
@@ -138,6 +122,30 @@ class ManualTurningScreen : Manual("Manual Turning") {
                     numPadState.onSubmitAction(it)
                     screenModel.closeNumPad()
                 }
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun WcsAction(
+    uiModel: WcsUiModel,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    BadgedBox(
+        badge = {
+            Badge(containerColor = MaterialTheme.colorScheme.secondary) {
+                Text(fontSize = 14.sp, text = uiModel.activeOffset)
+            }
+        },
+        modifier = modifier
+    ) {
+        IconButton(onClick = onClick) {
+            Icon(
+                imageVector = Icons.Default.Face,
+                contentDescription = "",
             )
         }
     }

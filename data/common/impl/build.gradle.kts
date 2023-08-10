@@ -17,6 +17,7 @@ kotlin {
                 implementation(Libs.Settings.coroutines)
                 implementation(project(":data:common:api"))
                 implementation(project(":data:linuxcnc:api"))
+                implementation(project(":data:gcode:api"))
                 implementation(project(":logger"))
                 implementation(project(":dispatcher"))
 //                implementation(project(":database"))
