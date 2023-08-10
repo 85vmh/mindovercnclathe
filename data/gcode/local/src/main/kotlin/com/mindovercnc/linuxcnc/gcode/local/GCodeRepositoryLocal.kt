@@ -1,17 +1,13 @@
-package com.mindovercnc.linuxcnc.local
+package com.mindovercnc.linuxcnc.gcode.local
 
-import com.mindovercnc.model.GcodeCommand
-import com.mindovercnc.repository.GCodeRepository
-import com.mindovercnc.repository.IniFilePath
-import com.mindovercnc.repository.ToolFilePath
-import com.mindovercnc.repository.VarFilePath
+import com.mindovercnc.linuxcnc.gcode.*
 import okio.Path
 import okio.Path.Companion.toPath
 
 val LinuxCncHome = System.getenv("LINUXCNC_HOME").toPath()
 
 /** Implementation for [GCodeRepository]. */
-class GCodeRepositoryImpl(
+class GCodeRepositoryLocal(
     private val iniFilePath: IniFilePath,
     private val toolFilePath: ToolFilePath,
     private val varFilePath: VarFilePath

@@ -1,12 +1,12 @@
-package com.mindovercnc.linuxcnc
+package com.mindovercnc.linuxcnc.gcode.remote
 
-import com.mindovercnc.model.GcodeCommand
-import com.mindovercnc.repository.GCodeRepository
+import com.mindovercnc.linuxcnc.gcode.GCodeRepository
+import com.mindovercnc.linuxcnc.gcode.GcodeCommand
 import mu.KotlinLogging
 import okio.Path
 
 /** Implementation for [GCodeRepository]. */
-class GCodeRepositoryImpl : GCodeRepository {
+class GCodeRepositoryRemote : GCodeRepository {
 
     init {
         LOG.warn { "Remote implementation is missing" }

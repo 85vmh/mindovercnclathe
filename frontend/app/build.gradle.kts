@@ -46,6 +46,7 @@ kotlin {
                 implementation(project(":model"))
                 implementation(project(":data:linuxcnc:api"))
                 implementation(project(":data:common:api"))
+                implementation(project(":data:gcode:api"))
                 implementation(project(":startup:args"))
 
                 implementation(project(":protos"))
@@ -79,6 +80,8 @@ kotlin {
                 implementation(project(":data:linuxcnc:remote"))
                 implementation(project(":data:tools:local"))
                 implementation(project(":data:tools:remote"))
+                implementation(project(":data:gcode:remote"))
+                implementation(project(":data:gcode:local"))
                 implementation(project(":initializer"))
 
                 implementation(Libs.Coroutines.swing)

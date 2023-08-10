@@ -1,8 +1,8 @@
 package com.mindovercnc.linuxcnc
 
+import com.mindovercnc.linuxcnc.gcode.IniFileRepository
 import com.mindovercnc.model.G53AxisLimits
 import com.mindovercnc.model.IniFile
-import com.mindovercnc.repository.IniFileRepository
 import okio.Path.Companion.toPath
 
 /** Implementation for [IniFileRepository]. */

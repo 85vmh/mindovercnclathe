@@ -1,12 +1,12 @@
-package com.mindovercnc.linuxcnc
+package com.mindovercnc.linuxcnc.tools.remote
 
+import com.mindovercnc.linuxcnc.tools.WorkpieceMaterialRepository
 import com.mindovercnc.model.WorkpieceMaterial
-import com.mindovercnc.repository.WorkpieceMaterialRepository
 import mu.KotlinLogging
 
 
 /** Implementation for [WorkpieceMaterialRepository]. */
-class WorkpieceMaterialRepositoryImpl : WorkpieceMaterialRepository {
+class WorkpieceMaterialRepositoryRemote : WorkpieceMaterialRepository {
 
 
     init {

@@ -1,4 +1,4 @@
-package com.mindovercnc.model
+package com.mindovercnc.linuxcnc.gcode
 
 data class GcodeCommand(
     val id: Int,

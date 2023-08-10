@@ -2,9 +2,9 @@ package com.mindovercnc.linuxcnc.tools.local
 
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
+import com.mindovercnc.linuxcnc.gcode.VarFilePath
 import com.mindovercnc.linuxcnc.tools.VarFileRepository
 import com.mindovercnc.model.ParametersState
-import com.mindovercnc.repository.VarFilePath
 import kotlinx.coroutines.flow.*
 import okio.FileSystem
 import ro.dragossusi.proto.linuxcnc.status.Position

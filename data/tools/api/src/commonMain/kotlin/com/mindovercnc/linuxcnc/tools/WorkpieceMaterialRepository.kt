@@ -1,4 +1,4 @@
-package com.mindovercnc.repository
+package com.mindovercnc.linuxcnc.tools
 
 import com.mindovercnc.model.WorkpieceMaterial
 

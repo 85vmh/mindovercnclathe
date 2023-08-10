@@ -1,9 +1,9 @@
-package com.mindovercnc.linuxcnc.local
+package com.mindovercnc.linuxcnc.gcode.local
 
+import com.mindovercnc.linuxcnc.gcode.IniFilePath
+import com.mindovercnc.linuxcnc.gcode.IniFileRepository
 import com.mindovercnc.model.G53AxisLimits
 import com.mindovercnc.model.IniFile
-import com.mindovercnc.repository.IniFilePath
-import com.mindovercnc.repository.IniFileRepository
 import okio.Path.Companion.toOkioPath
 import java.io.BufferedReader
 import java.io.FileNotFoundException
@@ -13,7 +13,7 @@ import java.nio.file.Paths
 
 
 /** Implementation for [IniFileRepository]. */
-class IniFileRepositoryImpl(private val iniFilePath: IniFilePath) : IniFileRepository {
+class IniFileRepositoryLocal(private val iniFilePath: IniFilePath) : IniFileRepository {
     private val parsedFile: Map<String, Map<String, String>>
     private val rootPath = iniFilePath.file.parent
 

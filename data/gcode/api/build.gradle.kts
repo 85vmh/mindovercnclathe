@@ -16,8 +16,6 @@ kotlin {
                 implementation(Libs.Settings.core)
                 implementation(Libs.Settings.coroutines)
                 implementation(project(":data:common:api"))
-                implementation(project(":data:linuxcnc:api"))
-                implementation(project(":data:gcode:api"))
                 implementation(project(":logger"))
                 implementation(project(":dispatcher"))
 //                implementation(project(":database"))
@@ -25,7 +23,6 @@ kotlin {
                 implementation(project(":protos"))
                 implementation(project(":editor"))
                 implementation(Libs.okio)
-                implementation(Libs.datetime)
 
                 // logging
                 implementation(Libs.logging)

@@ -1,4 +1,4 @@
-package com.mindovercnc.repository
+package com.mindovercnc.linuxcnc.gcode
 
 import okio.Path
 import kotlin.jvm.JvmInline

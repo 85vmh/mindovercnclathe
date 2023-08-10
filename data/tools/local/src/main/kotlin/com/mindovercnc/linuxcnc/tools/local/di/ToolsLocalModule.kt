@@ -11,5 +11,6 @@ val ToolsLocalModule = DI.Module("tools_local") {
     bindSingleton<CuttingInsertsRepository> { CuttingInsertsRepositoryLocal() }
     bindSingleton<LinuxCncToolsRepository> { LinuxCncToolsRepositoryLocal(instance(), instance(), instance()) }
     bindSingleton<LatheToolsRepository> { LatheToolsRepositoryLocal() }
+    bindSingleton<WorkpieceMaterialRepository> { WorkpieceMaterialRepositoryLocal() }
     bindSingleton<VarFileRepository> { VarFileRepositoryLocal(instance(), instance(), instance()) }
 }

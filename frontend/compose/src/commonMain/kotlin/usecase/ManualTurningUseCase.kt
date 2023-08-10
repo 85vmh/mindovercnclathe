@@ -7,8 +7,8 @@ import com.mindovercnc.data.linuxcnc.CncStatusRepository
 import com.mindovercnc.data.linuxcnc.HalRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
+import com.mindovercnc.linuxcnc.gcode.IniFileRepository
 import com.mindovercnc.model.*
-import com.mindovercnc.repository.IniFileRepository
 import com.mindovercnc.repository.MessagesRepository
 import com.mindovercnc.repository.MotionStatusRepository
 import com.mindovercnc.repository.SettingsRepository

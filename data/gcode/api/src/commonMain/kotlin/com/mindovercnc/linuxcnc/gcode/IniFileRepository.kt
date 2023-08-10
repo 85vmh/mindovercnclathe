@@ -1,4 +1,4 @@
-package com.mindovercnc.repository
+package com.mindovercnc.linuxcnc.gcode
 
 import com.mindovercnc.model.G53AxisLimits
 import com.mindovercnc.model.IniFile

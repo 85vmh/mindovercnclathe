@@ -9,6 +9,7 @@ import com.mindovercnc.database.module.DatabaseModule
 import com.mindovercnc.dispatchers.DispatchersModule
 import com.mindovercnc.linuxcnc.CommonDataModule
 import com.mindovercnc.linuxcnc.di.ParseFactoryModule
+import com.mindovercnc.linuxcnc.gcode.local.di.GCodeLocalModule
 import com.mindovercnc.linuxcnc.module.KtLcncModule
 import com.mindovercnc.linuxcnc.tools.local.di.ToolsLocalModule
 import com.mindovercnc.linuxcnc.tools.remote.di.ToolsRemoteModule
@@ -44,7 +45,8 @@ fun repositoryModule(legacyCommunication: Boolean) =
         if (legacyCommunication) {
             importAll(
                 LinuxcncLegacyDataModule,
-                ToolsLocalModule
+                ToolsLocalModule,
+                GCodeLocalModule
             )
         } else {
             importAll(
