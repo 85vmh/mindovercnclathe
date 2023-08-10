@@ -44,9 +44,12 @@ kotlin {
                 // todo uncomment
 //                implementation(project(":data:impl"))
                 implementation(project(":model"))
+
+                implementation(project(":data:common:impl"))
                 implementation(project(":data:linuxcnc:api"))
                 implementation(project(":data:common:api"))
                 implementation(project(":data:gcode:api"))
+
                 implementation(project(":startup:args"))
 
                 implementation(project(":protos"))
@@ -63,20 +66,9 @@ kotlin {
             }
         }
 
-        val jvmTest by getting {
-            dependencies {
-                @OptIn(ExperimentalComposeLibrary::class)
-                implementation(compose.uiTestJUnit4)
-                implementation(Libs.mockk)
-                implementation(Libs.Coroutines.test)
-            }
-        }
-
         val jvmMain by getting {
             dependencies {
                 implementation(project(":startup:args"))
-
-                implementation(project(":data:common:impl"))
 
                 implementation(project(":data:linuxcnc:legacy"))
                 implementation(project(":data:linuxcnc:remote"))
@@ -107,21 +99,44 @@ kotlin {
                 implementation(project(":backend:database"))
             }
         }
+
+        val jsMain by getting {
+            dependencies {
+                implementation(project(":data:gcode:remote"))
+                implementation(project(":data:linuxcnc:remote"))
+                implementation(project(":data:settings:remote"))
+                implementation(project(":data:tools:remote"))
+            }
+        }
+
+        val jvmTest by getting {
+            dependencies {
+                @OptIn(ExperimentalComposeLibrary::class)
+                implementation(compose.uiTestJUnit4)
+                implementation(Libs.mockk)
+                implementation(Libs.Coroutines.test)
+            }
+        }
     }
 }
 
 
-compose.desktop {
-    application {
-        mainClass = "MainKt"
+compose {
+    desktop {
+        application {
+            mainClass = "MainKt"
 
-        jvmArgs(NativePaths.createJvmArgs(rootProject))
+            jvmArgs(NativePaths.createJvmArgs(rootProject))
 
-        nativeDistributions {
-            // needed by the database
-            modules("java.sql")
-            targetFormats(TargetFormat.Deb)
+            nativeDistributions {
+                // needed by the database
+                modules("java.sql")
+                targetFormats(TargetFormat.Deb)
+            }
         }
+    }
+    experimental {
+        web.application {}
     }
 }
 

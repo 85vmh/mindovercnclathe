@@ -9,12 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.ToolType
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.orEmpty
+import org.jetbrains.compose.resources.rememberImageBitmap
+import org.jetbrains.compose.resources.resource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
 fun ToolTypeView(
     type: ToolType,
@@ -47,7 +50,7 @@ fun ToolTypeView(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
                 modifier = Modifier.fillMaxWidth().aspectRatio(1f),
-                painter = painterResource(imageResource),
+                bitmap = resource(imageResource).rememberImageBitmap().orEmpty(),
                 contentScale = ContentScale.FillBounds,
                 contentDescription = ""
             )

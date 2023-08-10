@@ -1,3 +1,5 @@
+import org.jetbrains.compose.ExperimentalComposeLibrary
+
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
@@ -22,6 +24,9 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.ui)
                 implementation(compose.material3)
+                @OptIn(ExperimentalComposeLibrary::class)
+                implementation(compose.components.resources)
+
                 implementation(project(":frontend:scroll"))
             }
         }

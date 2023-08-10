@@ -1,3 +1,4 @@
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.compose
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -33,6 +34,8 @@ kotlin {
 //                implementation(compose.uiTooling)
                 implementation(compose.material)
                 implementation(compose.material3)
+                @OptIn(ExperimentalComposeLibrary::class)
+                implementation(compose.components.resources)
 
                 // internal modules
                 implementation(project(":frontend:clipboard"))
