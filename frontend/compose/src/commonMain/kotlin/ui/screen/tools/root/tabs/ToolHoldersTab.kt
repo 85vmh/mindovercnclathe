@@ -30,7 +30,7 @@ import scroll.VerticalScrollbar
 import scroll.draggableScroll
 import ui.screen.tools.root.ToolsScreenModel
 import ui.screen.tools.root.tabs.toolholder.AddEditHolderScreen
-import ui.widget.listitem.LabelWithValue
+import com.mindovercnc.linuxcnc.listitem.LabelWithValue
 
 private val itemModifier = Modifier.fillMaxWidth()
 

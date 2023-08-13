@@ -18,7 +18,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.orEmpty
 import org.jetbrains.compose.resources.rememberImageVector
 import org.jetbrains.compose.resources.resource
-import screen.uimodel.InputType
+import com.mindovercnc.linuxcnc.numpad.data.InputType
 import ui.widget.CycleParameter
 import usecase.model.SimpleCycleParameters
 

@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import screen.composables.DropDownClosedItem
-import screen.composables.DropDownView
+import com.mindovercnc.linuxcnc.widgets.DropDownClosedItem
+import com.mindovercnc.linuxcnc.widgets.DropDownView
 import scroll.draggableScroll
 
 @Composable
@@ -35,9 +35,13 @@ internal fun <T> InsertLetter(
         items = items,
         selected = selectedItem,
         dropDownListModifier = Modifier.draggableScroll(scrollState, scope),
-        modifier = modifier
-            .width(dropDownWidth)
-            .border(border = BorderStroke(1.dp, Color.LightGray), shape = RoundedCornerShape(4.dp)),
+        modifier =
+            modifier
+                .width(dropDownWidth)
+                .border(
+                    border = BorderStroke(1.dp, Color.LightGray),
+                    shape = RoundedCornerShape(4.dp)
+                ),
         onSelected = onValueChanged,
         closedItemContent = {
             DropDownClosedItem(modifier = Modifier.size(height = 40.dp, width = dropDownWidth)) {

@@ -31,7 +31,7 @@ import ui.screen.tools.root.ToolsScreenModel
 import ui.screen.tools.root.tabs.lathetool.AddEditLatheToolScreen
 import ui.screen.tools.root.tabs.lathetool.DirectionItem
 import ui.screen.tools.root.tabs.lathetool.TipOrientationUi
-import ui.widget.listitem.LabelWithValue
+import com.mindovercnc.linuxcnc.listitem.LabelWithValue
 
 private val itemModifier = Modifier.fillMaxWidth()
 

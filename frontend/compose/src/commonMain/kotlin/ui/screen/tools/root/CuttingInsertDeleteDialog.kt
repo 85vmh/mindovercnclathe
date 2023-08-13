@@ -1,6 +1,7 @@
 package ui.screen.tools.root
 
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -8,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.CuttingInsert
-import ui.widget.AlertDialog
 
 data class CuttingInsertDeleteModel(
     val cuttingInsert: CuttingInsert
@@ -47,7 +47,6 @@ fun CuttingInsertDeleteDialog(
                 Text("Cancel")
             }
         },
-        backgroundColor = MaterialTheme.colorScheme.primaryContainer,
-        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
     )
 }

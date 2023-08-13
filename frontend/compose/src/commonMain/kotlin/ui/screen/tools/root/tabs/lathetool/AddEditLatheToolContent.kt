@@ -21,9 +21,9 @@ import com.mindovercnc.model.TipOrientation
 import com.mindovercnc.model.ToolType
 import screen.composables.DropDownInserts
 import screen.composables.VerticalDivider
-import screen.uimodel.InputType
+import com.mindovercnc.linuxcnc.numpad.data.InputType
 import scroll.draggableScroll
-import ui.widget.listitem.ValueSetting
+import com.mindovercnc.linuxcnc.listitem.ValueSetting
 
 @Composable
 fun AddEditLatheToolContent(

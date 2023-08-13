@@ -24,10 +24,10 @@ import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.LatheTool
 import com.mindovercnc.model.ToolHolderType
 import screen.composables.VerticalDivider
-import screen.uimodel.InputType
+import com.mindovercnc.linuxcnc.numpad.data.InputType
 import scroll.draggableScroll
 import ui.screen.tools.root.tabs.LatheToolView
-import ui.widget.listitem.ValueSetting
+import com.mindovercnc.linuxcnc.listitem.ValueSetting
 
 @Composable
 fun AddEditHolderContent(

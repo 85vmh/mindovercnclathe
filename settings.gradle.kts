@@ -1,6 +1,6 @@
 rootProject.name = "ktcnc"
 
-pluginManagement{
+pluginManagement {
     repositories {
         google()
         mavenCentral()
@@ -45,6 +45,9 @@ include("frontend:filesystem")
 include("frontend:splitpane")
 include("frontend:scroll")
 include("frontend:editor")
+include("frontend:listitem")
+include("frontend:widgets")
+include("frontend:numpad")
 
 include("statemachine")
 include("initializer")

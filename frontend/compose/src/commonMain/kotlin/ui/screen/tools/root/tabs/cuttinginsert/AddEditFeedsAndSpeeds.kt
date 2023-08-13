@@ -8,22 +8,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mindovercnc.linuxcnc.listitem.DropDownSetting
+import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.linuxcnc.widgets.NumericInputWithUnit
 import com.mindovercnc.model.FeedsAndSpeeds
 import com.mindovercnc.model.MaterialCategory
-import screen.uimodel.InputType
-import ui.widget.NumericInputWithUnit
-import ui.widget.listitem.DropDownSetting
 
 // TODO refactor duplicate code
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddEditFeedsAndSpeeds(
-    initialFeedsAndSpeeds: FeedsAndSpeeds,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
+fun AddEditFeedsAndSpeeds(initialFeedsAndSpeeds: FeedsAndSpeeds, modifier: Modifier = Modifier) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(24.dp)
@@ -76,7 +71,7 @@ fun AddEditFeedsAndSpeeds(
 
 private val inputModifier: Modifier = Modifier.width(100.dp)
 
-//TODO rename
+// TODO rename
 @Composable
 private fun RangeView(
     title: String,
@@ -98,7 +93,7 @@ private fun RangeView(
             value = min,
             inputType = minType,
             verticalAlignment = Alignment.CenterVertically,
-            onValueChanged = { },
+            onValueChanged = {},
             modifier = inputModifier
         )
         Text("and")
@@ -106,7 +101,7 @@ private fun RangeView(
             value = max,
             inputType = maxType,
             verticalAlignment = Alignment.CenterVertically,
-            onValueChanged = { },
+            onValueChanged = {},
             modifier = inputModifier
         )
     }

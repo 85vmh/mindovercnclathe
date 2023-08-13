@@ -1,6 +1,7 @@
 package ui.screen.tools.root
 
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -8,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.ToolHolder
-import ui.widget.AlertDialog
 
 data class ToolHolderDeleteModel(val toolHolder: ToolHolder)
 
@@ -23,7 +23,10 @@ fun ToolHolderDeleteDialog(
         onDismissRequest = {},
         title = { Text(text = "Delete Tool Holder", style = MaterialTheme.typography.titleLarge) },
         text = {
-            Text(text = "Tool: ${deleteModel.toolHolder}", style = MaterialTheme.typography.bodyMedium)
+            Text(
+                text = "Tool: ${deleteModel.toolHolder}",
+                style = MaterialTheme.typography.bodyMedium
+            )
         },
         confirmButton = {
             Button(
@@ -33,7 +36,6 @@ fun ToolHolderDeleteDialog(
             }
         },
         dismissButton = { Button(onClick = abortClick) { Text("Cancel") } },
-        backgroundColor = MaterialTheme.colorScheme.primaryContainer,
-        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
     )
 }

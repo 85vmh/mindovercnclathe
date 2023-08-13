@@ -1,6 +1,8 @@
 package screen.composables
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -8,10 +10,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.kodein.di.compose.rememberInstance
-import ui.widget.AlertDialog
 import usecase.MessagesUseCase
 import usecase.model.Message
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationsView() {
     val messagesUseCase by rememberInstance<MessagesUseCase>()
@@ -37,12 +39,13 @@ fun NotificationsView() {
                 }
 
                 Message.Level.ERROR -> {
+//                    TODO
                     AlertDialog(
                         onDismissRequest = { },
                         text = {
                             Text("Message: ${it.text}")
                         },
-                        buttons = {},
+                        confirmButton = {},
                         modifier = Modifier.height(200.dp).width(300.dp)
                     )
 //                    Dialog(

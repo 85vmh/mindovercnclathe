@@ -1,14 +1,13 @@
 package ui.screen.manual.root
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
+import com.mindovercnc.linuxcnc.numpad.data.InputType
 import components.axis.AxisCoordinates
-import screen.uimodel.InputType
 import ui.screen.manual.simplecycles.SimpleCyclesScreen
 import ui.screen.manual.turningsettings.TurningSettingsScreen
 import ui.screen.manual.virtuallimits.VirtualLimitsScreen
@@ -43,7 +42,7 @@ private fun ManualTurningHeader(
     state: ManualTurningState,
     navigator: Navigator,
     modifier: Modifier = Modifier
-){
+) {
     Row(modifier = modifier) {
         Column(
             modifier = Modifier.weight(2f),
@@ -74,24 +73,18 @@ private fun ManualTurningHeader(
                 SpindleStatusView(
                     uiModel = it,
                     onClick = { navigator.push(TurningSettingsScreen()) },
-                    modifier =
-                    Modifier.fillMaxWidth()
-                        .padding(horizontal = 8.dp)
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
                 )
             }
             state.feedUiModel?.let {
                 FeedStatusView(
                     uiModel = it,
                     onClick = { navigator.push(TurningSettingsScreen()) },
-                    modifier =
-                    Modifier.fillMaxWidth()
-                        .padding(horizontal = 8.dp)
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
                 )
             }
         }
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
+        Column(modifier = Modifier.weight(1f)) {
             state.virtualLimitsUiModel?.let {
                 VirtualLimitsStatusView(
                     virtualLimits = it,

@@ -12,9 +12,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import screen.uimodel.InputType
+import com.mindovercnc.linuxcnc.listitem.DropDownSetting
+import com.mindovercnc.linuxcnc.numpad.data.InputType
 import ui.widget.CycleParameter
-import ui.widget.listitem.DropDownSetting
 import usecase.model.SimpleCycleParameters
 
 @Composable

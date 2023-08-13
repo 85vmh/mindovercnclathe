@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import screen.composables.VerticalDivider
-import screen.uimodel.InputType
+import com.mindovercnc.linuxcnc.numpad.data.InputType
 import ui.screen.manual.tapersettings.TaperSettingsScreen
 
 @Composable

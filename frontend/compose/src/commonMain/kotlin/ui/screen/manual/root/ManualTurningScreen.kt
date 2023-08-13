@@ -18,7 +18,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import di.rememberScreenModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import screen.composables.InputDialogView
+import com.mindovercnc.linuxcnc.numpad.InputDialogView
 import screen.uimodel.SimpleCycle
 import ui.screen.manual.Manual
 import ui.screen.manual.simplecycles.SimpleCyclesScreen
