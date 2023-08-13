@@ -47,7 +47,7 @@ fun AddEditLatheToolContent(
     Row(
         modifier = modifier.fillMaxSize()
     ) {
-        StartContent(state, onToolType, modifier = Modifier.weight(1f).widthIn(min = 300.dp))
+        StartContent(state, onToolType, modifier = Modifier.weight(2f).widthIn(min = 300.dp))
 
         VerticalDivider()
 
@@ -66,7 +66,7 @@ fun AddEditLatheToolContent(
             onBladeWidth,
             onMinThreadPitch,
             onMaxThreadPitch,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(3f)
         )
     }
 }

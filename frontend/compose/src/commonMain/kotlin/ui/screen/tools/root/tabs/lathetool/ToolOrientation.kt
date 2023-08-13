@@ -72,7 +72,7 @@ private fun TipOrientationRow(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun TipOrientationUi(
     orientation: TipOrientation,
@@ -81,13 +81,6 @@ fun TipOrientationUi(
     enabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
-    val selectedTint =
-        when (active) {
-            true -> MaterialTheme.colorScheme.primary
-            false -> MaterialTheme.colorScheme.surfaceVariant
-            else -> LocalContentColor.current
-        }
-
     val fileName = "position${orientation.orient}.xml"
 
     Surface(
@@ -95,8 +88,15 @@ fun TipOrientationUi(
         onClick = { onClick(orientation) },
         border = BorderStroke(1.dp, Color.LightGray),
         shape = RoundedCornerShape(4.dp),
-        enabled = enabled
+        enabled = enabled,
+        color = MaterialTheme.colorScheme.secondaryContainer
     ) {
+        val selectedTint =
+            when (active) {
+                true -> MaterialTheme.colorScheme.primary
+                false -> MaterialTheme.colorScheme.surface
+                else -> LocalContentColor.current
+            }
         Icon(
             imageVector = resource(fileName).rememberImageVector(LocalDensity.current).orEmpty(),
             tint = selectedTint,
