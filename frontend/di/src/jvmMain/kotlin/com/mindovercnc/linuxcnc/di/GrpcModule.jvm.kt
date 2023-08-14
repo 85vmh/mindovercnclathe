@@ -1,4 +1,4 @@
-package di
+package com.mindovercnc.linuxcnc.di
 
 import com.squareup.wire.GrpcClient
 import okhttp3.OkHttpClient

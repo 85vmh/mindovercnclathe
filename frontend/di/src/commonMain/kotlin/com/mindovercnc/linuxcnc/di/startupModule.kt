@@ -1,4 +1,4 @@
-package di
+package com.mindovercnc.linuxcnc.di
 
 import com.mindovercnc.linuxcnc.gcode.IniFilePath
 import okio.Path

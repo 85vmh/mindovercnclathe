@@ -16,14 +16,14 @@ import extensions.toFixedDigitsString
 
 @Composable
 fun CycleParameter(
-    parameterLabel: String = "",
-    parameterAnnotatedLabel: AnnotatedString? = null,
     inputType: InputType,
     value: Double,
-    teachInLabel: String? = null,
     onValueChange: (Double) -> Unit,
+    modifier: Modifier = Modifier,
+    teachInLabel: String? = null,
     teachInClicked: () -> Unit = {},
-    modifier: Modifier = Modifier
+    parameterLabel: String = "",
+    parameterAnnotatedLabel: AnnotatedString? = null
 ) {
     Row(
         modifier = modifier,
