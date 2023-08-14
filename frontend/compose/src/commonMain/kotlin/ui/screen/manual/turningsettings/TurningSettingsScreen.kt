@@ -1,7 +1,10 @@
 package ui.screen.manual.turningsettings
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
@@ -10,11 +13,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.mindovercnc.linuxcnc.widgets.NumericInputField
 import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.linuxcnc.widgets.NumericInputWithUnit
 import di.rememberScreenModel
 import screen.composables.cards.CardWithTitle
 import ui.screen.manual.Manual
@@ -43,8 +47,12 @@ class TurningSettingsScreen : Manual("Turning Settings") {
     override fun Content() {
         val screenModel = rememberScreenModel<TurningSettingsScreenModel>()
         val modifier = Modifier
+        val scrollState = rememberScrollState()
 
-        Column(modifier = modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Column(
+            modifier = modifier.padding(16.dp).verticalScroll(scrollState),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
             CardWithTitle("Spindle") {
                 SpindleDisplay(
                     screenModel = screenModel,
@@ -73,11 +81,8 @@ class TurningSettingsScreen : Manual("Turning Settings") {
                 selected = state.isRpmActive,
                 value = state.rpmValue.toString(),
                 inputType = InputType.RPM,
-                modifier =
-                Modifier.fillMaxWidth()
-                    .clickable(onClick = { screenModel.setRpmActive(true) })
-                    .padding(start = 16.dp),
-                onClicked = { screenModel.setRpmActive(true) },
+                modifier = Modifier.fillMaxWidth().padding(start = 16.dp),
+                onClick = { screenModel.setRpmActive(true) },
                 onValueChanged = {
                     val doubleValue = it.toDoubleOrNull() ?: return@RadioBoxSetting
                     screenModel.setRpmValue(doubleValue.toInt())
@@ -88,11 +93,8 @@ class TurningSettingsScreen : Manual("Turning Settings") {
                 selected = state.isRpmActive.not(),
                 value = state.cssValue.toString(),
                 inputType = InputType.CSS,
-                modifier =
-                Modifier.fillMaxWidth()
-                    .clickable(onClick = { screenModel.setRpmActive(false) })
-                    .padding(start = 16.dp),
-                onClicked = { screenModel.setRpmActive(false) },
+                modifier = Modifier.fillMaxWidth().padding(start = 16.dp),
+                onClick = { screenModel.setRpmActive(false) },
                 onValueChanged = {
                     val doubleValue = it.toDoubleOrNull() ?: return@RadioBoxSetting
                     screenModel.setCssValue(doubleValue.toInt())
@@ -101,11 +103,12 @@ class TurningSettingsScreen : Manual("Turning Settings") {
             ValueSetting(
                 settingName = "Maximum spindle speed",
                 value = state.maxSpeed.toString(),
-                inputType = InputType.CSS_MAX_RPM
-            ) {
-                val doubleValue = it.toDoubleOrNull() ?: return@ValueSetting
-                screenModel.setMaxSpeedValue(doubleValue.toInt())
-            }
+                inputType = InputType.CSS_MAX_RPM,
+                onValueChanged = {
+                    val doubleValue = it.toDoubleOrNull() ?: return@ValueSetting
+                    screenModel.setMaxSpeedValue(doubleValue.toInt())
+                }
+            )
 
             CheckBoxSetting(
                 settingName = "Oriented spindle stop",
@@ -132,11 +135,8 @@ class TurningSettingsScreen : Manual("Turning Settings") {
                 selected = state.isUnitPerRevActive,
                 value = state.unitsPerRevValue.toString(),
                 inputType = InputType.FEED_PER_REV,
-                modifier =
-                Modifier.fillMaxWidth()
-                    .clickable(onClick = { screenModel.setUnitsPerRevActive(true) })
-                    .padding(start = 16.dp),
-                onClicked = { screenModel.setUnitsPerRevActive(true) },
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { screenModel.setUnitsPerRevActive(true) },
                 onValueChanged = {
                     val unitsPerRev = it.toDoubleOrNull() ?: return@RadioBoxSetting
                     screenModel.setUnitsPerRev(unitsPerRev)
@@ -147,11 +147,8 @@ class TurningSettingsScreen : Manual("Turning Settings") {
                 selected = state.isUnitPerRevActive.not(),
                 value = state.unitsPerMinValue.toString(),
                 inputType = InputType.FEED_PER_MIN,
-                modifier =
-                Modifier.fillMaxWidth()
-                    .clickable(onClick = { screenModel.setUnitsPerRevActive(false) })
-                    .padding(start = 16.dp),
-                onClicked = { screenModel.setUnitsPerRevActive(false) },
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { screenModel.setUnitsPerRevActive(false) },
                 onValueChanged = {
                     val unitsPerMin = it.toDoubleOrNull() ?: return@RadioBoxSetting
                     screenModel.setUnitsPerMin(unitsPerMin)
@@ -167,20 +164,28 @@ class TurningSettingsScreen : Manual("Turning Settings") {
         value: String,
         inputType: InputType,
         modifier: Modifier = Modifier,
-        onClicked: () -> Unit,
+        onClick: () -> Unit,
         onValueChanged: (String) -> Unit
     ) {
         val alignment = Alignment.CenterVertically
 
-        Row(verticalAlignment = alignment, modifier = modifier) {
-            Row(verticalAlignment = alignment, modifier = Modifier.weight(1f)) {
-                RadioButton(selected = selected, onClick = { onClicked() })
+        ListItem(
+            leadingContent = { RadioButton(selected = selected, onClick = null) },
+            headlineContent = {
                 Text(modifier = Modifier.padding(start = 16.dp), text = settingName)
-            }
-            NumericInputWithUnit(value, inputType, alignment, modifier = Modifier.width(200.dp)) {
-                onValueChanged(it)
-            }
-        }
+            },
+            trailingContent = {
+                NumericInputWithUnit(
+                    value = value,
+                    inputType = inputType,
+                    verticalAlignment = alignment,
+                    modifier = Modifier.width(200.dp),
+                    onValueChanged = onValueChanged
+                )
+            },
+            modifier =
+                modifier.selectable(selected = selected, role = Role.RadioButton, onClick = onClick)
+        )
     }
 
     @Composable
@@ -198,15 +203,18 @@ class TurningSettingsScreen : Manual("Turning Settings") {
             headlineContent = {
                 Text(modifier = Modifier.padding(start = 16.dp), text = settingName)
             },
-            leadingContent = {
-                Checkbox(checked = checked, onCheckedChange)
-            },
+            leadingContent = { Checkbox(checked = checked, onCheckedChange) },
             trailingContent = {
-                NumericInputWithUnit(value, inputType, alignment, modifier = Modifier.width(200.dp)) {
-                    onValueChanged(it)
-                }
+                NumericInputWithUnit(
+                    value,
+                    inputType,
+                    verticalAlignment = alignment,
+                    modifier = Modifier.width(200.dp),
+                    onValueChanged = onValueChanged
+                )
             },
-            modifier = modifier
+            modifier =
+                modifier.toggleable(checked, onValueChange = onCheckedChange, role = Role.Checkbox)
         )
     }
 
@@ -215,38 +223,25 @@ class TurningSettingsScreen : Manual("Turning Settings") {
         settingName: String,
         value: String,
         inputType: InputType,
-        onValueChanged: (String) -> Unit
+        onValueChanged: (String) -> Unit,
+        modifier: Modifier = Modifier
     ) {
         val alignment = Alignment.CenterVertically
-        Row(verticalAlignment = alignment, modifier = Modifier.padding(start = 16.dp)) {
-            Row(verticalAlignment = alignment, modifier = Modifier.weight(1f)) {
-                Box(modifier = Modifier.size(48.dp))
+        ListItem(
+            leadingContent = { Spacer(modifier = Modifier.size(48.dp)) },
+            headlineContent = {
                 Text(modifier = Modifier.padding(start = 16.dp), text = settingName)
-            }
-            NumericInputWithUnit(value, inputType, alignment, modifier = Modifier.width(200.dp)) {
-                onValueChanged(it)
-            }
-        }
-    }
-
-    @Composable
-    private fun NumericInputWithUnit(
-        value: String,
-        inputType: InputType,
-        alignment: Alignment.Vertical,
-        modifier: Modifier = Modifier,
-        onValueChanged: (String) -> Unit
-    ) {
-
-        Row(verticalAlignment = alignment, modifier = modifier) {
-            NumericInputField(
-                numericValue = value,
-                inputType = inputType,
-                modifier = Modifier.width(80.dp)
-            ) {
-                onValueChanged(it)
-            }
-            inputType.unit?.let { Text(modifier = Modifier.padding(start = 8.dp), text = it) }
-        }
+            },
+            trailingContent = {
+                NumericInputWithUnit(
+                    value,
+                    inputType,
+                    verticalAlignment = alignment,
+                    modifier = Modifier.width(200.dp),
+                    onValueChanged = onValueChanged
+                )
+            },
+            modifier = modifier
+        )
     }
 }

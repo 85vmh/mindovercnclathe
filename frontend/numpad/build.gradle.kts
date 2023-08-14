@@ -1,6 +1,4 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.compose.compose
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
@@ -11,9 +9,7 @@ version = Versions.app
 
 kotlin {
     jvm()
-    js(IR) {
-        browser()
-    }
+    js(IR) { browser() }
 
     sourceSets {
         val commonMain by getting {
@@ -31,8 +27,10 @@ kotlin {
                 implementation(Libs.datetime)
                 implementation(Libs.bignum)
 
+                implementation(project(":frontend:format"))
+
                 // compose
-//                implementation(compose.uiTooling)
+                //                implementation(compose.uiTooling)
                 implementation(compose.material)
                 implementation(compose.material3)
                 @OptIn(ExperimentalComposeLibrary::class)

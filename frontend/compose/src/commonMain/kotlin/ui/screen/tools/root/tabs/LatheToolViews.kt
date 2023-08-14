@@ -15,11 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.mindovercnc.linuxcnc.format.stripZeros
+import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.model.CuttingInsert
 import com.mindovercnc.model.LatheTool
 import com.mindovercnc.model.MadeOf
-import extensions.stripZeros
-import extensions.toFixedDigitsString
 import screen.composables.SettingStatusRow
 import ui.screen.tools.root.tabs.lathetool.DirectionItem
 
@@ -291,7 +291,6 @@ internal fun cuttingInsertView(insert: CuttingInsert) {
             MadeOf.Ceramic,
             MadeOf.Cbn,
             MadeOf.Diamond -> insert.code ?: "----"
-
             else -> "Custom Ground"
         }
 
@@ -301,7 +300,10 @@ internal fun cuttingInsertView(insert: CuttingInsert) {
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold
         )
-        Text(text = "(${insert.tipAngle.stripZeros()}°)", style = MaterialTheme.typography.labelLarge)
+        Text(
+            text = "(${insert.tipAngle.stripZeros()}°)",
+            style = MaterialTheme.typography.labelLarge
+        )
         Text(
             modifier = Modifier.padding(start = 8.dp),
             text = "r${insert.tipRadius}",

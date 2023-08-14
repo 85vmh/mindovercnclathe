@@ -4,6 +4,7 @@ import codegen.Point
 import com.mindovercnc.data.linuxcnc.HalRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
+import com.mindovercnc.linuxcnc.format.toFixedDigits
 import com.mindovercnc.linuxcnc.gcode.IniFileRepository
 import com.mindovercnc.linuxcnc.settings.BooleanKey
 import com.mindovercnc.linuxcnc.settings.DoubleKey
@@ -12,7 +13,6 @@ import com.mindovercnc.model.G53AxisLimits
 import com.mindovercnc.repository.ActiveLimitsRepository
 import com.mindovercnc.repository.IoStatusRepository
 import com.mindovercnc.repository.TaskStatusRepository
-import extensions.toFixedDigits
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import linuxcnc.currentToolNo
@@ -36,11 +36,11 @@ class VirtualLimitsUseCase(
 
     init {
         combine(
-            hasToolLoaded,
-            activeLimitsRepository.isLimitsActive,
-        ) { hasTool, isActive ->
-            hasTool && isActive
-        }
+                hasToolLoaded,
+                activeLimitsRepository.isLimitsActive,
+            ) { hasTool, isActive ->
+                hasTool && isActive
+            }
             .filter { it }
             .onEach {
                 println("---Apply for tool: $it")

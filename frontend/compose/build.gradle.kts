@@ -1,5 +1,4 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.compose.compose
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -11,9 +10,7 @@ version = Versions.app
 
 kotlin {
     jvm()
-    js(IR) {
-        browser()
-    }
+    js(IR) { browser() }
 
     sourceSets {
         val commonMain by getting {
@@ -31,7 +28,7 @@ kotlin {
                 implementation(Libs.datetime)
 
                 // compose
-//                implementation(compose.uiTooling)
+                //                implementation(compose.uiTooling)
                 implementation(compose.material)
                 implementation(compose.material3)
                 @OptIn(ExperimentalComposeLibrary::class)
@@ -58,12 +55,13 @@ kotlin {
                 implementation(project(":frontend:widgets"))
                 implementation(project(":frontend:listitem"))
                 implementation(project(":frontend:numpad"))
+                implementation(project(":frontend:format"))
 
                 implementation(project(":startup:args"))
 
                 implementation(project(":protos"))
                 implementation(Libs.Grpc.okhttp)
-//                implementation(Libs.Compose.splitpane)
+                //                implementation(Libs.Compose.splitpane)
 
                 //    implementation(project(":vtk"))
                 implementation(Libs.Kodein.compose)
@@ -71,22 +69,18 @@ kotlin {
                 implementation(Libs.bignum)
 
                 // navigation
-                implementation("cafe.adriel.voyager:voyager-navigator:${Versions.voyager}")
-                implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:${Versions.voyager}")
-                implementation("cafe.adriel.voyager:voyager-tab-navigator:${Versions.voyager}")
-                implementation("cafe.adriel.voyager:voyager-transitions:${Versions.voyager}")
+                implementation(Libs.Voyager.navigator)
+                implementation(Libs.Voyager.bottom_sheet_navigator)
+                implementation(Libs.Voyager.tab_navigator)
+                implementation(Libs.Voyager.transitions)
             }
         }
 
-        val jvmMain by getting {
-            dependencies {
-                implementation(compose.desktop.currentOs)
-            }
-        }
+        val jvmMain by getting { dependencies { implementation(compose.desktop.currentOs) } }
         val jvmTest by getting {
             dependencies {
-                implementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
-                implementation("io.mockk:mockk:1.12.4")
+                @OptIn(ExperimentalComposeLibrary::class) implementation(compose.uiTestJUnit4)
+                implementation(Libs.mockk)
                 implementation(Libs.Coroutines.test)
                 implementation(compose.material)
             }

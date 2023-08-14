@@ -10,7 +10,7 @@ import com.mindovercnc.dispatchers.DispatchersModule
 import com.mindovercnc.editor.reader.EditorReader
 import com.mindovercnc.editor.reader.FileEditorReader
 import com.mindovercnc.linuxcnc.CommonDataModule
-import com.mindovercnc.linuxcnc.di.ParseFactoryModule
+import com.mindovercnc.linuxcnc.di.*
 import com.mindovercnc.linuxcnc.gcode.local.di.GCodeLocalModule
 import com.mindovercnc.linuxcnc.module.KtLcncModule
 import com.mindovercnc.linuxcnc.settings.local.di.SettingsLocalModule
@@ -25,25 +25,29 @@ import org.kodein.di.compose.withDI
 import org.kodein.di.instance
 import startup.args.StartupArgs
 
-val BaseAppModule = DI.Module("AppModule") {
-    importAll(
-        DispatchersModule,
-        EditorModule,
-        DatabaseModule,
-        InitializerModule,
-        ScreenModelModule,
-        DomainModule,
-    )
-    bindSingleton { StatusWatcher(instance(), instance(), instance(), instance()) }
+val BaseAppModule =
+    DI.Module("base_app") {
+        importAll(
+            DispatchersModule,
+            EditorModule,
+            DatabaseModule,
+            InitializerModule,
+            ScreenModelModule,
+            DomainModule,
+        )
+        bindSingleton { StatusWatcher(instance(), instance(), instance(), instance()) }
 
-    bindProvider { TabViewModel(instance(), instance()) }
+        bindProvider { TabViewModel(instance(), instance()) }
 
-    bindSingleton { FileSystem.SYSTEM }
-    bindSingleton<Clock> { Clock.System }
+        // TODO change based on platform
+        bindSingleton<EditorReader> { FileEditorReader }
+    }
 
-    //TODO change based on platform
-    bindSingleton<EditorReader> { FileEditorReader }
-}
+val SystemModule =
+    DI.Module("system") {
+        bindSingleton { FileSystem.SYSTEM }
+        bindSingleton<Clock> { Clock.System }
+    }
 
 fun repositoryModule(legacyCommunication: Boolean) =
     DI.Module("repository") {
@@ -56,20 +60,18 @@ fun repositoryModule(legacyCommunication: Boolean) =
                 SettingsLocalModule
             )
         } else {
-            importAll(
-                LinuxcncRemoteDataModule,
-                ToolsRemoteModule,
-                GrpcModule
-            )
+            importAll(LinuxcncRemoteDataModule, ToolsRemoteModule, GrpcModule)
         }
     }
 
 @Composable
-fun withAppDi(startupArgs: StartupArgs, content: @Composable () -> Unit) = withDI(
-    KtLcncModule,
-    startupModule(startupArgs.iniFilePath),
-    BaseAppModule,
-    repositoryModule(startupArgs.legacyCommunication),
-    ParseFactoryModule,
-    content = content
-)
+fun withAppDi(startupArgs: StartupArgs, content: @Composable () -> Unit) =
+    withDI(
+        KtLcncModule,
+        startupModule(startupArgs.iniFilePath),
+        BaseAppModule,
+        SystemModule,
+        repositoryModule(startupArgs.legacyCommunication),
+        ParseFactoryModule,
+        content = content
+    )

@@ -2,7 +2,7 @@ package com.mindovercnc.linuxcnc.numpad.data
 
 enum class InputType(
     override val description: String,
-    override val unit: String? = null,
+    override val unit: UnitType? = null,
     override val minValue: Double = Double.MIN_VALUE,
     override val maxValue: Double = Double.MAX_VALUE,
     override val allowsNegativeValues: Boolean = false,
@@ -11,28 +11,28 @@ enum class InputType(
 ) : NumInputParameters {
     RPM(
         description = "Spindle Speed",
-        unit = "rev/min",
+        unit = UnitType.REV_PER_MIN,
         minValue = 10.0,
         maxValue = 3000.0,
         initialValue = 100.0
     ),
     CSS(
         description = "Constant Surface Speed",
-        unit = "m/min",
+        unit = UnitType.M_PER_MIN,
         minValue = 1.0,
         maxValue = 500.0,
         initialValue = 50.0
     ),
     CSS_MAX_RPM(
         description = "Spindle Max Speed",
-        unit = "rev/min",
+        unit = UnitType.REV_PER_MIN,
         minValue = 10.0,
         maxValue = 3000.0,
         initialValue = 100.0
     ),
     ORIENTED_STOP(
         description = "Oriented Stop Angle",
-        unit = "degrees",
+        unit = UnitType.DEGREES,
         minValue = 0.0,
         maxValue = 360.0,
         initialValue = 100.0,
@@ -40,7 +40,7 @@ enum class InputType(
     ),
     FEED_PER_REV(
         description = "Feed per revolution",
-        unit = "mm/rev",
+        unit = UnitType.MM_PER_REV,
         minValue = 0.010,
         maxValue = 5.000,
         initialValue = 0.100,
@@ -48,7 +48,7 @@ enum class InputType(
     ),
     FEED_PER_MIN(
         description = "Feed per minute",
-        unit = "mm/min",
+        unit = UnitType.MM_PER_MIN,
         minValue = 10.0,
         maxValue = 500.0,
         initialValue = 10.0,
@@ -56,7 +56,7 @@ enum class InputType(
     ),
     TOUCH_OFF_X(
         description = "Touch-Off X",
-        unit = "diameter",
+        unit = UnitType.DIAMETER,
         minValue = 0.010,
         maxValue = 320.000,
         initialValue = 10.0,
@@ -64,7 +64,7 @@ enum class InputType(
     ),
     TOUCH_OFF_Z(
         description = "Touch-Off Z",
-        unit = "",
+        unit = null,
         minValue = 0.001,
         maxValue = 650.000,
         initialValue = 10.0,
@@ -72,7 +72,7 @@ enum class InputType(
     ),
     TOOL_CLEARANCE(
         description = "Tool Clearance",
-        unit = "mm",
+        unit = UnitType.MM,
         minValue = 0.1,
         maxValue = 100.000,
         initialValue = 1.0,
@@ -90,7 +90,6 @@ enum class InputType(
         maxValue = 5.0,
         initialValue = 1.0,
         maxDecimalPlaces = 3
-
     ),
     FINISH_PASSES(
         description = "Finish passes",
@@ -207,7 +206,7 @@ enum class InputType(
     ),
     FILLET_RADIUS(
         description = "Fillet Radius",
-        unit = "mm",
+        unit = UnitType.MM,
         minValue = -500.0,
         maxValue = 500.0,
         initialValue = 0.0,
@@ -215,7 +214,7 @@ enum class InputType(
     ),
     TOOL_X_COORDINATE(
         description = "Tool X Coordinate",
-        unit = "mm",
+        unit = UnitType.MM,
         minValue = -500.0,
         maxValue = 500.0,
         initialValue = 0.0,
@@ -224,7 +223,7 @@ enum class InputType(
     ),
     TOOL_Z_COORDINATE(
         description = "Tool Z Coordinate",
-        unit = "mm",
+        unit = UnitType.MM,
         minValue = -500.0,
         maxValue = 500.0,
         initialValue = 0.0,
@@ -238,7 +237,7 @@ enum class InputType(
     ),
     TIP_RADIUS(
         description = "Tip Radius",
-        unit = "mm",
+        unit = UnitType.MM,
         minValue = 0.0,
         maxValue = 20.0,
         initialValue = 0.0,
@@ -246,14 +245,14 @@ enum class InputType(
     ),
     TIP_ANGLE(
         description = "Tip Angle",
-        unit = "mm",
+        unit = UnitType.MM,
         minValue = 0.0,
         maxValue = 20.0,
         initialValue = 0.0,
     ),
     INSERT_SIZE(
         description = "Insert Size",
-        unit = "mm",
+        unit = UnitType.MM,
         minValue = 0.0,
         maxValue = 20.0,
         initialValue = 0.0,
@@ -261,7 +260,7 @@ enum class InputType(
     ),
     BLADE_WIDTH(
         description = "Blade Width",
-        unit = "mm",
+        unit = UnitType.MM,
         minValue = 0.0,
         maxValue = 20.0,
         initialValue = 0.0,
@@ -269,7 +268,7 @@ enum class InputType(
     ),
     TOOL_DIAMETER(
         description = "Diameter",
-        unit = "mm",
+        unit = UnitType.MM,
         minValue = 0.0,
         maxValue = 50.0,
         initialValue = 0.0,
@@ -277,7 +276,7 @@ enum class InputType(
     ),
     TAPER_ANGLE(
         description = "Taper Angle",
-        unit = "degrees",
+        unit = UnitType.DEGREES,
         minValue = 1.0,
         maxValue = 89.0,
         initialValue = 45.0,
@@ -308,11 +307,7 @@ enum class InputType(
         allowsNegativeValues = true,
         maxDecimalPlaces = 3
     ),
-    TOOL_ID(
-        description = "Tool Id",
-        allowsNegativeValues = false,
-        maxDecimalPlaces = 0
-    ),
+    TOOL_ID(description = "Tool Id", allowsNegativeValues = false, maxDecimalPlaces = 0),
     TOOL_HOLDER_NO(
         description = "Tool Holder #",
         allowsNegativeValues = false,
@@ -322,43 +317,43 @@ enum class InputType(
         description = "Front Angle",
         allowsNegativeValues = false,
         maxDecimalPlaces = 0,
-//            unit = "degrees"
+        //            unit = "degrees"
     ),
     BACK_ANGLE(
         description = "Back Angle",
         allowsNegativeValues = false,
         maxDecimalPlaces = 0,
-//            unit = "degrees"
+        //            unit = "degrees"
     ),
     MIN_BORE_DIAMETER(
         description = "Min Bore Diameter",
         allowsNegativeValues = false,
         maxDecimalPlaces = 0,
-//            unit = "degrees"
+        //            unit = "degrees"
     ),
     MAX_X_DEPTH(
         description = "Max X Depth",
         allowsNegativeValues = false,
         maxDecimalPlaces = 1,
-//            unit = "degrees"
+        //            unit = "degrees"
     ),
     MAX_Z_DEPTH(
         description = "Max Z Depth",
         allowsNegativeValues = false,
         maxDecimalPlaces = 1,
-//            unit = "degrees"
+        //            unit = "degrees"
     ),
     THREADING_MIN_PITCH(
         description = "Min Pitch",
         allowsNegativeValues = false,
         maxDecimalPlaces = 2,
-//            unit = "degrees"
+        //            unit = "degrees"
     ),
     THREADING_MAX_PITCH(
         description = "Max Pitch",
         allowsNegativeValues = false,
         maxDecimalPlaces = 2,
-//            unit = "degrees"
+        //            unit = "degrees"
     ),
     MIN_AP(
         description = "Min - Depth of Cut (ap)",
@@ -369,7 +364,7 @@ enum class InputType(
         description = "Max - Depth of Cut (ap)",
         allowsNegativeValues = false,
         maxDecimalPlaces = 2,
-        unit = "mm"
+        unit = UnitType.MM
     ),
     MIN_FN(
         description = "Min - Feed per rev (ap)",
@@ -380,7 +375,7 @@ enum class InputType(
         description = "Max - Feed per rev (ap)",
         allowsNegativeValues = false,
         maxDecimalPlaces = 2,
-        unit = "mm/rev"
+        unit = UnitType.MM_PER_REV
     ),
     MIN_VC(
         description = "Min - Cutting speed (vc)",
@@ -391,6 +386,6 @@ enum class InputType(
         description = "Max - Cutting speed (vc)",
         allowsNegativeValues = false,
         maxDecimalPlaces = 2,
-        unit = "m/min"
-    );
+        unit = UnitType.M_PER_MIN
+    )
 }

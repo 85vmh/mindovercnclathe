@@ -1,4 +1,4 @@
-package di
+package com.mindovercnc.linuxcnc.di
 
 import org.kodein.di.DI
 

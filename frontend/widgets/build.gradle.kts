@@ -37,6 +37,7 @@ kotlin {
                 implementation(compose.components.resources)
 
                 implementation(project(":frontend:numpad"))
+                implementation(project(":frontend:format"))
             }
         }
     }

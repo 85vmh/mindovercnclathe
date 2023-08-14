@@ -2,7 +2,7 @@ package com.mindovercnc.linuxcnc.numpad.data
 
 interface NumInputParameters {
     val description: String
-    val unit: String?
+    val unit: UnitType?
     val minValue: Double
     val maxValue: Double
     val allowsNegativeValues: Boolean

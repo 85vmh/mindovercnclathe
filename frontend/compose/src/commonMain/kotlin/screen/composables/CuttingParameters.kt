@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mindovercnc.linuxcnc.numpad.data.InputType
-import extensions.toFixedDigitsString
+import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import screen.composables.tabconversational.InputSetting
 import screen.uimodel.CuttingStrategy
 import usecase.model.CuttingParametersState

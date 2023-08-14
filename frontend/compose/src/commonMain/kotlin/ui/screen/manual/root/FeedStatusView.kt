@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import extensions.toFixedDigitsString
+import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import screen.composables.SettingStatusRow
 
 @OptIn(ExperimentalMaterial3Api::class)

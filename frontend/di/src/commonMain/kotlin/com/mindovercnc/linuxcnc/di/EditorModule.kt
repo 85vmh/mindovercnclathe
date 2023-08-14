@@ -1,4 +1,4 @@
-package di
+package com.mindovercnc.linuxcnc.di
 
 import com.mindovercnc.editor.EditorLoader
 import com.mindovercnc.editor.type.EditorFileTypeHandler

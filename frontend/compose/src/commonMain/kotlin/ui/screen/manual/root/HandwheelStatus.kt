@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import extensions.toFixedDigitsString
+import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.orEmpty
 import org.jetbrains.compose.resources.rememberImageVector

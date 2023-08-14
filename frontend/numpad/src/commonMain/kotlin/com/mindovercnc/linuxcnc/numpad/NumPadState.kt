@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import com.ionspin.kotlin.bignum.decimal.DecimalMode
 import com.ionspin.kotlin.bignum.decimal.RoundingMode
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
+import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.linuxcnc.numpad.data.InputType
 import com.mindovercnc.linuxcnc.numpad.data.NumInputParameters
 
@@ -48,11 +49,4 @@ class NumPadState constructor(
     fun clearAll() {
         stringValueState.value = ""
     }
-}
-
-/** Sets the displayable digits to max digits, which will be shown even if they are zero. */
-internal fun Double.toFixedDigitsString(maxDigits: Int = 3): String {
-    return this.toBigDecimal(
-        decimalMode = DecimalMode(scale = maxDigits.toLong(), roundingMode = RoundingMode.ROUND_HALF_TO_EVEN)
-    ).toPlainString()
 }
