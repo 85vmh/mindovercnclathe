@@ -1,6 +1,5 @@
 package ui.screen.manual.turningsettings
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
@@ -82,9 +81,7 @@ class TurningSettingsScreen : Manual("Turning Settings") {
                 selected = state.isRpmActive,
                 value = state.rpmValue.toString(),
                 inputType = InputType.RPM,
-                modifier =
-                    Modifier.fillMaxWidth()
-                        .padding(start = 16.dp),
+                modifier = Modifier.fillMaxWidth().padding(start = 16.dp),
                 onClick = { screenModel.setRpmActive(true) },
                 onValueChanged = {
                     val doubleValue = it.toDoubleOrNull() ?: return@RadioBoxSetting
@@ -96,10 +93,7 @@ class TurningSettingsScreen : Manual("Turning Settings") {
                 selected = state.isRpmActive.not(),
                 value = state.cssValue.toString(),
                 inputType = InputType.CSS,
-                modifier =
-                    Modifier.fillMaxWidth()
-                        .clickable(onClick = { screenModel.setRpmActive(false) })
-                        .padding(start = 16.dp),
+                modifier = Modifier.fillMaxWidth().padding(start = 16.dp),
                 onClick = { screenModel.setRpmActive(false) },
                 onValueChanged = {
                     val doubleValue = it.toDoubleOrNull() ?: return@RadioBoxSetting
@@ -141,10 +135,7 @@ class TurningSettingsScreen : Manual("Turning Settings") {
                 selected = state.isUnitPerRevActive,
                 value = state.unitsPerRevValue.toString(),
                 inputType = InputType.FEED_PER_REV,
-                modifier =
-                    Modifier.fillMaxWidth()
-                        .clickable(onClick = { screenModel.setUnitsPerRevActive(true) })
-                        .padding(start = 16.dp),
+                modifier = Modifier.fillMaxWidth(),
                 onClick = { screenModel.setUnitsPerRevActive(true) },
                 onValueChanged = {
                     val unitsPerRev = it.toDoubleOrNull() ?: return@RadioBoxSetting
@@ -156,10 +147,7 @@ class TurningSettingsScreen : Manual("Turning Settings") {
                 selected = state.isUnitPerRevActive.not(),
                 value = state.unitsPerMinValue.toString(),
                 inputType = InputType.FEED_PER_MIN,
-                modifier =
-                    Modifier.fillMaxWidth()
-                        .clickable(onClick = { screenModel.setUnitsPerRevActive(false) })
-                        .padding(start = 16.dp),
+                modifier = Modifier.fillMaxWidth(),
                 onClick = { screenModel.setUnitsPerRevActive(false) },
                 onValueChanged = {
                     val unitsPerMin = it.toDoubleOrNull() ?: return@RadioBoxSetting
@@ -196,11 +184,7 @@ class TurningSettingsScreen : Manual("Turning Settings") {
                 )
             },
             modifier =
-                modifier.selectable(
-                    selected = selected,
-                    role = Role.RadioButton,
-                    onClick = onClick
-                )
+                modifier.selectable(selected = selected, role = Role.RadioButton, onClick = onClick)
         )
     }
 

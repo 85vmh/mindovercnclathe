@@ -6,9 +6,12 @@ object Libs {
 
     const val bignum = "com.ionspin.kotlin:bignum:${Versions.bignum}"
 
+    const val mockk = "io.mockk:mockk:1.12.4"
+
     object Settings {
         const val core = "com.russhwolf:multiplatform-settings:${Versions.settings}"
-        const val coroutines = "com.russhwolf:multiplatform-settings-coroutines:${Versions.settings}"
+        const val coroutines =
+            "com.russhwolf:multiplatform-settings-coroutines:${Versions.settings}"
     }
 
     object Compose {
@@ -17,10 +20,12 @@ object Libs {
     }
 
     object Coroutines {
-        const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.Kotlinx.coroutines}"
+        const val core =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.Kotlinx.coroutines}"
         const val swing =
             "org.jetbrains.kotlinx:kotlinx-coroutines-swing:${Versions.Kotlinx.coroutines}"
-        const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.Kotlinx.coroutines}"
+        const val test =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.Kotlinx.coroutines}"
     }
 
     object Serialization {
@@ -44,8 +49,17 @@ object Libs {
     object Grpc {
         const val grpc_kotlin = "io.grpc:grpc-kotlin-stub:${Versions.Grpc.grpc_kotlin}"
         const val grpc_proto = "io.grpc:grpc-protobuf:${Versions.Grpc.grpc}"
-        const val proto_kotlin = "com.google.protobuf:protobuf-kotlin:${Versions.Grpc.protobuf_kotlin}"
+        const val proto_kotlin =
+            "com.google.protobuf:protobuf-kotlin:${Versions.Grpc.protobuf_kotlin}"
         const val okhttp = "io.grpc:grpc-okhttp:${Versions.Grpc.grpc}"
+    }
+
+    object Voyager {
+        const val navigator = "cafe.adriel.voyager:voyager-navigator:${Versions.voyager}"
+        const val tab_navigator = "cafe.adriel.voyager:voyager-tab-navigator:${Versions.voyager}"
+        const val transitions = "cafe.adriel.voyager:voyager-transitions:${Versions.voyager}"
+        const val bottom_sheet_navigator =
+            "cafe.adriel.voyager:voyager-bottom-sheet-navigator:${Versions.voyager}"
     }
 
     const val cli = "org.jetbrains.kotlinx:kotlinx-cli:${Versions.Kotlinx.cli}"
@@ -53,6 +67,4 @@ object Libs {
     const val logging = "io.github.microutils:kotlin-logging:${Versions.logging}"
 
     const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
-
-    const val mockk = "io.mockk:mockk:1.12.4"
 }

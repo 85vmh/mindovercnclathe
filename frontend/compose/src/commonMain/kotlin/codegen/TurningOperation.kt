@@ -1,6 +1,6 @@
 package codegen
 
-import extensions.stripZeros
+import com.mindovercnc.linuxcnc.format.stripZeros
 
 class TurningOperation(
     private val profileGeometry: ProfileGeometry,
@@ -10,19 +10,15 @@ class TurningOperation(
 ) : Operation {
 
     override fun getStartComment(): List<String> {
-        return mutableListOf<String>().apply {
-            add("(---BEGIN---Turning operation-----------)")
-        }
+        return buildList { add("(---BEGIN---Turning operation-----------)") }
     }
 
     override fun getEndComment(): List<String> {
-        return mutableListOf<String>().apply {
-            add("(----END----Turning operation-----------)")
-        }
+        return buildList { add("(----END----Turning operation-----------)") }
     }
 
     override fun getOperationCode(): List<String> {
-        return mutableListOf<String>().apply {
+        return buildList {
             add("(Profile of the cut)")
             addAll(subroutineLines)
             var previousToolNumber = 0
@@ -41,7 +37,9 @@ class TurningOperation(
                         previousMaxSpindleSpeed = it.maxSpindleSpeed
                         add("F${it.feedRate.stripZeros()}")
                         previousFeedRate = it.feedRate
-                        add(it.direction.code + it.cutType.prefix + commonParams + it.strategyParams)
+                        add(
+                            it.direction.code + it.cutType.prefix + commonParams + it.strategyParams
+                        )
                     }
                     is TurningStrategy.Finishing -> {
                         add("\r")
@@ -50,7 +48,10 @@ class TurningOperation(
                             add("G40 M6 T${it.toolNumber} G43")
                             previousToolNumber = it.toolNumber
                         }
-                        if(it.cssSpeed != previousCssSpeed || it.maxSpindleSpeed != previousMaxSpindleSpeed){
+                        if (
+                            it.cssSpeed != previousCssSpeed ||
+                                it.maxSpindleSpeed != previousMaxSpindleSpeed
+                        ) {
                             add("G96 S${it.cssSpeed} D${it.maxSpindleSpeed}")
                             previousCssSpeed = it.cssSpeed
                             previousMaxSpindleSpeed = it.maxSpindleSpeed
@@ -73,7 +74,8 @@ class TurningOperation(
     }
 
     enum class TraverseDirection(val code: String) {
-        ZAxis("G71"), XAxis("G72")
+        ZAxis("G71"),
+        XAxis("G72")
     }
 
     sealed class TurningStrategy() {
@@ -91,7 +93,8 @@ class TurningOperation(
             val feedRate: Double
         ) : TurningStrategy() {
             override val strategyParams: String
-                get() = " D${remainingDistance.stripZeros()}" +
+                get() =
+                    " D${remainingDistance.stripZeros()}" +
                         " I${cuttingIncrement.stripZeros()}" +
                         " R${retractDistance.stripZeros()}"
         }
@@ -107,22 +110,23 @@ class TurningOperation(
             val feedRate: Double
         ) : TurningStrategy() {
             override val strategyParams: String
-                get() = " D${startingDistance.stripZeros()}" +
+                get() =
+                    " D${startingDistance.stripZeros()}" +
                         " E${endingDistance.stripZeros()}" +
                         " P$numberOfPasses"
         }
     }
 
     private val commonParams: String
-        get() = " Q${profileGeometry.subroutineNumber}" +
+        get() =
+            " Q${profileGeometry.subroutineNumber}" +
                 " X${startingXPosition.stripZeros()}" +
                 " Z${startingZPosition.stripZeros()}"
 
-    private val subroutineLines = mutableListOf<String>().apply {
-        add("O${profileGeometry.subroutineNumber} SUB")
-        profileGeometry.getProfile().forEach {
-            add("\t$it")
+    private val subroutineLines =
+        mutableListOf<String>().apply {
+            add("O${profileGeometry.subroutineNumber} SUB")
+            profileGeometry.getProfile().forEach { add("\t$it") }
+            add("O${profileGeometry.subroutineNumber} ENDSUB")
         }
-        add("O${profileGeometry.subroutineNumber} ENDSUB")
-    }
 }

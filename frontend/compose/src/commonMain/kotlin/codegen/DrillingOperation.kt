@@ -1,6 +1,6 @@
 //package codegen
 //
-//import extensions.toFixedDigitsString
+//import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 //
 //class DrillingOperation(
 //    private val toolNumber: Int,

@@ -1,6 +1,6 @@
 package codegen
 
-import extensions.stripZeros
+import com.mindovercnc.linuxcnc.format.stripZeros
 
 interface ProfileGeometry {
 
@@ -20,10 +20,12 @@ class OdProfileGeometry(
 ) : ProfileGeometry {
 
     override fun getProfile(): List<String> {
-        return mutableListOf<String>().apply {
+        return buildList {
             add("G0 X${xFinal.stripZeros()}")
             add("G1 Z${(filletRadius + zEnd).stripZeros()}")
-            add("G2 X${(filletRadius + xFinal).stripZeros()} Z${(zEnd).stripZeros()} R${filletRadius.stripZeros()}")
+            add(
+                "G2 X${(filletRadius + xFinal).stripZeros()} Z${(zEnd).stripZeros()} R${filletRadius.stripZeros()}"
+            )
             add("G1 X${xInitial.stripZeros()}")
         }
     }
@@ -33,5 +35,4 @@ class OdProfileGeometry(
 
     override val hasPockets: Boolean
         get() = false
-
 }

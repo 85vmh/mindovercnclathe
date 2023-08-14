@@ -6,7 +6,7 @@ import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.repository.TaskStatusRepository
-import extensions.stripZeros
+import com.mindovercnc.linuxcnc.format.stripZeros
 import kotlinx.coroutines.flow.*
 import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import screen.uimodel.SimpleCycle

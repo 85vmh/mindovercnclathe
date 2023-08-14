@@ -23,7 +23,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.model.CuttingInsert
 import com.mindovercnc.model.LatheTool
-import extensions.toFixedDigitsString
+import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import screen.composables.VerticalDivider
 import scroll.VerticalScrollbar
 import scroll.draggableScroll

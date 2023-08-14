@@ -1,7 +1,7 @@
 package codegen
 
-import extensions.stripZeros
-import extensions.toFixedDigitsString
+import com.mindovercnc.linuxcnc.format.stripZeros
+import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import kotlin.math.sqrt
 
 class ThreadingOperation(
@@ -21,15 +21,11 @@ class ThreadingOperation(
 ) : Operation {
 
     override fun getStartComment(): List<String> {
-        return mutableListOf<String>().apply {
-            add("(---BEGIN---Threading operation-----------)")
-        }
+        return buildList { add("(---BEGIN---Threading operation-----------)") }
     }
 
     override fun getEndComment(): List<String> {
-        return mutableListOf<String>().apply {
-            add("(----END----Threading operation-----------)")
-        }
+        return buildList { add("(----END----Threading operation-----------)") }
     }
 
     override fun getOperationCode(): List<String> {
@@ -42,7 +38,9 @@ class ThreadingOperation(
         for (lead in 1..threadStarts) {
             val zOffset = (leadOffset * (lead - 1))
             lines.add("(Cutting thread lead [$lead] of [$threadStarts], zOffset is: $zOffset)")
-            lines.add("G0 X${startPoint.x.toFixedDigitsString()} Z${(startPoint.z + zOffset).toFixedDigitsString()}")
+            lines.add(
+                "G0 X${startPoint.x.toFixedDigitsString()} Z${(startPoint.z + zOffset).toFixedDigitsString()}"
+            )
             lines.add(buildThreadingCode(finalZPosition + zOffset))
         }
         return lines
@@ -76,11 +74,11 @@ class ThreadingOperation(
         val builder = StringBuilder()
         builder.append(
             "G76 " +
-                    "P${threadPitch.stripZeros()} " +
-                    "Z${finalZPosition.stripZeros()} " +
-                    "I${threadPeakOffset.stripZeros()} " +
-                    "J${initialCutDepth.stripZeros()} " +
-                    "K${fullThreadDepth.stripZeros()} "
+                "P${threadPitch.stripZeros()} " +
+                "Z${finalZPosition.stripZeros()} " +
+                "I${threadPeakOffset.stripZeros()} " +
+                "J${initialCutDepth.stripZeros()} " +
+                "K${fullThreadDepth.stripZeros()} "
         )
         if (depthDegression != null) {
             builder.append("R${depthDegression.value.stripZeros()} ")

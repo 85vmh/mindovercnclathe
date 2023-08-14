@@ -10,7 +10,7 @@ import com.mindovercnc.linuxcnc.gcode.IniFileRepository
 import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.model.UiMessage
 import com.mindovercnc.repository.MessagesRepository
-import extensions.stripZeros
+import com.mindovercnc.linuxcnc.format.stripZeros
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import linuxcnc.getDisplayablePosition

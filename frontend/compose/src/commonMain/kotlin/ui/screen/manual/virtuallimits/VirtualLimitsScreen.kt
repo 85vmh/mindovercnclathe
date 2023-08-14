@@ -15,7 +15,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.numpad.data.InputType
 import com.mindovercnc.linuxcnc.widgets.NumericInputField
 import di.rememberScreenModel
-import extensions.toFixedDigitsString
+import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import ui.screen.manual.Manual
 
 class VirtualLimitsScreen : Manual("Virtual Limits") {

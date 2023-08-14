@@ -15,7 +15,7 @@ import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.model.*
 import com.mindovercnc.repository.MessagesRepository
 import com.mindovercnc.repository.MotionStatusRepository
-import extensions.stripZeros
+import com.mindovercnc.linuxcnc.format.stripZeros
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*

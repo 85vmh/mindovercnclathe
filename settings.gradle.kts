@@ -49,6 +49,7 @@ include("frontend:listitem")
 include("frontend:widgets")
 include("frontend:numpad")
 include("frontend:di")
+include("frontend:format")
 
 include("statemachine")
 include("initializer")

@@ -18,7 +18,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.listitem.ValueSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
 import di.rememberScreenModel
-import extensions.toFixedDigitsString
+import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import screen.composables.cards.CardWithTitle
 import ui.screen.manual.Manual
 
