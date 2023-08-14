@@ -15,15 +15,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.mindovercnc.linuxcnc.listitem.ValueSetting
+import com.mindovercnc.linuxcnc.numpad.data.InputType
 import com.mindovercnc.model.CuttingInsert
 import com.mindovercnc.model.SpindleDirection
 import com.mindovercnc.model.TipOrientation
 import com.mindovercnc.model.ToolType
 import screen.composables.DropDownInserts
 import screen.composables.VerticalDivider
-import screen.uimodel.InputType
 import scroll.draggableScroll
-import ui.widget.listitem.ValueSetting
 
 @Composable
 fun AddEditLatheToolContent(
@@ -44,10 +44,8 @@ fun AddEditLatheToolContent(
     onMaxThreadPitch: (Double) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier.fillMaxSize()
-    ) {
-        StartContent(state, onToolType, modifier = Modifier.weight(1f).widthIn(min = 300.dp))
+    Row(modifier = modifier.fillMaxSize()) {
+        StartContent(state, onToolType, modifier = Modifier.weight(2f).widthIn(min = 300.dp))
 
         VerticalDivider()
 
@@ -66,7 +64,7 @@ fun AddEditLatheToolContent(
             onBladeWidth,
             onMinThreadPitch,
             onMaxThreadPitch,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(3f)
         )
     }
 }
@@ -79,10 +77,7 @@ private fun StartContent(
 ) {
     val scope = rememberCoroutineScope()
     val toolTypeScrollState = rememberLazyGridState()
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             modifier = Modifier.padding(4.dp),
             text = "Tool Type",
@@ -128,10 +123,7 @@ private fun EndContent(
 ) {
     val toolPropertiesScrollState = rememberLazyListState()
     val scope = rememberCoroutineScope()
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         if (state.latheToolId == null) {
             ValueSetting(
                 settingName = "Lathe Tool ID",
@@ -161,45 +153,45 @@ private fun EndContent(
             item {
                 when (state.toolType) {
                     ToolType.Turning,
-                    ToolType.Boring -> TurningBoringToolProperties(
-                        state = state,
-                        isBoring = state.toolType == ToolType.Boring,
-                        onCuttingInsert,
-                        onToolOrientation = onToolOrientation,
-                        onBackAngle = onBackAngle,
-                        onFrontAngle = onFrontAngle,
-                        onSpindleDirection = onSpindleDirection,
-                        onMinBoreDiameter = onMinBoreDiameter,
-                        onMaxZDepth = onMaxZDepth
-                    )
-
+                    ToolType.Boring ->
+                        TurningBoringToolProperties(
+                            state = state,
+                            isBoring = state.toolType == ToolType.Boring,
+                            onCuttingInsert,
+                            onToolOrientation = onToolOrientation,
+                            onBackAngle = onBackAngle,
+                            onFrontAngle = onFrontAngle,
+                            onSpindleDirection = onSpindleDirection,
+                            onMinBoreDiameter = onMinBoreDiameter,
+                            onMaxZDepth = onMaxZDepth
+                        )
                     ToolType.Drilling,
-                    ToolType.Reaming -> DrillingReamingToolProperties(
-                        state = state,
-                        onToolDiameter = onToolDiameter,
-                        onMaxZDepth = onMaxZDepth
-                    )
-
+                    ToolType.Reaming ->
+                        DrillingReamingToolProperties(
+                            state = state,
+                            onToolDiameter = onToolDiameter,
+                            onMaxZDepth = onMaxZDepth
+                        )
                     ToolType.Parting,
-                    ToolType.Grooving -> PartingGroovingToolProperties(
-                        state = state,
-                        onBladeWidth = onBladeWidth,
-                        onMaxXDepth = onMaxXDepth
-                    )
-
+                    ToolType.Grooving ->
+                        PartingGroovingToolProperties(
+                            state = state,
+                            onBladeWidth = onBladeWidth,
+                            onMaxXDepth = onMaxXDepth
+                        )
                     ToolType.OdThreading,
-                    ToolType.IdThreading -> ThreadingToolProperties(
-                        state = state,
-                        onMinThreadPitch = onMinThreadPitch,
-                        onMaxThreadPitch = onMaxThreadPitch
-                    )
-
-                    ToolType.Slotting -> SlottingToolProperties(
-                        state = state,
-                        onBladeWidth = onBladeWidth,
-                        onMaxZDepth = onMaxZDepth
-                    )
-
+                    ToolType.IdThreading ->
+                        ThreadingToolProperties(
+                            state = state,
+                            onMinThreadPitch = onMinThreadPitch,
+                            onMaxThreadPitch = onMaxThreadPitch
+                        )
+                    ToolType.Slotting ->
+                        SlottingToolProperties(
+                            state = state,
+                            onBladeWidth = onBladeWidth,
+                            onMaxZDepth = onMaxZDepth
+                        )
                     else -> Unit
                 }
             }
@@ -219,10 +211,7 @@ private fun TurningBoringToolProperties(
     onMinBoreDiameter: (Double) -> Unit,
     onMaxZDepth: (Double) -> Unit
 ) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
+    Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         DropDownInserts(
             modifier = Modifier.width(400.dp),
             dropDownWidth = 200.dp,
@@ -231,10 +220,7 @@ private fun TurningBoringToolProperties(
             selected = state.cuttingInsert,
             onValueChanged = onCuttingInsert
         )
-        Row(
-            modifier = Modifier.width(700.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
+        Row(modifier = Modifier.width(700.dp), horizontalArrangement = Arrangement.SpaceBetween) {
             OrientationAnglesCard(
                 state = state,
                 orientationSelected = onToolOrientation,

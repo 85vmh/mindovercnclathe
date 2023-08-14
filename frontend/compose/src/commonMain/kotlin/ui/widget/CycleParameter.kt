@@ -10,9 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
+import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.linuxcnc.widgets.NumericInputField
 import extensions.toFixedDigitsString
-import screen.composables.NumericInputField
-import screen.uimodel.InputType
 
 @Composable
 fun CycleParameter(

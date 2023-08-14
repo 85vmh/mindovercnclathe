@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import screen.uimodel.InputType
+import com.mindovercnc.linuxcnc.numpad.data.InputType
 import ui.widget.CycleParameter
 import usecase.model.SimpleCycleParameters
 
@@ -13,9 +13,7 @@ fun BoringParametersView(
     viewModel: SimpleCyclesScreenModel,
     parametersState: SimpleCycleParameters.BoringParameters
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         CycleParameter(
             parameterLabel = "X End",
             inputType = InputType.X_END,

@@ -15,12 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.mindovercnc.linuxcnc.listitem.ValueSetting
+import com.mindovercnc.linuxcnc.numpad.data.InputType
 import di.rememberScreenModel
 import extensions.toFixedDigitsString
 import screen.composables.cards.CardWithTitle
-import screen.uimodel.InputType
 import ui.screen.manual.Manual
-import ui.widget.listitem.ValueSetting
 
 class TaperSettingsScreen : Manual("Taper Settings") {
 
@@ -33,7 +33,8 @@ class TaperSettingsScreen : Manual("Taper Settings") {
             onClick = {
                 screenModel.applyChanges()
                 navigator.pop()
-            }) {
+            }
+        ) {
             Icon(
                 imageVector = Icons.Default.Check,
                 contentDescription = "",
@@ -63,40 +64,45 @@ class TaperSettingsScreen : Manual("Taper Settings") {
                 )
             }
             CardWithTitle("Unknown Angle") {
-//                Row(
-//                    verticalAlignment = Alignment.CenterVertically
-//                ) {
-//                    RadioButton(
-//                        enabled = viewModel.finderState.procedureStarted.value.not(),
-//                        selected = viewModel.finderState.traverseOnZ.value.not(),
-//                        onClick = { viewModel.finderState.traverseOnZ.value = false }
-//                    )
-//                    Text("Traverse on X")
-//                }
-//                Row(
-//                    verticalAlignment = Alignment.CenterVertically
-//                ) {
-//                    RadioButton(
-//                        enabled = viewModel.finderState.procedureStarted.value.not(),
-//                        selected = viewModel.finderState.traverseOnZ.value,
-//                        onClick = { viewModel.finderState.traverseOnZ.value = true }
-//                    )
-//                    Text("Traverse on Z")
-//                }
-//
-//                Button(onClick = {
-//                    viewModel.startMeasuringAngle()
-//                }) {
-//                    Text("Start Measuring")
-//                }
-//                Button(onClick = {
-//                    openKeyboardState = NumPadState(
-//                        numInputParameters = NumericInputs.entries[InputType.DIAL_INDICATOR_DISTANCE]!!,
-//                        inputType = InputType.DIAL_INDICATOR_DISTANCE
-//                    )
-//                }) {
-//                    Text("End Measuring")
-//                }
+                //                Row(
+                //                    verticalAlignment = Alignment.CenterVertically
+                //                ) {
+                //                    RadioButton(
+                //                        enabled =
+                // viewModel.finderState.procedureStarted.value.not(),
+                //                        selected = viewModel.finderState.traverseOnZ.value.not(),
+                //                        onClick = { viewModel.finderState.traverseOnZ.value =
+                // false }
+                //                    )
+                //                    Text("Traverse on X")
+                //                }
+                //                Row(
+                //                    verticalAlignment = Alignment.CenterVertically
+                //                ) {
+                //                    RadioButton(
+                //                        enabled =
+                // viewModel.finderState.procedureStarted.value.not(),
+                //                        selected = viewModel.finderState.traverseOnZ.value,
+                //                        onClick = { viewModel.finderState.traverseOnZ.value = true
+                // }
+                //                    )
+                //                    Text("Traverse on Z")
+                //                }
+                //
+                //                Button(onClick = {
+                //                    viewModel.startMeasuringAngle()
+                //                }) {
+                //                    Text("Start Measuring")
+                //                }
+                //                Button(onClick = {
+                //                    openKeyboardState = NumPadState(
+                //                        numInputParameters =
+                // NumericInputs.entries[InputType.DIAL_INDICATOR_DISTANCE]!!,
+                //                        inputType = InputType.DIAL_INDICATOR_DISTANCE
+                //                    )
+                //                }) {
+                //                    Text("End Measuring")
+                //                }
             }
         }
     }

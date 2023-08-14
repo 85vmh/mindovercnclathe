@@ -8,23 +8,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import screen.uimodel.InputType
-import screen.uimodel.NumericInputs
-import ui.widget.NumericInputWithUnit
+import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.linuxcnc.widgets.NumericInputWithUnit
 import usecase.model.TeachInAxis
 
 @Composable
 fun InputSetting(
     value: String,
+    onValueChanged: (String) -> Unit,
     inputType: InputType,
-    alternativeLabel: String? = null,
     modifier: Modifier = Modifier,
+    alternativeLabel: String? = null,
     teachInAxis: TeachInAxis? = null,
     onTeachInClicked: () -> Unit = {},
-    onValueChanged: (String) -> Unit
 ) {
     val alignment = Alignment.CenterVertically
-    val params = NumericInputs.entries[inputType]!!
 
     Row(
         verticalAlignment = alignment,
@@ -34,9 +32,7 @@ fun InputSetting(
             verticalAlignment = alignment,
             modifier = Modifier.weight(1f)
         ) {
-            Text(
-                text = alternativeLabel ?: params.valueDescription
-            )
+            Text(text = alternativeLabel ?: inputType.description)
         }
         NumericInputWithUnit(
             value = value,

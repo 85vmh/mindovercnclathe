@@ -10,9 +10,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.MadeOf
 import screen.composables.VerticalDivider
-import screen.uimodel.InputType
-import ui.widget.listitem.DropDownSetting
-import ui.widget.listitem.ValueSetting
+import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.linuxcnc.listitem.DropDownSetting
+import com.mindovercnc.linuxcnc.listitem.ValueSetting
 
 @Composable
 fun AddEditCuttingInsertScreenContent(

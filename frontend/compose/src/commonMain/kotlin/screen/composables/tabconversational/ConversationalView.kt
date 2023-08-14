@@ -15,10 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.loadImageBitmap
-import androidx.compose.ui.res.useResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.orEmpty
+import org.jetbrains.compose.resources.rememberImageBitmap
+import org.jetbrains.compose.resources.resource
 import org.kodein.di.compose.rememberInstance
 import usecase.ConversationalUseCase
 
@@ -53,6 +55,7 @@ enum class ConversationalOperation(val displayableString: String, val imgName: S
     KeySlot("Slotting", "slotting.png"),
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun Operation(op: ConversationalOperation, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -80,7 +83,7 @@ fun Operation(op: ConversationalOperation, modifier: Modifier = Modifier, onClic
                             shape = RoundedCornerShape(6.dp),
                         ),
                     contentDescription = "",
-                    bitmap = useResource(op.imgName) { loadImageBitmap(it) }
+                    bitmap = resource(op.imgName).rememberImageBitmap().orEmpty()
                 )
             } else {
                 Box(

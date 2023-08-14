@@ -16,10 +16,10 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mindovercnc.linuxcnc.numpad.data.InputType
 import extensions.toFixedDigitsString
 import screen.composables.tabconversational.InputSetting
 import screen.uimodel.CuttingStrategy
-import screen.uimodel.InputType
 import usecase.model.CuttingParametersState
 
 @Composable
@@ -62,18 +62,26 @@ fun CuttingParametersView(
                 modifier.padding(horizontal = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(contentSpacing)
             ) {
-                InputSetting(inputType = InputType.TOOL_NUMBER, value = toolNo.toString()) {
-                    toolNo = it.toDouble().toInt()
-                }
-                InputSetting(inputType = InputType.CSS, value = cssSpeed.toString()) {
-                    cssSpeed = it.toDouble().toInt()
-                }
-                InputSetting(inputType = InputType.FEED_PER_REV, value = feed.toFixedDigitsString()) {
-                    feed = it.toDouble()
-                }
-                InputSetting(inputType = InputType.DOC, value = doc.toFixedDigitsString()) {
-                    doc = it.toDouble()
-                }
+                InputSetting(
+                    inputType = InputType.TOOL_NUMBER,
+                    value = toolNo.toString(),
+                    onValueChanged = { toolNo = it.toDouble().toInt() }
+                )
+                InputSetting(
+                    inputType = InputType.CSS,
+                    value = cssSpeed.toString(),
+                    onValueChanged = { cssSpeed = it.toDouble().toInt() }
+                )
+                InputSetting(
+                    inputType = InputType.FEED_PER_REV,
+                    value = feed.toFixedDigitsString(),
+                    onValueChanged = { feed = it.toDouble() }
+                )
+                InputSetting(
+                    inputType = InputType.DOC,
+                    value = doc.toFixedDigitsString(),
+                    onValueChanged = { doc = it.toDouble() }
+                )
             }
         }
     }

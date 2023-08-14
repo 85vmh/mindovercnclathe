@@ -7,17 +7,22 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import screen.uimodel.InputType
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.orEmpty
+import org.jetbrains.compose.resources.rememberImageVector
+import org.jetbrains.compose.resources.resource
+import com.mindovercnc.linuxcnc.numpad.data.InputType
 import ui.widget.CycleParameter
 import usecase.model.SimpleCycleParameters
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun TurningParametersView(
     viewModel: SimpleCyclesScreenModel,
@@ -43,7 +48,7 @@ fun TurningParametersView(
                         shape = RoundedCornerShape(6.dp),
                     ),
                 contentDescription = "",
-                painter = painterResource("od_turn_details.xml")
+                imageVector = resource("od_turn_details.xml").rememberImageVector(LocalDensity.current).orEmpty()
             )
         }
         Spacer(modifier = Modifier.width(1.dp).fillMaxHeight().background(Color.LightGray))

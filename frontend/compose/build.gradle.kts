@@ -1,3 +1,4 @@
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.compose
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -33,6 +34,8 @@ kotlin {
 //                implementation(compose.uiTooling)
                 implementation(compose.material)
                 implementation(compose.material3)
+                @OptIn(ExperimentalComposeLibrary::class)
+                implementation(compose.components.resources)
 
                 // internal modules
                 implementation(project(":frontend:clipboard"))
@@ -52,6 +55,9 @@ kotlin {
                 implementation(project(":frontend:filesystem"))
                 implementation(project(":frontend:scroll"))
                 implementation(project(":frontend:editor"))
+                implementation(project(":frontend:widgets"))
+                implementation(project(":frontend:listitem"))
+                implementation(project(":frontend:numpad"))
 
                 implementation(project(":startup:args"))
 
@@ -62,7 +68,7 @@ kotlin {
                 //    implementation(project(":vtk"))
                 implementation(Libs.Kodein.compose)
 
-                implementation("com.ionspin.kotlin:bignum:0.3.8")
+                implementation(Libs.bignum)
 
                 // navigation
                 implementation("cafe.adriel.voyager:voyager-navigator:${Versions.voyager}")

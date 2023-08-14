@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import extensions.toFixedDigitsString
 import scroll.draggableScroll
-import ui.widget.listitem.LabelWithValue
+import com.mindovercnc.linuxcnc.listitem.LabelWithValue
 
 val offsetItemModifier = Modifier.wrapContentHeight()
     .width(200.dp)

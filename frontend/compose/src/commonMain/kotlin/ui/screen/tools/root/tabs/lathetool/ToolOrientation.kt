@@ -1,19 +1,23 @@
 package ui.screen.tools.root.tabs.lathetool
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.TipOrientation
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.orEmpty
+import org.jetbrains.compose.resources.rememberImageVector
+import org.jetbrains.compose.resources.resource
 
 val pickerModifier = Modifier.size(50.dp)
 
@@ -68,7 +72,7 @@ private fun TipOrientationRow(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun TipOrientationUi(
     orientation: TipOrientation,
@@ -77,13 +81,6 @@ fun TipOrientationUi(
     enabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
-    val selectedTint =
-        when (active) {
-            true -> MaterialTheme.colorScheme.primary
-            false -> MaterialTheme.colorScheme.surfaceVariant
-            else -> LocalContentColor.current
-        }
-
     val fileName = "position${orientation.orient}.xml"
 
     Surface(
@@ -91,10 +88,17 @@ fun TipOrientationUi(
         onClick = { onClick(orientation) },
         border = BorderStroke(1.dp, Color.LightGray),
         shape = RoundedCornerShape(4.dp),
-        enabled = enabled
+        enabled = enabled,
+        color = MaterialTheme.colorScheme.secondaryContainer
     ) {
+        val selectedTint =
+            when (active) {
+                true -> MaterialTheme.colorScheme.primary
+                false -> MaterialTheme.colorScheme.surface
+                else -> LocalContentColor.current
+            }
         Icon(
-            painter = painterResource(fileName),
+            imageVector = resource(fileName).rememberImageVector(LocalDensity.current).orEmpty(),
             tint = selectedTint,
             contentDescription = "",
         )

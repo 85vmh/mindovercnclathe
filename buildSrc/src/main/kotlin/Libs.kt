@@ -4,6 +4,8 @@ object Libs {
 
     const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.Kotlinx.datetime}"
 
+    const val bignum = "com.ionspin.kotlin:bignum:${Versions.bignum}"
+
     object Settings {
         const val core = "com.russhwolf:multiplatform-settings:${Versions.settings}"
         const val coroutines = "com.russhwolf:multiplatform-settings-coroutines:${Versions.settings}"

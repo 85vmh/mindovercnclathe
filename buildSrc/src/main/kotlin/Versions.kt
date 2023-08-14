@@ -1,12 +1,14 @@
 object Versions {
     const val kotlin = "1.9.0"
-    const val compose = "1.5.0-beta01"
+    const val compose = "1.5.0-beta02"
     const val kodein = "7.20.2"
     const val voyager = "1.0.0-rc06"
     const val exposed = "0.41.1"
     const val sqliteJdbc = "3.41.2.1"
     const val okio = "3.3.0"
     const val wire = "4.8.0"
+
+    const val bignum = "0.3.8"
 
     object Kotlinx {
         const val datetime = "0.4.0"

@@ -7,7 +7,7 @@
 //import androidx.compose.runtime.remember
 //import androidx.compose.ui.Modifier
 //import androidx.compose.ui.unit.dp
-//import screen.uimodel.InputType
+//import com.mindovercnc.linuxcnc.numpad.data.InputType
 //import screen.viewmodel.OdTurningViewModel
 //import usecase.model.TeachInAxis
 //

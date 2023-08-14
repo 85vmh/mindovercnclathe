@@ -97,9 +97,6 @@ val DomainModule = DI.Module("domain") {
         ConversationalUseCase(
             ioDispatcher = instance(),
             clock = instance(),
-            statusRepository = instance(),
-            commandRepository = instance(),
-            settingsRepository = instance(),
             fileSystemRepository = instance()
         )
     }

@@ -13,6 +13,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.mindovercnc.linuxcnc.widgets.DropDownClosedItem
+import com.mindovercnc.linuxcnc.widgets.DropDownView
 import com.mindovercnc.model.CuttingInsert
 import extensions.toFixedDigitsString
 
@@ -26,25 +28,20 @@ fun DropDownInserts(
     onValueChanged: (CuttingInsert) -> Unit
 ) {
     val alignment = Alignment.CenterVertically
-    Row(
-        verticalAlignment = alignment,
-        modifier = modifier
-    ) {
-        Text(
-            text = settingName,
-            modifier = Modifier.weight(1f)
-        )
+    Row(verticalAlignment = alignment, modifier = modifier) {
+        Text(text = settingName, modifier = Modifier.weight(1f))
         DropDownView(
             items = items,
             selected = selected,
-            modifier = Modifier
-                .width(dropDownWidth)
-                .border(border = BorderStroke(1.dp, Color.LightGray), shape = RoundedCornerShape(4.dp)),
+            modifier =
+                Modifier.width(dropDownWidth)
+                    .border(
+                        border = BorderStroke(1.dp, Color.LightGray),
+                        shape = RoundedCornerShape(4.dp)
+                    ),
             onSelected = onValueChanged,
             closedItemContent = {
-                DropDownClosedItem(
-                    modifier = Modifier.height(40.dp)
-                ) {
+                DropDownClosedItem(modifier = Modifier.height(40.dp)) {
                     if (it != null) {
                         InsertItem(
                             cuttingInsert = it,
@@ -66,14 +63,8 @@ fun DropDownInserts(
 }
 
 @Composable
-private fun InsertItem(
-    cuttingInsert: CuttingInsert,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
+private fun InsertItem(cuttingInsert: CuttingInsert, modifier: Modifier = Modifier) {
+    Row(modifier = modifier, horizontalArrangement = Arrangement.SpaceBetween) {
         Text(
             text = cuttingInsert.code!!,
             style = MaterialTheme.typography.bodyMedium,

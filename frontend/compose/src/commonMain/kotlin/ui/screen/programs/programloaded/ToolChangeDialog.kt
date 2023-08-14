@@ -1,17 +1,15 @@
 package ui.screen.programs.programloaded
 
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ui.widget.AlertDialog
 
-data class ToolChangeModel(
-    val requestedTool: Int
-)
+data class ToolChangeModel(val requestedTool: Int)
 
 @Composable
 fun ToolChangeDialog(
@@ -21,12 +19,9 @@ fun ToolChangeDialog(
 ) {
     AlertDialog(
         modifier = Modifier.width(400.dp),
-        onDismissRequest = { },
+        onDismissRequest = {},
         title = {
-            Text(
-                text = "Tool Change Required",
-                style = MaterialTheme.typography.titleLarge
-            )
+            Text(text = "Tool Change Required", style = MaterialTheme.typography.titleLarge)
         },
         text = {
             Text(
@@ -41,12 +36,7 @@ fun ToolChangeDialog(
                 Text("Continue")
             }
         },
-        dismissButton = {
-            Button(onClick = abortClick) {
-                Text("Cancel")
-            }
-        },
-        backgroundColor = MaterialTheme.colorScheme.primaryContainer,
-        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        dismissButton = { Button(onClick = abortClick) { Text("Cancel") } },
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
     )
 }

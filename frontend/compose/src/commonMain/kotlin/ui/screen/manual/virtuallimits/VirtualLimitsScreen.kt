@@ -12,10 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.linuxcnc.widgets.NumericInputField
 import di.rememberScreenModel
 import extensions.toFixedDigitsString
-import screen.composables.NumericInputField
-import screen.uimodel.InputType
 import ui.screen.manual.Manual
 
 class VirtualLimitsScreen : Manual("Virtual Limits") {
@@ -29,7 +29,8 @@ class VirtualLimitsScreen : Manual("Virtual Limits") {
             onClick = {
                 screenModel.applyChanges()
                 navigator.pop()
-            }) {
+            }
+        ) {
             Icon(
                 imageVector = Icons.Default.Check,
                 contentDescription = "",
@@ -37,7 +38,6 @@ class VirtualLimitsScreen : Manual("Virtual Limits") {
         }
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val screenModel = rememberScreenModel<VirtualLimitsScreenModel>()
@@ -47,46 +47,50 @@ class VirtualLimitsScreen : Manual("Virtual Limits") {
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Limit("X-", state.xMinusActive, state.xMinus,
+            Limit(
+                "X-",
+                state.xMinusActive,
+                state.xMinus,
                 activeChange = { screenModel.setXMinusActive(it) },
-                valueChange = {
-                    screenModel.setXMinus(it)
-                }) {
+                valueChange = { screenModel.setXMinus(it) }
+            ) {
                 screenModel.teachInXMinus()
             }
-            Limit("X+", state.xPlusActive, state.xPlus,
+            Limit(
+                "X+",
+                state.xPlusActive,
+                state.xPlus,
                 activeChange = { screenModel.setXPlusActive(it) },
-                valueChange = {
-                    screenModel.setXPlus(it)
-                }) {
+                valueChange = { screenModel.setXPlus(it) }
+            ) {
                 screenModel.teachInXPlus()
             }
-            Limit("Z-", state.zMinusActive, state.zMinus,
+            Limit(
+                "Z-",
+                state.zMinusActive,
+                state.zMinus,
                 activeChange = { screenModel.setZMinusActive(it) },
-                valueChange = {
-                    screenModel.setZMinus(it)
-                }) {
+                valueChange = { screenModel.setZMinus(it) }
+            ) {
                 screenModel.teachInZMinus()
             }
-            Limit("Z+", state.zPlusActive, state.zPlus,
+            Limit(
+                "Z+",
+                state.zPlusActive,
+                state.zPlus,
                 activeChange = { screenModel.setZPlusActive(it) },
-                valueChange = {
-                    screenModel.setZPlus(it)
-                }) {
+                valueChange = { screenModel.setZPlus(it) }
+            ) {
                 screenModel.teachInZPlus()
             }
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
                     selected = state.zPlusIsToolRelated,
                     onClick = { screenModel.setZPlusToolRelated(true) }
                 )
                 Text("Tool Tip Limit")
             }
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
                     selected = state.zPlusIsToolRelated.not(),
                     onClick = { screenModel.setZPlusToolRelated(false) }
@@ -96,7 +100,6 @@ class VirtualLimitsScreen : Manual("Virtual Limits") {
         }
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun Limit(
         axisDirection: String,
@@ -106,23 +109,18 @@ class VirtualLimitsScreen : Manual("Virtual Limits") {
         valueChange: (Double) -> Unit,
         teachIn: () -> Unit
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Checkbox(
-                checked = active, activeChange
-            )
-            Text(
-                modifier = Modifier.padding(start = 8.dp), text = axisDirection
-            )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(checked = active, activeChange)
+            Text(modifier = Modifier.padding(start = 8.dp), text = axisDirection)
             NumericInputField(
                 numericValue = value.toFixedDigitsString(),
-                inputType = when (axisDirection) {
-                    "X-" -> InputType.VIRTUAL_LIMIT_X_MINUS
-                    "X+" -> InputType.VIRTUAL_LIMIT_X_PLUS
-                    "Z-" -> InputType.VIRTUAL_LIMIT_Z_MINUS
-                    else -> InputType.VIRTUAL_LIMIT_Z_PLUS
-                },
+                inputType =
+                    when (axisDirection) {
+                        "X-" -> InputType.VIRTUAL_LIMIT_X_MINUS
+                        "X+" -> InputType.VIRTUAL_LIMIT_X_PLUS
+                        "Z-" -> InputType.VIRTUAL_LIMIT_Z_MINUS
+                        else -> InputType.VIRTUAL_LIMIT_Z_PLUS
+                    },
                 modifier = Modifier.width(100.dp).padding(start = 16.dp)
             ) {
                 valueChange.invoke(it.toDouble())
