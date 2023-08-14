@@ -31,10 +31,10 @@ fun NumericInputWithUnit(
         ) {
             onValueChanged(it)
         }
-        inputType.unit?.let {
+        inputType.unit?.let { unit ->
             Text(
                 modifier = Modifier.padding(start = 8.dp),
-                text = it
+                text = unit.value
             )
         }
     }
