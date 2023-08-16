@@ -56,6 +56,7 @@ kotlin {
                 implementation(project(":frontend:listitem"))
                 implementation(project(":frontend:numpad"))
                 implementation(project(":frontend:format"))
+                implementation(project(":frontend:domain"))
                 implementation(project(":frontend:screen:base"))
 
                 implementation(project(":startup:args"))

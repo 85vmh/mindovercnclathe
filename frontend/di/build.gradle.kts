@@ -59,6 +59,8 @@ kotlin {
                 implementation(project(":frontend:domain"))
 
                 implementation(project(":frontend:screen:manual"))
+                implementation(project(":frontend:screen:status"))
+                implementation(project(":frontend:screen:programs"))
 
                 implementation(project(":startup:args"))
 

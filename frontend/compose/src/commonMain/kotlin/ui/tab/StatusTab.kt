@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import ui.screen.status.StatusRootScreen
-import ui.screen.status.Status
+import com.mindovercnc.linuxcnc.screen.status.StatusRootScreen
+import com.mindovercnc.linuxcnc.screen.status.Status
 
 object StatusTab : AppTab<Status>(StatusRootScreen()) {
 

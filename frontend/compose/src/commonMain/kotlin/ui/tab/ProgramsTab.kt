@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import ui.screen.programs.Programs
-import ui.screen.programs.root.ProgramsRootScreen
+import com.mindovercnc.linuxcnc.screen.programs.Programs
+import com.mindovercnc.linuxcnc.screen.programs.root.ProgramsRootScreen
 
 object ProgramsTab : AppTab<Programs>(ProgramsRootScreen()) {
 
