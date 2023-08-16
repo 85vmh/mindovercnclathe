@@ -40,6 +40,8 @@ kotlin {
                 implementation(project(":frontend:clipboard"))
                 implementation(project(":frontend:compose"))
                 implementation(project(":frontend:di"))
+                implementation(project(":frontend:domain"))
+
                 implementation(project(":dispatcher"))
                 implementation(project(":editor"))
                 // todo uncomment

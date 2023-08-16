@@ -21,7 +21,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.model.CuttingInsert
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
-import screen.composables.VerticalDivider
+import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import scroll.VerticalScrollbar
 import scroll.draggableScroll
 import ui.screen.tools.root.ToolsScreenModel

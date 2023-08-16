@@ -20,7 +20,7 @@ import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.model.CuttingInsert
 import com.mindovercnc.model.LatheTool
 import com.mindovercnc.model.MadeOf
-import screen.composables.SettingStatusRow
+import com.mindovercnc.linuxcnc.widgets.SettingStatusRow
 import ui.screen.tools.root.tabs.lathetool.DirectionItem
 
 private val iconModifier =

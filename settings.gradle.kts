@@ -50,6 +50,15 @@ include("frontend:widgets")
 include("frontend:numpad")
 include("frontend:di")
 include("frontend:format")
+include("frontend:domain")
+
+// screen
+include("frontend:screen:base")
+include("frontend:screen:manual")
+include("frontend:screen:programs")
+include("frontend:screen:status")
+include("frontend:screen:tools")
+include("frontend:screen:conversational")
 
 include("statemachine")
 include("initializer")

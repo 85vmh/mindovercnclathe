@@ -8,7 +8,7 @@ import com.mindovercnc.database.table.ToolHolderTable
 import com.mindovercnc.linuxcnc.tools.LatheToolsRepository
 import com.mindovercnc.model.LatheTool
 import com.mindovercnc.model.TipOrientation
-import com.mindovercnc.model.ToolType
+import com.mindovercnc.model.tool.ToolType
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.isNotNull
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.notInSubQuery

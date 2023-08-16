@@ -7,6 +7,8 @@ import com.mindovercnc.database.entity.WorkpieceMaterialEntity
 import com.mindovercnc.database.table.CuttingInsertTable
 import com.mindovercnc.database.table.MaterialCategory
 import com.mindovercnc.model.*
+import com.mindovercnc.model.tool.ToolHolderType
+import com.mindovercnc.model.tool.ToolType
 import initializer.InitializerStep
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.random.Random

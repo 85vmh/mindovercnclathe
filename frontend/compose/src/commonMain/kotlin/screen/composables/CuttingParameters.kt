@@ -16,11 +16,11 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.linuxcnc.domain.model.CuttingParametersState
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
+import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.model.CuttingStrategy
 import screen.composables.tabconversational.InputSetting
-import screen.uimodel.CuttingStrategy
-import usecase.model.CuttingParametersState
 
 @Composable
 fun CuttingParametersView(

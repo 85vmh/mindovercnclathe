@@ -16,9 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import di.rememberScreenModel
-import screen.composables.ToolTabsView
-import screen.composables.ToolsTabItem
+import com.mindovercnc.linuxcnc.screen.rememberScreenModel
 import ui.screen.tools.Tools
 import ui.screen.tools.root.tabs.CuttingInsertsContent
 import ui.screen.tools.root.tabs.LatheToolsContent

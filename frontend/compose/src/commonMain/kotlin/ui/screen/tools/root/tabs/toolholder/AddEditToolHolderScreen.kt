@@ -10,14 +10,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.mindovercnc.model.ToolHolder
-import di.rememberScreenModel
+import com.mindovercnc.model.tool.ToolHolder
+import com.mindovercnc.linuxcnc.screen.rememberScreenModel
 import org.kodein.di.bindProvider
-import ui.screen.manual.Manual
+import com.mindovercnc.linuxcnc.screen.manual.Manual
 
 class AddEditHolderScreen(
-  private val toolHolder: ToolHolder? = null,
-  private val onChanges: () -> Unit
+    private val toolHolder: ToolHolder? = null,
+    private val onChanges: () -> Unit
 ) :
   Manual(
     when (toolHolder) {

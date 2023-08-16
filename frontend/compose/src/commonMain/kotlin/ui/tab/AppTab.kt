@@ -21,10 +21,10 @@ import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
-import di.rememberScreenModel
+import com.mindovercnc.linuxcnc.screen.rememberScreenModel
 import kotlinx.coroutines.launch
 import mu.KotlinLogging
-import ui.screen.AppScreen
+import com.mindovercnc.linuxcnc.screen.AppScreen
 
 private val tabs =
     arrayOf<AppTab<*>>(ManualTab, ConversationalTab, ProgramsTab, ToolsTab, StatusTab)
@@ -60,8 +60,9 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
             ModalNavigationDrawer(
                 drawerContent = {
                     ModalDrawerSheet(
-//              drawerShape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)
-                    ) {
+                        //              drawerShape = RoundedCornerShape(topEnd = 8.dp, bottomEnd =
+                        // 8.dp)
+                        ) {
                         with(currentScreen) { DrawerContent(drawerState) }
                     }
                 },
@@ -86,9 +87,7 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
                 ) {
                     Scaffold(
                         modifier = Modifier.fillMaxSize(),
-                        topBar = {
-                            TopAppBar(currentScreen, navigator)
-                        },
+                        topBar = { TopAppBar(currentScreen, navigator) },
                         bottomBar = {
                             BottomBar(
                                 modifier = Modifier.height(60.dp),
@@ -109,10 +108,7 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    private fun <S : AppScreen> TopAppBar(
-        currentScreen: S,
-        navigator: Navigator
-    ) {
+    private fun <S : AppScreen> TopAppBar(currentScreen: S, navigator: Navigator) {
         CenterAlignedTopAppBar(
             title = {
                 when (currentScreen.hasCustomTitle) {
@@ -131,7 +127,6 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
                             Icon(Icons.Default.Menu, contentDescription = "")
                         }
                     }
-
                     navigator.canPop -> {
                         IconButton(modifier = iconButtonModifier, onClick = { navigator.pop() }) {
                             Icon(Icons.Default.ArrowBack, contentDescription = "")
@@ -139,9 +134,7 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
                     }
                 }
             },
-            actions = {
-                with(currentScreen) { Actions() }
-            },
+            actions = { with(currentScreen) { Actions() } },
             modifier = Modifier.shadow(elevation = 8.dp)
         )
     }
@@ -163,10 +156,10 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
                 TabNavigationItem(
                     tab = tab,
                     badgeValue =
-                    when (tab) {
-                        is ToolsTab -> "T$currentTool"
-                        else -> null
-                    },
+                        when (tab) {
+                            is ToolsTab -> "T$currentTool"
+                            else -> null
+                        },
                     enabled = enabled,
                     selected = tab == selected,
                     onClick = onClick
@@ -205,58 +198,48 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
                 if (badgeValue != null) {
                     BadgedBox(
                         badge = {
-                            Badge(
-                                containerColor = MaterialTheme.colorScheme.secondary
-                            ) {
-                                Text(
-                                    text = badgeValue,
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
+                            Badge(containerColor = MaterialTheme.colorScheme.secondary) {
+                                Text(text = badgeValue, style = MaterialTheme.typography.bodyMedium)
                             }
                         }
                     ) {
-                        Icon(
-                            painter = tab.options.icon!!,
-                            contentDescription = "",
-                            tint = tabColor
-                        )
+                        Icon(painter = tab.options.icon!!, contentDescription = "", tint = tabColor)
                     }
                 } else {
-                    Icon(
-                        painter = tab.options.icon!!,
-                        contentDescription = "",
-                        tint = tabColor
-                    )
+                    Icon(painter = tab.options.icon!!, contentDescription = "", tint = tabColor)
                 }
             },
         )
 
-        //TODO: this requires the bottom bar to be high so that it won't overlap
-//        NavigationBarItem(
-//            label = {
-//                Text(
-//                    color = tabColor,
-//                    text = tab.options.title,
-//                )
-//            },
-//            enabled = enabled,
-//            selected = selected,
-//            onClick = { onClick(tab) },
-//            icon = {
-//                if (badgeValue != null) {
-//                    BadgedBox(
-//                        badge = {
-//                            Badge(containerColor = MaterialTheme.colorScheme.secondary) {
-//                                Text(text = badgeValue, style = MaterialTheme.typography.bodyMedium)
-//                            }
-//                        }
-//                    ) {
-//                        Icon(painter = tab.options.icon!!, contentDescription = "", tint = tabColor)
-//                    }
-//                } else {
-//                    Icon(painter = tab.options.icon!!, contentDescription = "", tint = tabColor)
-//                }
-//            },
-//        )
+        // TODO: this requires the bottom bar to be high so that it won't overlap
+        //        NavigationBarItem(
+        //            label = {
+        //                Text(
+        //                    color = tabColor,
+        //                    text = tab.options.title,
+        //                )
+        //            },
+        //            enabled = enabled,
+        //            selected = selected,
+        //            onClick = { onClick(tab) },
+        //            icon = {
+        //                if (badgeValue != null) {
+        //                    BadgedBox(
+        //                        badge = {
+        //                            Badge(containerColor = MaterialTheme.colorScheme.secondary) {
+        //                                Text(text = badgeValue, style =
+        // MaterialTheme.typography.bodyMedium)
+        //                            }
+        //                        }
+        //                    ) {
+        //                        Icon(painter = tab.options.icon!!, contentDescription = "", tint =
+        // tabColor)
+        //                    }
+        //                } else {
+        //                    Icon(painter = tab.options.icon!!, contentDescription = "", tint =
+        // tabColor)
+        //                }
+        //            },
+        //        )
     }
 }

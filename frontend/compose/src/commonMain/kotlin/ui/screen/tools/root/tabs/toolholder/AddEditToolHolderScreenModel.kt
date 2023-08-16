@@ -2,13 +2,13 @@ package ui.screen.tools.root.tabs.toolholder
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
+import com.mindovercnc.linuxcnc.domain.ToolsUseCase
 import com.mindovercnc.model.LatheTool
-import com.mindovercnc.model.ToolHolder
-import com.mindovercnc.model.ToolHolderType
+import com.mindovercnc.model.tool.ToolHolder
+import com.mindovercnc.model.tool.ToolHolderType
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import usecase.ToolsUseCase
 
 class AddEditToolHolderScreenModel(
     val toolHolder: ToolHolder? = null,
