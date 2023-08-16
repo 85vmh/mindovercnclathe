@@ -20,9 +20,9 @@ import com.mindovercnc.linuxcnc.numpad.data.InputType
 import com.mindovercnc.model.CuttingInsert
 import com.mindovercnc.model.SpindleDirection
 import com.mindovercnc.model.TipOrientation
-import com.mindovercnc.model.ToolType
+import com.mindovercnc.model.tool.ToolType
 import screen.composables.DropDownInserts
-import screen.composables.VerticalDivider
+import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import scroll.draggableScroll
 
 @Composable

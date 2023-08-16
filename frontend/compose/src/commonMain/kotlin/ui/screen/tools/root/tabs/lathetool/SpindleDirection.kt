@@ -18,7 +18,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.orEmpty
 import org.jetbrains.compose.resources.rememberImageVector
 import org.jetbrains.compose.resources.resource
-import screen.composables.cards.CardWithTitle
+import com.mindovercnc.linuxcnc.widgets.cards.CardWithTitle
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

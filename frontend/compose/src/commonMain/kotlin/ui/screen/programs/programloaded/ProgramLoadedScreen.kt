@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.dp
-import di.rememberScreenModel
+import com.mindovercnc.linuxcnc.screen.rememberScreenModel
 import editor.EditorView
 import okio.Path
 import org.kodein.di.bindProvider
-import screen.composables.VerticalDivider
+import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import ui.screen.programs.Programs
 import ui.widget.VisualTurning
 

@@ -7,8 +7,8 @@ import com.mindovercnc.database.table.ToolHolderTable.holderNumber
 import com.mindovercnc.linuxcnc.tools.ToolHolderRepository
 import com.mindovercnc.model.LatheTool
 import com.mindovercnc.model.TipOrientation
-import com.mindovercnc.model.ToolHolder
-import com.mindovercnc.model.ToolType
+import com.mindovercnc.model.tool.ToolHolder
+import com.mindovercnc.model.tool.ToolType
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction

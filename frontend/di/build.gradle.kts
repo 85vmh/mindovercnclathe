@@ -56,6 +56,9 @@ kotlin {
                 implementation(project(":frontend:widgets"))
                 implementation(project(":frontend:listitem"))
                 implementation(project(":frontend:numpad"))
+                implementation(project(":frontend:domain"))
+
+                implementation(project(":frontend:screen:manual"))
 
                 implementation(project(":startup:args"))
 

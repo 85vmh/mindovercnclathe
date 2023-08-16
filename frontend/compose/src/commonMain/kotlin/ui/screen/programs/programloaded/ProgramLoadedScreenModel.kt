@@ -9,7 +9,13 @@ import cafe.adriel.voyager.core.model.coroutineScope
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.editor.Editor
 import com.mindovercnc.editor.EditorLoader
+import com.mindovercnc.linuxcnc.domain.*
+import com.mindovercnc.linuxcnc.domain.model.ActiveCode
+import com.mindovercnc.linuxcnc.domain.model.PathUiState
+import com.mindovercnc.linuxcnc.domain.model.VisualTurningState
 import com.mindovercnc.linuxcnc.gcode.IniFileRepository
+import com.mindovercnc.model.MachineLimits
+import com.mindovercnc.model.PositionModel
 import editor.EditorSettings
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
@@ -18,11 +24,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import okio.Path
 import org.jetbrains.skia.Point
-import screen.uimodel.PositionModel
-import usecase.*
-import usecase.model.ActiveCode
-import usecase.model.PathUiState
-import usecase.model.VisualTurningState
 import kotlin.math.min
 
 class ProgramLoadedScreenModel(

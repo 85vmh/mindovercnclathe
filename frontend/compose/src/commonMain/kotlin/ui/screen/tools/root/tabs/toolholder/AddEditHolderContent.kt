@@ -22,8 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.model.LatheTool
-import com.mindovercnc.model.ToolHolderType
-import screen.composables.VerticalDivider
+import com.mindovercnc.model.tool.ToolHolderType
+import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import com.mindovercnc.linuxcnc.numpad.data.InputType
 import scroll.draggableScroll
 import ui.screen.tools.root.tabs.LatheToolView

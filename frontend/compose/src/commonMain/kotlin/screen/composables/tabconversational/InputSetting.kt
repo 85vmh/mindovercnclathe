@@ -8,9 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mindovercnc.linuxcnc.domain.model.TeachInAxis
 import com.mindovercnc.linuxcnc.numpad.data.InputType
 import com.mindovercnc.linuxcnc.widgets.NumericInputWithUnit
-import usecase.model.TeachInAxis
 
 @Composable
 fun InputSetting(

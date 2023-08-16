@@ -30,7 +30,6 @@ kotlin {
                 implementation(Libs.bignum)
 
                 // compose
-//                implementation(compose.uiTooling)
                 implementation(compose.material)
                 implementation(compose.material3)
                 @OptIn(ExperimentalComposeLibrary::class)
@@ -38,6 +37,7 @@ kotlin {
 
                 implementation(project(":frontend:numpad"))
                 implementation(project(":frontend:format"))
+                implementation(project(":model"))
             }
         }
     }

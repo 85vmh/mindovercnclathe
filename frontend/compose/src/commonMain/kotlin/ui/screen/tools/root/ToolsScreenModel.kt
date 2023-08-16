@@ -2,15 +2,15 @@ package ui.screen.tools.root
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
+import com.mindovercnc.linuxcnc.domain.ToolsUseCase
 import com.mindovercnc.model.CuttingInsert
 import com.mindovercnc.model.LatheTool
-import com.mindovercnc.model.ToolHolder
+import com.mindovercnc.model.tool.ToolHolder
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import screen.composables.ToolsTabItem
-import usecase.ToolsUseCase
 
 class ToolsScreenModel(
     private val toolsUseCase: ToolsUseCase

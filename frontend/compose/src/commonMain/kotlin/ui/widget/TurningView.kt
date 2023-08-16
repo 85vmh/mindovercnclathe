@@ -1,14 +1,13 @@
 package ui.widget
 
 import actor.*
-
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.translate
-import usecase.model.VisualTurningState
+import com.mindovercnc.linuxcnc.domain.model.VisualTurningState
 
 
 @Composable

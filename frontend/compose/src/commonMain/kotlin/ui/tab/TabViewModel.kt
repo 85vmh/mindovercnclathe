@@ -1,11 +1,11 @@
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
+import com.mindovercnc.linuxcnc.domain.MachineUsableUseCase
 import com.mindovercnc.repository.IoStatusRepository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import usecase.MachineUsableUseCase
 
 data class AppState(val isBottomBarEnabled: Boolean = true, val currentTool: Int = 0)
 

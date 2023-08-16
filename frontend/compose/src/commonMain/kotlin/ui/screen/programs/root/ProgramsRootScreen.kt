@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import di.rememberScreenModel
+import com.mindovercnc.linuxcnc.screen.rememberScreenModel
 import ui.screen.programs.Programs
 import ui.screen.programs.programloaded.ProgramLoadedScreen
 import ui.widget.ErrorSnackbar

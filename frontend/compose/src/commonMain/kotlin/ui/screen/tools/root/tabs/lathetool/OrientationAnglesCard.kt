@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.listitem.ValueSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
 import com.mindovercnc.model.TipOrientation
-import screen.composables.cards.CardWithTitle
+import com.mindovercnc.linuxcnc.widgets.cards.CardWithTitle
 
 @Composable
 fun OrientationAnglesCard(

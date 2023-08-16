@@ -2,11 +2,11 @@ package ui.screen.status
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
+import com.mindovercnc.linuxcnc.domain.MessagesUseCase
+import com.mindovercnc.linuxcnc.domain.model.Message
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import usecase.MessagesUseCase
-import usecase.model.Message
 
 class StatusRootScreenModel(
     messagesUseCase: MessagesUseCase

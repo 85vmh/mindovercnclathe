@@ -2,18 +2,16 @@ package screen.composables
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mindovercnc.linuxcnc.domain.MessagesUseCase
+import com.mindovercnc.linuxcnc.domain.model.Message
 import org.kodein.di.compose.rememberInstance
-import usecase.MessagesUseCase
-import usecase.model.Message
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationsView() {
     val messagesUseCase by rememberInstance<MessagesUseCase>()

@@ -10,7 +10,7 @@ import components.filesystem.FileSystemView
 import editor.EditorEmptyView
 import editor.EditorSettings
 import editor.EditorView
-import screen.composables.VerticalDivider
+import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 
 @Composable
 fun ProgramsScreenUi(state: ProgramsState, modifier: Modifier = Modifier) {

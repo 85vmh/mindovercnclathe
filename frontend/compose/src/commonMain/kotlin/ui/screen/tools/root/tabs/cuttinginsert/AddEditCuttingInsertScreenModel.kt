@@ -1,9 +1,9 @@
 package ui.screen.tools.root.tabs.cuttinginsert
 
 import cafe.adriel.voyager.core.model.StateScreenModel
+import com.mindovercnc.linuxcnc.domain.ToolsUseCase
 import com.mindovercnc.model.*
 import kotlinx.coroutines.flow.update
-import usecase.ToolsUseCase
 
 class AddEditCuttingInsertScreenModel(
     val cuttingInsert: CuttingInsert? = null,

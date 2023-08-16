@@ -1,5 +1,5 @@
 package ui.screen.programs
 
-import ui.screen.AppScreen
+import com.mindovercnc.linuxcnc.screen.AppScreen
 
 abstract class Programs(title: String = "") : AppScreen(title)

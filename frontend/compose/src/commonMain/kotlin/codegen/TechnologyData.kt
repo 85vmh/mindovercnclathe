@@ -1,5 +1,0 @@
-package codegen
-
-interface TechnologyData {
-
-}

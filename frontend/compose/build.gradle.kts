@@ -56,6 +56,12 @@ kotlin {
                 implementation(project(":frontend:listitem"))
                 implementation(project(":frontend:numpad"))
                 implementation(project(":frontend:format"))
+                implementation(project(":frontend:domain"))
+
+                implementation(project(":frontend:screen:base"))
+                implementation(project(":frontend:screen:manual"))
+                implementation(project(":frontend:screen:programs"))
+                implementation(project(":frontend:screen:status"))
 
                 implementation(project(":startup:args"))
 
@@ -76,7 +82,12 @@ kotlin {
             }
         }
 
-        val jvmMain by getting { dependencies { implementation(compose.desktop.currentOs) } }
+        val jvmMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+                implementation(compose.uiTooling)
+            }
+        }
         val jvmTest by getting {
             dependencies {
                 @OptIn(ExperimentalComposeLibrary::class) implementation(compose.uiTestJUnit4)

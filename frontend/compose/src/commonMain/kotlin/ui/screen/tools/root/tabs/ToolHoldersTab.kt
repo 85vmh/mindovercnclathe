@@ -23,9 +23,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.mindovercnc.model.ToolHolder
+import com.mindovercnc.model.tool.ToolHolder
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
-import screen.composables.VerticalDivider
+import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import scroll.VerticalScrollbar
 import scroll.draggableScroll
 import ui.screen.tools.root.ToolsScreenModel

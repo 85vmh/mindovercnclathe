@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
-import screen.uimodel.AxisPosition
-import screen.uimodel.PositionModel
+import com.mindovercnc.model.AxisPosition
+import com.mindovercnc.model.PositionModel
 import themes.ComposeFonts
 
 private enum class CoordinateType(val fontSize: TextUnit, val width: Dp) {

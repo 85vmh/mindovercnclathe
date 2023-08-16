@@ -11,9 +11,9 @@ import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.model.LatheTool
-import di.rememberScreenModel
+import com.mindovercnc.linuxcnc.screen.rememberScreenModel
 import org.kodein.di.bindProvider
-import ui.screen.manual.Manual
+import com.mindovercnc.linuxcnc.screen.manual.Manual
 
 class AddEditLatheToolScreen(
     private val latheTool: LatheTool? = null,

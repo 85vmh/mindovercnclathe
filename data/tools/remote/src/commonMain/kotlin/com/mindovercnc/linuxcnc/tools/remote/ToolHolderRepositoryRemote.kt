@@ -1,7 +1,7 @@
 package com.mindovercnc.linuxcnc.tools.remote
 
 import com.mindovercnc.linuxcnc.tools.ToolHolderRepository
-import com.mindovercnc.model.ToolHolder
+import com.mindovercnc.model.tool.ToolHolder
 import mu.KotlinLogging
 
 /** Implementation for [ToolHolderRepository]. */

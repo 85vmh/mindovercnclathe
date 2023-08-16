@@ -1,9 +1,9 @@
 package com.mindovercnc.linuxcnc.di
 
+import com.mindovercnc.linuxcnc.domain.*
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
-import usecase.*
 
 val DomainModule = DI.Module("domain") {
     bindSingleton { MessagesUseCase(messagesRepository = instance()) }
