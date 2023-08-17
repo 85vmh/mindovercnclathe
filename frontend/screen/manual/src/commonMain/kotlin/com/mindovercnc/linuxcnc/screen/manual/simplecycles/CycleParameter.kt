@@ -34,10 +34,9 @@ fun CycleParameter(
         NumericInputField(
             numericValue = value.toFixedDigitsString(),
             inputType = inputType,
-            modifier = Modifier.width(100.dp).padding(start = 16.dp)
-        ) {
-            onValueChange.invoke(it.toDouble())
-        }
+            modifier = Modifier.width(100.dp).padding(start = 16.dp),
+            onValueChanged = { onValueChange.invoke(it.toDouble()) }
+        )
 
         teachInLabel?.let {
             Button(modifier = Modifier.padding(start = 16.dp), onClick = teachInClicked) {

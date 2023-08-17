@@ -28,7 +28,7 @@ kotlin {
                 implementation(Libs.datetime)
 
                 // logging
-                implementation(Libs.logging)
+                implementation(Libs.Log.logging)
             }
         }
     }

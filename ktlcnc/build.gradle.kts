@@ -18,7 +18,7 @@ repositories { mavenCentral() }
 dependencies {
   implementation(Libs.Coroutines.core)
   implementation(Libs.Serialization.json)
-  implementation(Libs.logging)
+  implementation(Libs.Log.logging)
   implementation(Libs.Serialization.json_okio)
   implementation(project(":initializer"))
   api(project(":ktlcnc:model"))

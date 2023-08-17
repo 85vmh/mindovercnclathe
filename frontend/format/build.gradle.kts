@@ -14,7 +14,7 @@ kotlin {
                 implementation(Libs.stdlib)
 
                 implementation(Libs.bignum)
-                implementation(Libs.logging)
+                implementation(Libs.Log.logging)
             }
         }
     }

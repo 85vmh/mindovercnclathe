@@ -11,5 +11,5 @@ dependencies {
     implementation(project(":data:settings:api"))
 
     // logging
-    implementation(Libs.logging)
+    implementation(Libs.Log.logging)
 }

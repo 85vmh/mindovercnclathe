@@ -52,7 +52,7 @@ class VirtualLimitsScreen : Manual("Virtual Limits") {
                 state.xMinusActive,
                 state.xMinus,
                 activeChange = { screenModel.setXMinusActive(it) },
-                valueChange = { screenModel.setXMinus(it) }
+                onValueChanged = { screenModel.setXMinus(it) }
             ) {
                 screenModel.teachInXMinus()
             }
@@ -61,7 +61,7 @@ class VirtualLimitsScreen : Manual("Virtual Limits") {
                 state.xPlusActive,
                 state.xPlus,
                 activeChange = { screenModel.setXPlusActive(it) },
-                valueChange = { screenModel.setXPlus(it) }
+                onValueChanged = { screenModel.setXPlus(it) }
             ) {
                 screenModel.teachInXPlus()
             }
@@ -70,7 +70,7 @@ class VirtualLimitsScreen : Manual("Virtual Limits") {
                 state.zMinusActive,
                 state.zMinus,
                 activeChange = { screenModel.setZMinusActive(it) },
-                valueChange = { screenModel.setZMinus(it) }
+                onValueChanged = { screenModel.setZMinus(it) }
             ) {
                 screenModel.teachInZMinus()
             }
@@ -79,7 +79,7 @@ class VirtualLimitsScreen : Manual("Virtual Limits") {
                 state.zPlusActive,
                 state.zPlus,
                 activeChange = { screenModel.setZPlusActive(it) },
-                valueChange = { screenModel.setZPlus(it) }
+                onValueChanged = { screenModel.setZPlus(it) }
             ) {
                 screenModel.teachInZPlus()
             }
@@ -106,7 +106,7 @@ class VirtualLimitsScreen : Manual("Virtual Limits") {
         active: Boolean,
         value: Double,
         activeChange: (Boolean) -> Unit,
-        valueChange: (Double) -> Unit,
+        onValueChanged: (Double) -> Unit,
         teachIn: () -> Unit
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -121,10 +121,9 @@ class VirtualLimitsScreen : Manual("Virtual Limits") {
                         "Z-" -> InputType.VIRTUAL_LIMIT_Z_MINUS
                         else -> InputType.VIRTUAL_LIMIT_Z_PLUS
                     },
-                modifier = Modifier.width(100.dp).padding(start = 16.dp)
-            ) {
-                valueChange.invoke(it.toDouble())
-            }
+                modifier = Modifier.width(100.dp).padding(start = 16.dp),
+                onValueChanged = { onValueChanged.invoke(it.toDouble()) }
+            )
 
             Button(
                 modifier = Modifier.padding(start = 16.dp),

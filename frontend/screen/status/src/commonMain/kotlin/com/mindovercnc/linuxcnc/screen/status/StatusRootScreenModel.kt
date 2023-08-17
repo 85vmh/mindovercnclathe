@@ -8,10 +8,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
-class StatusRootScreenModel(messagesUseCase: MessagesUseCase) :
-    StateScreenModel<StatusRootScreenModel.State>(State()) {
-
-    data class State(val messages: List<Message> = emptyList())
+internal class StatusRootScreenModel(messagesUseCase: MessagesUseCase) :
+    StateScreenModel<StatusRootState>(StatusRootState()) {
 
     init {
         messagesUseCase
@@ -20,3 +18,5 @@ class StatusRootScreenModel(messagesUseCase: MessagesUseCase) :
             .launchIn(coroutineScope)
     }
 }
+
+data class StatusRootState(val messages: List<Message> = emptyList())

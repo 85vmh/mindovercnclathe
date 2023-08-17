@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import ui.screen.tools.root.ToolsRootScreen
-import ui.screen.tools.Tools
+import com.mindovercnc.linuxcnc.screen.tools.Tools
+import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootScreen
 
 object ToolsTab : AppTab<Tools>(ToolsRootScreen()) {
 
@@ -17,12 +17,6 @@ object ToolsTab : AppTab<Tools>(ToolsRootScreen()) {
             val title = "Tools"
             val icon = rememberVectorPainter(Icons.Default.Build)
 
-            return remember {
-                TabOptions(
-                    index = 3u,
-                    title = title,
-                    icon = icon
-                )
-            }
+            return remember { TabOptions(index = 3u, title = title, icon = icon) }
         }
 }

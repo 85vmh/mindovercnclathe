@@ -20,7 +20,7 @@ kotlin {
                 implementation(Libs.Serialization.json)
 
                 // logging
-                implementation(Libs.logging)
+                implementation(Libs.Log.logging)
 
                 // okio
                 implementation(Libs.okio)

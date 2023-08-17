@@ -41,12 +41,10 @@ fun Double.stripZeros(maxDigits: Int = 3): String {
     return toBigDecimal(
             decimalMode =
                 DecimalMode(
-                    scale = maxDigits.toLong(),
+                    decimalPrecision = maxDigits.toLong(),
                     roundingMode = RoundingMode.ROUND_HALF_TO_EVEN
                 )
         )
-        // todo
-        // .stripTrailingZeros()
         .toPlainString()
 }
 

@@ -127,10 +127,7 @@ private fun Lines(
             }
         }
 
-        VerticalScrollbar(
-            Modifier.align(Alignment.CenterEnd).width(20.dp),
-            scrollState
-        )
+        VerticalScrollbar(Modifier.align(Alignment.CenterEnd).width(20.dp), scrollState)
     }
 }
 
@@ -159,7 +156,9 @@ private fun Line(
             LineContent(
                 line = line,
                 modifier =
-                Modifier.weight(1f).withoutWidthConstraints().padding(start = 28.dp, end = 12.dp),
+                    Modifier.weight(1f)
+                        .withoutWidthConstraints()
+                        .padding(start = 28.dp, end = 12.dp),
                 settings = settings
             )
         }
@@ -167,13 +166,17 @@ private fun Line(
 }
 
 @Composable
-private fun LineContent(line: TextLineContent, settings: EditorSettings, modifier: Modifier = Modifier) {
+private fun LineContent(
+    line: TextLineContent,
+    settings: EditorSettings,
+    modifier: Modifier = Modifier
+) {
     Text(
         text =
-        when (LocalEditorFileType.current) {
-            EditorFileType.GCODE -> codeString(line.text)
-            EditorFileType.NORMAL -> normalString(line.text)
-        },
+            when (LocalEditorFileType.current) {
+                EditorFileType.GCODE -> codeString(line.text)
+                EditorFileType.NORMAL -> normalString(line.text)
+            },
         fontSize = settings.fontSize,
         fontFamily = FontFamily.Monospace,
         modifier = modifier,
@@ -244,7 +247,9 @@ private fun AnnotatedString.Builder.addKeywords(style: SpanStyle, text: String) 
 private fun AnnotatedString.Builder.addGcodeStyle(style: SpanStyle, text: String) {
     val letters = EditorConstants.gcodeCharacters
     val letterString =
-        letters.joinToString(separator = "", prefix = "[", postfix = "]") { "$it${it.lowercaseChar()}" }
+        letters.joinToString(separator = "", prefix = "[", postfix = "]") {
+            "$it${it.lowercaseChar()}"
+        }
     addStyle(style, text, Regex("(^|\\s+)($letterString)(-?\\d+\\.?\\d*)(?=\\s+|\$)"))
 }
 

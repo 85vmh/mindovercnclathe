@@ -13,7 +13,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(Libs.cli)
-                implementation(Libs.logging)
+                implementation(Libs.Log.logging)
                 implementation(Libs.okio)
                 implementation(compose.ui)
             }

@@ -20,7 +20,7 @@ kotlin {
                 implementation(Libs.Serialization.json)
 
                 // logging
-                implementation(Libs.logging)
+                implementation(Libs.Log.logging)
 
                 // okio
                 implementation(Libs.okio)
@@ -61,6 +61,8 @@ kotlin {
                 implementation(project(":frontend:screen:manual"))
                 implementation(project(":frontend:screen:status"))
                 implementation(project(":frontend:screen:programs"))
+                implementation(project(":frontend:screen:conversational"))
+                implementation(project(":frontend:screen:tools"))
 
                 implementation(project(":startup:args"))
 
