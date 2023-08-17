@@ -40,10 +40,7 @@ class CncMessagesRepositoryImpl(
     private suspend fun updateUiMessages(
         block: (Map<CncStateMessage, Instant>) -> Map<CncStateMessage, Instant>
     ) {
-        uiMessageMutex.withLock {
-            uiMessages.update(block)
-            LOG.debug { "New uiMessages: ${uiMessages.value}" }
-        }
+        uiMessageMutex.withLock { uiMessages.update(block) }
     }
 
     companion object {

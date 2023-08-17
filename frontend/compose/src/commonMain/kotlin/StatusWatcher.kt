@@ -1,3 +1,4 @@
+import com.mindovercnc.data.linuxcnc.CncStatusRepository
 import com.mindovercnc.model.CncStateMessage
 import com.mindovercnc.repository.*
 import kotlinx.coroutines.CoroutineScope
@@ -37,29 +38,31 @@ class StatusWatcher(
 
         // motion status
         motionStatusRepository.motionStatusFlow
-            .map { it.isXHomed.not() }
+            .map { it.isXHomed }
             .distinctUntilChanged()
             .onEach { isXHomed ->
-                messagesRepository.handleMessage(isXHomed, CncStateMessage.XAxisNotHomed)
+                messagesRepository.handleMessage(!isXHomed, CncStateMessage.XAxisNotHomed)
             }
             .launchIn(innerScope)
 
         motionStatusRepository.motionStatusFlow
-            .map { it.isZHomed.not() }
+            .map { it.isZHomed }
             .distinctUntilChanged()
-            .onEach { messagesRepository.handleMessage(it, CncStateMessage.ZAxisNotHomed) }
+            .onEach { isZHomed ->
+                messagesRepository.handleMessage(!isZHomed, CncStateMessage.ZAxisNotHomed)
+            }
             .launchIn(innerScope)
 
         motionStatusRepository.motionStatusFlow
             .map { it.isXHoming }
             .distinctUntilChanged()
-            .onEach { messagesRepository.handleMessage(it, CncStateMessage.XAxisHoming) }
+            .onEach { isXHoming -> messagesRepository.handleMessage(isXHoming, CncStateMessage.XAxisHoming) }
             .launchIn(innerScope)
 
         motionStatusRepository.motionStatusFlow
             .map { it.isZHoming }
             .distinctUntilChanged()
-            .onEach { messagesRepository.handleMessage(it, CncStateMessage.ZAxisHoming) }
+            .onEach { isZHoming -> messagesRepository.handleMessage(isZHoming, CncStateMessage.ZAxisHoming) }
             .launchIn(innerScope)
 
         motionStatusRepository.motionStatusFlow
