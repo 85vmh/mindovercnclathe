@@ -13,43 +13,30 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
-import di.withAppDi
 import initializer.Initializer
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import org.kodein.di.compose.rememberInstance
-import startup.args.StartupArgs
 
 @Composable
-fun StartupWindow(
-    startupArgs: StartupArgs,
-    onInitialise: () -> Unit
-) {
+fun StartupWindow(onInitialise: () -> Unit) {
     val windowState = rememberWindowState(size = DpSize(320.dp, 240.dp))
-    Window(
-        onCloseRequest = {},
-        state = windowState,
-        undecorated = true
-    ) {
-        withAppDi(startupArgs) {
-            val initializer: Initializer by rememberInstance("app")
-            LaunchedEffect(Unit) {
-                initializer.initialise()
+    Window(onCloseRequest = {}, state = windowState, undecorated = true) {
+        val initializer: Initializer by rememberInstance("app")
+        LaunchedEffect(Unit) {
+            initializer.initialise()
 
-                async {
-                    delay(1000L)
-                }.join()
+            async { delay(1000L) }.join()
 
-                onInitialise()
-            }
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text("Initialising")
-                CircularProgressIndicator()
-            }
+            onInitialise()
+        }
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Initialising")
+            CircularProgressIndicator()
         }
     }
 }

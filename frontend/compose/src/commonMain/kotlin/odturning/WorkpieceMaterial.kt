@@ -1,6 +1,6 @@
-package screen.uimodel
+package odturning
 
-enum class WorkpieceMaterial(val text: String) {
+internal enum class WorkpieceMaterial(val text: String) {
     Plastics("Plastics"),
     Aluminium("Aluminium"),
     Brass("Brass"),

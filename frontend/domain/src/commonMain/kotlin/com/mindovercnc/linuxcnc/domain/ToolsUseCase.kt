@@ -15,7 +15,7 @@ import com.mindovercnc.model.*
 import com.mindovercnc.model.tool.ToolHolder
 import com.mindovercnc.model.tool.ToolHolderType
 import com.mindovercnc.repository.IoStatusRepository
-import com.mindovercnc.repository.MessagesRepository
+import com.mindovercnc.repository.EmcMessagesRepository
 import com.mindovercnc.repository.MotionStatusRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -29,7 +29,7 @@ class ToolsUseCase(
     private val motionStatusRepository: MotionStatusRepository,
     private val ioStatusRepository: IoStatusRepository,
     private val commandRepository: CncCommandRepository,
-    private val messagesRepository: MessagesRepository,
+    private val messagesRepository: EmcMessagesRepository,
     private val halRepository: HalRepository,
     private val settingsRepository: SettingsRepository,
     private val toolHolderRepository: ToolHolderRepository,

@@ -4,16 +4,16 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
-import di.withAppDi
 import startup.args.StartupArgs
 import themes.AppTheme
 
 @Composable
-fun AppWindow(
-    startupArgs: StartupArgs,
-    onCloseRequest: () -> Unit
-) {
-    val windowState = rememberWindowState(width = startupArgs.screenSize.width, height = startupArgs.screenSize.height)
+fun AppWindow(startupArgs: StartupArgs, onCloseRequest: () -> Unit) {
+    val windowState =
+        rememberWindowState(
+            width = startupArgs.screenSize.width,
+            height = startupArgs.screenSize.height
+        )
 
     Window(
         onCloseRequest = onCloseRequest,
@@ -22,11 +22,9 @@ fun AppWindow(
         undecorated = !startupArgs.topBarEnabled.enabled,
         state = windowState
     ) {
-        withAppDi(startupArgs) {
-            val newDensity = Density(density = startupArgs.density.toFloat())
-            CompositionLocalProvider(LocalDensity provides newDensity) {
-                AppTheme(startupArgs.darkMode) { MindOverCNCLathe() }
-            }
+        val newDensity = Density(density = startupArgs.density.toFloat())
+        CompositionLocalProvider(LocalDensity provides newDensity) {
+            AppTheme(startupArgs.darkMode) { MindOverCNCLathe() }
         }
     }
 }

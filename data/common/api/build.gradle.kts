@@ -12,6 +12,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(Libs.stdlib)
+                implementation(Libs.datetime)
                 api(Libs.Coroutines.core)
                 implementation(Libs.Kodein.core)
 

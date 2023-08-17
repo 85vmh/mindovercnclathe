@@ -4,7 +4,6 @@ import com.mindovercnc.linuxcnc.screen.manual.di.ManualScreenModelModule
 import com.mindovercnc.linuxcnc.screen.programs.di.ProgramsScreenModelModule
 import com.mindovercnc.linuxcnc.screen.status.StatusRootScreenModel
 import com.mindovercnc.model.SimpleCycle
-import odturning.viewmodel.OdTurningViewModel
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
@@ -17,8 +16,6 @@ import ui.screen.tools.root.tabs.toolholder.AddEditToolHolderScreenModel
 val ScreenModelModule =
     DI.Module("ScreenModel") {
         importAll(ManualScreenModelModule, ProgramsScreenModelModule)
-
-        bindProvider { OdTurningViewModel(instance()) }
 
         bindProvider { StatusRootScreenModel(instance()) }
 

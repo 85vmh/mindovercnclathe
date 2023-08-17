@@ -13,7 +13,7 @@ import com.mindovercnc.linuxcnc.settings.IntegerKey
 import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.model.*
 import com.mindovercnc.model.codegen.CodegenPoint
-import com.mindovercnc.repository.MessagesRepository
+import com.mindovercnc.repository.CncMessagesRepository
 import com.mindovercnc.repository.MotionStatusRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -28,7 +28,7 @@ class ManualTurningUseCase(
     private val cncStatusRepository: CncStatusRepository,
     private val motionStatusRepository: MotionStatusRepository,
     private val commandRepository: CncCommandRepository,
-    private val messagesRepository: MessagesRepository,
+    private val messagesRepository: CncMessagesRepository,
     private val halRepository: HalRepository,
     private val settingsRepository: SettingsRepository,
     private val iniFileRepository: IniFileRepository
@@ -63,27 +63,33 @@ class ManualTurningUseCase(
                 .distinctUntilChanged()
 
         combine(halRepository.getJoystickStatus(), spindleIsOn) { joystickStatus, spindleOn ->
-            println("---Spindle: $spindleOn, Joystick: $joystickStatus")
-            handleJoystick(joystickStatus, spindleOn)
-        }
+                println("---Spindle: $spindleOn, Joystick: $joystickStatus")
+                handleJoystick(joystickStatus, spindleOn)
+            }
             .launchIn(scope)
 
         combine(
-            halRepository.getSpindleSwitchStatus().onEach { println("---Spindle switch is: $it") },
-            spindleOpAllowed
-        ) { switchStatus, spindleAllowed ->
-            when {
-                spindleAllowed -> sendSpindleCommand(switchStatus)
-                spindleAllowed.not() -> {
-                    when (switchStatus) {
-                        SpindleSwitchStatus.NEUTRAL ->
-                            messagesRepository.popMessage(UiMessage.SpindleOperationNotAllowed)
-
-                        else -> messagesRepository.pushMessage(UiMessage.SpindleOperationNotAllowed)
+                halRepository.getSpindleSwitchStatus().onEach {
+                    println("---Spindle switch is: $it")
+                },
+                spindleOpAllowed
+            ) { switchStatus, spindleAllowed ->
+                when {
+                    spindleAllowed -> sendSpindleCommand(switchStatus)
+                    spindleAllowed.not() -> {
+                        when (switchStatus) {
+                            SpindleSwitchStatus.NEUTRAL ->
+                                messagesRepository.popMessage(
+                                    CncStateMessage.SpindleOperationNotAllowed
+                                )
+                            else ->
+                                messagesRepository.pushMessage(
+                                    CncStateMessage.SpindleOperationNotAllowed
+                                )
+                        }
                     }
                 }
             }
-        }
             .launchIn(scope)
 
         halRepository
@@ -152,7 +158,7 @@ class ManualTurningUseCase(
         if (isSpindleOn) {
             if (joystickResetRequired) {
                 println("---Joystick is not in neutral state")
-                messagesRepository.pushMessage(UiMessage.JoystickResetRequired)
+                messagesRepository.pushMessage(CncStateMessage.JoystickResetRequired)
             } else {
                 delayedFeed(axis, direction)
             }
@@ -163,14 +169,12 @@ class ManualTurningUseCase(
                     stopFeeding()
                     joystickResetRequired = true
                 }
-
                 JoystickFunction.Jogging -> {
                     // nothing to do here
                 }
-
                 JoystickFunction.None -> {
                     println("---Feed attempted while spindle is off")
-                    messagesRepository.pushMessage(UiMessage.JoystickCannotFeedWithSpindleOff)
+                    messagesRepository.pushMessage(CncStateMessage.JoystickCannotFeedWithSpindleOff)
                 }
             }
         }
@@ -204,7 +208,6 @@ class ManualTurningUseCase(
                         taperAngle
                     )
                 }
-
                 else ->
                     ManualTurningHelper.getStraightTurningCommand(
                         axis,
@@ -218,7 +221,7 @@ class ManualTurningUseCase(
         halRepository.setPowerFeedingStatus(true)
     }
 
-    private fun handleJoystickNeutral() {
+    private suspend fun handleJoystickNeutral() {
         println("---handleJoystickNeutral()")
         feedJob?.cancel()
         when (joystickFunction) {
@@ -226,12 +229,12 @@ class ManualTurningUseCase(
             JoystickFunction.Jogging -> joggedAxis?.let { stopJogging(it) }
             JoystickFunction.None -> {
                 joggedAxis = null
-                messagesRepository.popMessage(UiMessage.JoystickCannotFeedWithSpindleOff)
+                messagesRepository.popMessage(CncStateMessage.JoystickCannotFeedWithSpindleOff)
             }
         }
         if (joystickResetRequired) {
             joystickResetRequired = false
-            messagesRepository.popMessage(UiMessage.JoystickResetRequired)
+            messagesRepository.popMessage(CncStateMessage.JoystickResetRequired)
         }
     }
 
@@ -279,7 +282,9 @@ class ManualTurningUseCase(
     }
 
     private val setFeedRate =
-        cncStatusRepository.cncStatusFlow.map { it.task_status!!.setFeedRate }.distinctUntilChanged()
+        cncStatusRepository.cncStatusFlow
+            .map { it.task_status!!.setFeedRate }
+            .distinctUntilChanged()
 
     private fun SettingsRepository.getSpindleStartParameters(): String {
         val parameters = StringBuilder()
@@ -288,7 +293,6 @@ class ManualTurningUseCase(
                 val rpmSpeed = get(IntegerKey.RpmValue, 300)
                 parameters.append(" G97 S$rpmSpeed")
             }
-
             else -> {
                 val cssValue = get(IntegerKey.CssValue, 230)
                 val cssMaxRpm = get(IntegerKey.MaxCssRpm, 1500)
@@ -300,7 +304,6 @@ class ManualTurningUseCase(
                 val feedPerRev = settingsRepository.get(DoubleKey.FeedPerRev, 0.1)
                 parameters.append(" G95 F$feedPerRev")
             }
-
             else -> {
                 val feedPerMin = settingsRepository.get(DoubleKey.FeedPerMin, 50.0)
                 parameters.append(" G94 F$feedPerMin")

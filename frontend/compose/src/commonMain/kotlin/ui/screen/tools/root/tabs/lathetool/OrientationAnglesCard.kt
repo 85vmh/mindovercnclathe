@@ -9,12 +9,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.listitem.ValueSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
-import com.mindovercnc.model.TipOrientation
 import com.mindovercnc.linuxcnc.widgets.cards.CardWithTitle
+import com.mindovercnc.model.TipOrientation
 
 @Composable
 fun OrientationAnglesCard(
-    state: AddEditLatheToolScreenModel.State,
+    state: AddEditLatheToolState,
     orientationSelected: (TipOrientation) -> Unit,
     onFrontAngleChanged: (Int) -> Unit,
     onBackAngleChanged: (Int) -> Unit,

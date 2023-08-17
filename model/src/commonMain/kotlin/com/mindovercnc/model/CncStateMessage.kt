@@ -1,6 +1,6 @@
 package com.mindovercnc.model
 
-enum class UiMessage(val level: Level = Level.Warning) {
+enum class CncStateMessage(val level: Level = Level.Warning) {
     MachineInEstop(Level.Error),
     MachineNotON(Level.Error),
     XAxisNotHomed,

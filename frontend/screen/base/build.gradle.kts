@@ -36,7 +36,7 @@ kotlin {
 
                 // internal modules
                 implementation(project(":frontend:clipboard"))
-                implementation(project(":actor"))
+                implementation(project(":frontend:actor"))
                 implementation(project(":dispatcher"))
                 implementation(project(":editor"))
                 implementation(project(":model"))

@@ -17,17 +17,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.listitem.ValueSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import com.mindovercnc.model.CuttingInsert
 import com.mindovercnc.model.SpindleDirection
 import com.mindovercnc.model.TipOrientation
 import com.mindovercnc.model.tool.ToolType
 import screen.composables.DropDownInserts
-import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import scroll.draggableScroll
 
 @Composable
 fun AddEditLatheToolContent(
-    state: AddEditLatheToolScreenModel.State,
+    state: AddEditLatheToolState,
     onToolId: (Int) -> Unit,
     onToolType: (ToolType) -> Unit,
     onCuttingInsert: (CuttingInsert) -> Unit,
@@ -71,7 +71,7 @@ fun AddEditLatheToolContent(
 
 @Composable
 private fun StartContent(
-    state: AddEditLatheToolScreenModel.State,
+    state: AddEditLatheToolState,
     onToolType: (ToolType) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -105,7 +105,7 @@ private fun StartContent(
 
 @Composable
 private fun EndContent(
-    state: AddEditLatheToolScreenModel.State,
+    state: AddEditLatheToolState,
     onToolId: (Int) -> Unit,
     onCuttingInsert: (CuttingInsert) -> Unit,
     onToolOrientation: (TipOrientation) -> Unit,
@@ -201,7 +201,7 @@ private fun EndContent(
 
 @Composable
 private fun TurningBoringToolProperties(
-    state: AddEditLatheToolScreenModel.State,
+    state: AddEditLatheToolState,
     isBoring: Boolean = false,
     onCuttingInsert: (CuttingInsert) -> Unit,
     onToolOrientation: (TipOrientation) -> Unit,
@@ -261,7 +261,7 @@ private fun TurningBoringToolProperties(
 
 @Composable
 private fun DrillingReamingToolProperties(
-    state: AddEditLatheToolScreenModel.State,
+    state: AddEditLatheToolState,
     onToolDiameter: (Double) -> Unit,
     onMaxZDepth: (Double) -> Unit,
 ) {
@@ -290,7 +290,7 @@ private fun DrillingReamingToolProperties(
 
 @Composable
 private fun PartingGroovingToolProperties(
-    state: AddEditLatheToolScreenModel.State,
+    state: AddEditLatheToolState,
     onBladeWidth: (Double) -> Unit,
     onMaxXDepth: (Double) -> Unit,
 ) {
@@ -319,7 +319,7 @@ private fun PartingGroovingToolProperties(
 
 @Composable
 private fun ThreadingToolProperties(
-    state: AddEditLatheToolScreenModel.State,
+    state: AddEditLatheToolState,
     onMinThreadPitch: (Double) -> Unit,
     onMaxThreadPitch: (Double) -> Unit,
 ) {
@@ -348,7 +348,7 @@ private fun ThreadingToolProperties(
 
 @Composable
 private fun SlottingToolProperties(
-    state: AddEditLatheToolScreenModel.State,
+    state: AddEditLatheToolState,
     onBladeWidth: (Double) -> Unit,
     onMaxZDepth: (Double) -> Unit,
 ) {

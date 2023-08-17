@@ -8,7 +8,6 @@ pluginManagement {
     }
 }
 
-include("actor")
 include("backend:database")
 
 // data
@@ -37,6 +36,7 @@ include("logger")
 include("model")
 
 // frontend
+include("frontend:actor")
 include("frontend:compose")
 include("frontend:clipboard")
 include("frontend:app")
@@ -60,11 +60,10 @@ include("frontend:screen:status")
 include("frontend:screen:tools")
 include("frontend:screen:conversational")
 
-include("statemachine")
+include("frontend:statemachine")
 include("initializer")
 include("dispatcher")
 include("protos")
-include("grpc")
 include("ktlcnc")
 
 // startup

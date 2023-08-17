@@ -3,7 +3,7 @@ package usecase
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.model.JoystickStatus
 import com.mindovercnc.model.SpindleSwitchStatus
-import com.mindovercnc.model.UiMessage
+import com.mindovercnc.model.CncStateMessage
 import com.mindovercnc.repository.*
 import io.mockk.every
 import io.mockk.mockk
@@ -30,7 +30,7 @@ class ManualTurningUseCaseTest {
   private val statusRepository =
     mockk<CncStatusRepository> { every { cncStatusFlow } returns cncStatusFlowMock }
   private val commandRepository = mockk<CncCommandRepository>()
-  private val messagesRepository = mockk<MessagesRepository>()
+  private val messagesRepository = mockk<EmcMessagesRepository>()
   private val halRepository =
     mockk<HalRepository> {
       every { getJoystickStatus() } returns joystickStatusFlow
@@ -72,6 +72,6 @@ class ManualTurningUseCaseTest {
     println("start")
     joystickStatusFlow.emit(JoystickStatus(JoystickStatus.Position.XMinus, false))
 
-    verify { messagesRepository.pushMessage(UiMessage.JoystickCannotFeedWithSpindleOff) }
+    verify { messagesRepository.pushMessage(CncStateMessage.JoystickCannotFeedWithSpindleOff) }
   }
 }
