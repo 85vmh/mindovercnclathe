@@ -37,7 +37,7 @@ fun startApplication(startupArgs: StartupArgs, onExit: () -> Unit) {
                     this.exitApplication()
                 }
             } else {
-                StartupWindow { setInitialised(true) }
+                StartupWindow(startupArgs) { setInitialised(true) }
             }
         }
     }
