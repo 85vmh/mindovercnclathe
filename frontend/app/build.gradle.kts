@@ -26,8 +26,8 @@ kotlin {
                 implementation(Libs.datetime)
 
                 // logging
-                implementation("ch.qos.logback:logback-classic:1.4.8")
-                implementation(Libs.logging)
+                implementation(Libs.Log.logback)
+                implementation(Libs.Log.logging)
 
                 // okio
                 implementation(Libs.okio)

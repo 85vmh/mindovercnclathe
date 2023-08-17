@@ -7,8 +7,10 @@ object Versions {
     const val sqliteJdbc = "3.41.2.1"
     const val okio = "3.3.0"
     const val wire = "4.8.0"
+    const val roborazzi = "1.6.0-alpha-3"
 
     const val bignum = "0.3.8"
+    const val mockk = "1.13.7"
 
     object Kotlinx {
         const val datetime = "0.4.0"
@@ -17,7 +19,11 @@ object Versions {
         const val serialization = "1.5.1"
     }
 
-    const val logging = "3.0.5"
+    object Log {
+        const val logging = "3.0.5"
+        const val logback = "1.4.8"
+    }
+
     const val settings = "1.0.0"
 
     object Grpc {

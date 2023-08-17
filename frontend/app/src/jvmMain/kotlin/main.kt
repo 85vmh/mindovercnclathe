@@ -5,6 +5,7 @@
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.window.application
+import di.withAppDi
 import mu.KotlinLogging
 import okio.FileSystem
 import startup.StartupWindow
@@ -28,16 +29,16 @@ fun main(args: Array<String>) {
 
 fun startApplication(startupArgs: StartupArgs, onExit: () -> Unit) {
     application {
-        val (initialised, setInitialised) = rememberSaveable {
-            mutableStateOf(false)
-        }
-        if (initialised) {
-            AppWindow(startupArgs) {
-                onExit()
-                this.exitApplication()
+        withAppDi(startupArgs) {
+            val (initialised, setInitialised) = rememberSaveable { mutableStateOf(false) }
+            if (initialised) {
+                AppWindow(startupArgs) {
+                    onExit()
+                    this.exitApplication()
+                }
+            } else {
+                StartupWindow(startupArgs) { setInitialised(true) }
             }
-        } else {
-            StartupWindow(startupArgs, onInitialise = { setInitialised(true) })
         }
     }
 }

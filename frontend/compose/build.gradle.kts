@@ -20,7 +20,7 @@ kotlin {
                 implementation(Libs.Serialization.json)
 
                 // logging
-                implementation(Libs.logging)
+                implementation(Libs.Log.logging)
 
                 // okio
                 implementation(Libs.okio)
@@ -36,7 +36,7 @@ kotlin {
 
                 // internal modules
                 implementation(project(":frontend:clipboard"))
-                implementation(project(":actor"))
+                implementation(project(":frontend:actor"))
                 implementation(project(":dispatcher"))
                 implementation(project(":editor"))
                 implementation(project(":model"))
@@ -62,6 +62,8 @@ kotlin {
                 implementation(project(":frontend:screen:manual"))
                 implementation(project(":frontend:screen:programs"))
                 implementation(project(":frontend:screen:status"))
+                implementation(project(":frontend:screen:tools"))
+                implementation(project(":frontend:screen:conversational"))
 
                 implementation(project(":startup:args"))
 

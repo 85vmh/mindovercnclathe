@@ -1,6 +1,5 @@
-import com.mindovercnc.data.linuxcnc.CncStatusRepository
-import com.mindovercnc.model.UiMessage
-import com.mindovercnc.repository.MessagesRepository
+import com.mindovercnc.model.CncStateMessage
+import com.mindovercnc.repository.CncMessagesRepository
 import com.mindovercnc.repository.MotionStatusRepository
 import com.mindovercnc.repository.TaskStatusRepository
 import com.mindovercnc.repository.handleMessage
@@ -13,17 +12,19 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.plus
 import linuxcnc.*
+import mu.KotlinLogging
 
 class StatusWatcher(
-    private val cncStatusRepository: CncStatusRepository,
+    // private val cncStatusRepository: CncStatusRepository,
     private val motionStatusRepository: MotionStatusRepository,
     private val taskStatusRepository: TaskStatusRepository,
-    private val messagesRepository: MessagesRepository,
+    private val messagesRepository: CncMessagesRepository,
 ) {
 
     private val supervisorJob = SupervisorJob()
 
     fun launchIn(scope: CoroutineScope) {
+        LOG.debug { "Launching status watcher" }
         supervisorJob.cancelChildren()
         val innerScope = scope + supervisorJob
 
@@ -39,64 +40,72 @@ class StatusWatcher(
 
         // motion status
         motionStatusRepository.motionStatusFlow
-            .map { it.isXHomed.not() }
+            .map { it.isXHomed }
             .distinctUntilChanged()
-            .onEach { messagesRepository.handleMessage(it, UiMessage.XAxisNotHomed) }
+            .onEach { isXHomed ->
+                messagesRepository.handleMessage(!isXHomed, CncStateMessage.XAxisNotHomed)
+            }
             .launchIn(innerScope)
 
         motionStatusRepository.motionStatusFlow
-            .map { it.isZHomed.not() }
+            .map { it.isZHomed }
             .distinctUntilChanged()
-            .onEach { messagesRepository.handleMessage(it, UiMessage.ZAxisNotHomed) }
+            .onEach { isZHomed ->
+                messagesRepository.handleMessage(!isZHomed, CncStateMessage.ZAxisNotHomed)
+            }
             .launchIn(innerScope)
 
         motionStatusRepository.motionStatusFlow
             .map { it.isXHoming }
             .distinctUntilChanged()
-            .onEach { messagesRepository.handleMessage(it, UiMessage.XAxisHoming) }
+            .onEach { isXHoming -> messagesRepository.handleMessage(isXHoming, CncStateMessage.XAxisHoming) }
             .launchIn(innerScope)
 
         motionStatusRepository.motionStatusFlow
             .map { it.isZHoming }
             .distinctUntilChanged()
-            .onEach { messagesRepository.handleMessage(it, UiMessage.ZAxisHoming) }
+            .onEach { isZHoming -> messagesRepository.handleMessage(isZHoming, CncStateMessage.ZAxisHoming) }
             .launchIn(innerScope)
 
         motionStatusRepository.motionStatusFlow
             .map { it.isMinSoftLimitOnX }
             .distinctUntilChanged()
-            .onEach { messagesRepository.handleMessage(it, UiMessage.ReachedMinSoftLimitX) }
+            .onEach { messagesRepository.handleMessage(it, CncStateMessage.ReachedMinSoftLimitX) }
             .launchIn(innerScope)
         motionStatusRepository.motionStatusFlow
             .map { it.isMaxSoftLimitOnX }
             .distinctUntilChanged()
-            .onEach { messagesRepository.handleMessage(it, UiMessage.ReachedMaxSoftLimitX) }
+            .onEach { messagesRepository.handleMessage(it, CncStateMessage.ReachedMaxSoftLimitX) }
             .launchIn(innerScope)
         motionStatusRepository.motionStatusFlow
             .map { it.isMinSoftLimitOnZ }
             .distinctUntilChanged()
-            .onEach { messagesRepository.handleMessage(it, UiMessage.ReachedMinSoftLimitZ) }
+            .onEach { messagesRepository.handleMessage(it, CncStateMessage.ReachedMinSoftLimitZ) }
             .launchIn(innerScope)
         motionStatusRepository.motionStatusFlow
             .map { it.isMaxSoftLimitOnZ }
             .distinctUntilChanged()
-            .onEach { messagesRepository.handleMessage(it, UiMessage.ReachedMaxSoftLimitZ) }
+            .onEach { messagesRepository.handleMessage(it, CncStateMessage.ReachedMaxSoftLimitZ) }
             .launchIn(innerScope)
 
         // task status
         taskStatusRepository.taskStatusFlow
             .map { it.isNotOn }
             .distinctUntilChanged()
-            .onEach { messagesRepository.handleMessage(it, UiMessage.MachineNotON) }
+            .onEach { messagesRepository.handleMessage(it, CncStateMessage.MachineNotON) }
             .launchIn(innerScope)
         taskStatusRepository.taskStatusFlow
             .map { it.isEstop }
             .distinctUntilChanged()
-            .onEach { messagesRepository.handleMessage(it, UiMessage.MachineInEstop) }
+            .onEach { messagesRepository.handleMessage(it, CncStateMessage.MachineInEstop) }
             .launchIn(innerScope)
     }
 
     fun stopListening() {
         supervisorJob.cancelChildren()
+    }
+
+    companion object {
+        private val LOG = KotlinLogging.logger("StatusWatcher")
     }
 }

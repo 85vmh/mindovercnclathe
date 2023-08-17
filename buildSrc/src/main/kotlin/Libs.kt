@@ -6,7 +6,15 @@ object Libs {
 
     const val bignum = "com.ionspin.kotlin:bignum:${Versions.bignum}"
 
-    const val mockk = "io.mockk:mockk:1.12.4"
+    const val mockk = "io.mockk:mockk:${Versions.mockk}"
+
+    object Roborazzi {
+        const val core = "io.github.takahirom.roborazzi:roborazzi:${Versions.roborazzi}"
+        const val compose_desktop =
+            "io.github.takahirom.roborazzi:roborazzi-compose-desktop:${Versions.roborazzi}"
+        const val junit_rule =
+            "io.github.takahirom.roborazzi:roborazzi-junit-rule:${Versions.roborazzi}"
+    }
 
     object Settings {
         const val core = "com.russhwolf:multiplatform-settings:${Versions.settings}"
@@ -64,7 +72,11 @@ object Libs {
 
     const val cli = "org.jetbrains.kotlinx:kotlinx-cli:${Versions.Kotlinx.cli}"
 
-    const val logging = "io.github.microutils:kotlin-logging:${Versions.logging}"
+    object Log {
+        const val logging = "io.github.microutils:kotlin-logging:${Versions.Log.logging}"
+        const val logback = "ch.qos.logback:logback-classic:${Versions.Log.logback}"
+    }
 
     const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
+    const val test = "org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}"
 }

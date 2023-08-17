@@ -6,12 +6,12 @@ import com.mindovercnc.data.linuxcnc.HalRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.linuxcnc.domain.model.AngleFinderState
-import com.mindovercnc.model.codegen.CodegenPoint
 import com.mindovercnc.linuxcnc.format.stripZeros
 import com.mindovercnc.linuxcnc.gcode.IniFileRepository
 import com.mindovercnc.linuxcnc.settings.SettingsRepository
-import com.mindovercnc.model.UiMessage
-import com.mindovercnc.repository.MessagesRepository
+import com.mindovercnc.model.CncStateMessage
+import com.mindovercnc.model.codegen.CodegenPoint
+import com.mindovercnc.repository.CncMessagesRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import linuxcnc.getDisplayablePosition
@@ -22,7 +22,7 @@ class AngleFinderUseCase(
     ioDispatcher: IoDispatcher,
     private val statusRepository: CncStatusRepository,
     private val commandRepository: CncCommandRepository,
-    private val messagesRepository: MessagesRepository,
+    private val messagesRepository: CncMessagesRepository,
     private val halRepository: HalRepository,
     private val settingsRepository: SettingsRepository,
     private val iniFileRepository: IniFileRepository
@@ -174,9 +174,9 @@ class AngleFinderUseCase(
         commandRepository.setTaskMode(TaskMode.TaskModeManual)
     }
 
-    private fun handleBackToNeutral() {
-        messagesRepository.popMessage(UiMessage.JoystickDisabledOnXAxis)
-        messagesRepository.popMessage(UiMessage.JoystickDisabledOnZAxis)
+    private suspend fun handleBackToNeutral() {
+        messagesRepository.popMessage(CncStateMessage.JoystickDisabledOnXAxis)
+        messagesRepository.popMessage(CncStateMessage.JoystickDisabledOnZAxis)
         commandRepository.taskAbort()
         commandRepository.setTaskMode(TaskMode.TaskModeManual)
     }

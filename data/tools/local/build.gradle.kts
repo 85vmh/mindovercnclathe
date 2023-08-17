@@ -19,5 +19,5 @@ dependencies {
     implementation(Libs.okio)
 
     // logging
-    implementation(Libs.logging)
+    implementation(Libs.Log.logging)
 }

@@ -35,7 +35,7 @@ val BaseAppModule =
             ScreenModelModule,
             DomainModule,
         )
-        bindSingleton { StatusWatcher(instance(), instance(), instance(), instance()) }
+        bindSingleton { StatusWatcher(instance(), instance(), instance()) }
 
         bindProvider { TabViewModel(instance(), instance()) }
 

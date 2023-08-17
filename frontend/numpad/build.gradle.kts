@@ -1,8 +1,10 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    id("io.github.takahirom.roborazzi")
 }
 
 version = Versions.app
@@ -19,7 +21,7 @@ kotlin {
                 implementation(Libs.Serialization.json)
 
                 // logging
-                implementation(Libs.logging)
+                implementation(Libs.Log.logging)
 
                 // okio
                 implementation(Libs.okio)
@@ -29,13 +31,25 @@ kotlin {
 
                 implementation(project(":frontend:format"))
 
-                // compose
-                //                implementation(compose.uiTooling)
                 implementation(compose.material)
                 implementation(compose.material3)
                 @OptIn(ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
             }
         }
+        val jvmTest by getting {
+            dependencies {
+                implementation(Libs.Roborazzi.compose_desktop)
+                implementation(Libs.Roborazzi.junit_rule)
+
+                implementation(compose.desktop.currentOs)
+                @OptIn(ExperimentalComposeLibrary::class) implementation(compose.uiTestJUnit4)
+            }
+        }
     }
+}
+
+// Roborazzi Desktop support uses Context Receivers
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions { freeCompilerArgs += "-Xcontext-receivers" }
 }

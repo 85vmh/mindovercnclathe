@@ -27,7 +27,6 @@ fun VisualTurning(
 
     Canvas(modifier.fillMaxSize()) {
         //println("--Pixel per unit: ${state.pixelPerUnit}")
-
         clipRect {
             translate(left = state.translate.x, top = state.translate.y) {
                 state.pathUiState.drawInto(this)

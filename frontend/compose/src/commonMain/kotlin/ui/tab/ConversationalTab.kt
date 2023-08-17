@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import ui.screen.conversational.ConversationalRootScreen
-import ui.screen.conversational.Conversational
+import com.mindovercnc.linuxcnc.screen.conversational.ConversationalRootScreen
+import com.mindovercnc.linuxcnc.screen.conversational.Conversational
 
 object ConversationalTab : AppTab<Conversational>(ConversationalRootScreen()) {
     override val options: TabOptions

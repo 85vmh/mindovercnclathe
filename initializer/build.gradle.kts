@@ -12,7 +12,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(Libs.Coroutines.core)
-                implementation(Libs.logging)
+                implementation(Libs.Log.logging)
             }
         }
     }

@@ -16,11 +16,12 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(Libs.stdlib)
+                implementation(Libs.test)
                 implementation(Libs.Coroutines.core)
                 implementation(Libs.Serialization.json)
 
                 // logging
-                implementation(Libs.logging)
+                implementation(Libs.Log.logging)
 
                 // okio
                 implementation(Libs.okio)
@@ -36,7 +37,7 @@ kotlin {
 
                 // internal modules
                 implementation(project(":frontend:clipboard"))
-                implementation(project(":actor"))
+                implementation(project(":frontend:actor"))
                 implementation(project(":dispatcher"))
                 implementation(project(":editor"))
                 implementation(project(":model"))
@@ -75,7 +76,9 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 @OptIn(ExperimentalComposeLibrary::class) implementation(compose.uiTestJUnit4)
+                implementation(Libs.Coroutines.test)
                 implementation(Libs.mockk)
+                implementation(Libs.Log.logback)
                 implementation(Libs.Coroutines.test)
                 implementation(compose.material)
             }

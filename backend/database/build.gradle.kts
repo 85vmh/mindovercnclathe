@@ -15,7 +15,7 @@ dependencies {
     api(Libs.Exposed.dao)
     api(Libs.Exposed.jdbc)
 
-    implementation(Libs.logging)
+    implementation(Libs.Log.logging)
 
     implementation("org.xerial:sqlite-jdbc:$sqliteJdbc")
 

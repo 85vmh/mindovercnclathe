@@ -5,9 +5,8 @@ import com.mindovercnc.linuxcnc.domain.model.CuttingParametersState
 import com.mindovercnc.model.CutDirection
 import com.mindovercnc.model.CuttingStrategy
 import com.mindovercnc.model.codegen.Wcs
-import screen.uimodel.WorkpieceMaterial
 
-class OdTurningDataState(
+internal class OdTurningDataState(
     wcs: Wcs,
     cutDirection: CutDirection,
     material: WorkpieceMaterial,
