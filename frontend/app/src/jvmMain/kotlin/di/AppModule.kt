@@ -12,7 +12,6 @@ import com.mindovercnc.editor.reader.FileEditorReader
 import com.mindovercnc.linuxcnc.di.CommonDataModule
 import com.mindovercnc.linuxcnc.di.*
 import com.mindovercnc.linuxcnc.gcode.local.di.GCodeLocalModule
-import com.mindovercnc.linuxcnc.module.KtLcncModule
 import com.mindovercnc.linuxcnc.settings.local.di.SettingsLocalModule
 import com.mindovercnc.linuxcnc.tools.local.di.ToolsLocalModule
 import com.mindovercnc.linuxcnc.tools.remote.di.ToolsRemoteModule

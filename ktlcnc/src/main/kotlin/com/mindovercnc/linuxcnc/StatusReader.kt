@@ -1,11 +1,11 @@
 package com.mindovercnc.linuxcnc
 
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 
 /*
  * **************************************************************************
@@ -34,30 +34,30 @@ import kotlinx.coroutines.flow.onStart
  * **************************************************************************
  */
 class StatusReader {
-  private var statusBuffer: ByteBuffer? = null
+    private var statusBuffer: ByteBuffer? = null
 
-  private var initialised = false
+    private var initialised = false
 
-  private fun initialise() {
-    if (!initialised) {
-      statusBuffer = init()
-      statusBuffer?.order(ByteOrder.LITTLE_ENDIAN)
-      initialised = true
+    private fun initialise() {
+        if (!initialised) {
+            statusBuffer = init()
+            statusBuffer?.order(ByteOrder.LITTLE_ENDIAN)
+            initialised = true
+        }
     }
-  }
 
-  fun refresh(interval: Long): Flow<ByteBuffer?> {
-    return flow {
-      while (true) {
-        readStatus()
-        emit(statusBuffer)
-        delay(interval)
-      }
+    fun refresh(interval: Long): Flow<ByteBuffer?> {
+        return flow {
+            while (true) {
+                readStatus()
+                emit(statusBuffer)
+                delay(interval)
+            }
+        }
+            .onStart { initialise() }
     }
-      .onStart { initialise() }
-  }
 
-  private external fun init(): ByteBuffer?
-  private external fun readStatus(): Int
-  external fun getString(offset: Int, length: Int): String?
+    private external fun init(): ByteBuffer?
+    private external fun readStatus(): Int
+    external fun getString(offset: Int, length: Int): String?
 }
