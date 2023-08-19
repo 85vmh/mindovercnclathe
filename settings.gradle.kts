@@ -12,7 +12,7 @@ include("backend:database")
 
 // data
 include("data:linuxcnc:remote")
-include("data:linuxcnc:legacy")
+include("data:linuxcnc:local")
 include("data:linuxcnc:api")
 
 include("data:common:local")

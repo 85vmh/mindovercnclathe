@@ -8,6 +8,8 @@ dependencies {
     implementation(Libs.Settings.core)
     implementation(Libs.Settings.coroutines)
     implementation(project(":data:gcode:api"))
+    implementation(project(":data:linuxcnc:api"))
+    implementation(project(":data:linuxcnc:local"))
     implementation(project(":logger"))
     implementation(project(":dispatcher"))
 //                implementation(project(":database"))

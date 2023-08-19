@@ -3,13 +3,13 @@ package di
 import StatusWatcher
 import TabViewModel
 import androidx.compose.runtime.Composable
-import com.mindovercnc.data.linuxcnc.legacy.LinuxcncLegacyDataModule
-import com.mindovercnc.data.linuxcnc.remote.LinuxcncRemoteDataModule
+import com.mindovercnc.data.linuxcnc.local.di.LinuxcncLegacyDataModule
+import com.mindovercnc.data.linuxcnc.remote.di.LinuxcncRemoteDataModule
 import com.mindovercnc.database.module.DatabaseModule
 import com.mindovercnc.dispatchers.DispatchersModule
 import com.mindovercnc.editor.reader.EditorReader
 import com.mindovercnc.editor.reader.FileEditorReader
-import com.mindovercnc.linuxcnc.CommonDataModule
+import com.mindovercnc.linuxcnc.di.CommonDataModule
 import com.mindovercnc.linuxcnc.di.*
 import com.mindovercnc.linuxcnc.gcode.local.di.GCodeLocalModule
 import com.mindovercnc.linuxcnc.module.KtLcncModule

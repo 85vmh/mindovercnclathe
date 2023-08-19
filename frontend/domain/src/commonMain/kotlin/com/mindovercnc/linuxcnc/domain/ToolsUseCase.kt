@@ -3,6 +3,7 @@ package com.mindovercnc.linuxcnc.domain
 import com.mindovercnc.data.linuxcnc.CncCommandRepository
 import com.mindovercnc.data.linuxcnc.CncStatusRepository
 import com.mindovercnc.data.linuxcnc.HalRepository
+import com.mindovercnc.data.linuxcnc.VarFileRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.linuxcnc.settings.IntegerKey
@@ -10,7 +11,6 @@ import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.linuxcnc.tools.CuttingInsertsRepository
 import com.mindovercnc.linuxcnc.tools.LatheToolsRepository
 import com.mindovercnc.linuxcnc.tools.ToolHolderRepository
-import com.mindovercnc.linuxcnc.tools.VarFileRepository
 import com.mindovercnc.model.*
 import com.mindovercnc.model.tool.ToolHolder
 import com.mindovercnc.model.tool.ToolHolderType

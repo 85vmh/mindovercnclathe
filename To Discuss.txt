@@ -1,0 +1,3 @@
+Wondering if we should have a model package for the classes specific to a module
+
+The "package com.mindovercnc.linuxcnc.gcode" has a GCodeCommand file that is the output of this repository.

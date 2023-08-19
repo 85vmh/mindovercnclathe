@@ -142,7 +142,7 @@ val DomainModule =
             PositionUseCase(statusRepository = instance(), dtgPositionUseCase = instance())
         }
 
-        bindSingleton { GCodeUseCase(gCodeRepository = instance(), ioDispatcher = instance()) }
+        bindSingleton { GCodeUseCase(gCodeInterpreterRepository = instance(), ioDispatcher = instance()) }
 
         bindSingleton { ActiveCodesUseCase(instance()) }
 

@@ -3,9 +3,9 @@ package di
 import StatusWatcher
 import TabViewModel
 import androidx.compose.runtime.Composable
-import com.mindovercnc.data.linuxcnc.remote.LinuxcncRemoteDataModule
+import com.mindovercnc.data.linuxcnc.remote.di.LinuxcncRemoteDataModule
 import com.mindovercnc.dispatchers.DispatchersModule
-import com.mindovercnc.linuxcnc.CommonDataModule
+import com.mindovercnc.linuxcnc.di.CommonDataModule
 import com.mindovercnc.linuxcnc.tools.remote.di.ToolsRemoteModule
 import kotlinx.datetime.Clock
 import org.kodein.di.DI

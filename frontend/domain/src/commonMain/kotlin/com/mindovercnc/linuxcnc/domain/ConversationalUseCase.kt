@@ -4,7 +4,7 @@ import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.model.codegen.ConversationalProgram
 import com.mindovercnc.model.codegen.operation.TurningOperation
-import com.mindovercnc.repository.FileSystemRepository
+import com.mindovercnc.data.linuxcnc.FileSystemRepository
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 

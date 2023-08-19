@@ -22,7 +22,7 @@ fun Double.toFixedDigitsString(maxDigits: Int = 3): String {
                 )
         )
         .toPlainString()
-        .also { result -> LOG.info { "$this toFixedDigitsString $result" } }
+        //.also { result -> LOG.info { "$this toFixedDigitsString $result" } }
 }
 
 fun Double.toFixedDigits(maxDigits: Int = 3): Double {

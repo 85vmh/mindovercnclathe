@@ -2,19 +2,19 @@ package com.mindovercnc.linuxcnc.domain
 
 import actor.PathElement
 import com.mindovercnc.dispatchers.IoDispatcher
-import com.mindovercnc.linuxcnc.gcode.GCodeRepository
+import com.mindovercnc.linuxcnc.gcode.GCodeInterpreterRepository
 import kotlinx.coroutines.withContext
 import okio.Path
 import org.jetbrains.skia.Point
 
-class GCodeUseCase(private val gCodeRepository: GCodeRepository, private val ioDispatcher: IoDispatcher) {
+class GCodeUseCase(private val gCodeInterpreterRepository: GCodeInterpreterRepository, private val ioDispatcher: IoDispatcher) {
 
     suspend fun getPathElements(file: Path): List<PathElement> =
         withContext(ioDispatcher.dispatcher) {
             val pathElements = mutableListOf<PathElement>()
             var lastPoint: Point? = null
 
-            gCodeRepository.parseFile(file).forEach { command ->
+            gCodeInterpreterRepository.parseFile(file).forEach { command ->
                 when (command.name) {
                     "STRAIGHT_TRAVERSE",
                     "STRAIGHT_FEED" -> {

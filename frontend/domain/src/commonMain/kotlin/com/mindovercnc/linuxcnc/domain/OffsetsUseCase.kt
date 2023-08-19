@@ -2,7 +2,7 @@ package com.mindovercnc.linuxcnc.domain
 
 import com.mindovercnc.data.linuxcnc.CncCommandRepository
 import com.mindovercnc.data.linuxcnc.CncStatusRepository
-import com.mindovercnc.linuxcnc.tools.VarFileRepository
+import com.mindovercnc.data.linuxcnc.VarFileRepository
 import kotlinx.coroutines.flow.*
 import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import com.mindovercnc.linuxcnc.domain.model.OffsetEntry

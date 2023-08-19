@@ -9,8 +9,6 @@ import org.kodein.di.instance
 val ToolsLocalModule = DI.Module("tools_local") {
     bindSingleton<ToolHolderRepository> { ToolHolderRepositoryLocal() }
     bindSingleton<CuttingInsertsRepository> { CuttingInsertsRepositoryLocal() }
-    bindSingleton<LinuxCncToolsRepository> { LinuxCncToolsRepositoryLocal(instance(), instance(), instance()) }
     bindSingleton<LatheToolsRepository> { LatheToolsRepositoryLocal() }
     bindSingleton<WorkpieceMaterialRepository> { WorkpieceMaterialRepositoryLocal() }
-    bindSingleton<VarFileRepository> { VarFileRepositoryLocal(instance(), instance(), instance()) }
 }

@@ -1,6 +1,6 @@
 object Versions {
     const val kotlin = "1.9.0"
-    const val compose = "1.5.0-beta02"
+    const val compose = "1.5.0-rc01"
     const val kodein = "7.20.2"
     const val voyager = "1.0.0-rc06"
     const val exposed = "0.41.1"

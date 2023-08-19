@@ -3,10 +3,10 @@ package com.mindovercnc.linuxcnc.domain
 import com.mindovercnc.data.linuxcnc.CncCommandRepository
 import com.mindovercnc.data.linuxcnc.CncStatusRepository
 import com.mindovercnc.data.linuxcnc.HalRepository
+import com.mindovercnc.data.linuxcnc.IniFileRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.linuxcnc.format.stripZeros
-import com.mindovercnc.linuxcnc.gcode.IniFileRepository
 import com.mindovercnc.linuxcnc.settings.BooleanKey
 import com.mindovercnc.linuxcnc.settings.DoubleKey
 import com.mindovercnc.linuxcnc.settings.IntegerKey

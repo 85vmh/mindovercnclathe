@@ -4,7 +4,7 @@ import cafe.adriel.voyager.core.model.StateScreenModel
 import com.mindovercnc.editor.EditorLoader
 import com.mindovercnc.linuxcnc.domain.BreadCrumbDataUseCase
 import com.mindovercnc.linuxcnc.domain.FileSystemDataUseCase
-import com.mindovercnc.repository.FileSystemRepository
+import com.mindovercnc.data.linuxcnc.FileSystemRepository
 import kotlinx.coroutines.flow.update
 import mu.KotlinLogging
 import okio.FileSystem
