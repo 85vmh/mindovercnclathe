@@ -2,8 +2,8 @@ package com.mindovercnc.data.linuxcnc.local
 
 import com.mindovercnc.data.linuxcnc.IniFilePath
 import com.mindovercnc.data.linuxcnc.IniFileRepository
-import com.mindovercnc.model.G53AxisLimits
-import com.mindovercnc.model.IniFile
+import com.mindovercnc.data.linuxcnc.model.G53AxisLimits
+import com.mindovercnc.data.linuxcnc.model.IniFile
 import okio.Path.Companion.toOkioPath
 import java.io.BufferedReader
 import java.io.FileNotFoundException

@@ -1,8 +1,8 @@
 package com.mindovercnc.linuxcnc.domain
 
 import com.mindovercnc.data.linuxcnc.CncStatusRepository
-import com.mindovercnc.linuxcnc.settings.BooleanKey
-import com.mindovercnc.linuxcnc.settings.DoubleKey
+import com.mindovercnc.linuxcnc.settings.model.BooleanKey
+import com.mindovercnc.linuxcnc.settings.model.DoubleKey
 import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.model.FeedUiModel
 import kotlinx.coroutines.flow.Flow

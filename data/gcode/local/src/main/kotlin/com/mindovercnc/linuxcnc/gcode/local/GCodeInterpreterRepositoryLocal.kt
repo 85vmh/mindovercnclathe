@@ -4,7 +4,7 @@ import com.mindovercnc.data.linuxcnc.IniFilePath
 import com.mindovercnc.data.linuxcnc.ToolFilePath
 import com.mindovercnc.data.linuxcnc.VarFilePath
 import com.mindovercnc.linuxcnc.gcode.GCodeInterpreterRepository
-import com.mindovercnc.linuxcnc.gcode.GCodeCommand
+import com.mindovercnc.linuxcnc.gcode.model.GCodeCommand
 import okio.Path
 import okio.Path.Companion.toPath
 

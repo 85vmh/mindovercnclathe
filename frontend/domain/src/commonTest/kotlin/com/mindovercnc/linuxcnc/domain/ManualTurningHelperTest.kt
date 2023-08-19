@@ -2,7 +2,7 @@ package com.mindovercnc.linuxcnc.domain
 
 import com.mindovercnc.model.Axis
 import com.mindovercnc.model.Direction
-import com.mindovercnc.model.G53AxisLimits
+import com.mindovercnc.data.linuxcnc.model.G53AxisLimits
 import com.mindovercnc.model.codegen.CodegenPoint
 import kotlin.test.Test
 import kotlin.test.assertEquals

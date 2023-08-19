@@ -23,7 +23,7 @@ import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.AddEditCuttingInsertScreen
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
-import com.mindovercnc.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import scroll.VerticalScrollbar
 import scroll.draggableScroll
 

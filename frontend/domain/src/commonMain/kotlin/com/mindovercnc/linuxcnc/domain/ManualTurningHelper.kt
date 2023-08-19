@@ -4,7 +4,7 @@ import com.mindovercnc.linuxcnc.format.stripZeros
 import com.mindovercnc.linuxcnc.format.toRadians
 import com.mindovercnc.model.Axis
 import com.mindovercnc.model.Direction
-import com.mindovercnc.model.G53AxisLimits
+import com.mindovercnc.data.linuxcnc.model.G53AxisLimits
 import com.mindovercnc.model.codegen.CodegenPoint
 import kotlin.math.abs
 import kotlin.math.tan

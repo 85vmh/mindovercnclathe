@@ -1,4 +1,4 @@
-package com.mindovercnc.database.module
+package com.mindovercnc.database.di
 
 import com.mindovercnc.database.initializer.ConnectionInitializer
 import com.mindovercnc.database.initializer.DummyToolsInitializer

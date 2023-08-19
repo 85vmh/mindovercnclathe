@@ -2,6 +2,8 @@ package com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import com.mindovercnc.linuxcnc.domain.ToolsUseCase
+import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.MadeOf
 import com.mindovercnc.model.*
 import kotlinx.coroutines.flow.update
 

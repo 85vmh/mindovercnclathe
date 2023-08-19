@@ -1,9 +1,9 @@
 package com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool
 
-import com.mindovercnc.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.ToolType
 import com.mindovercnc.model.SpindleDirection
 import com.mindovercnc.model.TipOrientation
-import com.mindovercnc.model.tool.ToolType
 
 data class AddEditLatheToolState(
     val latheToolId: Int? = null,

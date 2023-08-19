@@ -1,6 +1,7 @@
 package com.mindovercnc.linuxcnc.tools
 
-import com.mindovercnc.model.WorkpieceMaterial
+import com.mindovercnc.linuxcnc.tools.model.WorkpieceMaterial
+
 
 /** Repository for [WorkpieceMaterial]. */
 interface WorkpieceMaterialRepository {

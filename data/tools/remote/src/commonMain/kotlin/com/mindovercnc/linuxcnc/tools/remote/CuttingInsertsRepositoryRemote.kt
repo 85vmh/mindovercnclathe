@@ -1,7 +1,7 @@
 package com.mindovercnc.linuxcnc.tools.remote
 
 import com.mindovercnc.linuxcnc.tools.CuttingInsertsRepository
-import com.mindovercnc.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import mu.KotlinLogging
 
 /** Implementation for [CuttingInsertsRepository]. */

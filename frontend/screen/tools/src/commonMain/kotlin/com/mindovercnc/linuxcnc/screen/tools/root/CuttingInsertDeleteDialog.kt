@@ -8,7 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mindovercnc.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 
 data class CuttingInsertDeleteModel(
     val cuttingInsert: CuttingInsert

@@ -4,7 +4,7 @@ import com.mindovercnc.data.linuxcnc.LinuxCncToolsRepository
 import com.mindovercnc.data.linuxcnc.ToolFilePath
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
-import com.mindovercnc.model.LinuxCncTool
+import com.mindovercnc.data.linuxcnc.model.LinuxCncTool
 import com.mindovercnc.model.TipOrientation
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

@@ -1,6 +1,4 @@
-package com.mindovercnc.model.tool
-
-import com.mindovercnc.model.LatheTool
+package com.mindovercnc.linuxcnc.tools.model
 
 data class ToolHolder(
     val holderNumber: Int,

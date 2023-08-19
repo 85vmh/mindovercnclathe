@@ -1,6 +1,6 @@
 package com.mindovercnc.linuxcnc.tools
 
-import com.mindovercnc.model.LatheTool
+import com.mindovercnc.linuxcnc.tools.model.LatheTool
 
 interface LatheToolsRepository {
     fun getLatheTools(): List<LatheTool>

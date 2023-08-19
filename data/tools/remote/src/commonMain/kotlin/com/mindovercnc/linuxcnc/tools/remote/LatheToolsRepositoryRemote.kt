@@ -1,7 +1,7 @@
 package com.mindovercnc.linuxcnc.tools.remote
 
 import com.mindovercnc.linuxcnc.tools.LatheToolsRepository
-import com.mindovercnc.model.LatheTool
+import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import mu.KotlinLogging
 
 /** Implementation for [LatheToolsRepository]. */

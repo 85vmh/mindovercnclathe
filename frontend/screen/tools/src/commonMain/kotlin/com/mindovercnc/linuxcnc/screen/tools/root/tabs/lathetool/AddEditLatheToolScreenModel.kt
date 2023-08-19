@@ -3,11 +3,11 @@ package com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import com.mindovercnc.linuxcnc.domain.ToolsUseCase
-import com.mindovercnc.model.CuttingInsert
-import com.mindovercnc.model.LatheTool
+import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.LatheTool
+import com.mindovercnc.linuxcnc.tools.model.ToolType
 import com.mindovercnc.model.SpindleDirection
 import com.mindovercnc.model.TipOrientation
-import com.mindovercnc.model.tool.ToolType
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update

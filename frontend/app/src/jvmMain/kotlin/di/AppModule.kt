@@ -5,7 +5,7 @@ import TabViewModel
 import androidx.compose.runtime.Composable
 import com.mindovercnc.data.linuxcnc.local.di.LinuxcncLegacyDataModule
 import com.mindovercnc.data.linuxcnc.remote.di.LinuxcncRemoteDataModule
-import com.mindovercnc.database.module.DatabaseModule
+import com.mindovercnc.database.di.DatabaseModule
 import com.mindovercnc.dispatchers.DispatchersModule
 import com.mindovercnc.editor.reader.EditorReader
 import com.mindovercnc.editor.reader.FileEditorReader

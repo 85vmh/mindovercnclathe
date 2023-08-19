@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.settings
+package com.mindovercnc.linuxcnc.settings.model
 
 interface SettingKey
 

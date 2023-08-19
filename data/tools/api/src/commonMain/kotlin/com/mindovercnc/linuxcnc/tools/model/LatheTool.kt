@@ -1,6 +1,7 @@
-package com.mindovercnc.model
+package com.mindovercnc.linuxcnc.tools.model
 
-import com.mindovercnc.model.tool.ToolType
+import com.mindovercnc.model.SpindleDirection
+import com.mindovercnc.model.TipOrientation
 
 sealed class LatheTool(
     open val toolId: Int?,

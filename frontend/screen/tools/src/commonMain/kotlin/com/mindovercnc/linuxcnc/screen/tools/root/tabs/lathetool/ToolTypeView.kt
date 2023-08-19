@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.mindovercnc.model.tool.ToolType
+import com.mindovercnc.linuxcnc.tools.model.ToolType
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.orEmpty
 import org.jetbrains.compose.resources.rememberImageBitmap

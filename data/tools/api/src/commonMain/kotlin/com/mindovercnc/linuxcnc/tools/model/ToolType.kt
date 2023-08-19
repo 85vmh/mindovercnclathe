@@ -1,4 +1,4 @@
-package com.mindovercnc.model.tool
+package com.mindovercnc.linuxcnc.tools.model
 
 enum class ToolType(
     val displayableValue: String

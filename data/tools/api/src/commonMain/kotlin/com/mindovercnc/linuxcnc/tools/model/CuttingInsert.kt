@@ -1,4 +1,4 @@
-package com.mindovercnc.model
+package com.mindovercnc.linuxcnc.tools.model
 
 data class CuttingInsert(
     val id: Int? = null,

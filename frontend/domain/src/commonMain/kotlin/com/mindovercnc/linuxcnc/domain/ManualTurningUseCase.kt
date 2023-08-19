@@ -4,12 +4,13 @@ import com.mindovercnc.data.linuxcnc.CncCommandRepository
 import com.mindovercnc.data.linuxcnc.CncStatusRepository
 import com.mindovercnc.data.linuxcnc.HalRepository
 import com.mindovercnc.data.linuxcnc.IniFileRepository
+import com.mindovercnc.data.linuxcnc.model.inSafeRange
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.linuxcnc.format.stripZeros
-import com.mindovercnc.linuxcnc.settings.BooleanKey
-import com.mindovercnc.linuxcnc.settings.DoubleKey
-import com.mindovercnc.linuxcnc.settings.IntegerKey
+import com.mindovercnc.linuxcnc.settings.model.BooleanKey
+import com.mindovercnc.linuxcnc.settings.model.DoubleKey
+import com.mindovercnc.linuxcnc.settings.model.IntegerKey
 import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.model.*
 import com.mindovercnc.model.codegen.CodegenPoint

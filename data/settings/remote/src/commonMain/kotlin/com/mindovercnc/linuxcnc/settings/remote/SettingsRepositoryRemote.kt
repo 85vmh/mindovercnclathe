@@ -1,8 +1,8 @@
 package com.mindovercnc.linuxcnc.settings.remote
 
-import com.mindovercnc.linuxcnc.settings.BooleanKey
-import com.mindovercnc.linuxcnc.settings.DoubleKey
-import com.mindovercnc.linuxcnc.settings.IntegerKey
+import com.mindovercnc.linuxcnc.settings.model.BooleanKey
+import com.mindovercnc.linuxcnc.settings.model.DoubleKey
+import com.mindovercnc.linuxcnc.settings.model.IntegerKey
 import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow

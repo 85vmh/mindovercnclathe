@@ -2,7 +2,7 @@ package com.mindovercnc.linuxcnc.screen.manual.tapersettings
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
-import com.mindovercnc.linuxcnc.settings.DoubleKey
+import com.mindovercnc.linuxcnc.settings.model.DoubleKey
 import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

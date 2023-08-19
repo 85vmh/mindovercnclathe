@@ -1,6 +1,6 @@
 package com.mindovercnc.database.table
 
-import com.mindovercnc.model.MadeOf
+import com.mindovercnc.linuxcnc.tools.model.MadeOf
 import org.jetbrains.exposed.dao.id.IntIdTable
 
 object CuttingInsertTable : IntIdTable() {

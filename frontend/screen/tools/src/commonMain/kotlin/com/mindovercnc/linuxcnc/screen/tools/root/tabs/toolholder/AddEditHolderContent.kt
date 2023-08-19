@@ -25,8 +25,8 @@ import com.mindovercnc.linuxcnc.listitem.ValueSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.LatheToolView
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
-import com.mindovercnc.model.LatheTool
-import com.mindovercnc.model.tool.ToolHolderType
+import com.mindovercnc.linuxcnc.tools.model.LatheTool
+import com.mindovercnc.linuxcnc.tools.model.ToolHolderType
 import scroll.draggableScroll
 
 @Composable

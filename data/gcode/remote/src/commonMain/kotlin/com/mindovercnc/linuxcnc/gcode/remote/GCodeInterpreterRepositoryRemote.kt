@@ -1,7 +1,7 @@
 package com.mindovercnc.linuxcnc.gcode.remote
 
 import com.mindovercnc.linuxcnc.gcode.GCodeInterpreterRepository
-import com.mindovercnc.linuxcnc.gcode.GCodeCommand
+import com.mindovercnc.linuxcnc.gcode.model.GCodeCommand
 import mu.KotlinLogging
 import okio.Path
 

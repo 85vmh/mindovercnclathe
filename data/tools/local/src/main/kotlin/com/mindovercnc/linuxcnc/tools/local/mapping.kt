@@ -2,8 +2,8 @@ package com.mindovercnc.linuxcnc.tools.local
 
 import com.mindovercnc.database.entity.CuttingInsertEntity
 import com.mindovercnc.database.entity.WorkpieceMaterialEntity
-import com.mindovercnc.model.CuttingInsert
-import com.mindovercnc.model.WorkpieceMaterial
+import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.WorkpieceMaterial
 
 
 fun CuttingInsertEntity.toCuttingInsert(): CuttingInsert {

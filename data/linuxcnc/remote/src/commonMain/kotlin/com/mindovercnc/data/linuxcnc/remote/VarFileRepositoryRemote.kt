@@ -1,7 +1,7 @@
 package com.mindovercnc.data.linuxcnc.remote
 
 import com.mindovercnc.data.linuxcnc.VarFileRepository
-import com.mindovercnc.model.ParametersState
+import com.mindovercnc.data.linuxcnc.model.ParametersState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import mu.KotlinLogging

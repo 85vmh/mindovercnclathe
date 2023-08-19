@@ -18,10 +18,10 @@ import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.listitem.ValueSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
-import com.mindovercnc.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.ToolType
 import com.mindovercnc.model.SpindleDirection
 import com.mindovercnc.model.TipOrientation
-import com.mindovercnc.model.tool.ToolType
 import scroll.draggableScroll
 
 private val inputModifier = Modifier.width(200.dp)

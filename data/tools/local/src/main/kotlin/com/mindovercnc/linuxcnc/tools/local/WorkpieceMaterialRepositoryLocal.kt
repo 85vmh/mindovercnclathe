@@ -2,7 +2,7 @@ package com.mindovercnc.linuxcnc.tools.local
 
 import com.mindovercnc.database.entity.WorkpieceMaterialEntity
 import com.mindovercnc.linuxcnc.tools.WorkpieceMaterialRepository
-import com.mindovercnc.model.WorkpieceMaterial
+import com.mindovercnc.linuxcnc.tools.model.WorkpieceMaterial
 import org.jetbrains.exposed.sql.transactions.transaction
 
 

@@ -4,7 +4,7 @@ import com.mindovercnc.data.linuxcnc.VarFilePath
 import com.mindovercnc.data.linuxcnc.VarFileRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
-import com.mindovercnc.model.ParametersState
+import com.mindovercnc.data.linuxcnc.model.ParametersState
 import kotlinx.coroutines.flow.*
 import okio.FileSystem
 import ro.dragossusi.proto.linuxcnc.status.Position

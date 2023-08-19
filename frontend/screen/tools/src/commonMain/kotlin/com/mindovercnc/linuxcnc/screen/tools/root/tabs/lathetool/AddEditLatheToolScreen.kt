@@ -12,7 +12,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.screen.rememberScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.Tools
-import com.mindovercnc.model.LatheTool
+import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import org.kodein.di.bindProvider
 
 class AddEditLatheToolScreen(

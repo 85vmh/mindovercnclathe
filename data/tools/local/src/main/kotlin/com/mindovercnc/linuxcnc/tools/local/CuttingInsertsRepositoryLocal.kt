@@ -3,7 +3,7 @@ package com.mindovercnc.linuxcnc.tools.local
 import com.mindovercnc.database.entity.CuttingInsertEntity
 import com.mindovercnc.database.table.CuttingInsertTable
 import com.mindovercnc.linuxcnc.tools.CuttingInsertsRepository
-import com.mindovercnc.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction

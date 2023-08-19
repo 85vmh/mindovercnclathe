@@ -1,5 +1,6 @@
 package com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert
 
+import com.mindovercnc.linuxcnc.tools.model.MadeOf
 import com.mindovercnc.model.*
 
 data class AddEditCuttingInsertState(

@@ -1,9 +1,9 @@
 package com.mindovercnc.linuxcnc.screen.manual.turningsettings
 
 import cafe.adriel.voyager.core.model.StateScreenModel
-import com.mindovercnc.linuxcnc.settings.BooleanKey
-import com.mindovercnc.linuxcnc.settings.DoubleKey
-import com.mindovercnc.linuxcnc.settings.IntegerKey
+import com.mindovercnc.linuxcnc.settings.model.BooleanKey
+import com.mindovercnc.linuxcnc.settings.model.DoubleKey
+import com.mindovercnc.linuxcnc.settings.model.IntegerKey
 import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import kotlinx.coroutines.flow.update
 

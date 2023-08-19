@@ -6,10 +6,10 @@ import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.linuxcnc.domain.model.VirtualLimits
 import com.mindovercnc.linuxcnc.format.toFixedDigits
-import com.mindovercnc.linuxcnc.settings.BooleanKey
-import com.mindovercnc.linuxcnc.settings.DoubleKey
+import com.mindovercnc.linuxcnc.settings.model.BooleanKey
+import com.mindovercnc.linuxcnc.settings.model.DoubleKey
 import com.mindovercnc.linuxcnc.settings.SettingsRepository
-import com.mindovercnc.model.G53AxisLimits
+import com.mindovercnc.data.linuxcnc.model.G53AxisLimits
 import com.mindovercnc.model.codegen.CodegenPoint
 import com.mindovercnc.repository.ActiveLimitsRepository
 import com.mindovercnc.repository.IoStatusRepository

@@ -1,6 +1,6 @@
 package com.mindovercnc.linuxcnc.tools
 
-import com.mindovercnc.model.tool.ToolHolder
+import com.mindovercnc.linuxcnc.tools.model.ToolHolder
 
 interface ToolHolderRepository {
     fun getToolHolders(): List<ToolHolder>

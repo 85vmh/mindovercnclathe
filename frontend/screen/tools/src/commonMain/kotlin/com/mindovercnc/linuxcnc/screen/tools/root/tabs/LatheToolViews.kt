@@ -19,9 +19,9 @@ import com.mindovercnc.linuxcnc.format.stripZeros
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.DirectionItem
 import com.mindovercnc.linuxcnc.widgets.SettingStatusRow
-import com.mindovercnc.model.CuttingInsert
-import com.mindovercnc.model.LatheTool
-import com.mindovercnc.model.MadeOf
+import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.LatheTool
+import com.mindovercnc.linuxcnc.tools.model.MadeOf
 
 private val iconModifier =
     Modifier.padding(2.dp)

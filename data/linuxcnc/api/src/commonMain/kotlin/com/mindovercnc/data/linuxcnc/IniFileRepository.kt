@@ -1,7 +1,7 @@
 package com.mindovercnc.data.linuxcnc
 
-import com.mindovercnc.model.G53AxisLimits
-import com.mindovercnc.model.IniFile
+import com.mindovercnc.data.linuxcnc.model.G53AxisLimits
+import com.mindovercnc.data.linuxcnc.model.IniFile
 
 
 interface IniFileRepository {

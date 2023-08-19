@@ -1,7 +1,7 @@
 package com.mindovercnc.linuxcnc.tools.remote
 
 import com.mindovercnc.linuxcnc.tools.WorkpieceMaterialRepository
-import com.mindovercnc.model.WorkpieceMaterial
+import com.mindovercnc.linuxcnc.tools.model.WorkpieceMaterial
 import mu.KotlinLogging
 
 

@@ -28,8 +28,8 @@ import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.AddEditLatheToo
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.DirectionItem
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.TipOrientationUi
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
-import com.mindovercnc.model.CuttingInsert
-import com.mindovercnc.model.LatheTool
+import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import scroll.VerticalScrollbar
 import scroll.draggableScroll
 

@@ -3,8 +3,7 @@ package com.mindovercnc.linuxcnc.domain
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.linuxcnc.tools.CuttingInsertsRepository
-import com.mindovercnc.model.*
-import com.mindovercnc.repository.*
+import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import kotlinx.coroutines.flow.*
 
 class InsertsAndMaterialsUseCase(

@@ -7,7 +7,7 @@ import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.linuxcnc.gcode.IniFileRepository
 import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.model.CncStateMessage
-import com.mindovercnc.model.G53AxisLimits
+import com.mindovercnc.data.linuxcnc.model.G53AxisLimits
 import com.mindovercnc.model.JoystickStatus
 import com.mindovercnc.model.SpindleSwitchStatus
 import com.mindovercnc.repository.CncMessagesRepository

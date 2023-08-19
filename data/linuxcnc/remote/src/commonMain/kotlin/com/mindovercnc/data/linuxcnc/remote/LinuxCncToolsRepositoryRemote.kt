@@ -1,7 +1,7 @@
 package com.mindovercnc.data.linuxcnc.remote
 
 import com.mindovercnc.data.linuxcnc.LinuxCncToolsRepository
-import com.mindovercnc.model.LinuxCncTool
+import com.mindovercnc.data.linuxcnc.model.LinuxCncTool
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import mu.KotlinLogging

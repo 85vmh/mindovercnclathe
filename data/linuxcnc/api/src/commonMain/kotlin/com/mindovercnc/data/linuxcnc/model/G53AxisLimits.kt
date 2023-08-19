@@ -1,4 +1,4 @@
-package com.mindovercnc.model
+package com.mindovercnc.data.linuxcnc.model
 
 data class G53AxisLimits(
     val xMinLimit: Double? = null,

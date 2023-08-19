@@ -5,10 +5,10 @@ import com.mindovercnc.database.entity.ToolHolderEntity
 import com.mindovercnc.database.table.ToolHolderTable
 import com.mindovercnc.database.table.ToolHolderTable.holderNumber
 import com.mindovercnc.linuxcnc.tools.ToolHolderRepository
-import com.mindovercnc.model.LatheTool
+import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.model.TipOrientation
-import com.mindovercnc.model.tool.ToolHolder
-import com.mindovercnc.model.tool.ToolType
+import com.mindovercnc.linuxcnc.tools.model.ToolHolder
+import com.mindovercnc.linuxcnc.tools.model.ToolType
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction

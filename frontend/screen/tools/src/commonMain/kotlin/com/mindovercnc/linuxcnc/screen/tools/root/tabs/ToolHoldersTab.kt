@@ -28,7 +28,7 @@ import com.mindovercnc.linuxcnc.listitem.LabelWithValue
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.AddEditHolderScreen
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
-import com.mindovercnc.model.tool.ToolHolder
+import com.mindovercnc.linuxcnc.tools.model.ToolHolder
 import scroll.VerticalScrollbar
 import scroll.draggableScroll
 

@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.widgets.DropDownClosedItem
 import com.mindovercnc.linuxcnc.widgets.DropDownView
-import com.mindovercnc.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 
 @Composable

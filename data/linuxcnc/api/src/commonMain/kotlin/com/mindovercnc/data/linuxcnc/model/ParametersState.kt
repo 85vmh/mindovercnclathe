@@ -1,4 +1,4 @@
-package com.mindovercnc.model
+package com.mindovercnc.data.linuxcnc.model
 
 import ro.dragossusi.proto.linuxcnc.status.Position
 
