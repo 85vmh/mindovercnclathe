@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class VirtualLimitsScreenModel(
     private val positionUseCase: PositionUseCase,
     private val virtualLimitsUseCase: VirtualLimitsUseCase,
-) : StateScreenModel<VirtualLimitsState>(VirtualLimitsState()) {
+) : StateScreenModel<VirtualLimitsState>(VirtualLimitsState()), VirtualLimitsComponent {
 
     init {
         virtualLimitsUseCase
@@ -38,31 +38,31 @@ class VirtualLimitsScreenModel(
             .launchIn(coroutineScope)
     }
 
-    fun teachInXMinus() {
+    override fun teachInXMinus() {
         coroutineScope.launch { setXMinus(positionUseCase.getCurrentPoint().x.toDouble()) }
     }
 
-    fun setXMinus(value: Double) {
+    override fun setXMinus(value: Double) {
         mutableState.update { it.copy(xMinus = value) }
     }
 
-    fun teachInXPlus() {
+    override fun teachInXPlus() {
         coroutineScope.launch { setXPlus(positionUseCase.getCurrentPoint().x.toDouble()) }
     }
 
-    fun setXPlus(value: Double) {
+    override fun setXPlus(value: Double) {
         mutableState.update { it.copy(xPlus = value) }
     }
 
-    fun teachInZMinus() {
+    override fun teachInZMinus() {
         coroutineScope.launch { setZMinus(positionUseCase.getCurrentPoint().y.toDouble()) }
     }
 
-    fun setZMinus(value: Double) {
+    override fun setZMinus(value: Double) {
         mutableState.update { it.copy(zMinus = value) }
     }
 
-    fun teachInZPlus() {
+    override fun teachInZPlus() {
         coroutineScope.launch {
             val zLimit =
                 when (mutableState.value.zPlusIsToolRelated) {
@@ -73,31 +73,31 @@ class VirtualLimitsScreenModel(
         }
     }
 
-    fun setZPlus(value: Double) {
+    override fun setZPlus(value: Double) {
         mutableState.update { it.copy(zPlus = value) }
     }
 
-    fun setXMinusActive(value: Boolean) {
+    override fun setXMinusActive(value: Boolean) {
         mutableState.update { it.copy(xMinusActive = value) }
     }
 
-    fun setXPlusActive(value: Boolean) {
+    override fun setXPlusActive(value: Boolean) {
         mutableState.update { it.copy(xPlusActive = value) }
     }
 
-    fun setZMinusActive(value: Boolean) {
+    override fun setZMinusActive(value: Boolean) {
         mutableState.update { it.copy(zMinusActive = value) }
     }
 
-    fun setZPlusActive(value: Boolean) {
+    override fun setZPlusActive(value: Boolean) {
         mutableState.update { it.copy(zPlusActive = value) }
     }
 
-    fun setZPlusToolRelated(value: Boolean) {
+    override fun setZPlusToolRelated(value: Boolean) {
         mutableState.update { it.copy(zPlusIsToolRelated = value) }
     }
 
-    fun applyChanges() {
+    override fun applyChanges() {
         virtualLimitsUseCase.saveVirtualLimits(mutableState.value.toVirtualLimits())
     }
 

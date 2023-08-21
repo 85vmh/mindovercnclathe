@@ -99,39 +99,40 @@ class VirtualLimitsScreen : Manual("Virtual Limits") {
             }
         }
     }
+}
 
-    @Composable
-    private fun Limit(
-        axisDirection: String,
-        active: Boolean,
-        value: Double,
-        activeChange: (Boolean) -> Unit,
-        onValueChanged: (Double) -> Unit,
-        teachIn: () -> Unit
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Checkbox(checked = active, activeChange)
-            Text(modifier = Modifier.padding(start = 8.dp), text = axisDirection)
-            NumericInputField(
-                numericValue = value.toFixedDigitsString(),
-                inputType =
-                    when (axisDirection) {
-                        "X-" -> InputType.VIRTUAL_LIMIT_X_MINUS
-                        "X+" -> InputType.VIRTUAL_LIMIT_X_PLUS
-                        "Z-" -> InputType.VIRTUAL_LIMIT_Z_MINUS
-                        else -> InputType.VIRTUAL_LIMIT_Z_PLUS
-                    },
-                modifier = Modifier.width(100.dp).padding(start = 16.dp),
-                onValueChanged = { onValueChanged.invoke(it.toDouble()) }
-            )
 
-            Button(
-                modifier = Modifier.padding(start = 16.dp),
-                enabled = active,
-                onClick = teachIn
-            ) {
-                Text("Teach In $axisDirection")
-            }
+@Composable
+private fun Limit(
+    axisDirection: String,
+    active: Boolean,
+    value: Double,
+    activeChange: (Boolean) -> Unit,
+    onValueChanged: (Double) -> Unit,
+    teachIn: () -> Unit
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Checkbox(checked = active, activeChange)
+        Text(modifier = Modifier.padding(start = 8.dp), text = axisDirection)
+        NumericInputField(
+            numericValue = value.toFixedDigitsString(),
+            inputType =
+            when (axisDirection) {
+                "X-" -> InputType.VIRTUAL_LIMIT_X_MINUS
+                "X+" -> InputType.VIRTUAL_LIMIT_X_PLUS
+                "Z-" -> InputType.VIRTUAL_LIMIT_Z_MINUS
+                else -> InputType.VIRTUAL_LIMIT_Z_PLUS
+            },
+            modifier = Modifier.width(100.dp).padding(start = 16.dp),
+            onValueChanged = { onValueChanged.invoke(it.toDouble()) }
+        )
+
+        Button(
+            modifier = Modifier.padding(start = 16.dp),
+            enabled = active,
+            onClick = teachIn
+        ) {
+            Text("Teach In $axisDirection")
         }
     }
 }
