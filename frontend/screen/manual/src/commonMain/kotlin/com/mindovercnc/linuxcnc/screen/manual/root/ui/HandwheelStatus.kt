@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.manual.root
+package com.mindovercnc.linuxcnc.screen.manual.root.ui
 
 import actor.ArrowTipActor
 import actor.CanvasActor

@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.manual.root.axis
+package com.mindovercnc.linuxcnc.screen.manual.root.ui.axis
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column

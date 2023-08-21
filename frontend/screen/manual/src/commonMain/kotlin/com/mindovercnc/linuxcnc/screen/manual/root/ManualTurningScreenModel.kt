@@ -5,7 +5,6 @@ import cafe.adriel.voyager.core.model.coroutineScope
 import com.mindovercnc.linuxcnc.domain.*
 import com.mindovercnc.linuxcnc.numpad.NumPadState
 import com.mindovercnc.linuxcnc.numpad.data.InputType
-import com.mindovercnc.model.CoordinateAxis
 import com.mindovercnc.model.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -21,7 +20,7 @@ class ManualTurningScreenModel(
     private val offsetsUseCase: OffsetsUseCase,
     private val virtualLimitsUseCase: VirtualLimitsUseCase,
     simpleCyclesUseCase: SimpleCyclesUseCase
-) : StateScreenModel<ManualTurningState>(ManualTurningState()) {
+) : StateScreenModel<ManualTurningState>(ManualTurningState()), ManualTurningComponent {
 
     init {
         virtualLimitsUseCase.hasToolLoaded
@@ -106,8 +105,65 @@ class ManualTurningScreenModel(
             .launchIn(coroutineScope)
     }
 
+    override fun setTaperTurningActive(active: Boolean) {
+        mutableState.update { it.copy(taperTurningActive = active) }
+    }
+
+    override fun setVirtualLimitsActive(active: Boolean) {
+        coroutineScope.launch { virtualLimitsUseCase.setLimitsActive(active) }
+    }
+
+    override fun setActiveWcs(wcs: String) {
+        coroutineScope.launch { offsetsUseCase.setActiveOffset(wcs) }
+    }
+
+    override fun setWorkpieceZ(coordinate: Double) {
+        coroutineScope.launch { offsetsUseCase.touchOffZ(coordinate) }
+    }
+
+    override fun setToolOffsetX(coordinate: Double) {
+        coroutineScope.launch { toolsUseCase.toolTouchOffX(coordinate) }
+    }
+
+    override fun setToolOffsetZ(coordinate: Double) {
+        coroutineScope.launch { toolsUseCase.toolTouchOffZ(coordinate) }
+    }
+
+    override fun setZeroPosX() {
+        coroutineScope.launch { manualPositionUseCase.setZeroPosX() }
+    }
+
+    override fun setZeroPosZ() {
+        coroutineScope.launch { manualPositionUseCase.setZeroPosZ() }
+    }
+
+    override fun toggleXAbsRel() {
+        manualPositionUseCase.toggleXAbsRel()
+    }
+
+    override fun toggleZAbsRel() {
+        manualPositionUseCase.toggleZAbsRel()
+    }
+
+    override fun openNumPad(inputType: InputType, onSubmitAction: (Double) -> Unit) {
+        mutableState.update {
+            it.copy(
+                numPadState =
+                    NumPadState(
+                        numInputParameters = inputType,
+                        inputType = inputType,
+                        onSubmitAction = onSubmitAction
+                    )
+            )
+        }
+    }
+
+    override fun closeNumPad() {
+        mutableState.update { it.copy(numPadState = null) }
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun virtualLimits(): Flow<VirtualLimitsUiModel?> {
+    private fun virtualLimits(): Flow<VirtualLimitsUiModel?> {
         return virtualLimitsUseCase.isLimitsActive().flatMapLatest {
             when {
                 it ->
@@ -122,62 +178,5 @@ class ManualTurningScreenModel(
                 else -> flowOf(null)
             }
         }
-    }
-
-    fun setTaperTurningActive(active: Boolean) {
-        mutableState.update { it.copy(taperTurningActive = active) }
-    }
-
-    fun setVirtualLimitsActive(active: Boolean) {
-        coroutineScope.launch { virtualLimitsUseCase.setLimitsActive(active) }
-    }
-
-    fun setActiveWcs(wcs: String) {
-        coroutineScope.launch { offsetsUseCase.setActiveOffset(wcs) }
-    }
-
-    fun setWorkpieceZ(coordinate: Double) {
-        coroutineScope.launch { offsetsUseCase.touchOffZ(coordinate) }
-    }
-
-    fun setToolOffsetX(coordinate: Double) {
-        coroutineScope.launch { toolsUseCase.toolTouchOffX(coordinate) }
-    }
-
-    fun setToolOffsetZ(coordinate: Double) {
-        coroutineScope.launch { toolsUseCase.toolTouchOffZ(coordinate) }
-    }
-
-    fun setZeroPosX() {
-        coroutineScope.launch { manualPositionUseCase.setZeroPosX() }
-    }
-
-    fun setZeroPosZ() {
-        coroutineScope.launch { manualPositionUseCase.setZeroPosZ() }
-    }
-
-    fun toggleXAbsRel() {
-        manualPositionUseCase.toggleXAbsRel()
-    }
-
-    fun toggleZAbsRel() {
-        manualPositionUseCase.toggleZAbsRel()
-    }
-
-    fun openNumPad(inputType: InputType, onSubmitAction: (Double) -> Unit) {
-        mutableState.update {
-            it.copy(
-                numPadState =
-                    NumPadState(
-                        numInputParameters = inputType,
-                        inputType = inputType,
-                        onSubmitAction = onSubmitAction
-                    )
-            )
-        }
-    }
-
-    fun closeNumPad() {
-        mutableState.update { it.copy(numPadState = null) }
     }
 }

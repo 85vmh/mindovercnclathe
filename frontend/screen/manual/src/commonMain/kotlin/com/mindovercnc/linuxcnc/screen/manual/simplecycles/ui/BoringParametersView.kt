@@ -1,15 +1,16 @@
-package com.mindovercnc.linuxcnc.screen.manual.simplecycles
+package com.mindovercnc.linuxcnc.screen.manual.simplecycles.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.linuxcnc.screen.manual.simplecycles.SimpleCyclesComponent
 import com.mindovercnc.model.SimpleCycleParameters
 
 @Composable
 fun BoringParametersView(
-    viewModel: SimpleCyclesScreenModel,
+    viewModel: SimpleCyclesComponent,
     parametersState: SimpleCycleParameters.BoringParameters
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {

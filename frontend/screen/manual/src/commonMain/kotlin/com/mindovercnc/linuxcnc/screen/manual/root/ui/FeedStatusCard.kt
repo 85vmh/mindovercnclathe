@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.manual.root
+package com.mindovercnc.linuxcnc.screen.manual.root.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*

@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.manual.root
+package com.mindovercnc.linuxcnc.screen.manual.root.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text

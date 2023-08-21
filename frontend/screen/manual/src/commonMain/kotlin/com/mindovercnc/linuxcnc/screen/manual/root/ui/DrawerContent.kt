@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.manual.root
+package com.mindovercnc.linuxcnc.screen.manual.root.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

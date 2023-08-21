@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.manual.simplecycles
+package com.mindovercnc.linuxcnc.screen.manual.simplecycles.ui
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding

@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.manual.simplecycles
+package com.mindovercnc.linuxcnc.screen.manual.simplecycles.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -6,11 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.linuxcnc.screen.manual.simplecycles.SimpleCyclesComponent
 import com.mindovercnc.model.SimpleCycleParameters
 
 @Composable
 fun DrillingParametersView(
-    viewModel: SimpleCyclesScreenModel,
+    viewModel: SimpleCyclesComponent,
     parameters: SimpleCycleParameters.DrillingParameters,
     modifier: Modifier = Modifier
 ) {

@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.manual.root
+package com.mindovercnc.linuxcnc.screen.manual.root.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -14,17 +14,18 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.linuxcnc.screen.manual.root.ManualTurningComponent
+import com.mindovercnc.linuxcnc.screen.manual.root.ManualTurningState
 import com.mindovercnc.linuxcnc.screen.manual.tapersettings.TaperSettingsScreen
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 
 @Composable
 fun ManualTurningFooter(
     state: ManualTurningState,
-    screenModel: ManualTurningScreenModel,
+    screenModel: ManualTurningComponent,
     navigator: Navigator,
     modifier: Modifier = Modifier
 ) {
-
     Row(modifier = modifier, horizontalArrangement = Arrangement.Start) {
         Button(
             onClick = {

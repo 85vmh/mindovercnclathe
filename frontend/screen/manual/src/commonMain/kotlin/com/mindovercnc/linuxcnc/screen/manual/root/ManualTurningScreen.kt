@@ -17,6 +17,9 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.numpad.InputDialogView
 import com.mindovercnc.linuxcnc.screen.manual.Manual
+import com.mindovercnc.linuxcnc.screen.manual.root.ui.ManualTurningContent
+import com.mindovercnc.linuxcnc.screen.manual.root.ui.ManualTurningSheet
+import com.mindovercnc.linuxcnc.screen.manual.root.ui.SimpleCyclesGrid
 import com.mindovercnc.model.WcsUiModel
 import com.mindovercnc.linuxcnc.screen.manual.simplecycles.SimpleCyclesScreen
 import com.mindovercnc.linuxcnc.screen.rememberScreenModel

@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.screen.manual.Manual
+import com.mindovercnc.linuxcnc.screen.manual.simplecycles.ui.*
 import com.mindovercnc.linuxcnc.screen.rememberScreenModel
 import com.mindovercnc.model.SimpleCycle
 import com.mindovercnc.model.SimpleCycleParameters

@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.manual.simplecycles
+package com.mindovercnc.linuxcnc.screen.manual.simplecycles.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,11 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.listitem.DropDownSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.linuxcnc.screen.manual.simplecycles.SimpleCyclesComponent
 import com.mindovercnc.model.SimpleCycleParameters
 
 @Composable
 fun ThreadingParametersView(
-    viewModel: SimpleCyclesScreenModel,
+    viewModel: SimpleCyclesComponent,
     parametersState: SimpleCycleParameters.ThreadingParameters
 ) {
     val items = remember {

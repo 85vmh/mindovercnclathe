@@ -14,43 +14,35 @@ class SimpleCyclesScreenModel(
     simpleCycle: SimpleCycle,
     private val positionUseCase: PositionUseCase,
     private val simpleCyclesUseCase: SimpleCyclesUseCase
-) : StateScreenModel<SimpleCyclesScreenModel.State>(State()) {
-
-    data class State(
-        val simpleCycleParameters: SimpleCycleParameters? = null
-    )
+) : StateScreenModel<SimpleCyclesState>(SimpleCyclesState()), SimpleCyclesComponent {
 
     init {
         val cycleParameters = simpleCyclesUseCase.getCycleParameters(simpleCycle)
         coroutineScope.launch {
-            mutableState.update {
-                it.copy(simpleCycleParameters = cycleParameters)
-            }
+            mutableState.update { it.copy(simpleCycleParameters = cycleParameters) }
         }
     }
 
-    fun enterEditMode() {
+    override fun enterEditMode() {
         simpleCyclesUseCase.isInEditMode = true
     }
 
-    fun exitEditMode() {
+    override fun exitEditMode() {
         simpleCyclesUseCase.isInEditMode = false
     }
 
-    fun applyChanges() {
+    override fun applyChanges() {
         mutableState.value.simpleCycleParameters?.let {
             simpleCyclesUseCase.applyParameters(it)
             simpleCyclesUseCase.isInEditMode = false
         }
     }
 
-    fun teachInXEnd() {
-        coroutineScope.launch {
-            setXEnd(positionUseCase.getCurrentPoint().x.toDouble())
-        }
+    override fun teachInXEnd() {
+        coroutineScope.launch { setXEnd(positionUseCase.getCurrentPoint().x.toDouble()) }
     }
 
-    fun setXEnd(xEnd: Double) {
+    override fun setXEnd(xEnd: Double) {
         mutableState.value.simpleCycleParameters?.let { actualParameters ->
             when (actualParameters) {
                 is SimpleCycleParameters.TurningParameters -> actualParameters.copy(xEnd = xEnd)
@@ -59,75 +51,65 @@ class SimpleCyclesScreenModel(
                 is SimpleCycleParameters.KeySlotParameters -> actualParameters.copy(xEnd = xEnd)
                 else -> null
             }?.let { newParams ->
-                mutableState.update {
-                    it.copy(simpleCycleParameters = newParams)
-                }
+                mutableState.update { it.copy(simpleCycleParameters = newParams) }
             }
         }
     }
 
-    fun teachInMajorDiameter() {
-        coroutineScope.launch {
-            setMajorDiameter(positionUseCase.getCurrentPoint().x.toDouble())
-        }
+    override fun teachInMajorDiameter() {
+        coroutineScope.launch { setMajorDiameter(positionUseCase.getCurrentPoint().x.toDouble()) }
     }
 
-    fun setMajorDiameter(xCoordinate: Double) {
+    override fun setMajorDiameter(xCoordinate: Double) {
         mutableState.value.simpleCycleParameters?.let { actualParameters ->
             when (actualParameters) {
-                is SimpleCycleParameters.ThreadingParameters -> actualParameters.copy(majorDiameter = xCoordinate)
+                is SimpleCycleParameters.ThreadingParameters ->
+                    actualParameters.copy(majorDiameter = xCoordinate)
                 else -> null
             }?.let { newParams ->
-                mutableState.update {
-                    it.copy(simpleCycleParameters = newParams)
-                }
+                mutableState.update { it.copy(simpleCycleParameters = newParams) }
             }
         }
     }
 
-    fun teachInMinorDiameter() {
-        coroutineScope.launch {
-            setMinorDiameter(positionUseCase.getCurrentPoint().x.toDouble())
-        }
+    override fun teachInMinorDiameter() {
+        coroutineScope.launch { setMinorDiameter(positionUseCase.getCurrentPoint().x.toDouble()) }
     }
 
-    fun setMinorDiameter(xCoordinate: Double) {
+    override fun setMinorDiameter(xCoordinate: Double) {
         mutableState.value.simpleCycleParameters?.let { actualParameters ->
             when (actualParameters) {
-                is SimpleCycleParameters.ThreadingParameters -> actualParameters.copy(minorDiameter = xCoordinate)
+                is SimpleCycleParameters.ThreadingParameters ->
+                    actualParameters.copy(minorDiameter = xCoordinate)
                 else -> null
             }?.let { newParams ->
-                mutableState.update {
-                    it.copy(simpleCycleParameters = newParams)
-                }
+                mutableState.update { it.copy(simpleCycleParameters = newParams) }
             }
         }
     }
 
-    fun calculateFinalDepth() {
+    override fun calculateFinalDepth() {
         coroutineScope.launch {
             mutableState.value.simpleCycleParameters?.let { actualParameters ->
                 when (actualParameters) {
                     is SimpleCycleParameters.ThreadingParameters -> {
                         val finalDepth = calculateFinalDepth(actualParameters.pitch)
                         when {
-                            actualParameters.isExternal -> actualParameters.copy(
-                                finalDepth = finalDepth,
-                                minorDiameter = actualParameters.majorDiameter - 2 * finalDepth
-                            )
-
-                            else -> actualParameters.copy(
-                                finalDepth = finalDepth,
-                                majorDiameter = actualParameters.minorDiameter + 2 * finalDepth
-                            )
+                            actualParameters.isExternal ->
+                                actualParameters.copy(
+                                    finalDepth = finalDepth,
+                                    minorDiameter = actualParameters.majorDiameter - 2 * finalDepth
+                                )
+                            else ->
+                                actualParameters.copy(
+                                    finalDepth = finalDepth,
+                                    majorDiameter = actualParameters.minorDiameter + 2 * finalDepth
+                                )
                         }
                     }
-
                     else -> null
                 }?.let { newParams ->
-                    mutableState.update {
-                        it.copy(simpleCycleParameters = newParams)
-                    }
+                    mutableState.update { it.copy(simpleCycleParameters = newParams) }
                 }
             }
         }
@@ -135,35 +117,37 @@ class SimpleCyclesScreenModel(
 
     private fun calculateFinalDepth(threadPitch: Double): Double {
         val triangleHeight = sqrt(3.0) / 2 * threadPitch
-        //return 5 / 8 * triangleHeight
+        // return 5 / 8 * triangleHeight
         return triangleHeight
     }
 
-    fun teachInZEnd() {
-        coroutineScope.launch {
-            setZEnd(positionUseCase.getCurrentPoint().y.toDouble())
-        }
+    override fun teachInZEnd() {
+        coroutineScope.launch { setZEnd(positionUseCase.getCurrentPoint().y.toDouble()) }
     }
 
-    fun setZEnd(zCoordinate: Double) {
+    override fun setZEnd(zCoordinate: Double) {
         mutableState.value.simpleCycleParameters?.let { actualParameters ->
             when (actualParameters) {
-                is SimpleCycleParameters.TurningParameters -> actualParameters.copy(zEnd = zCoordinate)
-                is SimpleCycleParameters.BoringParameters -> actualParameters.copy(zEnd = zCoordinate)
-                is SimpleCycleParameters.FacingParameters -> actualParameters.copy(zEnd = zCoordinate)
-                is SimpleCycleParameters.ThreadingParameters -> actualParameters.copy(zEnd = zCoordinate)
-                is SimpleCycleParameters.DrillingParameters -> actualParameters.copy(zEnd = zCoordinate)
-                is SimpleCycleParameters.KeySlotParameters -> actualParameters.copy(zEnd = zCoordinate)
+                is SimpleCycleParameters.TurningParameters ->
+                    actualParameters.copy(zEnd = zCoordinate)
+                is SimpleCycleParameters.BoringParameters ->
+                    actualParameters.copy(zEnd = zCoordinate)
+                is SimpleCycleParameters.FacingParameters ->
+                    actualParameters.copy(zEnd = zCoordinate)
+                is SimpleCycleParameters.ThreadingParameters ->
+                    actualParameters.copy(zEnd = zCoordinate)
+                is SimpleCycleParameters.DrillingParameters ->
+                    actualParameters.copy(zEnd = zCoordinate)
+                is SimpleCycleParameters.KeySlotParameters ->
+                    actualParameters.copy(zEnd = zCoordinate)
                 else -> null
             }?.let { newParams ->
-                mutableState.update {
-                    it.copy(simpleCycleParameters = newParams)
-                }
+                mutableState.update { it.copy(simpleCycleParameters = newParams) }
             }
         }
     }
 
-    fun setDoc(doc: Double) {
+    override fun setDoc(doc: Double) {
         coroutineScope.launch {
             mutableState.value.simpleCycleParameters?.let { actualParameters ->
                 when (actualParameters) {
@@ -173,62 +157,58 @@ class SimpleCyclesScreenModel(
                     is SimpleCycleParameters.KeySlotParameters -> actualParameters.copy(doc = doc)
                     else -> null
                 }.let { newParams ->
-                    mutableState.update {
-                        it.copy(simpleCycleParameters = newParams)
-                    }
+                    mutableState.update { it.copy(simpleCycleParameters = newParams) }
                 }
             }
         }
     }
 
-    fun setThreadPitch(threadPitch: Double) {
+    override fun setThreadPitch(threadPitch: Double) {
         coroutineScope.launch {
             mutableState.value.simpleCycleParameters?.let { actualParameters ->
                 when (actualParameters) {
-                    is SimpleCycleParameters.ThreadingParameters -> actualParameters.copy(pitch = threadPitch)
+                    is SimpleCycleParameters.ThreadingParameters ->
+                        actualParameters.copy(pitch = threadPitch)
                     else -> null
                 }?.let { newParams ->
-                    mutableState.update {
-                        it.copy(simpleCycleParameters = newParams)
-                    }
+                    mutableState.update { it.copy(simpleCycleParameters = newParams) }
                 }
             }
         }
     }
 
-    fun setFirstPassDepth(depth: Double) {
+    override fun setFirstPassDepth(depth: Double) {
         coroutineScope.launch {
             mutableState.value.simpleCycleParameters?.let { actualParameters ->
                 when (actualParameters) {
-                    is SimpleCycleParameters.ThreadingParameters -> actualParameters.copy(firstPassDepth = depth)
+                    is SimpleCycleParameters.ThreadingParameters ->
+                        actualParameters.copy(firstPassDepth = depth)
                     else -> null
                 }?.let { newParams ->
-                    mutableState.update {
-                        it.copy(simpleCycleParameters = newParams)
-                    }
+                    mutableState.update { it.copy(simpleCycleParameters = newParams) }
                 }
             }
         }
     }
 
-    fun setFinalPassDepth(depth: Double) {
+    override fun setFinalPassDepth(depth: Double) {
         coroutineScope.launch {
             mutableState.value.simpleCycleParameters?.let { actualParameters ->
                 when (actualParameters) {
-                    is SimpleCycleParameters.ThreadingParameters -> actualParameters.copy(finalDepth = depth)
+                    is SimpleCycleParameters.ThreadingParameters ->
+                        actualParameters.copy(finalDepth = depth)
                     else -> null
                 }?.let { newParams ->
-                    mutableState.update {
-                        it.copy(simpleCycleParameters = newParams)
-                    }
+                    mutableState.update { it.copy(simpleCycleParameters = newParams) }
                 }
             }
         }
     }
 
-    fun setThreadSpringPasses(passes: Int) {
+    override fun setThreadSpringPasses(passes: Int) {
         mutableState.update { state ->
-            val newParams = state.simpleCycleParameters as? SimpleCycleParameters.ThreadingParameters?
+            val newParams =
+                state.simpleCycleParameters as? SimpleCycleParameters.ThreadingParameters?
             if (newParams != null) {
                 state.copy(simpleCycleParameters = newParams.copy(springPasses = passes))
             } else {
@@ -237,17 +217,18 @@ class SimpleCyclesScreenModel(
         }
     }
 
-    fun setTaperAngle(angle: Double) {
-
+    override fun setTaperAngle(angle: Double) {
+        // TODO: implement
     }
 
-    fun setFilletRadius(radius: Double) {
-
+    override fun setFilletRadius(radius: Double) {
+        // TODO: implement
     }
 
-    fun setThreadLocation(isExternal: Boolean) {
+    override fun setThreadLocation(isExternal: Boolean) {
         mutableState.update { state ->
-            val newParams = state.simpleCycleParameters as? SimpleCycleParameters.ThreadingParameters?
+            val newParams =
+                state.simpleCycleParameters as? SimpleCycleParameters.ThreadingParameters?
             if (newParams != null) {
                 state.copy(simpleCycleParameters = newParams.copy(isExternal = isExternal))
             } else {
@@ -256,9 +237,10 @@ class SimpleCyclesScreenModel(
         }
     }
 
-    fun setThreadType(threadType: SimpleCycleParameters.ThreadingParameters.ThreadType) {
+    override fun setThreadType(threadType: SimpleCycleParameters.ThreadingParameters.ThreadType) {
         mutableState.update { state ->
-            val newParams = state.simpleCycleParameters as? SimpleCycleParameters.ThreadingParameters?
+            val newParams =
+                state.simpleCycleParameters as? SimpleCycleParameters.ThreadingParameters?
             if (newParams != null) {
                 state.copy(simpleCycleParameters = newParams.copy(threadType = threadType))
             } else {
@@ -267,7 +249,7 @@ class SimpleCyclesScreenModel(
         }
     }
 
-    fun setKeySlotCuttingFeed(feed: Double) {
+    override fun setKeySlotCuttingFeed(feed: Double) {
         mutableState.update { state ->
             val newParams = state.simpleCycleParameters as? SimpleCycleParameters.KeySlotParameters?
             if (newParams != null) {

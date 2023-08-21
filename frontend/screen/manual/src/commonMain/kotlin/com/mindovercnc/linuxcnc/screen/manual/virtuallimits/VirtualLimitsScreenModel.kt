@@ -13,22 +13,11 @@ import kotlinx.coroutines.launch
 class VirtualLimitsScreenModel(
     private val positionUseCase: PositionUseCase,
     private val virtualLimitsUseCase: VirtualLimitsUseCase,
-) : StateScreenModel<VirtualLimitsScreenModel.State>(State()) {
-
-    data class State(
-        val xMinus: Double = 0.0,
-        val xPlus: Double = 0.0,
-        val zMinus: Double = 0.0,
-        val zPlus: Double = 0.0,
-        val xMinusActive: Boolean = false,
-        val xPlusActive: Boolean = false,
-        val zMinusActive: Boolean = false,
-        val zPlusActive: Boolean = false,
-        val zPlusIsToolRelated: Boolean = false
-    )
+) : StateScreenModel<VirtualLimitsState>(VirtualLimitsState()) {
 
     init {
-        virtualLimitsUseCase.getSavedVirtualLimits()
+        virtualLimitsUseCase
+            .getSavedVirtualLimits()
             .onEach { newLimits ->
                 with(newLimits) {
                     mutableState.update {
@@ -45,104 +34,83 @@ class VirtualLimitsScreenModel(
                         )
                     }
                 }
-            }.launchIn(coroutineScope)
+            }
+            .launchIn(coroutineScope)
     }
 
     fun teachInXMinus() {
-        coroutineScope.launch {
-            setXMinus(positionUseCase.getCurrentPoint().x.toDouble())
-        }
+        coroutineScope.launch { setXMinus(positionUseCase.getCurrentPoint().x.toDouble()) }
     }
 
     fun setXMinus(value: Double) {
-        mutableState.update {
-            it.copy(xMinus = value)
-        }
+        mutableState.update { it.copy(xMinus = value) }
     }
 
     fun teachInXPlus() {
-        coroutineScope.launch {
-            setXPlus(positionUseCase.getCurrentPoint().x.toDouble())
-        }
+        coroutineScope.launch { setXPlus(positionUseCase.getCurrentPoint().x.toDouble()) }
     }
 
     fun setXPlus(value: Double) {
-        mutableState.update {
-            it.copy(xPlus = value)
-        }
+        mutableState.update { it.copy(xPlus = value) }
     }
 
     fun teachInZMinus() {
-        coroutineScope.launch {
-            setZMinus(positionUseCase.getCurrentPoint().y.toDouble())
-        }
+        coroutineScope.launch { setZMinus(positionUseCase.getCurrentPoint().y.toDouble()) }
     }
 
     fun setZMinus(value: Double) {
-        mutableState.update {
-            it.copy(zMinus = value)
-        }
+        mutableState.update { it.copy(zMinus = value) }
     }
 
     fun teachInZPlus() {
         coroutineScope.launch {
-            val zLimit = when (mutableState.value.zPlusIsToolRelated) {
-                true -> positionUseCase.getCurrentPoint().y
-                false -> positionUseCase.getZMachinePosition()
-            }
+            val zLimit =
+                when (mutableState.value.zPlusIsToolRelated) {
+                    true -> positionUseCase.getCurrentPoint().y
+                    false -> positionUseCase.getZMachinePosition()
+                }
             setZPlus(zLimit.toDouble())
         }
     }
 
     fun setZPlus(value: Double) {
-        mutableState.update {
-            it.copy(zPlus = value)
-        }
+        mutableState.update { it.copy(zPlus = value) }
     }
 
     fun setXMinusActive(value: Boolean) {
-        mutableState.update {
-            it.copy(xMinusActive = value)
-        }
+        mutableState.update { it.copy(xMinusActive = value) }
     }
 
     fun setXPlusActive(value: Boolean) {
-        mutableState.update {
-            it.copy(xPlusActive = value)
-        }
+        mutableState.update { it.copy(xPlusActive = value) }
     }
 
     fun setZMinusActive(value: Boolean) {
-        mutableState.update {
-            it.copy(zMinusActive = value)
-        }
+        mutableState.update { it.copy(zMinusActive = value) }
     }
 
     fun setZPlusActive(value: Boolean) {
-        mutableState.update {
-            it.copy(zPlusActive = value)
-        }
+        mutableState.update { it.copy(zPlusActive = value) }
     }
 
     fun setZPlusToolRelated(value: Boolean) {
-        mutableState.update {
-            it.copy(zPlusIsToolRelated = value)
-        }
+        mutableState.update { it.copy(zPlusIsToolRelated = value) }
     }
 
     fun applyChanges() {
         virtualLimitsUseCase.saveVirtualLimits(mutableState.value.toVirtualLimits())
     }
 
-    private fun State.toVirtualLimits() = VirtualLimits(
-        xMinus = xMinus,
-        xPlus = xPlus,
-        zMinus = zMinus,
-        zPlus = zPlus,
-        xMinusActive = xMinusActive,
-        xPlusActive = xPlusActive,
-        zMinusActive = zMinusActive,
-        zPlusActive = zPlusActive,
-        zPlusIsToolRelated = zPlusIsToolRelated
-    )
+    private fun VirtualLimitsState.toVirtualLimits() =
+        VirtualLimits(
+            xMinus = xMinus,
+            xPlus = xPlus,
+            zMinus = zMinus,
+            zPlus = zPlus,
+            xMinusActive = xMinusActive,
+            xPlusActive = xPlusActive,
+            zMinusActive = zMinusActive,
+            zPlusActive = zPlusActive,
+            zPlusIsToolRelated = zPlusIsToolRelated
+        )
 }

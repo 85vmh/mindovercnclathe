@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.manual.root
+package com.mindovercnc.linuxcnc.screen.manual.root.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -7,7 +7,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import com.mindovercnc.linuxcnc.numpad.data.InputType
-import com.mindovercnc.linuxcnc.screen.manual.root.axis.AxisCoordinates
+import com.mindovercnc.linuxcnc.screen.manual.root.ManualTurningComponent
+import com.mindovercnc.linuxcnc.screen.manual.root.ManualTurningState
+import com.mindovercnc.linuxcnc.screen.manual.root.ui.axis.AxisCoordinates
 import com.mindovercnc.linuxcnc.screen.manual.simplecycles.SimpleCyclesScreen
 import com.mindovercnc.linuxcnc.screen.manual.turningsettings.TurningSettingsScreen
 import com.mindovercnc.linuxcnc.screen.manual.virtuallimits.VirtualLimitsScreen
@@ -15,7 +17,7 @@ import com.mindovercnc.linuxcnc.widgets.SimpleCycleStatusUi
 
 @Composable
 fun ManualTurningContent(
-    screenModel: ManualTurningScreenModel,
+    screenModel: ManualTurningComponent,
     state: ManualTurningState,
     navigator: Navigator,
     modifier: Modifier = Modifier
@@ -38,7 +40,7 @@ fun ManualTurningContent(
 
 @Composable
 private fun ManualTurningHeader(
-    screenModel: ManualTurningScreenModel,
+    screenModel: ManualTurningComponent,
     state: ManualTurningState,
     navigator: Navigator,
     modifier: Modifier = Modifier
