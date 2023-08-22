@@ -1,6 +1,6 @@
 package com.mindovercnc.linuxcnc.screen.status.di
 
-import com.mindovercnc.linuxcnc.screen.status.StatusRootScreenModel
+import com.mindovercnc.linuxcnc.screen.status.root.StatusRootScreenModel
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance

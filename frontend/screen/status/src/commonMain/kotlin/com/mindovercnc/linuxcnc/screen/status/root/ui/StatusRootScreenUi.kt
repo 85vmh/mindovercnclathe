@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.status
+package com.mindovercnc.linuxcnc.screen.status.root.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
@@ -23,44 +23,42 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.domain.model.Message
-import com.mindovercnc.linuxcnc.screen.rememberScreenModel
+import com.mindovercnc.linuxcnc.screen.status.root.StatusRootComponent
 import scroll.draggableScroll
 
-class StatusRootScreen : Status("Status") {
 
-    @OptIn(ExperimentalFoundationApi::class)
-    @Composable
-    override fun Content() {
-        val scope = rememberCoroutineScope()
-        val scrollState = rememberLazyListState()
-        val screenModel = rememberScreenModel<StatusRootScreenModel>()
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun StatusRootScreenUi(component: StatusRootComponent, modifier: Modifier = Modifier) {
+    val state by component.state.collectAsState()
+    val scope = rememberCoroutineScope()
+    val scrollState = rememberLazyListState()
 
-        val state by screenModel.state.collectAsState()
-
-        LazyColumn(modifier = Modifier.draggableScroll(scrollState, scope), state = scrollState) {
-            stickyHeader { MessagesHeader() }
-            items(state.messages) { item -> MessageRow(item) }
-        }
+    LazyColumn(modifier = modifier.draggableScroll(scrollState, scope), state = scrollState) {
+        stickyHeader { MessagesHeader() }
+        items(state.messages) { item -> MessageRow(item) }
     }
 }
 
 @Composable
 private fun MessagesHeader(modifier: Modifier = Modifier) {
-    Surface(color = MaterialTheme.colorScheme.primaryContainer) {
+    Surface(
+        color = MaterialTheme.colorScheme.primaryContainer,
+        modifier = modifier,
+    ) {
         Row(
-            modifier = modifier,
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 modifier =
-                    Modifier.width(100.dp).border(width = 0.5.dp, Color.LightGray).padding(8.dp),
+                Modifier.width(100.dp).border(width = 0.5.dp, Color.LightGray).padding(8.dp),
                 textAlign = TextAlign.Center,
                 text = "Type"
             )
             Text(
                 modifier =
-                    Modifier.weight(1f).border(width = 0.5.dp, Color.LightGray).padding(8.dp),
+                Modifier.weight(1f).border(width = 0.5.dp, Color.LightGray).padding(8.dp),
                 textAlign = TextAlign.Center,
                 text = "Message"
             )
