@@ -1,11 +1,11 @@
-package com.mindovercnc.data.linuxcnc.local
+package com.mindovercnc.data.lathehal.local
 
-import com.mindovercnc.data.linuxcnc.HalRepository
+import com.mindovercnc.data.lathehal.HalRepository
 import com.mindovercnc.linuxcnc.HalHandler
 import com.mindovercnc.linuxcnc.model.HalPin
-import com.mindovercnc.model.JoystickPosition
-import com.mindovercnc.model.JoystickStatus
-import com.mindovercnc.model.SpindleSwitchStatus
+import com.mindovercnc.data.lathehal.model.JoystickPosition
+import com.mindovercnc.data.lathehal.model.JoystickStatus
+import com.mindovercnc.data.lathehal.model.SpindleSwitchStatus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

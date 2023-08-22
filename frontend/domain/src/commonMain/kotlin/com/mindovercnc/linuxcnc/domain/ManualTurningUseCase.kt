@@ -1,18 +1,22 @@
 package com.mindovercnc.linuxcnc.domain
 
+import com.mindovercnc.data.lathehal.HalRepository
+import com.mindovercnc.data.lathehal.model.JoystickStatus
+import com.mindovercnc.data.lathehal.model.SpindleSwitchStatus
 import com.mindovercnc.data.linuxcnc.CncCommandRepository
 import com.mindovercnc.data.linuxcnc.CncStatusRepository
-import com.mindovercnc.data.linuxcnc.HalRepository
 import com.mindovercnc.data.linuxcnc.IniFileRepository
 import com.mindovercnc.data.linuxcnc.model.inSafeRange
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.linuxcnc.format.stripZeros
+import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.linuxcnc.settings.model.BooleanKey
 import com.mindovercnc.linuxcnc.settings.model.DoubleKey
 import com.mindovercnc.linuxcnc.settings.model.IntegerKey
-import com.mindovercnc.linuxcnc.settings.SettingsRepository
-import com.mindovercnc.model.*
+import com.mindovercnc.model.Axis
+import com.mindovercnc.model.CncStateMessage
+import com.mindovercnc.model.Direction
 import com.mindovercnc.model.codegen.CodegenPoint
 import com.mindovercnc.repository.CncMessagesRepository
 import com.mindovercnc.repository.MotionStatusRepository

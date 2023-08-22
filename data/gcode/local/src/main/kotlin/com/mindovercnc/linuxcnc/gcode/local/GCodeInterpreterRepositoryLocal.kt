@@ -9,7 +9,6 @@ import okio.Path
 import okio.Path.Companion.toPath
 
 val LinuxCncHome = System.getenv("LINUXCNC_HOME").toPath()
-//val LinuxCncHome: Path = "/home/vasimihalca/Work/linuxcnc-dev2".toPath()
 
 /** Implementation for [GCodeInterpreterRepository]. */
 class GCodeInterpreterRepositoryLocal(

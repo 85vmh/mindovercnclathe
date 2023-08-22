@@ -52,6 +52,7 @@ kotlin {
                 implementation(project(":data:linuxcnc:api"))
                 implementation(project(":data:common:api"))
                 implementation(project(":data:gcode:api"))
+                implementation(project(":data:lathehal:api"))
 
                 implementation(project(":startup:args"))
 
@@ -78,6 +79,9 @@ kotlin {
 
                 implementation(project(":data:lathetools:local"))
                 implementation(project(":data:lathetools:remote"))
+
+                implementation(project(":data:lathehal:local"))
+                implementation(project(":data:lathehal:remote"))
 
                 implementation(project(":data:gcode:local"))
                 implementation(project(":data:gcode:remote"))
@@ -109,6 +113,7 @@ kotlin {
                 implementation(project(":data:linuxcnc:remote"))
                 implementation(project(":data:settings:remote"))
                 implementation(project(":data:lathetools:remote"))
+                implementation(project(":data:lathehal:remote"))
             }
         }
 

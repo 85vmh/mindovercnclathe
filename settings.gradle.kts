@@ -27,6 +27,10 @@ include("data:gcode:local")
 include("data:gcode:remote")
 include("data:gcode:api")
 
+include("data:lathehal:local")
+include("data:lathehal:remote")
+include("data:lathehal:api")
+
 include("data:settings:local")
 include("data:settings:remote")
 include("data:settings:api")

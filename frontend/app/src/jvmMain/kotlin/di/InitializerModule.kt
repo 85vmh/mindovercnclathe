@@ -1,7 +1,7 @@
 package di
 
 import Files
-import com.mindovercnc.linuxcnc.KtlCncInitializer
+import com.mindovercnc.linuxcnc.initializer.KtlCncInitializer
 import initializer.Initializer
 import initializer.SimpleInitializer
 import org.kodein.di.DI

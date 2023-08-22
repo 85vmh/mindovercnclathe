@@ -1,6 +1,5 @@
 package com.mindovercnc.linuxcnc.initializer
 
-import com.mindovercnc.linuxcnc.KtlCncInitializer
 import initializer.InitializerStep
 import mu.KotlinLogging
 import java.io.File

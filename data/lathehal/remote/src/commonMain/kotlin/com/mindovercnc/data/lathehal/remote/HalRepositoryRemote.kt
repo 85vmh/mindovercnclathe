@@ -1,9 +1,9 @@
-package com.mindovercnc.data.linuxcnc.remote
+package com.mindovercnc.data.lathehal.remote
 
-import com.mindovercnc.data.linuxcnc.HalRepository
-import com.mindovercnc.model.JoystickPosition
-import com.mindovercnc.model.JoystickStatus
-import com.mindovercnc.model.SpindleSwitchStatus
+import com.mindovercnc.data.lathehal.HalRepository
+import com.mindovercnc.data.lathehal.model.JoystickPosition
+import com.mindovercnc.data.lathehal.model.JoystickStatus
+import com.mindovercnc.data.lathehal.model.SpindleSwitchStatus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import mu.KotlinLogging
