@@ -19,6 +19,7 @@ class GCodeUseCase(private val gCodeInterpreterRepository: GCodeInterpreterRepos
                     "STRAIGHT_TRAVERSE",
                     "STRAIGHT_FEED" -> {
                         val args = command.arguments.split(", ")
+                        //TODO: This creates an issue when rendering arcs, the lates operate in X and Z
                         val current =
                             Point(
                                 args[0].toFloat(),

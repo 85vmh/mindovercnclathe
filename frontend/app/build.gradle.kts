@@ -141,6 +141,7 @@ compose {
                 // needed by the database
                 modules("java.sql")
                 targetFormats(TargetFormat.Deb)
+                packageName = "ktcnc"
             }
         }
     }
