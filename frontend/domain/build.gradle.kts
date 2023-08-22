@@ -45,7 +45,7 @@ kotlin {
 
                 implementation(project(":data:common:api"))
                 implementation(project(":data:linuxcnc:api"))
-                implementation(project(":data:tools:api"))
+                implementation(project(":data:lathetools:api"))
                 implementation(project(":data:gcode:api"))
                 implementation(project(":data:settings:api"))
 

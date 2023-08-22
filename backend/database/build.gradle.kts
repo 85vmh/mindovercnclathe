@@ -23,6 +23,6 @@ dependencies {
     implementation(project(":initializer"))
     implementation(project(":model"))
 
-    implementation(project(":data:tools:api"))
+    implementation(project(":data:lathetools:api"))
     implementation(project(":ktlcnc:model"))
 }

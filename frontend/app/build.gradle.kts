@@ -76,8 +76,8 @@ kotlin {
                 implementation(project(":data:linuxcnc:local"))
                 implementation(project(":data:linuxcnc:remote"))
 
-                implementation(project(":data:tools:local"))
-                implementation(project(":data:tools:remote"))
+                implementation(project(":data:lathetools:local"))
+                implementation(project(":data:lathetools:remote"))
 
                 implementation(project(":data:gcode:local"))
                 implementation(project(":data:gcode:remote"))
@@ -108,7 +108,7 @@ kotlin {
                 implementation(project(":data:gcode:remote"))
                 implementation(project(":data:linuxcnc:remote"))
                 implementation(project(":data:settings:remote"))
-                implementation(project(":data:tools:remote"))
+                implementation(project(":data:lathetools:remote"))
             }
         }
 

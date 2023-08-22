@@ -19,9 +19,9 @@ include("data:common:local")
 include("data:common:impl")
 include("data:common:api")
 
-include("data:tools:local")
-include("data:tools:remote")
-include("data:tools:api")
+include("data:lathetools:local")
+include("data:lathetools:remote")
+include("data:lathetools:api")
 
 include("data:gcode:local")
 include("data:gcode:remote")
