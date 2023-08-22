@@ -13,7 +13,7 @@ interface RootComponent {
     sealed interface Child {
         class Manual(val component: ManualTurningComponent) : Child
         class Conversational(
-        // TODO:
+        // TODO: create component
         ) : Child
         class Programs(val component: ProgramsRootComponent) : Child
         class Tools(val component: ToolsComponent) : Child
