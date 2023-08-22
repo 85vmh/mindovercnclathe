@@ -18,7 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.dp
+import com.mindovercnc.linuxcnc.screen.AppScreen
 import com.mindovercnc.linuxcnc.screen.programs.Programs
+import com.mindovercnc.linuxcnc.screen.programs.programloaded.ui.*
 import com.mindovercnc.linuxcnc.screen.rememberScreenModel
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import editor.EditorView
@@ -35,7 +37,6 @@ class ProgramLoadedScreen(private val file: Path) : Programs() {
     @Composable
     override fun RowScope.Actions() {
         val screenModel = rememberScreenModel<ProgramLoadedScreenModel> { bindProvider { file } }
-        val state by screenModel.state.collectAsState()
 
         IconButton(modifier = iconButtonModifier, onClick = { screenModel.stopProgram() }) {
             Icon(
@@ -54,80 +55,6 @@ class ProgramLoadedScreen(private val file: Path) : Programs() {
     @Composable
     override fun Content() {
         val screenModel = rememberScreenModel<ProgramLoadedScreenModel> { bindProvider { file } }
-        val state by screenModel.state.collectAsState()
-
-        Row(modifier = Modifier.fillMaxSize()) {
-            Column(modifier = Modifier.weight(1f)) {
-                Box {
-                    VisualTurning(
-                        state = state.visualTurningState,
-                        Modifier.fillMaxWidth()
-                            .height(400.dp)
-                            .onSizeChanged { screenModel.setViewportSize(it) }
-//                            .onPointerEvent(PointerEventType.Scroll) {
-//                                screenModel.zoomBy(it.changes.first().scrollDelta.y)
-//                            }
-                            .pointerInput(Unit) {
-                                detectDragGestures { change, dragAmount ->
-                                    change.consume()
-                                    screenModel.translate(dragAmount)
-                                }
-                            }
-                    )
-                    Row(
-                        modifier = Modifier.align(Alignment.BottomCenter),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        IconButton(modifier = iconButtonModifier, onClick = { screenModel.zoomOut() }) {
-                            Icon(
-                                imageVector = Icons.Default.KeyboardArrowDown,
-                                contentDescription = "",
-                            )
-                        }
-                        IconButton(modifier = iconButtonModifier, onClick = { screenModel.zoomIn() }) {
-                            Icon(
-                                imageVector = Icons.Default.KeyboardArrowUp,
-                                contentDescription = "",
-                            )
-                        }
-                    }
-                }
-                val editor = state.editor
-                if (editor != null) {
-                    EditorView(
-                        model = editor,
-                        settings = state.settings,
-                        showFileName = false,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                } else {
-                    CircularProgressIndicator(modifier = Modifier.fillMaxSize())
-                }
-            }
-            VerticalDivider(thickness = 1.dp)
-            Column(modifier = Modifier.width(420.dp)) {
-                state.toolChangeModel?.let {
-                    ToolChangeDialog(
-                        toolChangeModel = it,
-                        confirmationClick = screenModel::confirmToolChanged,
-                        abortClick = screenModel::cancelToolChange
-                    )
-                }
-
-                state.positionModel?.let {
-                    ProgramCoordinatesView(currentWcs = state.currentWcs, positionModel = it)
-                }
-                StatusView(
-                    machineStatus = state.machineStatus,
-                    modifier = Modifier.weight(1f).padding(8.dp)
-                )
-                ActiveCodesView(
-                    activeCodes = state.activeCodes,
-                    modifier = Modifier.fillMaxWidth().height(80.dp),
-                    onCodeClicked = screenModel::onActiveCodeClicked
-                )
-            }
-        }
+        ProgramLoadedScreenUi(screenModel)
     }
 }

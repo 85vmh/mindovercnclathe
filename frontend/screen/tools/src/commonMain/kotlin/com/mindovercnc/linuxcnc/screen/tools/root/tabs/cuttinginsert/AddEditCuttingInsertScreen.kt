@@ -12,6 +12,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.screen.rememberScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.Tools
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.ui.AddEditCuttingInsertScreenContent
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import org.kodein.di.bindProvider
 

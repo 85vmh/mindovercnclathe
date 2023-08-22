@@ -13,15 +13,7 @@ import kotlinx.coroutines.flow.update
 class AddEditToolHolderScreenModel(
     val toolHolder: ToolHolder? = null,
     val toolsUseCase: ToolsUseCase
-) : StateScreenModel<AddEditToolHolderScreenModel.State>(State()) {
-
-    data class State(
-        val holderNumber: Int? = null,
-        val type: ToolHolderType = ToolHolderType.Generic,
-        val latheTool: LatheTool? = null,
-        val latheToolsList: List<LatheTool> = emptyList(),
-        val unmountedLatheTools: List<LatheTool> = emptyList()
-    )
+) : StateScreenModel<AddEditToolHolderState>(AddEditToolHolderState()), AddEditToolHolderComponent {
 
     init {
         toolHolder?.let {
@@ -34,18 +26,20 @@ class AddEditToolHolderScreenModel(
             }
         }
 
-        toolsUseCase.getLatheTools()
+        toolsUseCase
+            .getLatheTools()
             .onEach { toolsList ->
                 mutableState.update {
                     it.copy(
                         latheToolsList = toolsList,
                     )
                 }
-            }.launchIn(coroutineScope)
+            }
+            .launchIn(coroutineScope)
         setHolderType(ToolHolderType.Generic)
     }
 
-    fun setHolderNumber(value: Int) {
+    override fun setHolderNumber(value: Int) {
         mutableState.update {
             it.copy(
                 holderNumber = value,
@@ -53,8 +47,9 @@ class AddEditToolHolderScreenModel(
         }
     }
 
-    fun setHolderType(value: ToolHolderType) {
-        toolsUseCase.getUnmountedLatheTools(value)
+    override fun setHolderType(value: ToolHolderType) {
+        toolsUseCase
+            .getUnmountedLatheTools(value)
             .onEach { toolsList ->
                 println("holderType $value, toolsList: $toolsList")
                 mutableState.update {
@@ -63,10 +58,11 @@ class AddEditToolHolderScreenModel(
                         unmountedLatheTools = toolsList,
                     )
                 }
-            }.launchIn(coroutineScope)
+            }
+            .launchIn(coroutineScope)
     }
 
-    fun setLatheTool(value: LatheTool) {
+    override fun setLatheTool(value: LatheTool) {
         mutableState.update {
             it.copy(
                 latheTool = value,
@@ -74,13 +70,14 @@ class AddEditToolHolderScreenModel(
         }
     }
 
-    fun applyChanges() {
+    override fun applyChanges() {
         with(mutableState.value) {
-            val th = ToolHolder(
-                holderNumber = this.holderNumber ?: return@with,
-                type = this.type,
-                latheTool = this.latheTool
-            )
+            val th =
+                ToolHolder(
+                    holderNumber = this.holderNumber ?: return@with,
+                    type = this.type,
+                    latheTool = this.latheTool
+                )
             when (toolHolder) {
                 null -> toolsUseCase.createToolHolder(th)
                 else -> toolsUseCase.updateToolHolder(th)

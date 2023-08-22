@@ -8,6 +8,11 @@ object Libs {
 
     const val mockk = "io.mockk:mockk:${Versions.mockk}"
 
+    object Decompose {
+        const val core = "com.arkivanov.decompose:decompose:${Versions.decompose}"
+        const val extensions = "com.arkivanov.decompose:extensions-compose-jetbrains:${Versions.decompose}"
+    }
+
     object Roborazzi {
         const val core = "io.github.takahirom.roborazzi:roborazzi:${Versions.roborazzi}"
         const val compose_desktop =

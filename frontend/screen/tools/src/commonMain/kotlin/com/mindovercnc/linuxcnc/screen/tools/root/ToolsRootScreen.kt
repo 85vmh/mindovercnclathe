@@ -15,15 +15,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.screen.rememberScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.Tools
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.CuttingInsertsContent
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.LatheToolsContent
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.ToolHoldersContent
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.AddEditCuttingInsertScreen
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.AddEditLatheToolScreen
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.AddEditHolderScreen
+import com.mindovercnc.linuxcnc.screen.tools.root.ui.ToolTabsView
 
 private val tabContentModifier = Modifier.fillMaxWidth()
 
@@ -47,48 +46,7 @@ class ToolsRootScreen : Tools() {
         val screenModel = rememberScreenModel<ToolsScreenModel>()
         val state by screenModel.state.collectAsState()
 
-        when (state.currentTab) {
-            ToolsTabItem.ToolHolders -> {
-                ExtendedFloatingActionButton(
-                    text = { Text("New Holder") },
-                    onClick = { navigator.push(AddEditHolderScreen { screenModel.loadToolHolders() }) },
-                    icon = {
-                        Icon(
-                            Icons.Default.Add,
-                            contentDescription = null,
-                        )
-                    }
-                )
-            }
-
-            ToolsTabItem.LatheTools -> {
-                ExtendedFloatingActionButton(
-                    text = { Text("New Tool") },
-                    onClick = { navigator.push(AddEditLatheToolScreen { screenModel.loadLatheTools() }) },
-                    icon = {
-                        Icon(
-                            Icons.Default.Add,
-                            contentDescription = null,
-                        )
-                    }
-                )
-            }
-
-            ToolsTabItem.CuttingInserts -> {
-                ExtendedFloatingActionButton(
-                    text = { Text("New Insert") },
-                    onClick = {
-                        navigator.push(AddEditCuttingInsertScreen { screenModel.loadCuttingInserts() })
-                    },
-                    icon = {
-                        Icon(
-                            Icons.Default.Add,
-                            contentDescription = null,
-                        )
-                    }
-                )
-            }
-        }
+        ToolsFab(state, navigator, screenModel)
     }
 
     @Composable
@@ -97,58 +55,44 @@ class ToolsRootScreen : Tools() {
         val state by screenModel.state.collectAsState()
 
         Column(modifier = Modifier.fillMaxWidth()) {
-            when (state.currentTab) {
-                ToolsTabItem.ToolHolders -> {
-                    ToolHoldersContent(
-                        state = state,
-                        onDelete = screenModel::requestDeleteToolHolder,
-                        onLoad = screenModel::loadToolHolder,
-                        onHolderChanged = screenModel::loadToolHolders,
-                        onMount = screenModel::onMountTool,
-                        modifier = tabContentModifier
-                    )
-                }
-
-                ToolsTabItem.LatheTools -> {
-                    LatheToolsContent(
-                        state,
-                        onDelete = screenModel::requestDeleteLatheTool,
-                        onToolChanged = screenModel::loadLatheTools,
-                        modifier = tabContentModifier
-                    )
-                }
-
-                ToolsTabItem.CuttingInserts -> {
-                    CuttingInsertsContent(
-                        state,
-                        onDelete = screenModel::requestDeleteCuttingInsert,
-                        onInsertChanged = screenModel::loadCuttingInserts,
-                        modifier = tabContentModifier
-                    )
-                }
-            }
-
-            state.toolHolderDeleteModel?.let {
-                ToolHolderDeleteDialog(
-                    deleteModel = it,
-                    deleteClick = screenModel::deleteToolHolder,
-                    abortClick = screenModel::cancelDeleteToolHolder
-                )
-            }
-            state.latheToolDeleteModel?.let {
-                LatheToolDeleteDialog(
-                    deleteModel = it,
-                    deleteClick = screenModel::deleteLatheTool,
-                    abortClick = screenModel::cancelDeleteLatheTool
-                )
-            }
-            state.cuttingInsertDeleteModel?.let {
-                CuttingInsertDeleteDialog(
-                    deleteModel = it,
-                    deleteClick = screenModel::deleteCuttingInsert,
-                    abortClick = screenModel::cancelDeleteCuttingInsert
-                )
-            }
+            state.currentTab.Content(screenModel, tabContentModifier)
         }
     }
+}
+
+@Composable
+private fun ToolsFab(state: ToolsState, navigator: Navigator, component: ToolsComponent) {
+    when (state.currentTab) {
+        ToolsTabItem.ToolHolders -> {
+            ExtendedFloatingActionButton(
+                text = { Text("New Holder") },
+                onClick = { navigator.push(AddEditHolderScreen { component.loadToolHolders() }) },
+                icon = { AddIcon() }
+            )
+        }
+        ToolsTabItem.LatheTools -> {
+            ExtendedFloatingActionButton(
+                text = { Text("New Tool") },
+                onClick = { navigator.push(AddEditLatheToolScreen { component.loadLatheTools() }) },
+                icon = { AddIcon() }
+            )
+        }
+        ToolsTabItem.CuttingInserts -> {
+            ExtendedFloatingActionButton(
+                text = { Text("New Insert") },
+                onClick = {
+                    navigator.push(AddEditCuttingInsertScreen { component.loadCuttingInserts() })
+                },
+                icon = { AddIcon() }
+            )
+        }
+    }
+}
+
+@Composable
+private fun AddIcon() {
+    Icon(
+        Icons.Default.Add,
+        contentDescription = null,
+    )
 }

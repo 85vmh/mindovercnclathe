@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.update
 class AddEditLatheToolScreenModel(
     val latheTool: LatheTool? = null,
     val toolsUseCase: ToolsUseCase
-) : StateScreenModel<AddEditLatheToolState>(AddEditLatheToolState()) {
+) : StateScreenModel<AddEditLatheToolState>(AddEditLatheToolState()), AddEditLatheToolComponent {
 
     init {
         latheTool?.let { tool ->
@@ -127,105 +127,105 @@ class AddEditLatheToolScreenModel(
             .launchIn(coroutineScope)
     }
 
-    fun setToolId(value: Int) =
+    override fun setToolId(value: Int) =
         mutableState.update {
             it.copy(
                 latheToolId = value,
             )
         }
 
-    fun setToolType(value: ToolType) =
+    override fun setToolType(value: ToolType) =
         mutableState.update {
             it.copy(
                 toolType = value,
             )
         }
 
-    fun setCuttingInsert(value: CuttingInsert) =
+    override fun setCuttingInsert(value: CuttingInsert) =
         mutableState.update {
             it.copy(
                 cuttingInsert = value,
             )
         }
 
-    fun setToolOrientation(orientation: TipOrientation) =
+    override fun setToolOrientation(orientation: TipOrientation) =
         mutableState.update {
             it.copy(
                 toolOrientation = orientation,
             )
         }
 
-    fun setFrontAngle(value: Int) =
+    override fun setFrontAngle(value: Int) =
         mutableState.update {
             it.copy(
                 frontAngle = value,
             )
         }
 
-    fun setBackAngle(value: Int) =
+    override fun setBackAngle(value: Int) =
         mutableState.update {
             it.copy(
                 backAngle = value,
             )
         }
 
-    fun setSpindleDirection(value: SpindleDirection) =
+    override fun setSpindleDirection(value: SpindleDirection) =
         mutableState.update {
             it.copy(
                 spindleDirection = value,
             )
         }
 
-    fun setMinBoreDiameter(value: Double) =
+    override fun setMinBoreDiameter(value: Double) =
         mutableState.update {
             it.copy(
                 minBoreDiameter = value,
             )
         }
 
-    fun setBladeWidth(value: Double) =
+    override fun setBladeWidth(value: Double) =
         mutableState.update {
             it.copy(
                 bladeWidth = value,
             )
         }
 
-    fun setMaxXDepth(value: Double) =
+    override fun setMaxXDepth(value: Double) =
         mutableState.update {
             it.copy(
                 maxXDepth = value,
             )
         }
 
-    fun setMaxZDepth(value: Double) =
+    override fun setMaxZDepth(value: Double) =
         mutableState.update {
             it.copy(
                 maxZDepth = value,
             )
         }
 
-    fun setToolDiameter(value: Double) =
+    override fun setToolDiameter(value: Double) =
         mutableState.update {
             it.copy(
                 toolDiameter = value,
             )
         }
 
-    fun setMinThreadPitch(value: Double) =
+    override fun setMinThreadPitch(value: Double) =
         mutableState.update {
             it.copy(
                 minThreadPitch = value,
             )
         }
 
-    fun setMaxThreadPitch(value: Double) =
+    override fun setMaxThreadPitch(value: Double) =
         mutableState.update {
             it.copy(
                 maxThreadPitch = value,
             )
         }
 
-    fun applyChanges() {
+    override fun applyChanges() {
         with(mutableState.value) {
             getLatheTool(toolType)?.let {
                 when (latheTool) {

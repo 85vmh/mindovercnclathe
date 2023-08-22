@@ -3,6 +3,9 @@ package com.mindovercnc.linuxcnc.screen.tools.root
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import com.mindovercnc.linuxcnc.domain.ToolsUseCase
+import com.mindovercnc.linuxcnc.screen.tools.root.ui.CuttingInsertDeleteModel
+import com.mindovercnc.linuxcnc.screen.tools.root.ui.LatheToolDeleteModel
+import com.mindovercnc.linuxcnc.screen.tools.root.ui.ToolHolderDeleteModel
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
@@ -12,75 +15,64 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ToolsScreenModel(
-    private val toolsUseCase: ToolsUseCase
-) : StateScreenModel<ToolsScreenModel.State>(State()) {
-
-    data class State(
-        val currentTab: ToolsTabItem = ToolsTabItem.ToolHolders,
-        val toolHolders: List<ToolHolder> = emptyList(),
-        val latheTools: List<LatheTool> = emptyList(),
-        val cuttingInserts: List<CuttingInsert> = emptyList(),
-        val currentTool: Int = 0,
-        val toolHolderDeleteModel: ToolHolderDeleteModel? = null,
-        val latheToolDeleteModel: LatheToolDeleteModel? = null,
-        val cuttingInsertDeleteModel: CuttingInsertDeleteModel? = null,
-    )
+    private val toolsUseCase: ToolsUseCase,
+) : StateScreenModel<ToolsState>(ToolsState()), ToolsComponent {
 
     init {
-        toolsUseCase.getCurrentToolNo()
+        toolsUseCase
+            .getCurrentToolNo()
             .onEach { toolNo ->
                 mutableState.update {
                     it.copy(
                         currentTool = toolNo,
                     )
                 }
-            }.launchIn(coroutineScope)
+            }
+            .launchIn(coroutineScope)
 
         loadToolHolders()
         loadLatheTools()
         loadCuttingInserts()
     }
 
-    fun loadToolHolders() {
-        toolsUseCase.getToolHolders()
+    override fun loadToolHolders() {
+        toolsUseCase
+            .getToolHolders()
             .onEach { toolList ->
                 mutableState.update {
                     it.copy(
                         toolHolders = toolList,
                     )
                 }
-            }.launchIn(coroutineScope)
+            }
+            .launchIn(coroutineScope)
     }
 
-    fun loadLatheTools() {
-        toolsUseCase.getLatheTools()
+    override fun loadLatheTools() {
+        toolsUseCase
+            .getLatheTools()
             .onEach { latheTools ->
                 mutableState.update {
                     it.copy(
                         latheTools = latheTools,
                     )
                 }
-            }.launchIn(coroutineScope)
+            }
+            .launchIn(coroutineScope)
     }
 
-    fun loadCuttingInserts() {
-        toolsUseCase.getCuttingInserts()
-            .onEach { insertsList ->
-                mutableState.update {
-                    it.copy(
-                        cuttingInserts = insertsList
-                    )
-                }
-            }.launchIn(coroutineScope)
+    override fun loadCuttingInserts() {
+        toolsUseCase
+            .getCuttingInserts()
+            .onEach { insertsList -> mutableState.update { it.copy(cuttingInserts = insertsList) } }
+            .launchIn(coroutineScope)
     }
 
-    fun selectTab(tab: ToolsTabItem) {
-        mutableState.update {
-            it.copy(currentTab = tab)
-        }
+    override fun selectTab(tab: ToolsTabItem) {
+        mutableState.update { it.copy(currentTab = tab) }
     }
 
-    fun requestDeleteToolHolder(toolHolder: ToolHolder) {
+    override fun requestDeleteToolHolder(toolHolder: ToolHolder) {
         mutableState.update {
             it.copy(
                 toolHolderDeleteModel = ToolHolderDeleteModel(toolHolder),
@@ -88,7 +80,7 @@ class ToolsScreenModel(
         }
     }
 
-    fun cancelDeleteToolHolder() {
+    override fun cancelDeleteToolHolder() {
         mutableState.update {
             it.copy(
                 toolHolderDeleteModel = null,
@@ -96,29 +88,25 @@ class ToolsScreenModel(
         }
     }
 
-    fun deleteToolHolder(toolHolder: ToolHolder) {
+    override fun deleteToolHolder(toolHolder: ToolHolder) {
         toolsUseCase.deleteToolHolder(toolHolder)
         cancelDeleteToolHolder()
         loadToolHolders()
     }
 
-    fun onMountTool(toolHolder: ToolHolder) {
+    override fun onMountTool(toolHolder: ToolHolder) {}
 
+    override fun loadToolHolder(toolHolder: ToolHolder) {
+        coroutineScope.launch { toolsUseCase.loadTool(toolHolder.holderNumber) }
     }
 
-    fun loadToolHolder(toolHolder: ToolHolder) {
-        coroutineScope.launch {
-            toolsUseCase.loadTool(toolHolder.holderNumber)
-        }
-    }
-
-    fun deleteCuttingInsert(insert: CuttingInsert) {
+    override fun deleteCuttingInsert(insert: CuttingInsert) {
         toolsUseCase.deleteCuttingInsert(insert)
         cancelDeleteCuttingInsert()
         loadCuttingInserts()
     }
 
-    fun requestDeleteLatheTool(latheTool: LatheTool) {
+    override fun requestDeleteLatheTool(latheTool: LatheTool) {
         mutableState.update {
             it.copy(
                 latheToolDeleteModel = LatheToolDeleteModel(latheTool),
@@ -126,7 +114,7 @@ class ToolsScreenModel(
         }
     }
 
-    fun cancelDeleteLatheTool() {
+    override fun cancelDeleteLatheTool() {
         mutableState.update {
             it.copy(
                 latheToolDeleteModel = null,
@@ -134,13 +122,13 @@ class ToolsScreenModel(
         }
     }
 
-    fun deleteLatheTool(latheTool: LatheTool) {
+    override fun deleteLatheTool(latheTool: LatheTool) {
         toolsUseCase.deleteLatheTool(latheTool)
         cancelDeleteLatheTool()
         loadLatheTools()
     }
 
-    fun requestDeleteCuttingInsert(cuttingInsert: CuttingInsert) {
+    override fun requestDeleteCuttingInsert(cuttingInsert: CuttingInsert) {
         mutableState.update {
             it.copy(
                 cuttingInsertDeleteModel = CuttingInsertDeleteModel(cuttingInsert),
@@ -148,7 +136,7 @@ class ToolsScreenModel(
         }
     }
 
-    fun cancelDeleteCuttingInsert() {
+    override fun cancelDeleteCuttingInsert() {
         mutableState.update {
             it.copy(
                 cuttingInsertDeleteModel = null,

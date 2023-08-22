@@ -11,6 +11,7 @@ object Versions {
 
     const val bignum = "0.3.8"
     const val mockk = "1.13.7"
+    const val decompose = "2.0.1-compose-experimental"
 
     object Kotlinx {
         const val datetime = "0.4.0"

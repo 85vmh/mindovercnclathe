@@ -1,10 +1,10 @@
 package com.mindovercnc.linuxcnc.screen.programs.root
 
 import cafe.adriel.voyager.core.model.StateScreenModel
+import com.mindovercnc.data.linuxcnc.FileSystemRepository
 import com.mindovercnc.editor.EditorLoader
 import com.mindovercnc.linuxcnc.domain.BreadCrumbDataUseCase
 import com.mindovercnc.linuxcnc.domain.FileSystemDataUseCase
-import com.mindovercnc.data.linuxcnc.FileSystemRepository
 import kotlinx.coroutines.flow.update
 import mu.KotlinLogging
 import okio.FileSystem
@@ -16,7 +16,7 @@ class ProgramsRootScreenModel(
     private val editorLoader: EditorLoader,
     private val fileSystemDataUseCase: FileSystemDataUseCase,
     private val breadCrumbDataUseCase: BreadCrumbDataUseCase
-) : StateScreenModel<ProgramsState>(ProgramsState()) {
+) : StateScreenModel<ProgramsState>(ProgramsState()), ProgramsRootComponent {
 
     private val logger = KotlinLogging.logger("ProgramsRootScreenModel")
 
@@ -26,12 +26,30 @@ class ProgramsRootScreenModel(
         setCurrentFolder(path)
     }
 
-    fun showError(error: String) {
+    override fun showError(error: String) {
         mutableState.update { it.copy(error = error) }
     }
 
-    fun clearError() {
+    override fun clearError() {
         mutableState.update { it.copy(error = null) }
+    }
+
+    override fun selectItem(item: Path) {
+        val metadata = fileSystem.metadata(item)
+        when {
+            metadata.isDirectory -> {
+                println("---Folder clicked: $item")
+                loadFolderContents(item)
+            }
+            metadata.isRegularFile -> {
+                setCurrentFile(item)
+            }
+        }
+    }
+
+    override fun loadFolderContents(file: Path) {
+        setCurrentFolder(file)
+        setCurrentFile(null)
     }
 
     private fun setCurrentFolder(file: Path) {
@@ -40,7 +58,9 @@ class ProgramsRootScreenModel(
             val fileSystemData =
                 with(fileSystemDataUseCase) { file.toFileSystemData(onItemClick = ::selectItem) }
             val breadCrumbData =
-                with(breadCrumbDataUseCase) { file.toBreadCrumbData(onItemClick = ::loadFolderContents) }
+                with(breadCrumbDataUseCase) {
+                    file.toBreadCrumbData(onItemClick = ::loadFolderContents)
+                }
 
             it.copy(breadCrumbData = breadCrumbData, fileSystemData = fileSystemData)
         }
@@ -53,24 +73,5 @@ class ProgramsRootScreenModel(
                 editor = if (file != null) editorLoader.loadEditor(file) else null,
             )
         }
-    }
-
-    fun selectItem(item: Path) {
-        val metadata = fileSystem.metadata(item)
-        when {
-            metadata.isDirectory -> {
-                println("---Folder clicked: $item")
-                loadFolderContents(item)
-            }
-
-            metadata.isRegularFile -> {
-                setCurrentFile(item)
-            }
-        }
-    }
-
-    fun loadFolderContents(file: Path) {
-        setCurrentFolder(file)
-        setCurrentFile(null)
     }
 }

@@ -1,6 +1,5 @@
 package com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder
 
-
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,24 +22,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.listitem.ValueSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.LatheToolView
-import com.mindovercnc.linuxcnc.widgets.VerticalDivider
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.ui.LatheToolView
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolHolderType
+import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import scroll.draggableScroll
 
 @Composable
 fun AddEditHolderContent(
-    state: AddEditToolHolderScreenModel.State,
+    state: AddEditToolHolderState,
     onHolderNumber: (Int) -> Unit,
     onHolderType: (ToolHolderType) -> Unit,
     onLatheTool: (LatheTool) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier.fillMaxSize()
-    ) {
-        StartContent(state, onHolderNumber, onHolderType, modifier = Modifier.weight(1f).widthIn(min = 300.dp))
+    Row(modifier = modifier.fillMaxSize()) {
+        StartContent(
+            state,
+            onHolderNumber,
+            onHolderType,
+            modifier = Modifier.weight(1f).widthIn(min = 300.dp)
+        )
 
         VerticalDivider()
 
@@ -50,7 +52,7 @@ fun AddEditHolderContent(
 
 @Composable
 private fun StartContent(
-    state: AddEditToolHolderScreenModel.State,
+    state: AddEditToolHolderState,
     onHolderNumber: (Int) -> Unit,
     onHolderType: (ToolHolderType) -> Unit,
     modifier: Modifier = Modifier
@@ -59,10 +61,7 @@ private fun StartContent(
     val holdersScrollState = rememberLazyGridState()
     val scope = rememberCoroutineScope()
 
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         if (state.holderNumber == null) {
             ValueSetting(
                 settingName = "Holder #",
@@ -107,7 +106,7 @@ private fun StartContent(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun EndContent(
-    state: AddEditToolHolderScreenModel.State,
+    state: AddEditToolHolderState,
     onLatheTool: (LatheTool) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -118,14 +117,14 @@ private fun EndContent(
         modifier = modifier.draggableScroll(toolsScrollState, scope),
         state = toolsScrollState
     ) {
-
         stickyHeader {
-            val headerText = remember(state.unmountedLatheTools.isEmpty()) {
-                when (state.unmountedLatheTools.isEmpty()) {
-                    true -> "No tools of this type"
-                    false -> "Tools not mounted yet"
+            val headerText =
+                remember(state.unmountedLatheTools.isEmpty()) {
+                    when (state.unmountedLatheTools.isEmpty()) {
+                        true -> "No tools of this type"
+                        false -> "Tools not mounted yet"
+                    }
                 }
-            }
 
             Text(
                 modifier = Modifier.fillMaxWidth().padding(8.dp),

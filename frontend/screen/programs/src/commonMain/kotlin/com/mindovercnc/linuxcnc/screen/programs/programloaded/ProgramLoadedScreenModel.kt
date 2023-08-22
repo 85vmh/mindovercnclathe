@@ -8,15 +8,12 @@ import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import com.mindovercnc.data.linuxcnc.IniFileRepository
 import com.mindovercnc.dispatchers.IoDispatcher
-import com.mindovercnc.editor.Editor
 import com.mindovercnc.editor.EditorLoader
 import com.mindovercnc.linuxcnc.domain.*
 import com.mindovercnc.linuxcnc.domain.model.ActiveCode
 import com.mindovercnc.linuxcnc.domain.model.PathUiState
-import com.mindovercnc.linuxcnc.domain.model.VisualTurningState
+import com.mindovercnc.linuxcnc.screen.programs.programloaded.ui.ToolChangeModel
 import com.mindovercnc.model.MachineLimits
-import com.mindovercnc.model.PositionModel
-import editor.EditorSettings
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -39,19 +36,7 @@ class ProgramLoadedScreenModel(
     iniFileRepository: IniFileRepository,
     private val manualToolChangeUseCase: ManualToolChangeUseCase,
     ioDispatcher: IoDispatcher
-) : StateScreenModel<ProgramLoadedScreenModel.State>(State()) {
-
-    data class State(
-        val editor: Editor? = null,
-        val settings: EditorSettings = EditorSettings(),
-        val positionModel: PositionModel? = null,
-        val currentWcs: String = "--",
-        val currentFolder: Path? = null,
-        val visualTurningState: VisualTurningState = VisualTurningState(),
-        val activeCodes: List<ActiveCode> = emptyList(),
-        val machineStatus: MachineStatus = MachineStatus(),
-        val toolChangeModel: ToolChangeModel? = null,
-    )
+) : StateScreenModel<ProgramLoadedState>(ProgramLoadedState()), ProgramLoadedComponent {
 
     // how much free space to have around the drawing
     private val viewportPadding = 70 // px
@@ -103,13 +88,15 @@ class ProgramLoadedScreenModel(
                 val rulers = it.visualTurningState.programRulers.rescaled(defaultPixelsPerUnit)
                 it.copy(
                     visualTurningState =
-                    it.visualTurningState.copy(
-                        pathUiState = pathUiState,
-                        programRulers = rulers,
-                        defaultPixelsPerUnit = defaultPixelsPerUnit,
-                        translate =
-                        pathUiState.getInitialTranslate(viewportSize = it.visualTurningState.viewportSize)
-                    )
+                        it.visualTurningState.copy(
+                            pathUiState = pathUiState,
+                            programRulers = rulers,
+                            defaultPixelsPerUnit = defaultPixelsPerUnit,
+                            translate =
+                                pathUiState.getInitialTranslate(
+                                    viewportSize = it.visualTurningState.viewportSize
+                                )
+                        )
                 )
             }
         }
@@ -121,9 +108,9 @@ class ProgramLoadedScreenModel(
                 mutableState.update {
                     it.copy(
                         visualTurningState =
-                        it.visualTurningState.copy(
-                            toolPosition = point,
-                        )
+                            it.visualTurningState.copy(
+                                toolPosition = point,
+                            )
                     )
                 }
             }
@@ -144,10 +131,10 @@ class ProgramLoadedScreenModel(
                 mutableState.update {
                     it.copy(
                         machineStatus =
-                        it.machineStatus.copy(
-                            spindleOverride = model.spindleOverride,
-                            actualSpindleSpeed = model.actualRpm
-                        )
+                            it.machineStatus.copy(
+                                spindleOverride = model.spindleOverride,
+                                actualSpindleSpeed = model.actualRpm
+                            )
                     )
                 }
             }
@@ -159,9 +146,9 @@ class ProgramLoadedScreenModel(
                 mutableState.update {
                     it.copy(
                         machineStatus =
-                        it.machineStatus.copy(
-                            feedOverride = model.feedOverride,
-                        )
+                            it.machineStatus.copy(
+                                feedOverride = model.feedOverride,
+                            )
                     )
                 }
             }
@@ -173,21 +160,59 @@ class ProgramLoadedScreenModel(
                 mutableState.update {
                     it.copy(
                         toolChangeModel =
-                        when {
-                            toolNo != null -> ToolChangeModel(toolNo)
-                            else -> null
-                        }
+                            when {
+                                toolNo != null -> ToolChangeModel(toolNo)
+                                else -> null
+                            }
                     )
                 }
             }
             .launchIn(coroutineScope)
     }
 
-    fun zoomOut() = setNewScale { it / 1.1f }
+    override fun zoomOut() = setNewScale { it / 1.1f }
 
-    fun zoomIn() = setNewScale { it * 1.1f }
+    override fun zoomIn() = setNewScale { it * 1.1f }
 
-    fun zoomBy(factor: Float) = setNewScale { it * factor }
+    override fun zoomBy(factor: Float) = setNewScale { it * factor }
+
+    override fun translate(offset: Offset) {
+        mutableState.update {
+            it.copy(
+                visualTurningState =
+                    it.visualTurningState.copy(
+                        translate = it.visualTurningState.translate.plus(offset)
+                    )
+            )
+        }
+        // println("Translate: ${mutableState.value.visualTurningState.translate}")
+    }
+
+    override fun setViewportSize(size: IntSize) {
+        mutableState.update {
+            it.copy(visualTurningState = it.visualTurningState.copy(viewportSize = size))
+        }
+    }
+
+    override fun runProgram() {
+        programsUseCase.runProgram()
+    }
+
+    override fun stopProgram() {
+        programsUseCase.stopProgram()
+    }
+
+    override fun confirmToolChanged() {
+        coroutineScope.launch { manualToolChangeUseCase.confirmToolChange() }
+    }
+
+    override fun cancelToolChange() {
+        manualToolChangeUseCase.cancelToolChange()
+    }
+
+    override fun onActiveCodeClicked(activeCode: ActiveCode) {
+        activeCodesUseCase.getCodeDescription(activeCode)
+    }
 
     private fun setNewScale(block: (Float) -> Float) {
         mutableState.update {
@@ -197,51 +222,17 @@ class ProgramLoadedScreenModel(
             val rulers = it.visualTurningState.programRulers.rescaled(pixelPerUnit)
             it.copy(
                 visualTurningState =
-                it.visualTurningState.copy(
-                    scale = newScale,
-                    pathUiState = pathUiState,
-                    programRulers = rulers,
-                    translate =
-                    pathUiState.getInitialTranslate(viewportSize = it.visualTurningState.viewportSize)
-                )
+                    it.visualTurningState.copy(
+                        scale = newScale,
+                        pathUiState = pathUiState,
+                        programRulers = rulers,
+                        translate =
+                            pathUiState.getInitialTranslate(
+                                viewportSize = it.visualTurningState.viewportSize
+                            )
+                    )
             )
         }
-    }
-
-    fun translate(offset: Offset) {
-        mutableState.update {
-            it.copy(
-                visualTurningState =
-                it.visualTurningState.copy(translate = it.visualTurningState.translate.plus(offset))
-            )
-        }
-        // println("Translate: ${mutableState.value.visualTurningState.translate}")
-    }
-
-    fun setViewportSize(size: IntSize) {
-        mutableState.update {
-            it.copy(visualTurningState = it.visualTurningState.copy(viewportSize = size))
-        }
-    }
-
-    fun runProgram() {
-        programsUseCase.runProgram()
-    }
-
-    fun stopProgram() {
-        programsUseCase.stopProgram()
-    }
-
-    fun confirmToolChanged() {
-        coroutineScope.launch { manualToolChangeUseCase.confirmToolChange() }
-    }
-
-    fun cancelToolChange() {
-        manualToolChangeUseCase.cancelToolChange()
-    }
-
-    fun onActiveCodeClicked(activeCode: ActiveCode) {
-        activeCodesUseCase.getCodeDescription(activeCode)
     }
 
     private fun calculateDefaultPxPerUnit(

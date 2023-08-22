@@ -10,16 +10,19 @@ import kotlinx.coroutines.flow.update
 class AddEditCuttingInsertScreenModel(
     val cuttingInsert: CuttingInsert? = null,
     val toolsUseCase: ToolsUseCase
-) : StateScreenModel<AddEditCuttingInsertState>(AddEditCuttingInsertState()) {
+) :
+    StateScreenModel<AddEditCuttingInsertState>(AddEditCuttingInsertState()),
+    AddEditCuttingInsertComponent {
 
-    val dummyFeedsAndSpeeds = listOf(
-        FeedsAndSpeeds("Steel", MaterialCategory.P, 0.2f..2.0f, 0.1f..0.3f, 100..200),
-        FeedsAndSpeeds("Delrin", MaterialCategory.N, 0.2f..2.0f, 0.1f..0.3f, 100..200),
-        FeedsAndSpeeds("Aluminium", MaterialCategory.N, 0.2f..2.0f, 0.1f..0.3f, 100..200),
-        FeedsAndSpeeds("Cast Iron", MaterialCategory.K, 0.2f..2.0f, 0.1f..0.3f, 100..200),
-        FeedsAndSpeeds("304 Stainless", MaterialCategory.M, 0.2f..2.0f, 0.1f..0.3f, 100..200),
-        FeedsAndSpeeds("306 Stainless", MaterialCategory.M, 0.2f..2.0f, 0.1f..0.3f, 100..200),
-    )
+    val dummyFeedsAndSpeeds =
+        listOf(
+            FeedsAndSpeeds("Steel", MaterialCategory.P, 0.2f..2.0f, 0.1f..0.3f, 100..200),
+            FeedsAndSpeeds("Delrin", MaterialCategory.N, 0.2f..2.0f, 0.1f..0.3f, 100..200),
+            FeedsAndSpeeds("Aluminium", MaterialCategory.N, 0.2f..2.0f, 0.1f..0.3f, 100..200),
+            FeedsAndSpeeds("Cast Iron", MaterialCategory.K, 0.2f..2.0f, 0.1f..0.3f, 100..200),
+            FeedsAndSpeeds("304 Stainless", MaterialCategory.M, 0.2f..2.0f, 0.1f..0.3f, 100..200),
+            FeedsAndSpeeds("306 Stainless", MaterialCategory.M, 0.2f..2.0f, 0.1f..0.3f, 100..200),
+        )
 
     init {
         cuttingInsert?.let { insert ->
@@ -40,7 +43,7 @@ class AddEditCuttingInsertScreenModel(
         }
     }
 
-    fun setMadeOf(value: MadeOf) {
+    override fun setMadeOf(value: MadeOf) {
         mutableState.update {
             it.copy(
                 madeOf = value,
@@ -48,22 +51,19 @@ class AddEditCuttingInsertScreenModel(
         }
     }
 
-    fun setInsertShape(value: InsertShape) {
+    override fun setInsertShape(value: InsertShape) {
         mutableState.update {
             when {
-                value.angle != null -> it.copy(
-                    insertShape = value,
-                    tipAngle = value.angle!!
-                )
-
-                else -> it.copy(
-                    insertShape = value,
-                )
+                value.angle != null -> it.copy(insertShape = value, tipAngle = value.angle!!)
+                else ->
+                    it.copy(
+                        insertShape = value,
+                    )
             }
         }
     }
 
-    fun setInsertClearance(value: InsertClearance) {
+    override fun setInsertClearance(value: InsertClearance) {
         mutableState.update {
             it.copy(
                 insertClearance = value,
@@ -71,7 +71,7 @@ class AddEditCuttingInsertScreenModel(
         }
     }
 
-    fun setToleranceClass(value: ToleranceClass) {
+    override fun setToleranceClass(value: ToleranceClass) {
         mutableState.update {
             it.copy(
                 toleranceClass = value,
@@ -79,7 +79,7 @@ class AddEditCuttingInsertScreenModel(
         }
     }
 
-    fun setMountingAndChipBreaker(value: MountingAndChipBreaker) {
+    override fun setMountingAndChipBreaker(value: MountingAndChipBreaker) {
         mutableState.update {
             it.copy(
                 mountingAndChipBreaker = value,
@@ -87,7 +87,7 @@ class AddEditCuttingInsertScreenModel(
         }
     }
 
-    fun setTipAngle(value: Int) {
+    override fun setTipAngle(value: Int) {
         mutableState.update {
             it.copy(
                 tipAngle = value,
@@ -95,7 +95,7 @@ class AddEditCuttingInsertScreenModel(
         }
     }
 
-    fun setTipRadius(value: Double) {
+    override fun setTipRadius(value: Double) {
         mutableState.update {
             it.copy(
                 tipRadius = value,
@@ -103,7 +103,7 @@ class AddEditCuttingInsertScreenModel(
         }
     }
 
-    fun setSize(value: Double) {
+    override fun setSize(value: Double) {
         mutableState.update {
             it.copy(
                 size = value,
@@ -111,16 +111,17 @@ class AddEditCuttingInsertScreenModel(
         }
     }
 
-    fun applyChanges() {
+    override fun applyChanges() {
         with(mutableState.value) {
-            val insert = CuttingInsert(
-                id = cuttingInsertId,
-                madeOf = madeOf!!,
-                code = this.getCodeFromSelection(),
-                tipRadius = tipRadius,
-                tipAngle = tipAngle.toDouble(),
-                size = size
-            )
+            val insert =
+                CuttingInsert(
+                    id = cuttingInsertId,
+                    madeOf = madeOf!!,
+                    code = this.getCodeFromSelection(),
+                    tipRadius = tipRadius,
+                    tipAngle = tipAngle.toDouble(),
+                    size = size
+                )
             when (cuttingInsert) {
                 null -> toolsUseCase.createCuttingInsert(insert)
                 else -> toolsUseCase.updateCuttingInsert(insert)
