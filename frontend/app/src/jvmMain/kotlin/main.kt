@@ -36,8 +36,9 @@ fun main(args: Array<String>) {
 }
 
 fun startApplication(startupArgs: StartupArgs, onExit: () -> Unit) {
+    val componentContext = createComponentContext()
     application {
-        withAppDi(startupArgs) {
+        withAppDi(startupArgs, componentContext) {
             val (initialised, setInitialised) = rememberSaveable { mutableStateOf(false) }
             if (initialised) {
                 AppWindow(startupArgs) {
@@ -51,15 +52,18 @@ fun startApplication(startupArgs: StartupArgs, onExit: () -> Unit) {
     }
 }
 
+private fun createComponentContext(): ComponentContext {
+    val lifecycle = LifecycleRegistry()
+    return DefaultComponentContext(lifecycle = lifecycle)
+}
+
 @Composable
 private fun createRootComponent(): RootComponent {
     val di = localDI()
     return remember {
-        val lifecycle = LifecycleRegistry()
-        val componentContext: ComponentContext = DefaultComponentContext(lifecycle = lifecycle)
         DefaultRootComponent(
             di = di,
-            componentContext,
+            createComponentContext(),
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder
+package com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.add
 
 import com.mindovercnc.linuxcnc.screen.AppScreenComponent
 import com.mindovercnc.linuxcnc.tools.model.LatheTool

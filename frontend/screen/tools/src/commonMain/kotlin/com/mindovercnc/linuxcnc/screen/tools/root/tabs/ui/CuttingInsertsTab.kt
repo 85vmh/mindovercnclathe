@@ -21,7 +21,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsState
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.CuttingInsertsColumns
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.data.CuttingInsertsColumns
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.AddEditCuttingInsertScreen
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider

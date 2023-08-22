@@ -2,50 +2,66 @@ package com.mindovercnc.linuxcnc.screen.tools.root
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.router.slot.ChildSlot
+import com.arkivanov.decompose.router.slot.SlotNavigation
+import com.arkivanov.decompose.router.slot.activate
+import com.arkivanov.decompose.router.slot.childSlot
+import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.parcelable.Parcelable
+import com.arkivanov.essenty.parcelable.Parcelize
 import com.mindovercnc.linuxcnc.domain.ToolsUseCase
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.CuttingInsertsToolsTab
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.HoldersToolsTab
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.LatheToolsTab
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.ToolsTabItem
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.HoldersToolsComponent
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.HoldersToolsScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.root.ui.CuttingInsertDeleteModel
 import com.mindovercnc.linuxcnc.screen.tools.root.ui.LatheToolDeleteModel
-import com.mindovercnc.linuxcnc.screen.tools.root.ui.ToolHolderDeleteModel
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
-import com.mindovercnc.linuxcnc.tools.model.ToolHolder
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class ToolsScreenModel(
     private val toolsUseCase: ToolsUseCase,
-) : StateScreenModel<ToolsState>(ToolsState()), ToolsComponent {
+    private val componentContext: ComponentContext
+) :
+    StateScreenModel<ToolsState>(ToolsState()),
+    ToolsComponent,
+    ComponentContext by componentContext {
 
-    init {
-        toolsUseCase
-            .getCurrentToolNo()
-            .onEach { toolNo ->
-                mutableState.update {
-                    it.copy(
-                        currentTool = toolNo,
-                    )
-                }
-            }
-            .launchIn(coroutineScope)
+    private val navigation = SlotNavigation<Config>()
 
-        loadToolHolders()
-        loadLatheTools()
-        loadCuttingInserts()
+    private val _childSlot =
+        childSlot(
+            source = navigation,
+            initialConfiguration = { Config.Holders },
+            childFactory = ::createTabItem
+        )
+
+    override val childSlot: Value<ChildSlot<*, ToolsTabItem>> = _childSlot
+
+    private fun createTabItem(
+        config: Config,
+        @Suppress("UNUSED_PARAMETER") componentContext: ComponentContext,
+    ): ToolsTabItem {
+        return when (config) {
+            Config.CuttingInserts -> CuttingInsertsToolsTab
+            Config.Holders -> HoldersToolsTab(holdersComponent())
+            Config.Lathe -> LatheToolsTab
+        }
     }
 
-    override fun loadToolHolders() {
-        toolsUseCase
-            .getToolHolders()
-            .onEach { toolList ->
-                mutableState.update {
-                    it.copy(
-                        toolHolders = toolList,
-                    )
-                }
-            }
-            .launchIn(coroutineScope)
+    private fun holdersComponent(): HoldersToolsComponent {
+        return HoldersToolsScreenModel(toolsUseCase, componentContext)
+    }
+
+    init {
+        loadLatheTools()
+        loadCuttingInserts()
     }
 
     override fun loadLatheTools() {
@@ -68,36 +84,8 @@ class ToolsScreenModel(
             .launchIn(coroutineScope)
     }
 
-    override fun selectTab(tab: ToolsTabItem) {
-        mutableState.update { it.copy(currentTab = tab) }
-    }
-
-    override fun requestDeleteToolHolder(toolHolder: ToolHolder) {
-        mutableState.update {
-            it.copy(
-                toolHolderDeleteModel = ToolHolderDeleteModel(toolHolder),
-            )
-        }
-    }
-
-    override fun cancelDeleteToolHolder() {
-        mutableState.update {
-            it.copy(
-                toolHolderDeleteModel = null,
-            )
-        }
-    }
-
-    override fun deleteToolHolder(toolHolder: ToolHolder) {
-        toolsUseCase.deleteToolHolder(toolHolder)
-        cancelDeleteToolHolder()
-        loadToolHolders()
-    }
-
-    override fun onMountTool(toolHolder: ToolHolder) {}
-
-    override fun loadToolHolder(toolHolder: ToolHolder) {
-        coroutineScope.launch { toolsUseCase.loadTool(toolHolder.holderNumber) }
+    override fun selectTab(config: Config) {
+        navigation.activate(config)
     }
 
     override fun deleteCuttingInsert(insert: CuttingInsert) {
@@ -141,6 +129,28 @@ class ToolsScreenModel(
             it.copy(
                 cuttingInsertDeleteModel = null,
             )
+        }
+    }
+
+    sealed interface Config : Parcelable {
+
+        val tabTitle: String
+
+        @Parcelize
+        data object Holders : Config {
+            override val tabTitle: String
+                get() = "Tool Holders"
+        }
+
+        @Parcelize
+        data object Lathe : Config {
+            override val tabTitle: String
+                get() = "Lathe Tools"
+        }
+
+        @Parcelize
+        data object CuttingInserts : Config {
+            override val tabTitle: String = "Cutting Inserts"
         }
     }
 }

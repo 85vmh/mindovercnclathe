@@ -25,8 +25,9 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.linuxcnc.listitem.LabelWithValue
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsState
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.ToolHolderColumn
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.AddEditHolderScreen
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.data.ToolHolderColumn
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.HoldersToolsState
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.add.AddEditHolderScreen
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import scroll.VerticalScrollbar
@@ -37,7 +38,7 @@ private val itemModifier = Modifier.fillMaxWidth()
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ToolHoldersContent(
-    state: ToolsState,
+    state: HoldersToolsState,
     onMount: (ToolHolder) -> Unit,
     onDelete: (ToolHolder) -> Unit,
     onLoad: (ToolHolder) -> Unit,

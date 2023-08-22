@@ -73,6 +73,7 @@ kotlin {
                 implementation(Libs.Voyager.bottom_sheet_navigator)
                 implementation(Libs.Voyager.tab_navigator)
                 implementation(Libs.Voyager.transitions)
+                implementation(Libs.Decompose.core)
             }
         }
 

@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder
+package com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.add
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons

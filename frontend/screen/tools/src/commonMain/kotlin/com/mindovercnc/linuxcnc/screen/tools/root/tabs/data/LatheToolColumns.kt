@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.root.tabs
+package com.mindovercnc.linuxcnc.screen.tools.root.tabs.data
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp

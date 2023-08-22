@@ -4,6 +4,7 @@ import Files
 import StatusWatcher
 import TabViewModel
 import androidx.compose.runtime.Composable
+import com.arkivanov.decompose.ComponentContext
 import com.mindovercnc.data.lathehal.local.di.LatheHalLocalDataModule
 import com.mindovercnc.data.lathehal.remote.di.LatheHalRemoteDataModule
 import com.mindovercnc.data.linuxcnc.local.di.LinuxcncLegacyDataModule
@@ -71,8 +72,15 @@ fun repositoryModule(legacyCommunication: Boolean) =
         }
     }
 
+private fun decomposeModule(componentContext: ComponentContext) =
+    DI.Module("decompose") { bindSingleton { componentContext } }
+
 @Composable
-fun withAppDi(startupArgs: StartupArgs, content: @Composable () -> Unit) =
+fun withAppDi(
+    startupArgs: StartupArgs,
+    componentContext: ComponentContext,
+    content: @Composable () -> Unit,
+) =
     withDI(
         KtLcncModule,
         startupModule(startupArgs.iniFilePath),
@@ -80,5 +88,6 @@ fun withAppDi(startupArgs: StartupArgs, content: @Composable () -> Unit) =
         SystemModule,
         repositoryModule(startupArgs.legacyCommunication),
         ParseFactoryModule,
+        decomposeModule(componentContext),
         content = content
     )

@@ -24,7 +24,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.linuxcnc.listitem.LabelWithValue
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsState
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.LatheToolColumns
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.data.LatheToolColumns
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.AddEditLatheToolScreen
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.ui.DirectionItem
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.ui.TipOrientationUi

@@ -10,18 +10,22 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.mindovercnc.linuxcnc.screen.rememberScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.Tools
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.CuttingInsertsToolsTab
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.HoldersToolsTab
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.LatheToolsTab
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.ToolsTabItem
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.AddEditCuttingInsertScreen
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.AddEditLatheToolScreen
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.AddEditHolderScreen
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.add.AddEditHolderScreen
 import com.mindovercnc.linuxcnc.screen.tools.root.ui.ToolTabsView
 
 private val tabContentModifier = Modifier.fillMaxWidth()
@@ -31,11 +35,11 @@ class ToolsRootScreen : Tools() {
     @Composable
     override fun Title() {
         val screenModel = rememberScreenModel<ToolsScreenModel>()
-        val state by screenModel.state.collectAsState()
+        val childSlot by screenModel.childSlot.subscribeAsState()
 
         ToolTabsView(
             modifier = Modifier.width(450.dp).height(48.dp),
-            currentTab = state.currentTab,
+            currentTab = childSlot.child!!.instance.config,
             onTabSelected = screenModel::selectTab
         )
     }
@@ -44,46 +48,59 @@ class ToolsRootScreen : Tools() {
     override fun Fab() {
         val navigator = LocalNavigator.currentOrThrow
         val screenModel = rememberScreenModel<ToolsScreenModel>()
-        val state by screenModel.state.collectAsState()
+        val childSlot by screenModel.childSlot.subscribeAsState()
 
-        ToolsFab(state, navigator, screenModel)
+        ToolsFab(childSlot.child!!.instance, navigator, screenModel)
     }
 
     @Composable
     override fun Content() {
         val screenModel = rememberScreenModel<ToolsScreenModel>()
-        val state by screenModel.state.collectAsState()
-
+        val tabStack by screenModel.childSlot.subscribeAsState()
         Column(modifier = Modifier.fillMaxWidth()) {
-            state.currentTab.Content(screenModel, tabContentModifier)
+            tabStack.child!!.instance.Content(screenModel, tabContentModifier)
         }
     }
 }
 
 @Composable
-private fun ToolsFab(state: ToolsState, navigator: Navigator, component: ToolsComponent) {
-    when (state.currentTab) {
-        ToolsTabItem.ToolHolders -> {
+private fun ToolsFab(
+    currentTab: ToolsTabItem,
+    navigator: Navigator,
+    component: ToolsComponent,
+    modifier: Modifier = Modifier
+) {
+    when (currentTab) {
+        is HoldersToolsTab -> {
             ExtendedFloatingActionButton(
                 text = { Text("New Holder") },
-                onClick = { navigator.push(AddEditHolderScreen { component.loadToolHolders() }) },
-                icon = { AddIcon() }
+                onClick = {
+                    navigator.push(
+                        AddEditHolderScreen {
+                            // TODO: component.loadToolHolders()
+                        }
+                    )
+                },
+                icon = { AddIcon() },
+                modifier = modifier
             )
         }
-        ToolsTabItem.LatheTools -> {
+        LatheToolsTab -> {
             ExtendedFloatingActionButton(
                 text = { Text("New Tool") },
                 onClick = { navigator.push(AddEditLatheToolScreen { component.loadLatheTools() }) },
-                icon = { AddIcon() }
+                icon = { AddIcon() },
+                modifier = modifier
             )
         }
-        ToolsTabItem.CuttingInserts -> {
+        CuttingInsertsToolsTab -> {
             ExtendedFloatingActionButton(
                 text = { Text("New Insert") },
                 onClick = {
                     navigator.push(AddEditCuttingInsertScreen { component.loadCuttingInserts() })
                 },
-                icon = { AddIcon() }
+                icon = { AddIcon() },
+                modifier = modifier
             )
         }
     }
