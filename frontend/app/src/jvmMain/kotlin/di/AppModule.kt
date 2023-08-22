@@ -3,6 +3,8 @@ package di
 import StatusWatcher
 import TabViewModel
 import androidx.compose.runtime.Composable
+import com.mindovercnc.data.lathehal.local.di.LatheHalLocalDataModule
+import com.mindovercnc.data.lathehal.remote.di.LatheHalRemoteDataModule
 import com.mindovercnc.data.linuxcnc.local.di.LinuxcncLegacyDataModule
 import com.mindovercnc.data.linuxcnc.remote.di.LinuxcncRemoteDataModule
 import com.mindovercnc.database.di.DatabaseModule
@@ -54,12 +56,13 @@ fun repositoryModule(legacyCommunication: Boolean) =
         if (legacyCommunication) {
             importAll(
                 LinuxcncLegacyDataModule,
+                LatheHalLocalDataModule,
                 ToolsLocalModule,
                 GCodeLocalModule,
                 SettingsLocalModule
             )
         } else {
-            importAll(LinuxcncRemoteDataModule, ToolsRemoteModule, GrpcModule)
+            importAll(LinuxcncRemoteDataModule, LatheHalRemoteDataModule, ToolsRemoteModule, GrpcModule)
         }
     }
 

@@ -1,6 +1,6 @@
 package com.mindovercnc.linuxcnc.domain
 
-import com.mindovercnc.data.linuxcnc.HalRepository
+import com.mindovercnc.data.lathehal.HalRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import kotlinx.coroutines.flow.*

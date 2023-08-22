@@ -1,7 +1,5 @@
-package com.mindovercnc.linuxcnc
+package com.mindovercnc.linuxcnc.initializer
 
-import com.mindovercnc.linuxcnc.initializer.LoadBufferDescriptorStep
-import com.mindovercnc.linuxcnc.initializer.LoadSoResourceStep
 import initializer.InitializerStep
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
@@ -27,11 +25,4 @@ class KtlCncInitializer(private val destFolder: File) : InitializerStep {
         private const val linuxcncLibName = "libLinuxCNC.so"
         private const val bufferDescriptor = "bufferDescriptor.json"
     }
-}
-
-fun main() {
-    val file = runBlocking {
-        KtlCncInitializer(File(".")).initialise()
-    }
-    println(file)
 }

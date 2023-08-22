@@ -9,7 +9,6 @@ import org.kodein.di.instance
 
 val LinuxcncLegacyDataModule = DI.Module("linuxcnc_legacy_data") {
     bindSingleton<CncCommandRepository> { CncCommandRepositoryLocal() }
-    bindSingleton<HalRepository> { HalRepositoryLocal() }
     bindSingleton<CncStatusRepository> { CncStatusRepositoryLocal(instance(), instance()) }
     bindSingleton<SystemMessageRepository> { SystemMessageRepositoryLocal(instance(), instance()) }
     bindSingleton<IniFileRepository> { IniFileRepositoryLocal(instance()) }

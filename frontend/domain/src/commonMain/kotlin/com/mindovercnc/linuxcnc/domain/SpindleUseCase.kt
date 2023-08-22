@@ -1,11 +1,11 @@
 package com.mindovercnc.linuxcnc.domain
 
+import com.mindovercnc.data.lathehal.HalRepository
 import com.mindovercnc.data.linuxcnc.CncStatusRepository
-import com.mindovercnc.data.linuxcnc.HalRepository
+import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.linuxcnc.settings.model.BooleanKey
 import com.mindovercnc.linuxcnc.settings.model.DoubleKey
 import com.mindovercnc.linuxcnc.settings.model.IntegerKey
-import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.model.SpindleUiModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*

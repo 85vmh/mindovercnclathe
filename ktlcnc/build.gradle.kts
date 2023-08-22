@@ -1,6 +1,6 @@
 plugins {
-  kotlin("jvm")
-  kotlin("plugin.serialization")
+    kotlin("jvm")
+    kotlin("plugin.serialization")
 }
 
 group = "ro.dragossusi"
@@ -8,24 +8,25 @@ group = "ro.dragossusi"
 version = Versions.app
 
 kotlin {
-  val arguments = NativePaths.createJvmArgs(project)
-  println(arguments)
-  kotlinDaemonJvmArgs = listOf(arguments)
+    val arguments = NativePaths.createJvmArgs(project)
+    println(arguments)
+    kotlinDaemonJvmArgs = listOf(arguments)
 }
 
 repositories { mavenCentral() }
 
 dependencies {
-  implementation(Libs.Coroutines.core)
-  implementation(Libs.Serialization.json)
-  implementation(Libs.Log.logging)
-  implementation(Libs.Serialization.json_okio)
-  implementation(project(":initializer"))
-  api(project(":ktlcnc:model"))
-  api(project(":protos"))
-  api(Libs.Kodein.core)
+    implementation(Libs.Coroutines.core)
+    implementation(Libs.Serialization.json)
+    implementation(Libs.Log.logging)
+    implementation(Libs.Serialization.json_okio)
+    implementation(project(":initializer"))
+    api(project(":ktlcnc:model"))
+    api(project(":protos"))
+    api(Libs.Kodein.core)
 
-  testImplementation(kotlin("test"))
+    testImplementation(kotlin("test"))
+    testImplementation(Libs.Coroutines.test)
 }
 
 tasks.test { useJUnitPlatform() }

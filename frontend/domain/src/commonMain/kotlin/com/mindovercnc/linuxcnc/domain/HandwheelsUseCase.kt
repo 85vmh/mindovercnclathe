@@ -1,6 +1,6 @@
 package com.mindovercnc.linuxcnc.domain
 
-import com.mindovercnc.data.linuxcnc.HalRepository
+import com.mindovercnc.data.lathehal.HalRepository
 import com.mindovercnc.model.HandWheelsUiModel
 import com.mindovercnc.repository.TaskStatusRepository
 import kotlinx.coroutines.FlowPreview
