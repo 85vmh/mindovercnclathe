@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.MaterialFeedsSpeeds
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.data.MaterialFeedsSpeeds
 
 private val headerModifier = Modifier.height(LegendTokens.HeaderHeight)
 private val cellModifier = Modifier.height(LegendTokens.CellHeight)

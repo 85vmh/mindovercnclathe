@@ -5,6 +5,7 @@ import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.linuxcnc.gcode.GCodeInterpreterRepository
 import com.mindovercnc.model.Point3D
 import kotlinx.coroutines.withContext
+import mu.KotlinLogging
 import okio.Path
 
 class GCodeUseCase(
@@ -17,7 +18,7 @@ class GCodeUseCase(
             val pathElements = mutableListOf<PathElement>()
             var lastPoint: Point3D? = null
 
-            gCodeInterpreterRepository.parseFile(file).forEach { command ->
+            for (command in gCodeInterpreterRepository.parseFile(file)) {
                 when (command.name) {
                     "STRAIGHT_TRAVERSE",
                     "STRAIGHT_FEED" -> {
@@ -81,9 +82,18 @@ class GCodeUseCase(
                             }
                         }
                     }
-                    else -> {}
+                    "COMMENT" -> {
+                        /* no-op */
+                    }
+                    else -> {
+                        LOG.debug { "Command not handled: ${command.name}" }
+                    }
                 }
             }
             pathElements
         }
+
+    companion object {
+        private val LOG = KotlinLogging.logger("GCodeUseCase")
+    }
 }

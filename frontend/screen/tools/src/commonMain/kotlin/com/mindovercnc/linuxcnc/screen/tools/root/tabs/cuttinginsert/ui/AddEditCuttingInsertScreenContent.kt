@@ -11,8 +11,8 @@ import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.listitem.DropDownSetting
 import com.mindovercnc.linuxcnc.listitem.ValueSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.AddEditCuttingInsertComponent
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.AddEditCuttingInsertState
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.AddEditCuttingInsertComponent
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.AddEditCuttingInsertState
 import com.mindovercnc.linuxcnc.tools.model.MadeOf
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 

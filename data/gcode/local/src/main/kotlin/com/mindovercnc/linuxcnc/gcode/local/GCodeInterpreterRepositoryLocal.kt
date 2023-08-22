@@ -5,6 +5,7 @@ import com.mindovercnc.data.linuxcnc.ToolFilePath
 import com.mindovercnc.data.linuxcnc.VarFilePath
 import com.mindovercnc.linuxcnc.gcode.GCodeInterpreterRepository
 import com.mindovercnc.linuxcnc.gcode.model.GCodeCommand
+import mu.KotlinLogging
 import okio.Path
 import okio.Path.Companion.toPath
 
@@ -40,18 +41,17 @@ class GCodeInterpreterRepositoryLocal(
         println("START GCODE")
         val commands =
             process.inputStream.reader().useLines {
-                it
-                    .map { line ->
-                        // println(line.colored(PrintColor.BLUE))
-                        parse(line)
-                    }
-                    .toList()
+                it.map { line ->
+                    // println(line.colored(PrintColor.BLUE))
+                    parse(line)
+                }.toList()
             }
         println("END GCODE")
         return commands
     }
 
     private fun parse(line: String): GCodeCommand {
+        LOG.debug { "Parsing $line" }
         val id = line.substringBefore("N..... ").trim().toInt()
         // println("\t\tId:\t\t\t\t$id".colored(PrintColor.YELLOW))
 
@@ -66,6 +66,12 @@ class GCodeInterpreterRepositoryLocal(
         //            println("\t\tArguments:\t\t${arguments}".colored(PrintColor.YELLOW))
         //        }
 
-        return GCodeCommand(id, commandName, arguments, line)
+        return GCodeCommand(id, commandName, arguments, line).also { gCodeCommand ->
+            LOG.debug { "Parsed as $gCodeCommand" }
+        }
+    }
+
+    companion object {
+        private val LOG = KotlinLogging.logger("GCodeInterpreterRepository")
     }
 }

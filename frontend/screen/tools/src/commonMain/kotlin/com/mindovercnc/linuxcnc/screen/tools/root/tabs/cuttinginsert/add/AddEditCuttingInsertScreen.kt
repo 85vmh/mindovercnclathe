@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert
+package com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons

@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool
+package com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.add
 
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.ToolType

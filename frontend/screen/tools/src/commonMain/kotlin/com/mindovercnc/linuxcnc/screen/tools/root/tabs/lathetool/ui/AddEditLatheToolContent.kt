@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.listitem.ValueSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.AddEditLatheToolState
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.add.AddEditLatheToolState
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.ToolType

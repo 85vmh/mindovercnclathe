@@ -20,9 +20,9 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
-import com.mindovercnc.linuxcnc.screen.tools.root.ToolsState
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.CuttingInsertState
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.AddEditCuttingInsertScreen
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.data.CuttingInsertsColumns
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.AddEditCuttingInsertScreen
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import scroll.VerticalScrollbar
@@ -33,7 +33,7 @@ private val itemModifier = Modifier.fillMaxWidth()
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CuttingInsertsContent(
-    state: ToolsState,
+    state: CuttingInsertState,
     onInsertChanged: () -> Unit,
     onDelete: (CuttingInsert) -> Unit,
     modifier: Modifier = Modifier,

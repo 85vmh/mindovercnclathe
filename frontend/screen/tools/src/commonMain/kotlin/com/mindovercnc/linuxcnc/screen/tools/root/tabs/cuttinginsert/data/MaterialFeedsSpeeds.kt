@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert
+package com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.data
 
 import androidx.compose.ui.graphics.Color
 

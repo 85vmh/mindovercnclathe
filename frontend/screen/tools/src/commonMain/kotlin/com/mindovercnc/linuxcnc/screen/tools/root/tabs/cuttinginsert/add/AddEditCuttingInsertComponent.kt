@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert
+package com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add
 
 import com.mindovercnc.linuxcnc.screen.AppScreenComponent
 import com.mindovercnc.linuxcnc.tools.model.MadeOf

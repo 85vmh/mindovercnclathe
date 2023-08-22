@@ -25,7 +25,8 @@ import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.linuxcnc.listitem.LabelWithValue
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsState
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.data.LatheToolColumns
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.AddEditLatheToolScreen
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.LatheToolsState
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.add.AddEditLatheToolScreen
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.ui.DirectionItem
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.ui.TipOrientationUi
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
@@ -39,7 +40,7 @@ private val itemModifier = Modifier.fillMaxWidth()
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LatheToolsContent(
-    state: ToolsState,
+    state: LatheToolsState,
     modifier: Modifier = Modifier,
     onDelete: (LatheTool) -> Unit,
     onToolChanged: () -> Unit

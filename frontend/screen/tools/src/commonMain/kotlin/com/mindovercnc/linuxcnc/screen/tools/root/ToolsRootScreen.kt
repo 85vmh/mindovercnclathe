@@ -23,8 +23,8 @@ import com.mindovercnc.linuxcnc.screen.tools.root.tabs.CuttingInsertsToolsTab
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.HoldersToolsTab
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.LatheToolsTab
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.ToolsTabItem
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.AddEditCuttingInsertScreen
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.AddEditLatheToolScreen
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.AddEditCuttingInsertScreen
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.add.AddEditLatheToolScreen
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.add.AddEditHolderScreen
 import com.mindovercnc.linuxcnc.screen.tools.root.ui.ToolTabsView
 
@@ -70,46 +70,48 @@ private fun ToolsFab(
     component: ToolsComponent,
     modifier: Modifier = Modifier
 ) {
-    when (currentTab) {
-        is HoldersToolsTab -> {
-            ExtendedFloatingActionButton(
-                text = { Text("New Holder") },
-                onClick = {
+    val onClick =
+        when (currentTab) {
+            is HoldersToolsTab -> {
+                {
                     navigator.push(
                         AddEditHolderScreen {
                             // TODO: component.loadToolHolders()
                         }
                     )
-                },
-                icon = { AddIcon() },
-                modifier = modifier
-            )
+                }
+            }
+            is LatheToolsTab -> {
+                {
+                    navigator.push(
+                        AddEditLatheToolScreen {
+                            // TODO: component.loadLatheTools()
+                        }
+                    )
+                }
+            }
+            is CuttingInsertsToolsTab -> {
+                {
+                    navigator.push(
+                        AddEditCuttingInsertScreen {
+                            // TODO: component.loadCuttingInserts()
+                        }
+                    )
+                }
+            }
         }
-        LatheToolsTab -> {
-            ExtendedFloatingActionButton(
-                text = { Text("New Tool") },
-                onClick = { navigator.push(AddEditLatheToolScreen { component.loadLatheTools() }) },
-                icon = { AddIcon() },
-                modifier = modifier
-            )
-        }
-        CuttingInsertsToolsTab -> {
-            ExtendedFloatingActionButton(
-                text = { Text("New Insert") },
-                onClick = {
-                    navigator.push(AddEditCuttingInsertScreen { component.loadCuttingInserts() })
-                },
-                icon = { AddIcon() },
-                modifier = modifier
-            )
-        }
-    }
-}
-
-@Composable
-private fun AddIcon() {
-    Icon(
-        Icons.Default.Add,
-        contentDescription = null,
+    val title = currentTab.fabTitle()
+    ExtendedFloatingActionButton(
+        text = { Text(title) },
+        onClick = onClick,
+        icon = { Icon(Icons.Default.Add, contentDescription = null) },
+        modifier = modifier
     )
 }
+
+private fun ToolsTabItem.fabTitle() =
+    when (this) {
+        is CuttingInsertsToolsTab -> "New Insert"
+        is HoldersToolsTab -> "New Holder"
+        is LatheToolsTab -> "New Tool"
+    }

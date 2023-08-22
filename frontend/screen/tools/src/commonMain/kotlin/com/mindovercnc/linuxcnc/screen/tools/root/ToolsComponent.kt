@@ -10,13 +10,5 @@ import com.mindovercnc.linuxcnc.tools.model.LatheTool
 interface ToolsComponent : AppScreenComponent<ToolsState> {
     val childSlot: Value<ChildSlot<*, ToolsTabItem>>
 
-    fun loadLatheTools()
-    fun loadCuttingInserts()
     fun selectTab(config: ToolsScreenModel.Config)
-    fun deleteCuttingInsert(insert: CuttingInsert)
-    fun requestDeleteLatheTool(latheTool: LatheTool)
-    fun cancelDeleteLatheTool()
-    fun deleteLatheTool(latheTool: LatheTool)
-    fun requestDeleteCuttingInsert(cuttingInsert: CuttingInsert)
-    fun cancelDeleteCuttingInsert()
 }

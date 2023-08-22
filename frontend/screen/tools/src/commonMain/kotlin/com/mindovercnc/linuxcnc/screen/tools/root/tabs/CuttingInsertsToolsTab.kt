@@ -6,25 +6,29 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsComponent
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsScreenModel
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.CuttingInsertComponent
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.data.CuttingInsertsColumns
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.ui.CuttingInsertsContent
 import com.mindovercnc.linuxcnc.screen.tools.root.ui.CuttingInsertDeleteDialog
 
-data object CuttingInsertsToolsTab :
+class CuttingInsertsToolsTab(
+    private val component: CuttingInsertComponent
+) :
     ToolsTabItem( ToolsScreenModel.Config.CuttingInserts) {
     @Composable
     override fun Content(toolsComponent: ToolsComponent, modifier: Modifier) {
-        val state by toolsComponent.state.collectAsState()
+        val state by component.state.collectAsState()
         CuttingInsertsContent(
             state,
-            onDelete = toolsComponent::requestDeleteCuttingInsert,
-            onInsertChanged = toolsComponent::loadCuttingInserts,
+            onDelete = component::requestDeleteCuttingInsert,
+            onInsertChanged = component::loadCuttingInserts,
             modifier = modifier
         )
         state.cuttingInsertDeleteModel?.let { deleteModel ->
             CuttingInsertDeleteDialog(
                 deleteModel = deleteModel,
-                deleteClick = toolsComponent::deleteCuttingInsert,
-                abortClick = toolsComponent::cancelDeleteCuttingInsert
+                deleteClick = component::deleteCuttingInsert,
+                abortClick = component::cancelDeleteCuttingInsert
             )
         }
     }
