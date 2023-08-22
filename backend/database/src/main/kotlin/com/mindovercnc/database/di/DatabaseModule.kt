@@ -5,15 +5,16 @@ import com.mindovercnc.database.initializer.DummyToolsInitializer
 import com.mindovercnc.database.initializer.SchemaInitializer
 import initializer.Initializer
 import initializer.SimpleInitializer
+import okio.Path
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 
 private const val DB_NAME = "LatheTools.db"
 
-val DatabaseModule = DI.Module("db") {
+fun databaseModule(path: Path) = DI.Module("db") {
     bindSingleton<Initializer>("database") {
         SimpleInitializer(
-            ConnectionInitializer(DB_NAME),
+            ConnectionInitializer(path.div(DB_NAME)),
             SchemaInitializer(true),
             DummyToolsInitializer(5)
         )

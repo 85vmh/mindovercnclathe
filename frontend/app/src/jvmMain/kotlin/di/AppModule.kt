@@ -1,5 +1,6 @@
 package di
 
+import Files
 import StatusWatcher
 import TabViewModel
 import androidx.compose.runtime.Composable
@@ -7,11 +8,10 @@ import com.mindovercnc.data.lathehal.local.di.LatheHalLocalDataModule
 import com.mindovercnc.data.lathehal.remote.di.LatheHalRemoteDataModule
 import com.mindovercnc.data.linuxcnc.local.di.LinuxcncLegacyDataModule
 import com.mindovercnc.data.linuxcnc.remote.di.LinuxcncRemoteDataModule
-import com.mindovercnc.database.di.DatabaseModule
+import com.mindovercnc.database.di.databaseModule
 import com.mindovercnc.dispatchers.DispatchersModule
 import com.mindovercnc.editor.reader.EditorReader
 import com.mindovercnc.editor.reader.FileEditorReader
-import com.mindovercnc.linuxcnc.di.CommonDataModule
 import com.mindovercnc.linuxcnc.di.*
 import com.mindovercnc.linuxcnc.gcode.local.di.GCodeLocalModule
 import com.mindovercnc.linuxcnc.settings.local.di.SettingsLocalModule
@@ -31,7 +31,7 @@ val BaseAppModule =
         importAll(
             DispatchersModule,
             EditorModule,
-            DatabaseModule,
+            databaseModule(Files.appDir),
             InitializerModule,
             ScreenModelModule,
             DomainModule,
@@ -62,7 +62,12 @@ fun repositoryModule(legacyCommunication: Boolean) =
                 SettingsLocalModule
             )
         } else {
-            importAll(LinuxcncRemoteDataModule, LatheHalRemoteDataModule, ToolsRemoteModule, GrpcModule)
+            importAll(
+                LinuxcncRemoteDataModule,
+                LatheHalRemoteDataModule,
+                ToolsRemoteModule,
+                GrpcModule
+            )
         }
     }
 

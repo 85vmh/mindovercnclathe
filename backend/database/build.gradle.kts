@@ -17,6 +17,8 @@ dependencies {
 
     implementation(Libs.Log.logging)
 
+    implementation(Libs.okio)
+
     implementation("org.xerial:sqlite-jdbc:$sqliteJdbc")
 
     implementation(project(":dispatcher"))
