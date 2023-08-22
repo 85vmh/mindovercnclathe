@@ -67,6 +67,7 @@ kotlin {
                 implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:${Versions.voyager}")
                 implementation("cafe.adriel.voyager:voyager-tab-navigator:${Versions.voyager}")
                 implementation("cafe.adriel.voyager:voyager-transitions:${Versions.voyager}")
+                implementation(Libs.Decompose.core)
             }
         }
 

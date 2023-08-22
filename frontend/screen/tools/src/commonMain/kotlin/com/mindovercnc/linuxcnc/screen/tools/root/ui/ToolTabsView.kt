@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -21,17 +22,18 @@ fun ToolTabsView(
     onTabSelected: (ToolsTabItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val entries = remember {
+        listOf(ToolsTabItem.ToolHolders, ToolsTabItem.LatheTools, ToolsTabItem.CuttingInserts)
+    }
     val background = MaterialTheme.colorScheme.background
     val selectedColor = MaterialTheme.colorScheme.primary
 
     TabRow(
-        selectedTabIndex = currentTab.ordinal,
-        modifier = modifier
-            .clip(shape = shape)
-            .border(1.dp, selectedColor, shape = shape),
+        selectedTabIndex = entries.indexOf(currentTab),
+        modifier = modifier.clip(shape = shape).border(1.dp, selectedColor, shape = shape),
         indicator = { TabRowDefaults.Indicator(color = Color.Transparent) }
     ) {
-        ToolsTabItem.entries.forEach { tabItem ->
+        entries.forEach { tabItem ->
             val selected = tabItem == currentTab
             Tab(
                 selected = selected,
@@ -42,10 +44,14 @@ fun ToolTabsView(
                         style = MaterialTheme.typography.titleMedium,
                     )
                 },
-                modifier = Modifier
-                    .background(if (selected) selectedColor else background)
-                    .drawBehind {
-                        drawLine(selectedColor, Offset(size.width, 0f), Offset(size.width, size.height), 2f)
+                modifier =
+                    Modifier.background(if (selected) selectedColor else background).drawBehind {
+                        drawLine(
+                            selectedColor,
+                            Offset(size.width, 0f),
+                            Offset(size.width, size.height),
+                            2f
+                        )
                     },
                 selectedContentColor = contentColorFor(selectedColor),
                 unselectedContentColor = contentColorFor(background)

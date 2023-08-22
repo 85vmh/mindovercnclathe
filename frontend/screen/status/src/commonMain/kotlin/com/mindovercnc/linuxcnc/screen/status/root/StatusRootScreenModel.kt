@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
-internal class StatusRootScreenModel(messagesUseCase: MessagesUseCase) :
+class StatusRootScreenModel(messagesUseCase: MessagesUseCase) :
     StateScreenModel<StatusRootState>(StatusRootState()), StatusRootComponent {
 
     init {

@@ -33,7 +33,7 @@ fun AppWindow(startupArgs: StartupArgs, onCloseRequest: () -> Unit) {
         CompositionLocalProvider(LocalDensity provides newDensity) {
             AppTheme(startupArgs.darkMode) {
                 if (startupArgs.legacyCommunication) {
-                    MindOverCNCLathe()
+                    MindOverCNCLathe(modifier = Modifier.fillMaxSize())
                 } else {
                     // TODO change with real implementation
                     AppModePickerSample(modifier = Modifier.fillMaxSize())

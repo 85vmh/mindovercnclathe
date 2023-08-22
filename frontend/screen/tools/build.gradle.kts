@@ -70,6 +70,9 @@ kotlin {
 
                 implementation(Libs.bignum)
 
+                implementation(Libs.Decompose.core)
+                implementation(Libs.Decompose.extensions)
+
                 // navigation
                 implementation(Libs.Voyager.navigator)
                 implementation(Libs.Voyager.bottom_sheet_navigator)

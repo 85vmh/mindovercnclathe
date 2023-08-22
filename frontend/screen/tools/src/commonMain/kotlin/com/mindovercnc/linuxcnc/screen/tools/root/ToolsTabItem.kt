@@ -11,8 +11,11 @@ import com.mindovercnc.linuxcnc.screen.tools.root.ui.CuttingInsertDeleteDialog
 import com.mindovercnc.linuxcnc.screen.tools.root.ui.LatheToolDeleteDialog
 import com.mindovercnc.linuxcnc.screen.tools.root.ui.ToolHolderDeleteDialog
 
-enum class ToolsTabItem(val tabTitle: String) {
-    ToolHolders("Tool Holders") {
+sealed class ToolsTabItem(val tabTitle: String) {
+
+    @Composable abstract fun Content(component: ToolsComponent, modifier: Modifier)
+
+    data object ToolHolders : ToolsTabItem("Tool Holders") {
         @Composable
         override fun Content(component: ToolsComponent, modifier: Modifier) {
             val state by component.state.collectAsState()
@@ -33,8 +36,9 @@ enum class ToolsTabItem(val tabTitle: String) {
                 )
             }
         }
-    },
-    LatheTools("Lathe Tools") {
+    }
+
+    data object LatheTools : ToolsTabItem("Lathe Tools") {
         @Composable
         override fun Content(component: ToolsComponent, modifier: Modifier) {
             val state by component.state.collectAsState()
@@ -52,8 +56,9 @@ enum class ToolsTabItem(val tabTitle: String) {
                 )
             }
         }
-    },
-    CuttingInserts("Cutting Inserts") {
+    }
+
+    data object CuttingInserts : ToolsTabItem("Cutting Inserts") {
         @Composable
         override fun Content(component: ToolsComponent, modifier: Modifier) {
             val state by component.state.collectAsState()
@@ -71,7 +76,5 @@ enum class ToolsTabItem(val tabTitle: String) {
                 )
             }
         }
-    };
-
-    @Composable abstract fun Content(component: ToolsComponent, modifier: Modifier)
+    }
 }

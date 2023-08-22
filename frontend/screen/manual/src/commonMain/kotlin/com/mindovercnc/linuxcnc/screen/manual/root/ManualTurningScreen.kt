@@ -16,8 +16,10 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.numpad.InputDialogView
+import com.mindovercnc.linuxcnc.numpad.NumPadState
 import com.mindovercnc.linuxcnc.screen.manual.Manual
 import com.mindovercnc.linuxcnc.screen.manual.root.ui.ManualTurningContent
+import com.mindovercnc.linuxcnc.screen.manual.root.ui.ManualTurningScreenUi
 import com.mindovercnc.linuxcnc.screen.manual.root.ui.ManualTurningSheet
 import com.mindovercnc.linuxcnc.screen.manual.root.ui.SimpleCyclesGrid
 import com.mindovercnc.model.WcsUiModel
@@ -114,21 +116,7 @@ class ManualTurningScreen : Manual("Manual Turning") {
     @Composable
     override fun Content() {
         val screenModel = rememberScreenModel<ManualTurningScreenModel>()
-        val state by screenModel.state.collectAsState()
-        val navigator = LocalNavigator.currentOrThrow
-
-        ManualTurningContent(screenModel, state, navigator)
-
-        state.numPadState?.let { numPadState ->
-            InputDialogView(
-                numPadState = numPadState,
-                onCancel = { screenModel.closeNumPad() },
-                onSubmit = {
-                    numPadState.onSubmitAction(it)
-                    screenModel.closeNumPad()
-                }
-            )
-        }
+        ManualTurningScreenUi(screenModel)
     }
 }
 
