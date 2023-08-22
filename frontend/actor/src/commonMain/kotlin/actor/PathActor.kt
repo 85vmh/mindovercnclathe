@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import com.mindovercnc.model.PlaneType
 import org.jetbrains.skia.Point
 
 private const val dash = 2f
@@ -22,7 +23,8 @@ data class PathActor(
     private val traverseEffect = PathEffect.dashPathEffect(floatArrayOf(dash, space), 1f)
 
     val programData: ProgramData = pathElements.toProgramData(pixelPerUnit)
-    val programSize: ProgramData.ProgramSize get() = programData.programSize
+    val programSize: ProgramData.ProgramSize
+        get() = programData.programSize
 
     val xPlusExtents: Float
         get() = programData.xPlusExtents
@@ -48,39 +50,35 @@ data class PathActor(
     private fun List<PathElement>.toProgramData(pixelPerUnit: Float): ProgramData {
         val fp = Path()
         val tp = Path()
-        forEach {
-            when (it) {
+        for (element in this) {
+            when (element) {
                 is PathElement.Line -> {
-                    when (it.type) {
-                        PathElement.Line.Type.Feed -> fp.addLine(it, pixelPerUnit)
-                        PathElement.Line.Type.Traverse -> tp.addLine(it, pixelPerUnit)
+                    when (element.type) {
+                        PathElement.Line.Type.Feed -> {
+                            fp.addLine(element, planeType = PlaneType.X_Z, scale = pixelPerUnit)
+                        }
+                        PathElement.Line.Type.Traverse -> {
+                            tp.addLine(element, planeType = PlaneType.X_Z, scale = pixelPerUnit)
+                        }
                     }
                 }
-
-                is PathElement.Arc -> fp.addArc(it, pixelPerUnit)
+                is PathElement.Arc -> {
+                    fp.addArc(element, planeType = PlaneType.X_Z, scale = pixelPerUnit)
+                }
             }
         }
         fp.close()
         tp.close()
 
-        return ProgramData(
-            feedPath = fp,
-            traversePath = tp
-        )
+        return ProgramData(feedPath = fp, traversePath = tp)
     }
 
     private fun List<Point>.toPath(pixelPerUnit: Float): Path {
         val path = Path()
         val previousPoint = firstOrNull()
         if (previousPoint != null) {
-            with(previousPoint.scale(pixelPerUnit)) {
-                path.moveTo(x, y)
-            }
-            this.forEach {
-                with(it.scale(pixelPerUnit)) {
-                    path.lineTo(x, y)
-                }
-            }
+            with(previousPoint.scale(pixelPerUnit)) { path.moveTo(x, y) }
+            this.forEach { with(it.scale(pixelPerUnit)) { path.lineTo(x, y) } }
         }
         return path
     }
