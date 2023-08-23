@@ -3,12 +3,8 @@ package ui.tab
 import TabViewModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -21,13 +17,12 @@ import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
+import com.mindovercnc.linuxcnc.screen.AppScreen
 import com.mindovercnc.linuxcnc.screen.rememberScreenModel
 import kotlinx.coroutines.launch
 import mu.KotlinLogging
-import com.mindovercnc.linuxcnc.screen.AppScreen
-
-private val tabs =
-    arrayOf<AppTab<*>>(ManualTab, ConversationalTab, ProgramsTab, ToolsTab, StatusTab)
+import ui.AppBottomBar
+import ui.AppTopAppBar
 
 @Suppress("UNCHECKED_CAST")
 abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
@@ -89,11 +84,16 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
                         modifier = Modifier.fillMaxSize(),
                         topBar = { TopAppBar(currentScreen, navigator) },
                         bottomBar = {
-                            BottomBar(
+                            AppBottomBar(
                                 modifier = Modifier.height(60.dp),
                                 enabled = uiState.isBottomBarEnabled,
                                 selected = this,
-                                currentTool = uiState.currentTool,
+                                badgeValue = { tab ->
+                                    when (tab) {
+                                        is ToolsTab -> "T${uiState.currentTool}"
+                                        else -> null
+                                    }
+                                },
                                 onClick = { tabNavigator.current = it }
                             )
                         },
@@ -106,140 +106,14 @@ abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
         }
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun <S : AppScreen> TopAppBar(currentScreen: S, navigator: Navigator) {
-        CenterAlignedTopAppBar(
-            title = {
-                when (currentScreen.hasCustomTitle) {
-                    true -> currentScreen.Title()
-                    false -> Text(currentScreen.title.value)
-                }
-            },
-            navigationIcon = {
-                when {
-                    currentScreen.drawerEnabled -> {
-                        val scope = rememberCoroutineScope()
-                        IconButton(
-                            modifier = iconButtonModifier,
-                            onClick = { scope.launch { drawerState.open() } }
-                        ) {
-                            Icon(Icons.Default.Menu, contentDescription = "")
-                        }
-                    }
-                    navigator.canPop -> {
-                        IconButton(modifier = iconButtonModifier, onClick = { navigator.pop() }) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "")
-                        }
-                    }
-                }
-            },
-            actions = { with(currentScreen) { Actions() } },
+        val scope = rememberCoroutineScope()
+        AppTopAppBar(
+            navigator = navigator,
+            currentScreen = currentScreen,
+            onOpenDrawer = { scope.launch { drawerState.open() } },
             modifier = Modifier.shadow(elevation = 8.dp)
         )
-    }
-
-    @Composable
-    private fun BottomBar(
-        modifier: Modifier = Modifier,
-        enabled: Boolean,
-        currentTool: Int,
-        selected: AppTab<*>,
-        onClick: (Tab) -> Unit
-    ) {
-        NavigationBar(
-            modifier = modifier,
-            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-        ) {
-            tabs.forEach { tab ->
-                TabNavigationItem(
-                    tab = tab,
-                    badgeValue =
-                        when (tab) {
-                            is ToolsTab -> "T$currentTool"
-                            else -> null
-                        },
-                    enabled = enabled,
-                    selected = tab == selected,
-                    onClick = onClick
-                )
-            }
-        }
-    }
-
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    private fun RowScope.TabNavigationItem(
-        tab: Tab,
-        badgeValue: String? = null,
-        enabled: Boolean,
-        selected: Boolean,
-        onClick: (Tab) -> Unit
-    ) {
-        val tabColor =
-            when {
-                selected -> MaterialTheme.colorScheme.primary
-                !enabled -> MaterialTheme.colorScheme.secondary
-                else -> MaterialTheme.colorScheme.onPrimaryContainer
-            }
-
-        BottomNavigationItem(
-            label = {
-                Text(
-                    color = tabColor,
-                    text = tab.options.title,
-                )
-            },
-            enabled = enabled,
-            selected = selected,
-            onClick = { onClick(tab) },
-            icon = {
-                if (badgeValue != null) {
-                    BadgedBox(
-                        badge = {
-                            Badge(containerColor = MaterialTheme.colorScheme.secondary) {
-                                Text(text = badgeValue, style = MaterialTheme.typography.bodyMedium)
-                            }
-                        }
-                    ) {
-                        Icon(painter = tab.options.icon!!, contentDescription = "", tint = tabColor)
-                    }
-                } else {
-                    Icon(painter = tab.options.icon!!, contentDescription = "", tint = tabColor)
-                }
-            },
-        )
-
-        // TODO: this requires the bottom bar to be high so that it won't overlap
-        //        NavigationBarItem(
-        //            label = {
-        //                Text(
-        //                    color = tabColor,
-        //                    text = tab.options.title,
-        //                )
-        //            },
-        //            enabled = enabled,
-        //            selected = selected,
-        //            onClick = { onClick(tab) },
-        //            icon = {
-        //                if (badgeValue != null) {
-        //                    BadgedBox(
-        //                        badge = {
-        //                            Badge(containerColor = MaterialTheme.colorScheme.secondary) {
-        //                                Text(text = badgeValue, style =
-        // MaterialTheme.typography.bodyMedium)
-        //                            }
-        //                        }
-        //                    ) {
-        //                        Icon(painter = tab.options.icon!!, contentDescription = "", tint =
-        // tabColor)
-        //                    }
-        //                } else {
-        //                    Icon(painter = tab.options.icon!!, contentDescription = "", tint =
-        // tabColor)
-        //                }
-        //            },
-        //        )
     }
 }

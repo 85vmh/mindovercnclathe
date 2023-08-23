@@ -10,7 +10,12 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
 import app.AppModePicker
+import app.DefaultRootComponent
 import app.RemoteHostPicker
+import app.RootComponent
+import org.kodein.di.compose.localDI
+import org.kodein.di.direct
+import org.kodein.di.instance
 import startup.args.StartupArgs
 import themes.AppTheme
 
@@ -21,6 +26,8 @@ fun AppWindow(startupArgs: StartupArgs, onCloseRequest: () -> Unit) {
             width = startupArgs.screenSize.width,
             height = startupArgs.screenSize.height
         )
+    val root = null
+    // createRootComponent()
 
     Window(
         onCloseRequest = onCloseRequest,
@@ -33,7 +40,7 @@ fun AppWindow(startupArgs: StartupArgs, onCloseRequest: () -> Unit) {
         CompositionLocalProvider(LocalDensity provides newDensity) {
             AppTheme(startupArgs.darkMode) {
                 if (startupArgs.legacyCommunication) {
-                    MindOverCNCLathe(modifier = Modifier.fillMaxSize())
+                    MindOverCNCLathe(root = root, modifier = Modifier.fillMaxSize())
                 } else {
                     // TODO change with real implementation
                     AppModePickerSample(modifier = Modifier.fillMaxSize())
@@ -58,4 +65,10 @@ private fun AppModePickerSample(modifier: Modifier = Modifier) {
             )
         }
     }
+}
+
+@Composable
+private fun createRootComponent(): RootComponent {
+    val di = localDI()
+    return remember { DefaultRootComponent(di = di, componentContext = di.direct.instance()) }
 }

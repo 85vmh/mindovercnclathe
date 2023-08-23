@@ -1,20 +1,22 @@
 package app
 
+import app.RootComponent.Config
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import com.mindovercnc.linuxcnc.screen.manual.root.ManualTurningComponent
 import com.mindovercnc.linuxcnc.screen.manual.root.ManualTurningScreenModel
 import com.mindovercnc.linuxcnc.screen.programs.root.ProgramsRootComponent
+import com.mindovercnc.linuxcnc.screen.programs.root.ProgramsRootScreenModel
 import com.mindovercnc.linuxcnc.screen.status.root.StatusRootComponent
 import com.mindovercnc.linuxcnc.screen.status.root.StatusRootScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsComponent
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsScreenModel
 import org.kodein.di.DI
+import org.kodein.di.direct
 import org.kodein.di.instance
 
 class DefaultRootComponent(
@@ -34,6 +36,10 @@ class DefaultRootComponent(
 
     override val childStack: Value<ChildStack<*, RootComponent.Child>> = _childStack
 
+    override fun openTab(tab: Config) {
+        navigation.bringToFront(tab)
+    }
+
     private fun createChild(
         config: Config,
         @Suppress("UNUSED_PARAMETER") componentContext: ComponentContext
@@ -48,30 +54,18 @@ class DefaultRootComponent(
     }
 
     private fun manualComponent(): ManualTurningComponent {
-        val component by di.instance<ManualTurningScreenModel>()
-        return component
+        return di.direct.instance<ManualTurningScreenModel>()
     }
 
     private fun programsComponent(): ProgramsRootComponent {
-        val component by di.instance<ProgramsRootComponent>()
-        return component
+        return di.direct.instance<ProgramsRootScreenModel>()
     }
 
     private fun statusComponent(): StatusRootComponent {
-        val component by di.instance<StatusRootScreenModel>()
-        return component
+        return di.direct.instance<StatusRootScreenModel>()
     }
 
     private fun toolsComponent(): ToolsComponent {
-        val component by di.instance<ToolsScreenModel>()
-        return component
-    }
-
-    private sealed interface Config : Parcelable {
-        @Parcelize object Manual : Config
-        @Parcelize object Conversational : Config
-        @Parcelize object Programs : Config
-        @Parcelize object Tools : Config
-        @Parcelize object Status : Config
+        return di.direct.instance<ToolsScreenModel>()
     }
 }

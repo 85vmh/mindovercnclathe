@@ -1,11 +1,11 @@
-package com.mindovercnc.linuxcnc.screen.programs.root.ui
+package com.mindovercnc.linuxcnc.screen.programs.picker.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mindovercnc.linuxcnc.screen.programs.root.ProgramsState
+import com.mindovercnc.linuxcnc.screen.programs.picker.ProgramPickerState
 import components.breadcrumb.BreadcrumbView
 import components.filesystem.FileSystemView
 import editor.EditorEmptyView
@@ -14,7 +14,7 @@ import editor.EditorView
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 
 @Composable
-fun ProgramsScreenUi(state: ProgramsState, modifier: Modifier = Modifier) {
+fun ProgramsScreenUi(state: ProgramPickerState, modifier: Modifier = Modifier) {
     val settings = EditorSettings()
 
     Column(modifier = modifier) {

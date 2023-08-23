@@ -4,14 +4,14 @@ import actor.PathActor
 import actor.ProgramData
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.IntSize
-import cafe.adriel.voyager.core.model.StateScreenModel
-import cafe.adriel.voyager.core.model.coroutineScope
+import com.arkivanov.decompose.ComponentContext
 import com.mindovercnc.data.linuxcnc.IniFileRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.editor.EditorLoader
 import com.mindovercnc.linuxcnc.domain.*
 import com.mindovercnc.linuxcnc.domain.model.ActiveCode
 import com.mindovercnc.linuxcnc.domain.model.PathUiState
+import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.screen.programs.programloaded.ui.ToolChangeModel
 import com.mindovercnc.model.MachineLimits
 import kotlinx.coroutines.flow.filterNotNull
@@ -35,8 +35,11 @@ class ProgramLoadedScreenModel(
     feedUseCase: FeedUseCase,
     iniFileRepository: IniFileRepository,
     private val manualToolChangeUseCase: ManualToolChangeUseCase,
-    ioDispatcher: IoDispatcher
-) : StateScreenModel<ProgramLoadedState>(ProgramLoadedState()), ProgramLoadedComponent {
+    ioDispatcher: IoDispatcher,
+    componentContext: ComponentContext
+) :
+    BaseScreenModel<ProgramLoadedState>(ProgramLoadedState(), componentContext),
+    ProgramLoadedComponent {
 
     // how much free space to have around the drawing
     private val viewportPadding = 70 // px

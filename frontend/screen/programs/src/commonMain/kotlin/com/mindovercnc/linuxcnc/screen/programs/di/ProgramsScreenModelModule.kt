@@ -1,5 +1,6 @@
 package com.mindovercnc.linuxcnc.screen.programs.di
 
+import com.mindovercnc.linuxcnc.screen.programs.picker.ProgramPickerScreenModel
 import com.mindovercnc.linuxcnc.screen.programs.programloaded.ProgramLoadedScreenModel
 import com.mindovercnc.linuxcnc.screen.programs.root.ProgramsRootScreenModel
 import org.kodein.di.DI
@@ -9,7 +10,7 @@ import org.kodein.di.instance
 val ProgramsScreenModelModule =
     DI.Module("programs_screen_model") {
         bindProvider {
-            ProgramsRootScreenModel(
+            ProgramPickerScreenModel(
                 fileSystemRepository = instance(),
                 fileSystem = instance(),
                 editorLoader = instance(),
@@ -17,6 +18,8 @@ val ProgramsScreenModelModule =
                 breadCrumbDataUseCase = instance()
             )
         }
+
+        bindProvider { ProgramsRootScreenModel(this, instance()) }
 
         bindProvider {
             ProgramLoadedScreenModel(
@@ -31,7 +34,8 @@ val ProgramsScreenModelModule =
                 feedUseCase = instance(),
                 iniFileRepository = instance(),
                 manualToolChangeUseCase = instance(),
-                ioDispatcher = instance()
+                ioDispatcher = instance(),
+                componentContext = instance()
             )
         }
     }

@@ -2,20 +2,15 @@
 // Apache 2.0 license that can be found in the LICENSE file.
 @file:Suppress("FunctionName")
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.window.application
-import app.DefaultRootComponent
-import app.RootComponent
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import di.withAppDi
 import mu.KotlinLogging
 import okio.FileSystem
-import org.kodein.di.compose.localDI
 import startup.StartupWindow
 import startup.args.ArgProcessor
 import startup.args.StartupArgs
@@ -52,18 +47,7 @@ fun startApplication(startupArgs: StartupArgs, onExit: () -> Unit) {
     }
 }
 
-private fun createComponentContext(): ComponentContext {
+fun createComponentContext(): ComponentContext {
     val lifecycle = LifecycleRegistry()
     return DefaultComponentContext(lifecycle = lifecycle)
-}
-
-@Composable
-private fun createRootComponent(): RootComponent {
-    val di = localDI()
-    return remember {
-        DefaultRootComponent(
-            di = di,
-            createComponentContext(),
-        )
-    }
 }

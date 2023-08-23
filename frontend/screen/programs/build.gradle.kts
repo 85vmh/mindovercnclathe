@@ -41,6 +41,7 @@ kotlin {
                 implementation(project(":editor"))
                 implementation(project(":model"))
                 implementation(project(":initializer"))
+                implementation(project(":frontend:format"))
 
                 implementation(project(":data:common:api"))
                 implementation(project(":data:linuxcnc:api"))
@@ -75,6 +76,9 @@ kotlin {
                 implementation(Libs.Voyager.bottom_sheet_navigator)
                 implementation(Libs.Voyager.tab_navigator)
                 implementation(Libs.Voyager.transitions)
+
+                implementation(Libs.Decompose.core)
+                implementation(Libs.Decompose.extensions)
             }
         }
 

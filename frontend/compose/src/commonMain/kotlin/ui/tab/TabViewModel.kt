@@ -7,8 +7,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
-data class AppState(val isBottomBarEnabled: Boolean = true, val currentTool: Int = 0)
-
 /** ViewModel for the main navigation. */
 class TabViewModel(
     ioStatusRepository: IoStatusRepository,

@@ -17,12 +17,6 @@ object ProgramsTab : AppTab<Programs>(ProgramsRootScreen()) {
             val title = "Programs"
             val icon = rememberVectorPainter(Icons.Default.List)
 
-            return remember {
-                TabOptions(
-                    index = 2u,
-                    title = title,
-                    icon = icon
-                )
-            }
+            return remember { TabOptions(index = 2u, title = title, icon = icon) }
         }
 }
