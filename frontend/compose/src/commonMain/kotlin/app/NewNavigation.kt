@@ -1,6 +1,7 @@
 package app
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigationItem
@@ -29,13 +30,13 @@ fun NewNavigation(root: RootComponent, modifier: Modifier = Modifier) {
             AppBottomBar(
                 modifier = Modifier.height(60.dp),
                 enabled = true, // todo uiState.isBottomBarEnabled,
-                selected = childStack.active.instance.config,
-                onClick = { root.openTab(it) }
+                selected = childStack.active.instance,
+                onClick = root::openTab
             )
         }
     ) { padding ->
-        val childModifier = Modifier.padding(padding)
-        Children(childStack) {
+        val childModifier = Modifier.fillMaxSize()
+        Children(childStack, Modifier.padding(padding)) {
             when (val child = it.instance) {
                 is RootComponent.Child.Conversational -> {
                     ConversationalScreenUi(modifier = childModifier)
@@ -66,7 +67,7 @@ private val tabs =
 
 @Composable
 private fun AppBottomBar(
-    selected: RootComponent.Config,
+    selected: RootComponent.Child,
     onClick: (RootComponent.Config) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -89,7 +90,6 @@ private fun AppBottomBar(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RowScope.TabNavigationItem(
     tab: RootComponent.Config,
@@ -110,19 +110,22 @@ private fun RowScope.TabNavigationItem(
         selected = selected,
         onClick = { onClick(tab) },
         icon = {
-//            if (badgeValue != null) {
-//                BadgedBox(
-//                    badge = {
-//                        Badge(containerColor = MaterialTheme.colorScheme.secondary) {
-//                            Text(text = badgeValue, style = MaterialTheme.typography.bodyMedium)
-//                        }
-//                    }
-//                ) {
-//                    Icon(painter = tab.options.icon!!, contentDescription = "", tint = tabColor)
-//                }
-//            } else {
-//                Icon(painter = tab.options.icon!!, contentDescription = "", tint = tabColor)
-//            }
+            //            if (badgeValue != null) {
+            //                BadgedBox(
+            //                    badge = {
+            //                        Badge(containerColor = MaterialTheme.colorScheme.secondary) {
+            //                            Text(text = badgeValue, style =
+            // MaterialTheme.typography.bodyMedium)
+            //                        }
+            //                    }
+            //                ) {
+            //                    Icon(painter = tab.options.icon!!, contentDescription = "", tint =
+            // tabColor)
+            //                }
+            //            } else {
+            //                Icon(painter = tab.options.icon!!, contentDescription = "", tint =
+            // tabColor)
+            //            }
         },
     )
 }

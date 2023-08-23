@@ -25,7 +25,7 @@ import ui.AppBottomBar
 import ui.AppTopAppBar
 
 @Suppress("UNCHECKED_CAST")
-abstract class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
+sealed class AppTab<S : AppScreen>(private val rootScreen: S) : Tab {
     private val logger = KotlinLogging.logger("AppTab")
 
     private val iconButtonModifier = Modifier.size(48.dp)
