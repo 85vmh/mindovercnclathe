@@ -5,6 +5,7 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import cafe.adriel.voyager.navigator.tab.Tab
 import ui.tab.*
 
@@ -45,13 +46,7 @@ private fun RowScope.TabNavigationItem(
     selected: Boolean,
     onClick: (Tab) -> Unit
 ) {
-    val tabColor =
-        when {
-            selected -> MaterialTheme.colorScheme.primary
-            !enabled -> MaterialTheme.colorScheme.secondary
-            else -> MaterialTheme.colorScheme.onPrimaryContainer
-        }
-
+    val tabColor = bottomBarColor(selected, enabled)
     BottomNavigationItem(
         label = {
             Text(
@@ -109,4 +104,13 @@ private fun RowScope.TabNavigationItem(
     //                }
     //            },
     //        )
+}
+
+@Composable
+fun bottomBarColor(selected: Boolean, enabled: Boolean): Color {
+    return when {
+        selected -> MaterialTheme.colorScheme.primary
+        !enabled -> MaterialTheme.colorScheme.secondary
+        else -> MaterialTheme.colorScheme.onPrimaryContainer
+    }
 }

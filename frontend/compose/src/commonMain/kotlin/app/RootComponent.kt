@@ -14,14 +14,15 @@ interface RootComponent {
 
     fun openTab(tab: Config)
 
-    sealed interface Child {
-        class Manual(val component: ManualTurningComponent) : Child
+    sealed class Child(val config: Config) {
+
+        class Manual(val component: ManualTurningComponent) : Child(Config.Manual)
         class Conversational(
         // TODO: create component
-        ) : Child
-        class Programs(val component: ProgramsRootComponent) : Child
-        class Tools(val component: ToolsComponent) : Child
-        class Status(val component: StatusRootComponent) : Child
+        ) : Child(Config.Conversational)
+        class Programs(val component: ProgramsRootComponent) : Child(Config.Programs)
+        class Tools(val component: ToolsComponent) : Child(Config.Tools)
+        class Status(val component: StatusRootComponent) : Child(Config.Status)
     }
 
     sealed interface Config : Parcelable {

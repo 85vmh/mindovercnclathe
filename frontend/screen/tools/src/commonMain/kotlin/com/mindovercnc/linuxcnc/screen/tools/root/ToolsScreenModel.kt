@@ -7,9 +7,8 @@ import com.arkivanov.decompose.router.slot.SlotNavigation
 import com.arkivanov.decompose.router.slot.activate
 import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import com.mindovercnc.linuxcnc.domain.ToolsUseCase
+import com.mindovercnc.linuxcnc.screen.tools.root.ToolsComponent.Config
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.CuttingInsertsToolsTab
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.HoldersToolsTab
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.LatheToolsTab
@@ -68,27 +67,5 @@ class ToolsScreenModel(
 
     override fun selectTab(config: Config) {
         navigation.activate(config)
-    }
-
-    sealed interface Config : Parcelable {
-
-        val tabTitle: String
-
-        @Parcelize
-        data object Holders : Config {
-            override val tabTitle: String
-                get() = "Tool Holders"
-        }
-
-        @Parcelize
-        data object Lathe : Config {
-            override val tabTitle: String
-                get() = "Lathe Tools"
-        }
-
-        @Parcelize
-        data object CuttingInserts : Config {
-            override val tabTitle: String = "Cutting Inserts"
-        }
     }
 }

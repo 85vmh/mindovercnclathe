@@ -12,22 +12,21 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.mindovercnc.linuxcnc.screen.tools.root.ToolsScreenModel
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.ToolsTabItem
+import com.mindovercnc.linuxcnc.screen.tools.root.ToolsComponent
 
 private val shape = RoundedCornerShape(24.dp) // define border radius here
 
 @Composable
 fun ToolTabsView(
-    currentTab: ToolsScreenModel.Config,
-    onTabSelected: (ToolsScreenModel.Config) -> Unit,
+    currentTab: ToolsComponent.Config,
+    onTabSelected: (ToolsComponent.Config) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val entries = remember {
         listOf(
-            ToolsScreenModel.Config.Holders,
-            ToolsScreenModel.Config.Lathe,
-            ToolsScreenModel.Config.CuttingInserts,
+            ToolsComponent.Config.Holders,
+            ToolsComponent.Config.Lathe,
+            ToolsComponent.Config.CuttingInserts,
         )
     }
     val background = MaterialTheme.colorScheme.background
