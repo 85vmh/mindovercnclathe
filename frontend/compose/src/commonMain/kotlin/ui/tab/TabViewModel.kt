@@ -1,3 +1,4 @@
+import com.mindovercnc.linuxcnc.screen.root.RootState
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import com.mindovercnc.linuxcnc.domain.MachineUsableUseCase
@@ -11,7 +12,7 @@ import kotlinx.coroutines.flow.update
 class TabViewModel(
     ioStatusRepository: IoStatusRepository,
     machineUsableUseCase: MachineUsableUseCase
-) : StateScreenModel<AppState>(AppState()) {
+) : StateScreenModel<RootState>(RootState()) {
 
     init {
         machineUsableUseCase.machineUsableFlow

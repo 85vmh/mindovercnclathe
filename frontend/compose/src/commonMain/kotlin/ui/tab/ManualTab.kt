@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalDensity
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.mindovercnc.linuxcnc.screen.manual.Manual
-import com.mindovercnc.linuxcnc.screen.manual.root.ManualTurningScreen
+import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningScreen
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.orEmpty
 import org.jetbrains.compose.resources.rememberImageVector

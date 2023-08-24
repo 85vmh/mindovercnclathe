@@ -1,6 +1,6 @@
 package com.mindovercnc.linuxcnc.screen.manual.di
 
-import com.mindovercnc.linuxcnc.screen.manual.root.ManualTurningScreenModel
+import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningScreenModel
 import com.mindovercnc.linuxcnc.screen.manual.simplecycles.SimpleCyclesScreenModel
 import com.mindovercnc.linuxcnc.screen.manual.tapersettings.TaperSettingsScreenModel
 import com.mindovercnc.linuxcnc.screen.manual.turningsettings.TurningSettingsScreenModel

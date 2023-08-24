@@ -5,16 +5,29 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.mindovercnc.linuxcnc.screen.conversational.ui.ConversationalScreenUi
 import com.mindovercnc.linuxcnc.screen.programs.root.ui.ProgramsRootScreenUi
+import com.mindovercnc.linuxcnc.screen.root.RootComponent
 import com.mindovercnc.linuxcnc.screen.status.root.ui.StatusRootScreenUi
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.orEmpty
+import org.jetbrains.compose.resources.rememberImageVector
+import org.jetbrains.compose.resources.resource
 import ui.bottomBarColor
 
 @Composable
@@ -90,6 +103,7 @@ private fun AppBottomBar(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RowScope.TabNavigationItem(
     tab: RootComponent.Config,
@@ -110,22 +124,35 @@ private fun RowScope.TabNavigationItem(
         selected = selected,
         onClick = { onClick(tab) },
         icon = {
-            //            if (badgeValue != null) {
-            //                BadgedBox(
-            //                    badge = {
-            //                        Badge(containerColor = MaterialTheme.colorScheme.secondary) {
-            //                            Text(text = badgeValue, style =
-            // MaterialTheme.typography.bodyMedium)
-            //                        }
-            //                    }
-            //                ) {
-            //                    Icon(painter = tab.options.icon!!, contentDescription = "", tint =
-            // tabColor)
-            //                }
-            //            } else {
-            //                Icon(painter = tab.options.icon!!, contentDescription = "", tint =
-            // tabColor)
-            //            }
+            if (badgeValue != null) {
+                BadgedBox(
+                    badge = {
+                        Badge(containerColor = MaterialTheme.colorScheme.secondary) {
+                            Text(text = badgeValue, style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+                ) {
+                    BottomIcon(tab = tab, tint = tabColor)
+                }
+            } else {
+                BottomIcon(tab = tab, tint = tabColor)
+            }
         },
     )
+}
+
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+private fun BottomIcon(tab: RootComponent.Config, tint: Color, modifier: Modifier = Modifier) {
+    val imageVector =
+        when (tab) {
+            RootComponent.Config.Conversational -> Icons.Default.Star
+            RootComponent.Config.Manual -> {
+                resource("manual_tab.xml").rememberImageVector(LocalDensity.current).orEmpty()
+            }
+            RootComponent.Config.Programs -> Icons.Default.List
+            RootComponent.Config.Status -> Icons.Default.Info
+            RootComponent.Config.Tools -> Icons.Default.Build
+        }
+    Icon(imageVector = imageVector, contentDescription = null, modifier = modifier, tint = tint)
 }

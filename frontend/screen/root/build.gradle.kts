@@ -59,12 +59,11 @@ kotlin {
                 implementation(project(":frontend:domain"))
 
                 implementation(project(":frontend:screen:base"))
+                implementation(project(":frontend:screen:conversational"))
                 implementation(project(":frontend:screen:manual"))
                 implementation(project(":frontend:screen:programs"))
                 implementation(project(":frontend:screen:status"))
                 implementation(project(":frontend:screen:tools"))
-                implementation(project(":frontend:screen:conversational"))
-                api(project(":frontend:screen:root"))
 
                 implementation(project(":startup:args"))
 
@@ -82,18 +81,11 @@ kotlin {
                 implementation(Libs.Voyager.bottom_sheet_navigator)
                 implementation(Libs.Voyager.tab_navigator)
                 implementation(Libs.Voyager.transitions)
-
                 implementation(Libs.Decompose.core)
-                implementation(Libs.Decompose.extensions)
             }
         }
 
-        val jvmMain by getting {
-            dependencies {
-                implementation(compose.desktop.currentOs)
-                implementation(compose.uiTooling)
-            }
-        }
+        val jvmMain by getting { dependencies { implementation(compose.desktop.currentOs) } }
         val jvmTest by getting {
             dependencies {
                 @OptIn(ExperimentalComposeLibrary::class) implementation(compose.uiTestJUnit4)
