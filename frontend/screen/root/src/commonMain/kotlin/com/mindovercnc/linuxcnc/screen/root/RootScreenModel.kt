@@ -5,6 +5,8 @@ import com.arkivanov.decompose.router.stack.*
 import com.arkivanov.decompose.value.Value
 import com.mindovercnc.linuxcnc.domain.MachineUsableUseCase
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel
+import com.mindovercnc.linuxcnc.screen.conversational.ConversationalComponent
+import com.mindovercnc.linuxcnc.screen.conversational.ConversationalScreenModel
 import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent
 import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootScreenModel
 import com.mindovercnc.linuxcnc.screen.programs.root.ProgramsRootComponent
@@ -46,8 +48,6 @@ class RootScreenModel(
 
     override val childStack: Value<ChildStack<*, RootChild>> = _childStack
 
-
-
     override fun openTab(tab: Config) {
         navigation.bringToFront(tab)
     }
@@ -72,7 +72,7 @@ class RootScreenModel(
         @Suppress("UNUSED_PARAMETER") componentContext: ComponentContext
     ): RootChild {
         return when (config) {
-            Config.Conversational -> RootChild.Conversational()
+            Config.Conversational -> RootChild.Conversational(conversationalComponent())
             Config.Manual -> RootChild.Manual(manualComponent(componentContext))
             Config.Programs -> RootChild.Programs(programsComponent(componentContext))
             Config.Status -> RootChild.Status(statusComponent())
@@ -94,5 +94,9 @@ class RootScreenModel(
 
     private fun toolsComponent(): ToolsComponent {
         return di.direct.instance<ToolsScreenModel>()
+    }
+
+    private fun conversationalComponent(): ConversationalComponent {
+        return di.direct.instance<ConversationalScreenModel>()
     }
 }

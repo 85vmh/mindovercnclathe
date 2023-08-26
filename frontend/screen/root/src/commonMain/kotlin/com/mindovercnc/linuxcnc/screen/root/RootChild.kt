@@ -3,6 +3,7 @@ package com.mindovercnc.linuxcnc.screen.root
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.mindovercnc.linuxcnc.screen.conversational.ConversationalComponent
 import com.mindovercnc.linuxcnc.screen.conversational.ui.ConversationalFab
 import com.mindovercnc.linuxcnc.screen.conversational.ui.ConversationalScreenUi
 import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent
@@ -33,9 +34,8 @@ sealed class RootChild(val config: RootComponent.Config) {
         }
     }
 
-    class Conversational(
-    // TODO: create component
-    ) : RootChild(RootComponent.Config.Conversational) {
+    class Conversational(val component: ConversationalComponent) :
+        RootChild(RootComponent.Config.Conversational) {
         @Composable
         override fun Content(modifier: Modifier) {
             ConversationalScreenUi(modifier = modifier)
