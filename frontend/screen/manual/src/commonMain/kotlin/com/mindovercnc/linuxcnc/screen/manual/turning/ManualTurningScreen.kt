@@ -113,7 +113,7 @@ class ManualTurningScreen : Manual("Manual Turning") {
     @Composable
     override fun Content() {
         val screenModel = rememberScreenModel<ManualTurningScreenModel>()
-        ManualTurningScreenUi(screenModel)
+        ManualTurningScreenUi(TODO(),screenModel)
     }
 }
 

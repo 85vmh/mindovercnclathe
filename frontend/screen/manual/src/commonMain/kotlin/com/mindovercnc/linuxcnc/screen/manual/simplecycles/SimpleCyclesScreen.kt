@@ -1,6 +1,7 @@
 package com.mindovercnc.linuxcnc.screen.manual.simplecycles
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
@@ -8,6 +9,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.screen.manual.Manual
@@ -17,9 +19,8 @@ import com.mindovercnc.model.SimpleCycle
 import com.mindovercnc.model.SimpleCycleParameters
 import org.kodein.di.bindProvider
 
-class SimpleCyclesScreen(
-    private val simpleCycle: SimpleCycle
-) : Manual(simpleCycle.displayableString) {
+class SimpleCyclesScreen(private val simpleCycle: SimpleCycle) :
+    Manual(simpleCycle.displayableString) {
 
     @Composable
     override fun RowScope.Actions() {
@@ -33,7 +34,8 @@ class SimpleCyclesScreen(
             onClick = {
                 screenModel.applyChanges()
                 navigator.pop()
-            }) {
+            }
+        ) {
             Icon(
                 imageVector = Icons.Default.Check,
                 contentDescription = "",
@@ -46,17 +48,36 @@ class SimpleCyclesScreen(
         val screenModel: SimpleCyclesScreenModel = rememberScreenModel {
             bindProvider { simpleCycle }
         }
-        val state by screenModel.state.collectAsState()
+        SimpleCyclesScreenUi(screenModel, Modifier.fillMaxSize())
+    }
+}
 
-        state.simpleCycleParameters?.let {
-            when (it) {
-                is SimpleCycleParameters.FacingParameters -> FacingParametersView(screenModel, it)
-                is SimpleCycleParameters.TurningParameters -> TurningParametersView(screenModel, it)
-                is SimpleCycleParameters.BoringParameters -> BoringParametersView(screenModel, it)
-                is SimpleCycleParameters.ThreadingParameters -> ThreadingParametersView(screenModel, it)
-                is SimpleCycleParameters.DrillingParameters -> DrillingParametersView(screenModel, it)
-                is SimpleCycleParameters.KeySlotParameters -> KeySlotParametersView(screenModel, it)
-                else -> Unit
+@Composable
+fun SimpleCyclesScreenUi(screenModel: SimpleCyclesComponent, modifier: Modifier = Modifier) {
+    val state by screenModel.state.collectAsState()
+
+    state.simpleCycleParameters?.let { parameters ->
+        when (parameters) {
+            is SimpleCycleParameters.FacingParameters -> {
+                FacingParametersView(screenModel, parameters, modifier)
+            }
+            is SimpleCycleParameters.TurningParameters -> {
+                TurningParametersView(screenModel, parameters, modifier)
+            }
+            is SimpleCycleParameters.BoringParameters -> {
+                BoringParametersView(screenModel, parameters, modifier)
+            }
+            is SimpleCycleParameters.ThreadingParameters -> {
+                ThreadingParametersView(screenModel, parameters, modifier)
+            }
+            is SimpleCycleParameters.DrillingParameters -> {
+                DrillingParametersView(screenModel, parameters, modifier)
+            }
+            is SimpleCycleParameters.KeySlotParameters -> {
+                KeySlotParametersView(screenModel, parameters, modifier)
+            }
+            else -> {
+                Unit
             }
         }
     }

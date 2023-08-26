@@ -16,7 +16,7 @@ import okio.Path
 import org.kodein.di.*
 
 class ProgramsRootScreenModel(
-    private val di: DirectDI,
+    private val di: DI,
     componentContext: ComponentContext,
 ) : ScreenModel, ProgramsRootComponent, ComponentContext by componentContext {
 
@@ -41,7 +41,7 @@ class ProgramsRootScreenModel(
         }
 
     private fun pickerComponent(): ProgramPickerComponent {
-        return di.instance<ProgramPickerScreenModel>()
+        return di.direct.instance<ProgramPickerScreenModel>()
     }
 
     private fun loadedComponent(path: Path): ProgramLoadedComponent {

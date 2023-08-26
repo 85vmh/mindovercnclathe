@@ -26,7 +26,8 @@ import org.jetbrains.compose.resources.resource
 @Composable
 fun TurningParametersView(
     viewModel: SimpleCyclesComponent,
-    parametersState: SimpleCycleParameters.TurningParameters
+    parametersState: SimpleCycleParameters.TurningParameters,
+    modifier: Modifier = Modifier
 ) {
     val subscript =
         SpanStyle(
@@ -35,7 +36,7 @@ fun TurningParametersView(
         )
 
     Row(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = modifier.padding(16.dp),
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Image(

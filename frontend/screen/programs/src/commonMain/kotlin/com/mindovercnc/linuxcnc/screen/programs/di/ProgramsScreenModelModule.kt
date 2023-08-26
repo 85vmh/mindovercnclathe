@@ -19,7 +19,7 @@ val ProgramsScreenModelModule =
             )
         }
 
-        bindProvider { ProgramsRootScreenModel(this, instance()) }
+        bindProvider { ProgramsRootScreenModel(di, instance()) }
 
         bindProvider {
             ProgramLoadedScreenModel(

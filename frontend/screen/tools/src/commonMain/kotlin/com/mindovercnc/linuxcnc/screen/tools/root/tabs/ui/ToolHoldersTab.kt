@@ -20,14 +20,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.linuxcnc.listitem.LabelWithValue
-import com.mindovercnc.linuxcnc.screen.tools.root.ToolsState
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.data.ToolHolderColumn
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.HoldersToolsState
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.add.AddEditHolderScreen
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import scroll.VerticalScrollbar
@@ -42,10 +38,9 @@ fun ToolHoldersContent(
     onMount: (ToolHolder) -> Unit,
     onDelete: (ToolHolder) -> Unit,
     onLoad: (ToolHolder) -> Unit,
-    onHolderChanged: () -> Unit,
+    onEdit: (ToolHolder) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val navigator = LocalNavigator.currentOrThrow
     val scope = rememberCoroutineScope()
 
     Box(modifier = modifier) {
@@ -57,9 +52,7 @@ fun ToolHoldersContent(
                 ToolHolderView(
                     item = item,
                     isCurrent = item.holderNumber == state.currentTool,
-                    onEditClicked = {
-                        navigator.push(AddEditHolderScreen(it) { onHolderChanged.invoke() })
-                    },
+                    onEditClicked = onEdit,
                     onDeleteClicked = onDelete,
                     onLoadClicked = onLoad,
                     onMountClicked = onMount,

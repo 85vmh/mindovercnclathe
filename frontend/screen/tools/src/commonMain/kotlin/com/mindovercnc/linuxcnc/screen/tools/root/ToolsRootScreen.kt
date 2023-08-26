@@ -1,7 +1,6 @@
 package com.mindovercnc.linuxcnc.screen.tools.root
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -15,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.mindovercnc.linuxcnc.screen.rememberScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.Tools
@@ -27,8 +25,7 @@ import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.AddEdit
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.add.AddEditLatheToolScreen
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.add.AddEditHolderScreen
 import com.mindovercnc.linuxcnc.screen.tools.root.ui.ToolTabsView
-
-private val tabContentModifier = Modifier.fillMaxWidth()
+import com.mindovercnc.linuxcnc.screen.tools.root.ui.ToolsRootScreenUi
 
 class ToolsRootScreen : Tools() {
 
@@ -46,7 +43,7 @@ class ToolsRootScreen : Tools() {
 
     @Composable
     override fun Fab() {
-        val navigator = LocalNavigator.currentOrThrow
+        val navigator = LocalNavigator.current
         val screenModel = rememberScreenModel<ToolsScreenModel>()
         val childSlot by screenModel.childSlot.subscribeAsState()
 
@@ -56,25 +53,22 @@ class ToolsRootScreen : Tools() {
     @Composable
     override fun Content() {
         val screenModel = rememberScreenModel<ToolsScreenModel>()
-        val tabStack by screenModel.childSlot.subscribeAsState()
-        Column(modifier = Modifier.fillMaxWidth()) {
-            tabStack.child!!.instance.Content(screenModel, tabContentModifier)
-        }
+        ToolsRootScreenUi(screenModel, Modifier.fillMaxSize())
     }
 }
 
 @Composable
 private fun ToolsFab(
     currentTab: ToolsTabItem,
-    navigator: Navigator,
+    navigator: Navigator?,
     component: ToolsComponent,
     modifier: Modifier = Modifier
 ) {
-    val onClick =
+    val onClick: () -> Unit =
         when (currentTab) {
             is HoldersToolsTab -> {
                 {
-                    navigator.push(
+                    navigator?.push(
                         AddEditHolderScreen {
                             // TODO: component.loadToolHolders()
                         }
@@ -83,7 +77,7 @@ private fun ToolsFab(
             }
             is LatheToolsTab -> {
                 {
-                    navigator.push(
+                    navigator?.push(
                         AddEditLatheToolScreen {
                             // TODO: component.loadLatheTools()
                         }
@@ -92,7 +86,7 @@ private fun ToolsFab(
             }
             is CuttingInsertsToolsTab -> {
                 {
-                    navigator.push(
+                    navigator?.push(
                         AddEditCuttingInsertScreen {
                             // TODO: component.loadCuttingInserts()
                         }

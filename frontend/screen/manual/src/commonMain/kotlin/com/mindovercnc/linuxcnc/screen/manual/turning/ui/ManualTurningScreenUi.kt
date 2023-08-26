@@ -3,25 +3,28 @@ package com.mindovercnc.linuxcnc.screen.manual.turning.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import androidx.compose.ui.Modifier
 import com.mindovercnc.linuxcnc.numpad.InputDialogView
+import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent
 import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningComponent
 
 @Composable
-fun ManualTurningScreenUi(screenModel: ManualTurningComponent) {
-    val state by screenModel.state.collectAsState()
-    val navigator = LocalNavigator.currentOrThrow
+fun ManualTurningScreenUi(
+    rootComponent: ManualRootComponent,
+    component: ManualTurningComponent,
+    modifier: Modifier = Modifier
+) {
+    val state by component.state.collectAsState()
 
-    ManualTurningContent(screenModel, state, navigator)
+    ManualTurningContent(rootComponent, component, state, modifier)
 
     state.numPadState?.let { numPadState ->
         InputDialogView(
             numPadState = numPadState,
-            onCancel = { screenModel.closeNumPad() },
+            onCancel = { component.closeNumPad() },
             onSubmit = {
                 numPadState.onSubmitAction(it)
-                screenModel.closeNumPad()
+                component.closeNumPad()
             }
         )
     }

@@ -7,6 +7,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.window.application
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.DefaultComponentContext
+import com.arkivanov.essenty.backhandler.BackDispatcher
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import di.withAppDi
 import mu.KotlinLogging
@@ -49,5 +50,6 @@ fun startApplication(startupArgs: StartupArgs, onExit: () -> Unit) {
 
 fun createComponentContext(): ComponentContext {
     val lifecycle = LifecycleRegistry()
-    return DefaultComponentContext(lifecycle = lifecycle)
+    val backDispatcher = BackDispatcher()
+    return DefaultComponentContext(lifecycle = lifecycle, backHandler = backDispatcher)
 }

@@ -1,18 +1,16 @@
 package com.mindovercnc.linuxcnc.screen.root
 
-import com.mindovercnc.linuxcnc.screen.root.RootComponent.Config
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.stack.ChildStack
-import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.bringToFront
-import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.*
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import com.mindovercnc.linuxcnc.domain.MachineUsableUseCase
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel
-import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningComponent
-import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningScreenModel
+import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent
+import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootScreenModel
 import com.mindovercnc.linuxcnc.screen.programs.root.ProgramsRootComponent
 import com.mindovercnc.linuxcnc.screen.programs.root.ProgramsRootScreenModel
+import com.mindovercnc.linuxcnc.screen.root.RootComponent.Config
 import com.mindovercnc.linuxcnc.screen.status.root.StatusRootComponent
 import com.mindovercnc.linuxcnc.screen.status.root.StatusRootScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsComponent
@@ -49,8 +47,14 @@ class RootScreenModel(
 
     override val childStack: Value<ChildStack<*, RootComponent.Child>> = _childStack
 
+
+
     override fun openTab(tab: Config) {
         navigation.bringToFront(tab)
+    }
+
+    override fun navigateBack() {
+        navigation.pop()
     }
 
     init {
@@ -70,19 +74,19 @@ class RootScreenModel(
     ): RootComponent.Child {
         return when (config) {
             Config.Conversational -> RootComponent.Child.Conversational()
-            Config.Manual -> RootComponent.Child.Manual(manualComponent())
-            Config.Programs -> RootComponent.Child.Programs(programsComponent())
+            Config.Manual -> RootComponent.Child.Manual(manualComponent(componentContext))
+            Config.Programs -> RootComponent.Child.Programs(programsComponent(componentContext))
             Config.Status -> RootComponent.Child.Status(statusComponent())
             Config.Tools -> RootComponent.Child.Tools(toolsComponent())
         }
     }
 
-    private fun manualComponent(): ManualTurningComponent {
-        return di.direct.instance<ManualTurningScreenModel>()
+    private fun manualComponent(componentContext: ComponentContext): ManualRootComponent {
+        return ManualRootScreenModel(di, componentContext)
     }
 
-    private fun programsComponent(): ProgramsRootComponent {
-        return di.direct.instance<ProgramsRootScreenModel>()
+    private fun programsComponent(componentContext: ComponentContext): ProgramsRootComponent {
+        return ProgramsRootScreenModel(di, componentContext)
     }
 
     private fun statusComponent(): StatusRootComponent {

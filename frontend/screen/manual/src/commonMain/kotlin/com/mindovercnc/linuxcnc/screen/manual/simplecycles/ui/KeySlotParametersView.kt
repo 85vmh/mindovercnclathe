@@ -16,8 +16,8 @@ fun KeySlotParametersView(
     modifier: Modifier = Modifier
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = modifier
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         CycleParameter(
             parameterLabel = "Z End",

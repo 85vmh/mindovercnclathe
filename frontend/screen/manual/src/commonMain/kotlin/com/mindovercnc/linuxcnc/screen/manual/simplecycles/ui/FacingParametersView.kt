@@ -3,6 +3,7 @@ package com.mindovercnc.linuxcnc.screen.manual.simplecycles.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.numpad.data.InputType
 import com.mindovercnc.linuxcnc.screen.manual.simplecycles.SimpleCyclesComponent
@@ -11,9 +12,10 @@ import com.mindovercnc.model.SimpleCycleParameters
 @Composable
 fun FacingParametersView(
     viewModel: SimpleCyclesComponent,
-    parameters: SimpleCycleParameters.FacingParameters
+    parameters: SimpleCycleParameters.FacingParameters,
+    modifier: Modifier = Modifier
 ) {
-    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    Column(modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         CycleParameter(
             parameterLabel = "X End",
             inputType = InputType.X_END,

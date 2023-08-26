@@ -3,7 +3,6 @@ package com.mindovercnc.linuxcnc.screen.manual.turning.ui
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -14,12 +13,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mindovercnc.model.SpindleUiModel
 import com.mindovercnc.linuxcnc.widgets.SettingStatusRow
+import com.mindovercnc.model.SpindleUiModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SpindleStatusView(uiModel: SpindleUiModel, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun SpindleStatusView(
+    uiModel: SpindleUiModel,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
 
     data class SpindleModeAndUnits(val mode: String, val value: String, val units: String)
 

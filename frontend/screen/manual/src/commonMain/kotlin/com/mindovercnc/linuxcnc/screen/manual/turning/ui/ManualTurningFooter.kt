@@ -12,25 +12,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.LocalNavigator
 import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent
+import com.mindovercnc.linuxcnc.screen.manual.tapersettings.TaperSettingsScreen
 import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningComponent
 import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningState
-import com.mindovercnc.linuxcnc.screen.manual.tapersettings.TaperSettingsScreen
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 
 @Composable
 fun ManualTurningFooter(
+    rootComponent: ManualRootComponent,
+    component: ManualTurningComponent,
     state: ManualTurningState,
-    screenModel: ManualTurningComponent,
-    navigator: Navigator,
     modifier: Modifier = Modifier
 ) {
+    val navigator = LocalNavigator.current
     Row(modifier = modifier, horizontalArrangement = Arrangement.Start) {
         Button(
             onClick = {
-                screenModel.openNumPad(InputType.WORKPIECE_ZERO_COORDINATE) {
-                    screenModel.setWorkpieceZ(it)
+                component.openNumPad(InputType.WORKPIECE_ZERO_COORDINATE) {
+                    component.setWorkpieceZ(it)
                 }
             },
         ) {
@@ -63,10 +65,10 @@ fun ManualTurningFooter(
                         modifier =
                             Modifier.clickable(
                                 enabled = state.taperTurningActive,
-                                onClick = { navigator.push(TaperSettingsScreen()) }
+                                onClick = { navigator?.push(TaperSettingsScreen()) }
                             ),
                         taperTurningActive = state.taperTurningActive,
-                        onCheckedChange = screenModel::setTaperTurningActive
+                        onCheckedChange = component::setTaperTurningActive
                     )
                 }
             }

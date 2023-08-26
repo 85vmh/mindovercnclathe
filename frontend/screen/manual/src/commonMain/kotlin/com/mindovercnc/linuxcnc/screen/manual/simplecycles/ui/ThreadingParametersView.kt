@@ -20,12 +20,13 @@ import com.mindovercnc.model.SimpleCycleParameters
 @Composable
 fun ThreadingParametersView(
     viewModel: SimpleCyclesComponent,
-    parametersState: SimpleCycleParameters.ThreadingParameters
+    parametersState: SimpleCycleParameters.ThreadingParameters,
+    modifier: Modifier = Modifier
 ) {
     val items = remember {
         SimpleCycleParameters.ThreadingParameters.ThreadType.entries.map { it.name }
     }
-    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    Column(modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         ThreadLocation(
             isExternalThread = parametersState.isExternal,
             onTypeChanged = { viewModel.setThreadLocation(it) }

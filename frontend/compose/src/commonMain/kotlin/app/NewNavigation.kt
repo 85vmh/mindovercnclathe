@@ -1,42 +1,50 @@
 package app
 
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.mindovercnc.linuxcnc.screen.conversational.ui.ConversationalScreenUi
+import com.mindovercnc.linuxcnc.screen.manual.root.ui.ManualRootScreenUi
 import com.mindovercnc.linuxcnc.screen.programs.root.ui.ProgramsRootScreenUi
 import com.mindovercnc.linuxcnc.screen.root.RootComponent
 import com.mindovercnc.linuxcnc.screen.status.root.ui.StatusRootScreenUi
+import com.mindovercnc.linuxcnc.screen.tools.root.ui.ToolsRootScreenUi
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.orEmpty
 import org.jetbrains.compose.resources.rememberImageVector
 import org.jetbrains.compose.resources.resource
 import ui.bottomBarColor
 
+private val iconButtonModifier = Modifier.size(48.dp)
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewNavigation(root: RootComponent, modifier: Modifier = Modifier) {
     val childStack by root.childStack.subscribeAsState()
     Scaffold(
         modifier = modifier,
         topBar = {
-            // TODO
+            CenterAlignedTopAppBar(
+                title = { Text("TODO") },
+                navigationIcon = {
+                    if (childStack.items.size > 1) {
+                        IconButton(modifier = iconButtonModifier, onClick = root::navigateBack) {
+                            Icon(Icons.Default.ArrowBack, contentDescription = "")
+                        }
+                    }
+                },
+                modifier = Modifier.shadow(3.dp)
+            )
         },
         bottomBar = {
             // TODO
@@ -49,13 +57,16 @@ fun NewNavigation(root: RootComponent, modifier: Modifier = Modifier) {
         }
     ) { padding ->
         val childModifier = Modifier.fillMaxSize()
-        Children(childStack, Modifier.padding(padding)) {
+        Children(
+            stack = childStack,
+            modifier = Modifier.padding(padding),
+        ) {
             when (val child = it.instance) {
                 is RootComponent.Child.Conversational -> {
                     ConversationalScreenUi(modifier = childModifier)
                 }
                 is RootComponent.Child.Manual -> {
-                    TODO()
+                    ManualRootScreenUi(child.component, modifier = childModifier)
                 }
                 is RootComponent.Child.Programs -> {
                     ProgramsRootScreenUi(child.component, modifier = childModifier)
@@ -63,7 +74,9 @@ fun NewNavigation(root: RootComponent, modifier: Modifier = Modifier) {
                 is RootComponent.Child.Status -> {
                     StatusRootScreenUi(component = child.component, modifier = childModifier)
                 }
-                is RootComponent.Child.Tools -> TODO()
+                is RootComponent.Child.Tools -> {
+                    ToolsRootScreenUi(component = child.component, modifier = childModifier)
+                }
             }
         }
     }
@@ -113,7 +126,7 @@ private fun RowScope.TabNavigationItem(
     onClick: (RootComponent.Config) -> Unit
 ) {
     val tabColor = bottomBarColor(selected, enabled)
-    BottomNavigationItem(
+    NavigationBarItem(
         label = {
             Text(
                 color = tabColor,
