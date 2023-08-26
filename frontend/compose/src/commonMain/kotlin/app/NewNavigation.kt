@@ -13,12 +13,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import com.mindovercnc.linuxcnc.screen.conversational.ui.ConversationalScreenUi
-import com.mindovercnc.linuxcnc.screen.manual.root.ui.ManualRootScreenUi
-import com.mindovercnc.linuxcnc.screen.programs.root.ui.ProgramsRootScreenUi
+import com.mindovercnc.linuxcnc.screen.root.RootChild
 import com.mindovercnc.linuxcnc.screen.root.RootComponent
-import com.mindovercnc.linuxcnc.screen.status.root.ui.StatusRootScreenUi
-import com.mindovercnc.linuxcnc.screen.tools.root.ui.ToolsRootScreenUi
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.orEmpty
 import org.jetbrains.compose.resources.rememberImageVector
@@ -35,7 +31,7 @@ fun NewNavigation(root: RootComponent, modifier: Modifier = Modifier) {
         modifier = modifier,
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("TODO") },
+                title = { childStack.active.instance.Title(Modifier) },
                 navigationIcon = {
                     if (childStack.items.size > 1) {
                         IconButton(modifier = iconButtonModifier, onClick = root::navigateBack) {
@@ -54,30 +50,14 @@ fun NewNavigation(root: RootComponent, modifier: Modifier = Modifier) {
                 selected = childStack.active.instance,
                 onClick = root::openTab
             )
-        }
+        },
+        floatingActionButton = { childStack.active.instance.Fab(Modifier) },
     ) { padding ->
-        val childModifier = Modifier.fillMaxSize()
         Children(
             stack = childStack,
             modifier = Modifier.padding(padding),
         ) {
-            when (val child = it.instance) {
-                is RootComponent.Child.Conversational -> {
-                    ConversationalScreenUi(modifier = childModifier)
-                }
-                is RootComponent.Child.Manual -> {
-                    ManualRootScreenUi(child.component, modifier = childModifier)
-                }
-                is RootComponent.Child.Programs -> {
-                    ProgramsRootScreenUi(child.component, modifier = childModifier)
-                }
-                is RootComponent.Child.Status -> {
-                    StatusRootScreenUi(component = child.component, modifier = childModifier)
-                }
-                is RootComponent.Child.Tools -> {
-                    ToolsRootScreenUi(component = child.component, modifier = childModifier)
-                }
-            }
+            it.instance.Content(Modifier.fillMaxSize())
         }
     }
 }
@@ -93,7 +73,7 @@ private val tabs =
 
 @Composable
 private fun AppBottomBar(
-    selected: RootComponent.Child,
+    selected: RootChild,
     onClick: (RootComponent.Config) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,

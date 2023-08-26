@@ -3,7 +3,6 @@ package com.mindovercnc.linuxcnc.screen.root
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.*
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.backhandler.BackCallback
 import com.mindovercnc.linuxcnc.domain.MachineUsableUseCase
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent
@@ -45,7 +44,7 @@ class RootScreenModel(
             childFactory = ::createChild
         )
 
-    override val childStack: Value<ChildStack<*, RootComponent.Child>> = _childStack
+    override val childStack: Value<ChildStack<*, RootChild>> = _childStack
 
 
 
@@ -71,13 +70,13 @@ class RootScreenModel(
     private fun createChild(
         config: Config,
         @Suppress("UNUSED_PARAMETER") componentContext: ComponentContext
-    ): RootComponent.Child {
+    ): RootChild {
         return when (config) {
-            Config.Conversational -> RootComponent.Child.Conversational()
-            Config.Manual -> RootComponent.Child.Manual(manualComponent(componentContext))
-            Config.Programs -> RootComponent.Child.Programs(programsComponent(componentContext))
-            Config.Status -> RootComponent.Child.Status(statusComponent())
-            Config.Tools -> RootComponent.Child.Tools(toolsComponent())
+            Config.Conversational -> RootChild.Conversational()
+            Config.Manual -> RootChild.Manual(manualComponent(componentContext))
+            Config.Programs -> RootChild.Programs(programsComponent(componentContext))
+            Config.Status -> RootChild.Status(statusComponent())
+            Config.Tools -> RootChild.Tools(toolsComponent())
         }
     }
 
