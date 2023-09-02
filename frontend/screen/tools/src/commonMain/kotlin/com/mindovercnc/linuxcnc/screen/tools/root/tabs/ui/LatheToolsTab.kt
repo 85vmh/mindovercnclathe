@@ -20,10 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.linuxcnc.listitem.LabelWithValue
-import com.mindovercnc.linuxcnc.screen.tools.root.ToolsState
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.data.LatheToolColumns
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.LatheToolsState
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.add.AddEditLatheToolScreen
@@ -46,7 +44,7 @@ fun LatheToolsContent(
     onToolChanged: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    val navigator = LocalNavigator.currentOrThrow
+    val navigator = LocalNavigator.current
 
     Box(modifier = modifier) {
         val scrollState = rememberLazyListState()
@@ -60,10 +58,10 @@ fun LatheToolsContent(
                     GenericToolView(
                         index = index,
                         item = item,
-                        onEditClicked = {
-                            navigator.push(
+                        onEditClicked = { latheTool ->
+                            navigator?.push(
                                 AddEditLatheToolScreen(
-                                    latheTool = it,
+                                    latheTool = latheTool,
                                     onChanges = onToolChanged::invoke
                                 )
                             )

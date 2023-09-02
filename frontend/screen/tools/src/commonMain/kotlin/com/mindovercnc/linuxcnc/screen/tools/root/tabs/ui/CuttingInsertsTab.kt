@@ -18,7 +18,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.CuttingInsertState
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.AddEditCuttingInsertScreen
@@ -39,7 +38,7 @@ fun CuttingInsertsContent(
     modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
-    val navigator = LocalNavigator.currentOrThrow
+    val navigator = LocalNavigator.current
 
     Box(modifier = modifier) {
         val scrollState = rememberLazyListState()
@@ -53,9 +52,12 @@ fun CuttingInsertsContent(
                     CuttingInsertView(
                         index = index,
                         item = item,
-                        onEditClicked = {
-                            navigator.push(
-                                AddEditCuttingInsertScreen(it) { onInsertChanged.invoke() }
+                        onEditClicked = { cuttingInsert ->
+                            navigator?.push(
+                                AddEditCuttingInsertScreen(
+                                    cuttingInsert,
+                                    onChanges = onInsertChanged
+                                )
                             )
                         },
                         onDeleteClicked = onDelete,
