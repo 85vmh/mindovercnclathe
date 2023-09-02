@@ -14,8 +14,8 @@ import com.mindovercnc.linuxcnc.screen.programs.root.ProgramsRootScreenModel
 import com.mindovercnc.linuxcnc.screen.root.RootComponent.Config
 import com.mindovercnc.linuxcnc.screen.status.root.StatusRootComponent
 import com.mindovercnc.linuxcnc.screen.status.root.StatusRootScreenModel
-import com.mindovercnc.linuxcnc.screen.tools.root.ToolsComponent
-import com.mindovercnc.linuxcnc.screen.tools.root.ToolsScreenModel
+import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
+import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootScreenModel
 import com.mindovercnc.repository.IoStatusRepository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -92,8 +92,8 @@ class RootScreenModel(
         return di.direct.instance<StatusRootScreenModel>()
     }
 
-    private fun toolsComponent(): ToolsComponent {
-        return di.direct.instance<ToolsScreenModel>()
+    private fun toolsComponent(): ToolsRootComponent {
+        return di.direct.instance<ToolsRootScreenModel>()
     }
 
     private fun conversationalComponent(): ConversationalComponent {

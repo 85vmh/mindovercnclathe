@@ -1,17 +1,30 @@
 package com.mindovercnc.linuxcnc.screen.tools.root.ui
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import com.mindovercnc.linuxcnc.screen.tools.root.ToolsComponent
-
-private val tabContentModifier = Modifier.fillMaxWidth()
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
+import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.ui.AddEditCuttingInsertScreenUi
+import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
 
 @Composable
-fun ToolsRootScreenUi(component: ToolsComponent, modifier: Modifier = Modifier) {
-    val tabStack by component.childSlot.subscribeAsState()
-    Column(modifier) { tabStack.child!!.instance.Content(component, tabContentModifier) }
+fun ToolsRootScreenUi(
+    component: ToolsRootComponent,
+    modifier: Modifier = Modifier,
+) {
+    Children(component.childStack, modifier) {
+        when (val child = it.instance) {
+            is ToolsRootComponent.Child.AddEditCuttingInsert -> {
+                AddEditCuttingInsertScreenUi(child.component)
+            }
+            is ToolsRootComponent.Child.AddEditLatheTool -> {
+
+            }
+            is ToolsRootComponent.Child.AddEditToolHolder -> {
+
+            }
+            is ToolsRootComponent.Child.List -> {
+
+            }
+        }
+    }
 }
