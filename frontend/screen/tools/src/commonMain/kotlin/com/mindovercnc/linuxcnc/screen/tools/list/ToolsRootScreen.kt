@@ -31,7 +31,7 @@ class ToolsRootScreen : Tools() {
     @Composable
     override fun Title() {
         val screenModel =
-            rememberScreenModel<com.mindovercnc.linuxcnc.screen.tools.list.ToolsScreenModel>()
+            rememberScreenModel<com.mindovercnc.linuxcnc.screen.tools.list.ToolsListScreenModel>()
         val childSlot by screenModel.childSlot.subscribeAsState()
 
         ToolTabsView(
@@ -45,7 +45,7 @@ class ToolsRootScreen : Tools() {
     override fun Fab() {
         val navigator = LocalNavigator.current
         val screenModel =
-            rememberScreenModel<com.mindovercnc.linuxcnc.screen.tools.list.ToolsScreenModel>()
+            rememberScreenModel<com.mindovercnc.linuxcnc.screen.tools.list.ToolsListScreenModel>()
         val childSlot by screenModel.childSlot.subscribeAsState()
 
         ToolsFab(childSlot.child!!.instance, navigator, screenModel)
@@ -54,7 +54,7 @@ class ToolsRootScreen : Tools() {
     @Composable
     override fun Content() {
         val screenModel =
-            rememberScreenModel<com.mindovercnc.linuxcnc.screen.tools.list.ToolsScreenModel>()
+            rememberScreenModel<com.mindovercnc.linuxcnc.screen.tools.list.ToolsListScreenModel>()
         ToolsListScreenUi(screenModel, Modifier.fillMaxSize())
     }
 }
@@ -63,7 +63,7 @@ class ToolsRootScreen : Tools() {
 internal fun ToolsFab(
     currentTab: ToolsTabItem,
     navigator: Navigator?,
-    component: ToolsComponent,
+    component: ToolsListComponent,
     modifier: Modifier = Modifier
 ) {
     val onClick: () -> Unit =

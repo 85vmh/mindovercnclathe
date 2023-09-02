@@ -13,7 +13,6 @@ interface ManualRootComponent {
     val childStack: Value<ChildStack<*, Child>>
 
     fun openVirtualLimits()
-
     fun openSimpleCycles()
     fun openTurningSettings()
 

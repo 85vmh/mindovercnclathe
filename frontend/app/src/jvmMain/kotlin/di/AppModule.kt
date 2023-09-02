@@ -72,13 +72,9 @@ fun repositoryModule(legacyCommunication: Boolean) =
         }
     }
 
-private fun decomposeModule(componentContext: ComponentContext) =
-    DI.Module("decompose") { bindSingleton { componentContext } }
-
 @Composable
 fun withAppDi(
     startupArgs: StartupArgs,
-    componentContext: ComponentContext,
     content: @Composable () -> Unit,
 ) =
     withDI(
@@ -88,6 +84,5 @@ fun withAppDi(
         SystemModule,
         repositoryModule(startupArgs.legacyCommunication),
         ParseFactoryModule,
-        decomposeModule(componentContext),
         content = content
     )

@@ -1,18 +1,23 @@
 package com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.add
 
 import cafe.adriel.voyager.core.model.StateScreenModel
+import com.arkivanov.decompose.ComponentContext
 import com.mindovercnc.linuxcnc.domain.ToolsUseCase
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.MadeOf
 import com.mindovercnc.model.*
 import kotlinx.coroutines.flow.update
+import org.kodein.di.DI
+import org.kodein.di.instance
+import org.kodein.di.instanceOrNull
 
-class AddEditCuttingInsertScreenModel(
-    val cuttingInsert: CuttingInsert? = null,
-    val toolsUseCase: ToolsUseCase
-) :
+class AddEditCuttingInsertScreenModel(di: DI, componentContext: ComponentContext) :
     StateScreenModel<AddEditCuttingInsertState>(AddEditCuttingInsertState()),
     AddEditCuttingInsertComponent {
+
+    private val toolsUseCase: ToolsUseCase by di.instance()
+
+    val cuttingInsert: CuttingInsert? by di.instanceOrNull()
 
     val dummyFeedsAndSpeeds =
         listOf(

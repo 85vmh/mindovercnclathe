@@ -7,8 +7,7 @@ import com.arkivanov.decompose.router.slot.SlotNavigation
 import com.arkivanov.decompose.router.slot.activate
 import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.value.Value
-import com.mindovercnc.linuxcnc.domain.ToolsUseCase
-import com.mindovercnc.linuxcnc.screen.tools.list.ToolsComponent.Config
+import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent.Config
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.CuttingInsertsToolsTab
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.HoldersToolsTab
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.LatheToolsTab
@@ -19,13 +18,11 @@ import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.LatheToolsCompo
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.LatheToolsScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.HoldersToolsComponent
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.HoldersToolsScreenModel
+import org.kodein.di.DI
 
-class ToolsScreenModel(
-    private val toolsUseCase: ToolsUseCase,
-    private val componentContext: ComponentContext
-) :
+class ToolsListScreenModel(private val di: DI, private val componentContext: ComponentContext) :
     StateScreenModel<ToolsState>(ToolsState()),
-    ToolsComponent,
+    ToolsListComponent,
     ComponentContext by componentContext {
 
     private val navigation = SlotNavigation<Config>()
@@ -52,17 +49,17 @@ class ToolsScreenModel(
     }
 
     private fun latheComponent(componentContext: ComponentContext): LatheToolsComponent {
-        return LatheToolsScreenModel(toolsUseCase, componentContext)
+        return LatheToolsScreenModel(di, componentContext)
     }
 
     private fun cuttingInsertsComponent(
         componentContext: ComponentContext
     ): CuttingInsertComponent {
-        return CuttingInsertScreenModel(toolsUseCase, componentContext)
+        return CuttingInsertScreenModel(di, componentContext)
     }
 
     private fun holdersComponent(componentContext: ComponentContext): HoldersToolsComponent {
-        return HoldersToolsScreenModel(toolsUseCase, componentContext)
+        return HoldersToolsScreenModel(di, componentContext)
     }
 
     override fun selectTab(config: Config) {

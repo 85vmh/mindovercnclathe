@@ -7,31 +7,31 @@ import com.arkivanov.essenty.parcelable.Parcelize
 import com.mindovercnc.linuxcnc.screen.AppScreenComponent
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.ToolsTabItem
 
-interface ToolsComponent :
+interface ToolsListComponent :
     AppScreenComponent<ToolsState> {
     val childSlot: Value<ChildSlot<*, ToolsTabItem>>
 
-    fun selectTab(config: com.mindovercnc.linuxcnc.screen.tools.list.ToolsComponent.Config)
+    fun selectTab(config: com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent.Config)
 
     sealed interface Config : Parcelable {
 
         val tabTitle: String
 
         @Parcelize
-        data object Holders : com.mindovercnc.linuxcnc.screen.tools.list.ToolsComponent.Config {
+        data object Holders : com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent.Config {
             override val tabTitle: String
                 get() = "Tool Holders"
         }
 
         @Parcelize
-        data object Lathe : com.mindovercnc.linuxcnc.screen.tools.list.ToolsComponent.Config {
+        data object Lathe : com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent.Config {
             override val tabTitle: String
                 get() = "Lathe Tools"
         }
 
         @Parcelize
         data object CuttingInserts :
-            com.mindovercnc.linuxcnc.screen.tools.list.ToolsComponent.Config {
+            com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent.Config {
             override val tabTitle: String = "Cutting Inserts"
         }
     }

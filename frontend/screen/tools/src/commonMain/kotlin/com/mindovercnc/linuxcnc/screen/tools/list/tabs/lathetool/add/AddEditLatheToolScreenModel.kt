@@ -2,6 +2,7 @@ package com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.add
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
+import com.arkivanov.decompose.ComponentContext
 import com.mindovercnc.linuxcnc.domain.ToolsUseCase
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
@@ -11,11 +12,15 @@ import com.mindovercnc.model.TipOrientation
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import org.kodein.di.DI
+import org.kodein.di.instance
+import org.kodein.di.instanceOrNull
 
-class AddEditLatheToolScreenModel(
-    val latheTool: LatheTool? = null,
-    val toolsUseCase: ToolsUseCase
-) : StateScreenModel<AddEditLatheToolState>(AddEditLatheToolState()), AddEditLatheToolComponent {
+class AddEditLatheToolScreenModel(di: DI, componentContext: ComponentContext) :
+    StateScreenModel<AddEditLatheToolState>(AddEditLatheToolState()), AddEditLatheToolComponent {
+
+    private val toolsUseCase: ToolsUseCase by di.instance()
+    val latheTool: LatheTool? by di.instanceOrNull()
 
     init {
         latheTool?.let { tool ->

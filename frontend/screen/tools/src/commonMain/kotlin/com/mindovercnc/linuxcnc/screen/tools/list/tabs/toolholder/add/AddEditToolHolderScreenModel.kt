@@ -2,6 +2,7 @@ package com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.add
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
+import com.arkivanov.decompose.ComponentContext
 import com.mindovercnc.linuxcnc.domain.ToolsUseCase
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
@@ -9,19 +10,25 @@ import com.mindovercnc.linuxcnc.tools.model.ToolHolderType
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import org.kodein.di.DI
+import org.kodein.di.instance
+import org.kodein.di.instanceOrNull
 
 class AddEditToolHolderScreenModel(
-    val toolHolder: ToolHolder? = null,
-    val toolsUseCase: ToolsUseCase
+    di: DI,
+    componentContext: ComponentContext
 ) : StateScreenModel<AddEditToolHolderState>(AddEditToolHolderState()), AddEditToolHolderComponent {
 
+    private val toolsUseCase: ToolsUseCase by di.instance()
+    val toolHolder: ToolHolder? by di.instanceOrNull()
+
     init {
-        toolHolder?.let {
+        toolHolder?.let { holder->
             mutableState.update {
                 it.copy(
-                    holderNumber = toolHolder.holderNumber,
-                    type = toolHolder.type,
-                    latheTool = toolHolder.latheTool
+                    holderNumber = holder.holderNumber,
+                    type = holder.type,
+                    latheTool = holder.latheTool
                 )
             }
         }

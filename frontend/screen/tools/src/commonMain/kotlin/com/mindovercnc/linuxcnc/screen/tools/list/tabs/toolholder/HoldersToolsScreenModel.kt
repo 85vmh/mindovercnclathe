@@ -9,13 +9,14 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.kodein.di.DI
+import org.kodein.di.instance
 
-class HoldersToolsScreenModel(
-    private val toolsUseCase: ToolsUseCase,
-    componentContext: ComponentContext
-) :
+class HoldersToolsScreenModel(di: DI, componentContext: ComponentContext) :
     BaseScreenModel<HoldersToolsState>(HoldersToolsState(), componentContext),
     HoldersToolsComponent {
+
+    private val toolsUseCase: ToolsUseCase by di.instance()
 
     init {
         toolsUseCase
@@ -54,11 +55,7 @@ class HoldersToolsScreenModel(
     }
 
     override fun cancelDeleteToolHolder() {
-        mutableState.update {
-            it.copy(
-                toolHolderDeleteModel = null
-            )
-        }
+        mutableState.update { it.copy(toolHolderDeleteModel = null) }
     }
 
     override fun deleteToolHolder(toolHolder: ToolHolder) {

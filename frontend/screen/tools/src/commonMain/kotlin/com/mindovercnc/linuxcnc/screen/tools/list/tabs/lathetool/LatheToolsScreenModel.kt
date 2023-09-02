@@ -8,11 +8,15 @@ import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import org.kodein.di.DI
+import org.kodein.di.instance
 
 class LatheToolsScreenModel(
-    private val toolsUseCase: ToolsUseCase,
+    di: DI,
     componentContext: ComponentContext,
 ) : BaseScreenModel<LatheToolsState>(LatheToolsState(), componentContext), LatheToolsComponent {
+
+    private val toolsUseCase: ToolsUseCase by di.instance()
 
     init {
         loadLatheTools()

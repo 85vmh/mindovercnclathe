@@ -4,11 +4,10 @@ import androidx.compose.ui.Modifier
 import app.NewNavigation
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
-import com.mindovercnc.linuxcnc.screen.root.RootScreenModel
+import com.arkivanov.decompose.ComponentContext
 import com.mindovercnc.linuxcnc.screen.root.RootComponent
+import com.mindovercnc.linuxcnc.screen.root.RootScreenModel
 import org.kodein.di.compose.localDI
-import org.kodein.di.direct
-import org.kodein.di.instance
 import ui.tab.ManualTab
 
 @Composable
@@ -21,7 +20,7 @@ fun MindOverCNCLathe(root: RootComponent? = null, modifier: Modifier = Modifier)
 }
 
 @Composable
-fun createRootComponent(): RootComponent {
+fun createRootComponent(componentContext: ComponentContext): RootComponent {
     val di = localDI()
-    return remember { RootScreenModel(di = di, componentContext = di.direct.instance()) }
+    return remember { RootScreenModel(di = di, componentContext = componentContext) }
 }

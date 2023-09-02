@@ -34,10 +34,10 @@ fun main(args: Array<String>) {
 fun startApplication(startupArgs: StartupArgs, onExit: () -> Unit) {
     val componentContext = createComponentContext()
     application {
-        withAppDi(startupArgs, componentContext) {
+        withAppDi(startupArgs) {
             val (initialised, setInitialised) = rememberSaveable { mutableStateOf(false) }
             if (initialised) {
-                AppWindow(startupArgs) {
+                AppWindow(startupArgs, componentContext) {
                     onExit()
                     this.exitApplication()
                 }

@@ -3,8 +3,8 @@ package com.mindovercnc.linuxcnc.screen.tools.root
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.*
 import com.arkivanov.decompose.value.Value
-import com.mindovercnc.linuxcnc.screen.tools.list.ToolsComponent
-import com.mindovercnc.linuxcnc.screen.tools.list.ToolsScreenModel
+import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent
+import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.add.AddEditCuttingInsertComponent
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.add.AddEditCuttingInsertScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.add.AddEditLatheToolComponent
@@ -17,8 +17,8 @@ import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
 import org.kodein.di.DI
-import org.kodein.di.direct
-import org.kodein.di.instance
+import org.kodein.di.bindSingleton
+import org.kodein.di.subDI
 
 class ToolsRootScreenModel(
     private val di: DI,
@@ -66,28 +66,52 @@ class ToolsRootScreenModel(
 
     private fun createChild(config: Config, componentContext: ComponentContext): Child {
         return when (config) {
-            Config.List -> Child.List(toolsComponent())
-            is Config.AddEditCuttingInsert -> {
-                Child.AddEditCuttingInsert(addEditCuttingInsertComponent())
+            Config.List -> {
+                Child.List(toolsComponent(componentContext))
             }
-            is Config.AddEditLatheTool -> Child.AddEditLatheTool(addEditLatheToolComponent())
-            is Config.AddEditToolHolder -> Child.AddEditToolHolder(addEditToolHolderComponent())
+            is Config.AddEditCuttingInsert -> {
+                Child.AddEditCuttingInsert(
+                    addEditCuttingInsertComponent(config.cuttingInsert, componentContext)
+                )
+            }
+            is Config.AddEditLatheTool -> {
+                Child.AddEditLatheTool(
+                    addEditLatheToolComponent(config.latheTool, componentContext)
+                )
+            }
+            is Config.AddEditToolHolder -> {
+                Child.AddEditToolHolder(
+                    addEditToolHolderComponent(config.toolHolder, componentContext)
+                )
+            }
         }
     }
 
-    private fun toolsComponent(): ToolsComponent {
-        return di.direct.instance<ToolsScreenModel>()
+    private fun toolsComponent(componentContext: ComponentContext): ToolsListComponent {
+        return ToolsListScreenModel(di, componentContext)
     }
 
-    private fun addEditCuttingInsertComponent(): AddEditCuttingInsertComponent {
-        return di.direct.instance<AddEditCuttingInsertScreenModel>()
+    private fun addEditCuttingInsertComponent(
+        cuttingInsert: CuttingInsert?,
+        componentContext: ComponentContext
+    ): AddEditCuttingInsertComponent {
+        val subDI = subDI(di) { if (cuttingInsert != null) bindSingleton { cuttingInsert } }
+        return AddEditCuttingInsertScreenModel(subDI, componentContext)
     }
 
-    private fun addEditLatheToolComponent(): AddEditLatheToolComponent {
-        return di.direct.instance<AddEditLatheToolScreenModel>()
+    private fun addEditLatheToolComponent(
+        latheTool: LatheTool?,
+        componentContext: ComponentContext
+    ): AddEditLatheToolComponent {
+        val subDI = subDI(di) { if (latheTool != null) bindSingleton { latheTool } }
+        return AddEditLatheToolScreenModel(subDI, componentContext)
     }
 
-    private fun addEditToolHolderComponent(): AddEditToolHolderComponent {
-        return di.direct.instance<AddEditToolHolderScreenModel>()
+    private fun addEditToolHolderComponent(
+        toolHolder: ToolHolder?,
+        componentContext: ComponentContext
+    ): AddEditToolHolderComponent {
+        val subDI = subDI(di) { if (toolHolder != null) bindSingleton { toolHolder } }
+        return AddEditToolHolderScreenModel(subDI, componentContext)
     }
 }

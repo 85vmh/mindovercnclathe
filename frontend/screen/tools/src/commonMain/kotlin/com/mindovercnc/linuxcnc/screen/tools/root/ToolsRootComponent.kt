@@ -13,7 +13,7 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import com.mindovercnc.linuxcnc.screen.TitledChild
-import com.mindovercnc.linuxcnc.screen.tools.list.ToolsComponent
+import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.add.AddEditCuttingInsertComponent
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.add.AddEditLatheToolComponent
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.add.AddEditToolHolderComponent
@@ -36,7 +36,7 @@ interface ToolsRootComponent {
     fun navigateUp()
 
     sealed interface Child : TitledChild {
-        data class List(val component: ToolsComponent) : Child {
+        data class List(val component: ToolsListComponent) : Child {
             @Composable
             override fun Title(modifier: Modifier) {
                 val childSlot by component.childSlot.subscribeAsState()

@@ -11,18 +11,23 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
 import app.AppModePicker
 import app.RemoteHostPicker
+import com.arkivanov.decompose.ComponentContext
 import startup.args.StartupArgs
 import themes.AppTheme
 
 @Composable
-fun AppWindow(startupArgs: StartupArgs, onCloseRequest: () -> Unit) {
+fun AppWindow(
+    startupArgs: StartupArgs,
+    componentContext: ComponentContext,
+    onCloseRequest: () -> Unit
+) {
     val windowState =
         rememberWindowState(
             width = startupArgs.screenSize.width,
             height = startupArgs.screenSize.height
         )
     val root = // null
-        createRootComponent()
+        createRootComponent(componentContext)
 
     Window(
         onCloseRequest = onCloseRequest,

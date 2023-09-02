@@ -76,7 +76,7 @@ class RootScreenModel(
             Config.Manual -> RootChild.Manual(manualComponent(componentContext))
             Config.Programs -> RootChild.Programs(programsComponent(componentContext))
             Config.Status -> RootChild.Status(statusComponent())
-            Config.Tools -> RootChild.Tools(toolsComponent())
+            Config.Tools -> RootChild.Tools(toolsComponent(componentContext))
         }
     }
 
@@ -89,14 +89,14 @@ class RootScreenModel(
     }
 
     private fun statusComponent(): StatusRootComponent {
-        return di.direct.instance<StatusRootScreenModel>()
+        return StatusRootScreenModel(di)
     }
 
-    private fun toolsComponent(): ToolsRootComponent {
-        return di.direct.instance<ToolsRootScreenModel>()
+    private fun toolsComponent(componentContext: ComponentContext): ToolsRootComponent {
+        return ToolsRootScreenModel(di, componentContext)
     }
 
     private fun conversationalComponent(): ConversationalComponent {
-        return di.direct.instance<ConversationalScreenModel>()
+        return ConversationalScreenModel()
     }
 }

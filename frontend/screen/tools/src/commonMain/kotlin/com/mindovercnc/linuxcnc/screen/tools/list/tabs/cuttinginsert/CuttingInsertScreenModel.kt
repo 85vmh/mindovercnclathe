@@ -8,13 +8,14 @@ import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import org.kodein.di.DI
+import org.kodein.di.instance
 
-class CuttingInsertScreenModel(
-    private val toolsUseCase: ToolsUseCase,
-    componentContext: ComponentContext
-) :
+class CuttingInsertScreenModel(di: DI, componentContext: ComponentContext) :
     BaseScreenModel<CuttingInsertState>(CuttingInsertState(), componentContext),
     CuttingInsertComponent {
+
+    private val toolsUseCase: ToolsUseCase by di.instance()
 
     init {
         loadCuttingInserts()
