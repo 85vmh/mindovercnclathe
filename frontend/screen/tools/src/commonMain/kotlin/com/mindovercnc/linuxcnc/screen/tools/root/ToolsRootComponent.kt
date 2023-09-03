@@ -18,6 +18,7 @@ import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.add.AddEdit
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.add.AddEditLatheToolComponent
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.add.AddEditToolHolderComponent
 import com.mindovercnc.linuxcnc.screen.tools.list.ui.ToolTabsView
+import com.mindovercnc.linuxcnc.screen.tools.list.ui.ToolsListFab
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
@@ -36,6 +37,9 @@ interface ToolsRootComponent {
     fun navigateUp()
 
     sealed interface Child : TitledChild {
+
+        @Composable fun Fab(rootComponent: ToolsRootComponent, modifier: Modifier) {}
+
         data class List(val component: ToolsListComponent) : Child {
             @Composable
             override fun Title(modifier: Modifier) {
@@ -45,6 +49,12 @@ interface ToolsRootComponent {
                     currentTab = childSlot.child!!.instance.config,
                     onTabSelected = component::selectTab
                 )
+            }
+
+            @Composable
+            override fun Fab(rootComponent: ToolsRootComponent, modifier: Modifier) {
+                val childSlot by component.childSlot.subscribeAsState()
+                ToolsListFab(childSlot.child!!.instance, rootComponent, modifier)
             }
         }
 

@@ -1,10 +1,7 @@
 package com.mindovercnc.linuxcnc.screen.manual.root
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.stack.ChildStack
-import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.*
 import com.arkivanov.decompose.value.Value
 import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent.Child
 import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent.Config
@@ -46,6 +43,10 @@ class ManualRootScreenModel(
 
     override fun openTurningSettings() {
         navigation.push(Config.TurningSettings)
+    }
+
+    override fun navigateUp() {
+        navigation.pop()
     }
 
     private fun createChild(

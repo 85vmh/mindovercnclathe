@@ -33,12 +33,11 @@ private val itemModifier = Modifier.fillMaxWidth()
 @Composable
 fun CuttingInsertsContent(
     state: CuttingInsertState,
-    onInsertChanged: () -> Unit,
+    onEdit: (CuttingInsert) -> Unit,
     onDelete: (CuttingInsert) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
-    val navigator = LocalNavigator.current
 
     Box(modifier = modifier) {
         val scrollState = rememberLazyListState()
@@ -52,14 +51,7 @@ fun CuttingInsertsContent(
                     CuttingInsertView(
                         index = index,
                         item = item,
-                        onEditClicked = { cuttingInsert ->
-                            navigator?.push(
-                                AddEditCuttingInsertScreen(
-                                    cuttingInsert,
-                                    onChanges = onInsertChanged
-                                )
-                            )
-                        },
+                        onEditClicked = onEdit,
                         onDeleteClicked = onDelete,
                         modifier = itemModifier
                     )

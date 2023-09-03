@@ -2,7 +2,10 @@ package app
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -13,8 +16,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import com.mindovercnc.linuxcnc.screen.root.RootChild
 import com.mindovercnc.linuxcnc.screen.root.RootComponent
+import com.mindovercnc.linuxcnc.screen.root.child.RootChild
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.orEmpty
 import org.jetbrains.compose.resources.rememberImageVector
@@ -32,13 +35,7 @@ fun NewNavigation(root: RootComponent, modifier: Modifier = Modifier) {
         topBar = {
             CenterAlignedTopAppBar(
                 title = { childStack.active.instance.Title(Modifier) },
-                navigationIcon = {
-                    if (childStack.items.size > 1) {
-                        IconButton(modifier = iconButtonModifier, onClick = root::navigateBack) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "")
-                        }
-                    }
-                },
+                navigationIcon = { childStack.active.instance.NavigationIcon(iconButtonModifier) },
                 modifier = Modifier.shadow(3.dp)
             )
         },

@@ -29,8 +29,8 @@ kotlin {
 
                 // compose
                 //                implementation(compose.uiTooling)
-                implementation(compose.material)
                 implementation(compose.material3)
+                implementation(compose.materialIconsExtended)
                 @OptIn(ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
 
@@ -96,7 +96,7 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
-                @OptIn(ExperimentalComposeLibrary::class) implementation(compose.uiTestJUnit4)
+                implementation(compose.desktop.uiTestJUnit4)
                 implementation(Libs.mockk)
                 implementation(Libs.Coroutines.test)
                 implementation(compose.material)

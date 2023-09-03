@@ -26,7 +26,7 @@ fun ToolsRootScreenUi(
                 // TODO:
             }
             is ToolsRootComponent.Child.List -> {
-                ToolsListScreenUi(child.component, childModifier)
+                ToolsListScreenUi(component, child.component, childModifier)
             }
         }
     }

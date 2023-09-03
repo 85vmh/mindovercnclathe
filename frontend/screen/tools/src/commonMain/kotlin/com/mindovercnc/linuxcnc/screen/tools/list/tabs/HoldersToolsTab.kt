@@ -5,15 +5,21 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
+import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.HoldersToolsComponent
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.add.AddEditHolderScreen
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.ui.ToolHoldersContent
 import com.mindovercnc.linuxcnc.screen.tools.list.ui.ToolHolderDeleteDialog
+import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
 
 class HoldersToolsTab(private val component: HoldersToolsComponent) :
-    ToolsTabItem(com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent.Config.Holders) {
+    ToolsTabItem(ToolsListComponent.Config.Holders) {
     @Composable
-    override fun Content(toolsComponent: com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent, modifier: Modifier) {
+    override fun Content(
+        rootComponent: ToolsRootComponent,
+        toolsComponent: ToolsListComponent,
+        modifier: Modifier
+    ) {
         val navigator = LocalNavigator.current
         val state by component.state.collectAsState()
 
@@ -22,7 +28,10 @@ class HoldersToolsTab(private val component: HoldersToolsComponent) :
             onDelete = component::requestDeleteToolHolder,
             onLoad = component::loadToolHolder,
             onMount = component::onMountTool,
-            onEdit = { navigator?.push(AddEditHolderScreen(it, component::loadToolHolders)) },
+            onEdit = { toolHolder ->
+                navigator?.push(AddEditHolderScreen(toolHolder))
+                    ?: rootComponent.editToolHolder(toolHolder)
+            },
             modifier = modifier
         )
 

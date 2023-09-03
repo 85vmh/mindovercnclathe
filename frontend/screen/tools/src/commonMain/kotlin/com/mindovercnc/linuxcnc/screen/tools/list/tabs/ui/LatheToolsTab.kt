@@ -59,12 +59,7 @@ fun LatheToolsContent(
                         index = index,
                         item = item,
                         onEditClicked = { latheTool ->
-                            navigator?.push(
-                                AddEditLatheToolScreen(
-                                    latheTool = latheTool,
-                                    onChanges = onToolChanged::invoke
-                                )
-                            )
+                            navigator?.push(AddEditLatheToolScreen(latheTool))
                         },
                         onDeleteClicked = onDelete,
                         modifier = itemModifier

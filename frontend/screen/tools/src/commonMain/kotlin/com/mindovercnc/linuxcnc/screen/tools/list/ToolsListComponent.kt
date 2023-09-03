@@ -11,27 +11,27 @@ interface ToolsListComponent :
     AppScreenComponent<ToolsState> {
     val childSlot: Value<ChildSlot<*, ToolsTabItem>>
 
-    fun selectTab(config: com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent.Config)
+    fun selectTab(config: Config)
 
     sealed interface Config : Parcelable {
 
         val tabTitle: String
 
         @Parcelize
-        data object Holders : com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent.Config {
+        data object Holders : Config {
             override val tabTitle: String
                 get() = "Tool Holders"
         }
 
         @Parcelize
-        data object Lathe : com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent.Config {
+        data object Lathe : Config {
             override val tabTitle: String
                 get() = "Lathe Tools"
         }
 
         @Parcelize
         data object CuttingInserts :
-            com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent.Config {
+            Config {
             override val tabTitle: String = "Cutting Inserts"
         }
     }

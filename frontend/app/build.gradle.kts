@@ -121,7 +121,7 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 @OptIn(ExperimentalComposeLibrary::class)
-                implementation(compose.uiTestJUnit4)
+                implementation(compose.desktop.uiTestJUnit4)
                 implementation(Libs.mockk)
                 implementation(Libs.Coroutines.test)
             }

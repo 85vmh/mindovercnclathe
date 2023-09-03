@@ -1,9 +1,13 @@
 package com.mindovercnc.linuxcnc.screen.manual.root
 
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
+import com.mindovercnc.linuxcnc.screen.TitledChild
 import com.mindovercnc.linuxcnc.screen.manual.simplecycles.SimpleCyclesComponent
 import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningComponent
 import com.mindovercnc.linuxcnc.screen.manual.turningsettings.TurningSettingsComponent
@@ -16,11 +20,35 @@ interface ManualRootComponent {
     fun openSimpleCycles()
     fun openTurningSettings()
 
-    sealed interface Child {
-        class Turning(val component: ManualTurningComponent) : Child
-        class VirtualLimits(val component: VirtualLimitsComponent) : Child
-        class SimpleCycles(val component: SimpleCyclesComponent) : Child
-        class TurningSettings(val component: TurningSettingsComponent) : Child
+    fun navigateUp()
+
+    sealed interface Child : TitledChild {
+        class Turning(val component: ManualTurningComponent) : Child {
+            @Composable
+            override fun Title(modifier: Modifier) {
+                Text("Turning")
+            }
+        }
+
+        class VirtualLimits(val component: VirtualLimitsComponent) : Child {
+            @Composable
+            override fun Title(modifier: Modifier) {
+                Text("Turning")
+            }
+        }
+
+        class SimpleCycles(val component: SimpleCyclesComponent) : Child {
+            @Composable
+            override fun Title(modifier: Modifier) {
+                Text("Simple cycles")
+            }
+        }
+        class TurningSettings(val component: TurningSettingsComponent) : Child {
+            @Composable
+            override fun Title(modifier: Modifier) {
+                Text("Turning settings")
+            }
+        }
     }
 
     sealed interface Config : Parcelable {

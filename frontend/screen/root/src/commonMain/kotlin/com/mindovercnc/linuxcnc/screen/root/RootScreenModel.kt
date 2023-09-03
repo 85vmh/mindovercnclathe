@@ -1,7 +1,10 @@
 package com.mindovercnc.linuxcnc.screen.root
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.stack.*
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.bringToFront
+import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
 import com.mindovercnc.linuxcnc.domain.MachineUsableUseCase
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel
@@ -12,6 +15,7 @@ import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootScreenModel
 import com.mindovercnc.linuxcnc.screen.programs.root.ProgramsRootComponent
 import com.mindovercnc.linuxcnc.screen.programs.root.ProgramsRootScreenModel
 import com.mindovercnc.linuxcnc.screen.root.RootComponent.Config
+import com.mindovercnc.linuxcnc.screen.root.child.*
 import com.mindovercnc.linuxcnc.screen.status.root.StatusRootComponent
 import com.mindovercnc.linuxcnc.screen.status.root.StatusRootScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
@@ -52,10 +56,6 @@ class RootScreenModel(
         navigation.bringToFront(tab)
     }
 
-    override fun navigateBack() {
-        navigation.pop()
-    }
-
     init {
         machineUsableUseCase.machineUsableFlow
             .onEach { usable -> mutableState.update { it.copy(isBottomBarEnabled = usable) } }
@@ -67,16 +67,13 @@ class RootScreenModel(
             .launchIn(coroutineScope)
     }
 
-    private fun createChild(
-        config: Config,
-        @Suppress("UNUSED_PARAMETER") componentContext: ComponentContext
-    ): RootChild {
+    private fun createChild(config: Config, componentContext: ComponentContext): RootChild {
         return when (config) {
-            Config.Conversational -> RootChild.Conversational(conversationalComponent())
-            Config.Manual -> RootChild.Manual(manualComponent(componentContext))
-            Config.Programs -> RootChild.Programs(programsComponent(componentContext))
-            Config.Status -> RootChild.Status(statusComponent())
-            Config.Tools -> RootChild.Tools(toolsComponent(componentContext))
+            Config.Conversational -> Conversational(conversationalComponent())
+            Config.Manual -> Manual(manualComponent(componentContext))
+            Config.Programs -> Programs(programsComponent(componentContext))
+            Config.Status -> Status(statusComponent())
+            Config.Tools -> Tools(toolsComponent(componentContext))
         }
     }
 

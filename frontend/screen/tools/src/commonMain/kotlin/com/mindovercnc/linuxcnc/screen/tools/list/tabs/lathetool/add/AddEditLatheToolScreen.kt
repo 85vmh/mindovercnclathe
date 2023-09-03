@@ -18,7 +18,6 @@ import org.kodein.di.bindProvider
 
 class AddEditLatheToolScreen(
     private val latheTool: LatheTool? = null,
-    private val onChanges: () -> Unit
 ) : Tools(createTitle(latheTool)) {
 
     @Composable
@@ -34,7 +33,6 @@ class AddEditLatheToolScreen(
             modifier = iconButtonModifier,
             onClick = {
                 screenModel.applyChanges()
-                onChanges.invoke()
                 navigator.pop()
             }
         ) {

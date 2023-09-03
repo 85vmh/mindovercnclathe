@@ -29,8 +29,6 @@ kotlin {
                 implementation(Libs.datetime)
 
                 // compose
-                //                implementation(compose.uiTooling)
-                implementation(compose.material)
                 implementation(compose.material3)
                 @OptIn(ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
@@ -76,7 +74,7 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
-                @OptIn(ExperimentalComposeLibrary::class) implementation(compose.uiTestJUnit4)
+                implementation(compose.desktop.uiTestJUnit4)
                 implementation(Libs.Coroutines.test)
                 implementation(Libs.mockk)
                 implementation(Libs.Log.logback)

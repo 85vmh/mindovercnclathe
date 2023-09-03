@@ -8,6 +8,8 @@ import com.mindovercnc.linuxcnc.screen.programs.programloaded.ProgramLoadedCompo
 interface ProgramsRootComponent {
     val childStack: Value<ChildStack<*, Child>>
 
+    fun navigateUp()
+
     sealed interface Child {
         data class Picker(val component: ProgramPickerComponent) : Child
         data class Loaded(val component: ProgramLoadedComponent) : Child

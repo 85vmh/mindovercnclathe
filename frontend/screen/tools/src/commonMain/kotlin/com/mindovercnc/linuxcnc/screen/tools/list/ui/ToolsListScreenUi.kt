@@ -7,11 +7,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent
+import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
 
 private val tabContentModifier = Modifier.fillMaxWidth()
 
 @Composable
-fun ToolsListScreenUi(component: ToolsListComponent, modifier: Modifier = Modifier) {
+fun ToolsListScreenUi(
+    rootComponent: ToolsRootComponent,
+    component: ToolsListComponent,
+    modifier: Modifier = Modifier
+) {
     val tabStack by component.childSlot.subscribeAsState()
-    Column(modifier) { tabStack.child!!.instance.Content(component, tabContentModifier) }
+    Column(modifier) {
+        tabStack.child!!.instance.Content(rootComponent, component, tabContentModifier)
+    }
 }

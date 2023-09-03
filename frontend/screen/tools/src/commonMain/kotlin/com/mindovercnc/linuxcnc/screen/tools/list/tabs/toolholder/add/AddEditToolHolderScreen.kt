@@ -17,7 +17,6 @@ import org.kodein.di.bindProvider
 
 class AddEditHolderScreen(
     private val toolHolder: ToolHolder? = null,
-    private val onChanges: () -> Unit
 ) : Tools(createTitle(toolHolder)) {
 
     @Composable
@@ -33,7 +32,6 @@ class AddEditHolderScreen(
             modifier = iconButtonModifier,
             onClick = {
                 screenModel.applyChanges()
-                onChanges.invoke()
                 navigator.pop()
             }
         ) {

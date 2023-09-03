@@ -1,7 +1,6 @@
 package ui
 
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -47,7 +46,7 @@ private fun RowScope.TabNavigationItem(
     onClick: (Tab) -> Unit
 ) {
     val tabColor = bottomBarColor(selected, enabled)
-    BottomNavigationItem(
+    NavigationBarItem(
         label = {
             Text(
                 color = tabColor,
