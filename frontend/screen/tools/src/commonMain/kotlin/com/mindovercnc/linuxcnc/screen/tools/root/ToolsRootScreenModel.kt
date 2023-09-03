@@ -11,8 +11,8 @@ import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.add.AddEditLath
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.add.AddEditLatheToolScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.add.AddEditToolHolderComponent
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.add.AddEditToolHolderScreenModel
-import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent.Child
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent.Config
+import com.mindovercnc.linuxcnc.screen.tools.root.child.ToolsChild
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
@@ -34,7 +34,7 @@ class ToolsRootScreenModel(
             childFactory = ::createChild
         )
 
-    override val childStack: Value<ChildStack<*, Child>> = _childStack
+    override val childStack: Value<ChildStack<*, ToolsChild>> = _childStack
 
     override fun addCuttingInsert() {
         navigation.push(Config.AddEditCuttingInsert(null))
@@ -64,23 +64,23 @@ class ToolsRootScreenModel(
         navigation.pop()
     }
 
-    private fun createChild(config: Config, componentContext: ComponentContext): Child {
+    private fun createChild(config: Config, componentContext: ComponentContext): ToolsChild {
         return when (config) {
             Config.List -> {
-                Child.List(toolsComponent(componentContext))
+                ToolsChild.List(toolsComponent(componentContext))
             }
             is Config.AddEditCuttingInsert -> {
-                Child.AddEditCuttingInsert(
+                ToolsChild.AddEditCuttingInsert(
                     addEditCuttingInsertComponent(config.cuttingInsert, componentContext)
                 )
             }
             is Config.AddEditLatheTool -> {
-                Child.AddEditLatheTool(
+                ToolsChild.AddEditLatheTool(
                     addEditLatheToolComponent(config.latheTool, componentContext)
                 )
             }
             is Config.AddEditToolHolder -> {
-                Child.AddEditToolHolder(
+                ToolsChild.AddEditToolHolder(
                     addEditToolHolderComponent(config.toolHolder, componentContext)
                 )
             }

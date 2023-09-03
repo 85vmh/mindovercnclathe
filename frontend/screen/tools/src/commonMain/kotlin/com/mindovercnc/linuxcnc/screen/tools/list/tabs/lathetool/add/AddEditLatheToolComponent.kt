@@ -2,11 +2,14 @@ package com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.add
 
 import com.mindovercnc.linuxcnc.screen.AppScreenComponent
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
+import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolType
 import com.mindovercnc.model.SpindleDirection
 import com.mindovercnc.model.TipOrientation
 
 interface AddEditLatheToolComponent : AppScreenComponent<AddEditLatheToolState> {
+    val latheTool: LatheTool?
+
     fun setToolId(value: Int)
     fun setToolType(value: ToolType)
     fun setCuttingInsert(value: CuttingInsert)

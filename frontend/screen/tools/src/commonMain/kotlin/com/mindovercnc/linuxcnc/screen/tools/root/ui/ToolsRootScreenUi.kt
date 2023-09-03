@@ -7,6 +7,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.ui.AddEditCuttingInsertScreenUi
 import com.mindovercnc.linuxcnc.screen.tools.list.ui.ToolsListScreenUi
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
+import com.mindovercnc.linuxcnc.screen.tools.root.child.ToolsChild
 
 @Composable
 fun ToolsRootScreenUi(
@@ -16,16 +17,16 @@ fun ToolsRootScreenUi(
     val childModifier = Modifier.fillMaxSize()
     Children(component.childStack, modifier) {
         when (val child = it.instance) {
-            is ToolsRootComponent.Child.AddEditCuttingInsert -> {
+            is ToolsChild.AddEditCuttingInsert -> {
                 AddEditCuttingInsertScreenUi(child.component, childModifier)
             }
-            is ToolsRootComponent.Child.AddEditLatheTool -> {
+            is ToolsChild.AddEditLatheTool -> {
                 // TODO: AddEditLatheToolContent()
             }
-            is ToolsRootComponent.Child.AddEditToolHolder -> {
+            is ToolsChild.AddEditToolHolder -> {
                 // TODO:
             }
-            is ToolsRootComponent.Child.List -> {
+            is ToolsChild.List -> {
                 ToolsListScreenUi(component, child.component, childModifier)
             }
         }

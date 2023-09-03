@@ -20,7 +20,7 @@ class AddEditLatheToolScreenModel(di: DI, componentContext: ComponentContext) :
     StateScreenModel<AddEditLatheToolState>(AddEditLatheToolState()), AddEditLatheToolComponent {
 
     private val toolsUseCase: ToolsUseCase by di.instance()
-    val latheTool: LatheTool? by di.instanceOrNull()
+    override val latheTool: LatheTool? by di.instanceOrNull()
 
     init {
         latheTool?.let { tool ->
