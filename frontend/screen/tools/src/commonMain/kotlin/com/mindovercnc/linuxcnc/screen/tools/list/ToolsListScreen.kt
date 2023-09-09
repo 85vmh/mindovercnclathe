@@ -14,7 +14,7 @@ import com.mindovercnc.linuxcnc.screen.tools.list.ui.ToolTabsView
 import com.mindovercnc.linuxcnc.screen.tools.list.ui.ToolsListFab
 import com.mindovercnc.linuxcnc.screen.tools.list.ui.ToolsListScreenUi
 
-class ToolsRootScreen : Tools() {
+class ToolsListScreen : Tools() {
 
     @Composable
     override fun Title() {
@@ -33,7 +33,7 @@ class ToolsRootScreen : Tools() {
         val screenModel = rememberScreenModel<ToolsListScreenModel>()
         val childSlot by screenModel.childSlot.subscribeAsState()
 
-        ToolsListFab(childSlot.child!!.instance, null)
+        ToolsListFab(childSlot.child!!.instance, rootComponent = TODO())
     }
 
     @Composable

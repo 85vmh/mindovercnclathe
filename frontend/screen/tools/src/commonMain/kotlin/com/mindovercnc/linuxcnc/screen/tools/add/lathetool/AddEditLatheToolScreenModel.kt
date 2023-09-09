@@ -1,9 +1,8 @@
 package com.mindovercnc.linuxcnc.screen.tools.add.lathetool
 
-import cafe.adriel.voyager.core.model.StateScreenModel
-import cafe.adriel.voyager.core.model.coroutineScope
 import com.arkivanov.decompose.ComponentContext
 import com.mindovercnc.linuxcnc.domain.ToolsUseCase
+import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolType
@@ -17,108 +16,14 @@ import org.kodein.di.instance
 import org.kodein.di.instanceOrNull
 
 class AddEditLatheToolScreenModel(di: DI, componentContext: ComponentContext) :
-    StateScreenModel<AddEditLatheToolState>(AddEditLatheToolState()), AddEditLatheToolComponent {
+    BaseScreenModel<AddEditLatheToolState>(AddEditLatheToolState(), componentContext),
+    AddEditLatheToolComponent {
 
     private val toolsUseCase: ToolsUseCase by di.instance()
-    override val latheTool: LatheTool? by di.instanceOrNull()
+    override val editItem: LatheTool? by di.instanceOrNull()
 
     init {
-        latheTool?.let { tool ->
-            mutableState.update {
-                val toolType = tool.type
-                when (tool) {
-                    is LatheTool.Turning ->
-                        it.copy(
-                            latheToolId = tool.toolId,
-                            toolType = toolType,
-                            cuttingInsert = tool.insert,
-                            toolOrientation = tool.tipOrientation,
-                            spindleDirection = tool.spindleDirection,
-                            backAngle = tool.backAngle.toInt(),
-                            frontAngle = tool.frontAngle.toInt(),
-                        )
-                    is LatheTool.Boring ->
-                        it.copy(
-                            latheToolId = tool.toolId,
-                            toolType = toolType,
-                            cuttingInsert = tool.insert,
-                            toolOrientation = tool.tipOrientation,
-                            spindleDirection = tool.spindleDirection,
-                            backAngle = tool.backAngle.toInt(),
-                            frontAngle = tool.frontAngle.toInt(),
-                            minBoreDiameter = tool.minBoreDiameter,
-                            maxZDepth = tool.maxZDepth
-                        )
-                    is LatheTool.Drilling ->
-                        it.copy(
-                            latheToolId = tool.toolId,
-                            toolType = toolType,
-                            toolOrientation = tool.tipOrientation,
-                            spindleDirection = tool.spindleDirection,
-                            toolDiameter = tool.toolDiameter,
-                            maxZDepth = tool.maxZDepth
-                        )
-                    is LatheTool.Reaming ->
-                        it.copy(
-                            latheToolId = tool.toolId,
-                            toolType = toolType,
-                            toolOrientation = tool.tipOrientation,
-                            spindleDirection = tool.spindleDirection,
-                            toolDiameter = tool.toolDiameter,
-                            maxZDepth = tool.maxZDepth
-                        )
-                    is LatheTool.Parting ->
-                        it.copy(
-                            latheToolId = tool.toolId,
-                            toolType = toolType,
-                            cuttingInsert = tool.insert,
-                            toolOrientation = tool.tipOrientation,
-                            spindleDirection = tool.spindleDirection,
-                            bladeWidth = tool.bladeWidth,
-                            maxXDepth = tool.maxXDepth
-                        )
-                    is LatheTool.Grooving ->
-                        it.copy(
-                            latheToolId = tool.toolId,
-                            toolType = toolType,
-                            cuttingInsert = tool.insert,
-                            toolOrientation = tool.tipOrientation,
-                            spindleDirection = tool.spindleDirection,
-                            bladeWidth = tool.bladeWidth,
-                            maxXDepth = tool.maxXDepth
-                        )
-                    is LatheTool.OdThreading ->
-                        it.copy(
-                            latheToolId = tool.toolId,
-                            toolType = toolType,
-                            cuttingInsert = tool.insert,
-                            toolOrientation = tool.tipOrientation,
-                            spindleDirection = tool.spindleDirection,
-                            minThreadPitch = tool.minPitch,
-                            maxThreadPitch = tool.maxPitch,
-                        )
-                    is LatheTool.IdThreading ->
-                        it.copy(
-                            latheToolId = tool.toolId,
-                            toolType = toolType,
-                            cuttingInsert = tool.insert,
-                            toolOrientation = tool.tipOrientation,
-                            spindleDirection = tool.spindleDirection,
-                            minThreadPitch = tool.minPitch,
-                            maxThreadPitch = tool.maxPitch,
-                        )
-                    is LatheTool.Slotting ->
-                        it.copy(
-                            latheToolId = tool.toolId,
-                            toolType = toolType,
-                            toolOrientation = tool.tipOrientation,
-                            spindleDirection = tool.spindleDirection,
-                            bladeWidth = tool.bladeWidth,
-                            maxZDepth = tool.maxZDepth
-                        )
-                }
-            }
-        }
+        editItem?.let(::initEdit)
 
         toolsUseCase
             .getCuttingInserts()
@@ -130,6 +35,103 @@ class AddEditLatheToolScreenModel(di: DI, componentContext: ComponentContext) :
                 }
             }
             .launchIn(coroutineScope)
+    }
+
+    private fun initEdit(tool: LatheTool) {
+        mutableState.update {
+            val toolType = tool.type
+            when (tool) {
+                is LatheTool.Turning ->
+                    it.copy(
+                        latheToolId = tool.toolId,
+                        toolType = toolType,
+                        cuttingInsert = tool.insert,
+                        toolOrientation = tool.tipOrientation,
+                        spindleDirection = tool.spindleDirection,
+                        backAngle = tool.backAngle.toInt(),
+                        frontAngle = tool.frontAngle.toInt(),
+                    )
+                is LatheTool.Boring ->
+                    it.copy(
+                        latheToolId = tool.toolId,
+                        toolType = toolType,
+                        cuttingInsert = tool.insert,
+                        toolOrientation = tool.tipOrientation,
+                        spindleDirection = tool.spindleDirection,
+                        backAngle = tool.backAngle.toInt(),
+                        frontAngle = tool.frontAngle.toInt(),
+                        minBoreDiameter = tool.minBoreDiameter,
+                        maxZDepth = tool.maxZDepth
+                    )
+                is LatheTool.Drilling ->
+                    it.copy(
+                        latheToolId = tool.toolId,
+                        toolType = toolType,
+                        toolOrientation = tool.tipOrientation,
+                        spindleDirection = tool.spindleDirection,
+                        toolDiameter = tool.toolDiameter,
+                        maxZDepth = tool.maxZDepth
+                    )
+                is LatheTool.Reaming ->
+                    it.copy(
+                        latheToolId = tool.toolId,
+                        toolType = toolType,
+                        toolOrientation = tool.tipOrientation,
+                        spindleDirection = tool.spindleDirection,
+                        toolDiameter = tool.toolDiameter,
+                        maxZDepth = tool.maxZDepth
+                    )
+                is LatheTool.Parting ->
+                    it.copy(
+                        latheToolId = tool.toolId,
+                        toolType = toolType,
+                        cuttingInsert = tool.insert,
+                        toolOrientation = tool.tipOrientation,
+                        spindleDirection = tool.spindleDirection,
+                        bladeWidth = tool.bladeWidth,
+                        maxXDepth = tool.maxXDepth
+                    )
+                is LatheTool.Grooving ->
+                    it.copy(
+                        latheToolId = tool.toolId,
+                        toolType = toolType,
+                        cuttingInsert = tool.insert,
+                        toolOrientation = tool.tipOrientation,
+                        spindleDirection = tool.spindleDirection,
+                        bladeWidth = tool.bladeWidth,
+                        maxXDepth = tool.maxXDepth
+                    )
+                is LatheTool.OdThreading ->
+                    it.copy(
+                        latheToolId = tool.toolId,
+                        toolType = toolType,
+                        cuttingInsert = tool.insert,
+                        toolOrientation = tool.tipOrientation,
+                        spindleDirection = tool.spindleDirection,
+                        minThreadPitch = tool.minPitch,
+                        maxThreadPitch = tool.maxPitch,
+                    )
+                is LatheTool.IdThreading ->
+                    it.copy(
+                        latheToolId = tool.toolId,
+                        toolType = toolType,
+                        cuttingInsert = tool.insert,
+                        toolOrientation = tool.tipOrientation,
+                        spindleDirection = tool.spindleDirection,
+                        minThreadPitch = tool.minPitch,
+                        maxThreadPitch = tool.maxPitch,
+                    )
+                is LatheTool.Slotting ->
+                    it.copy(
+                        latheToolId = tool.toolId,
+                        toolType = toolType,
+                        toolOrientation = tool.tipOrientation,
+                        spindleDirection = tool.spindleDirection,
+                        bladeWidth = tool.bladeWidth,
+                        maxZDepth = tool.maxZDepth
+                    )
+            }
+        }
     }
 
     override fun setToolId(value: Int) =
@@ -230,15 +232,18 @@ class AddEditLatheToolScreenModel(di: DI, componentContext: ComponentContext) :
             )
         }
 
-    override fun applyChanges() {
+    override fun applyChanges(): Boolean {
         with(mutableState.value) {
-            getLatheTool(toolType)?.let {
-                when (latheTool) {
-                    null -> toolsUseCase.createLatheTool(it)
-                    else -> toolsUseCase.updateLatheTool(it)
-                }
+            val tool = getLatheTool(toolType) ?: return false
+
+            if (isAdd) {
+                toolsUseCase.createLatheTool(tool)
+            } else {
+                toolsUseCase.updateLatheTool(tool)
             }
         }
+        // TODO: add validation
+        return true
     }
 
     private fun getLatheTool(toolType: ToolType?): LatheTool? {

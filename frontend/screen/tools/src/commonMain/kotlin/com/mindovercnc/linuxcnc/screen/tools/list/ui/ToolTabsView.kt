@@ -31,7 +31,6 @@ fun ToolTabsView(
     }
     val background = MaterialTheme.colorScheme.background
     val selectedColor = MaterialTheme.colorScheme.primary
-    println("Current tab $currentTab")
 
     TabRow(
         selectedTabIndex = entries.indexOf(currentTab),

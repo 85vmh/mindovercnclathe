@@ -1,14 +1,15 @@
 package com.mindovercnc.linuxcnc.screen.tools.add.lathetool
 
 import com.mindovercnc.linuxcnc.screen.AppScreenComponent
+import com.mindovercnc.linuxcnc.screen.tools.add.AddEditItemComponent
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolType
 import com.mindovercnc.model.SpindleDirection
 import com.mindovercnc.model.TipOrientation
 
-interface AddEditLatheToolComponent : AppScreenComponent<AddEditLatheToolState> {
-    val latheTool: LatheTool?
+interface AddEditLatheToolComponent :
+    AppScreenComponent<AddEditLatheToolState>, AddEditItemComponent<LatheTool> {
 
     fun setToolId(value: Int)
     fun setToolType(value: ToolType)
@@ -24,5 +25,4 @@ interface AddEditLatheToolComponent : AppScreenComponent<AddEditLatheToolState> 
     fun setToolDiameter(value: Double)
     fun setMinThreadPitch(value: Double)
     fun setMaxThreadPitch(value: Double)
-    fun applyChanges()
 }

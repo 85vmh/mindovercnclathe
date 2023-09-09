@@ -26,29 +26,23 @@ import ui.bottomBarColor
 
 private val iconButtonModifier = Modifier.size(48.dp)
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewNavigation(root: RootComponent, modifier: Modifier = Modifier) {
     val childStack by root.childStack.subscribeAsState()
+    val active = childStack.active.instance
     Scaffold(
         modifier = modifier,
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = { childStack.active.instance.Title(Modifier) },
-                navigationIcon = { childStack.active.instance.NavigationIcon(iconButtonModifier) },
-                modifier = Modifier.shadow(3.dp)
-            )
-        },
+        topBar = { NewTopAppBar(active) },
         bottomBar = {
             // TODO
             AppBottomBar(
                 modifier = Modifier.height(60.dp),
                 enabled = true, // todo uiState.isBottomBarEnabled,
-                selected = childStack.active.instance,
+                selected = active,
                 onClick = root::openTab
             )
         },
-        floatingActionButton = { childStack.active.instance.Fab(Modifier) },
+        floatingActionButton = { active.Fab(Modifier) },
     ) { padding ->
         Children(
             stack = childStack,
@@ -57,6 +51,17 @@ fun NewNavigation(root: RootComponent, modifier: Modifier = Modifier) {
             it.instance.Content(Modifier.fillMaxSize())
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun NewTopAppBar(active: RootChild) {
+    CenterAlignedTopAppBar(
+        title = { active.Title(Modifier) },
+        navigationIcon = { active.NavigationIcon(iconButtonModifier) },
+        actions = { with(active) { Actions() } },
+        modifier = Modifier.shadow(3.dp)
+    )
 }
 
 private val tabs =

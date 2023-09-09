@@ -1,22 +1,27 @@
 package com.mindovercnc.linuxcnc.screen.programs.picker
 
-import cafe.adriel.voyager.core.model.StateScreenModel
+import com.arkivanov.decompose.ComponentContext
 import com.mindovercnc.data.linuxcnc.FileSystemRepository
 import com.mindovercnc.editor.EditorLoader
 import com.mindovercnc.linuxcnc.domain.BreadCrumbDataUseCase
 import com.mindovercnc.linuxcnc.domain.FileSystemDataUseCase
+import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import kotlinx.coroutines.flow.update
 import mu.KotlinLogging
 import okio.FileSystem
 import okio.Path
+import org.kodein.di.DI
+import org.kodein.di.instance
 
-class ProgramPickerScreenModel(
-    fileSystemRepository: FileSystemRepository,
-    private val fileSystem: FileSystem,
-    private val editorLoader: EditorLoader,
-    private val fileSystemDataUseCase: FileSystemDataUseCase,
-    private val breadCrumbDataUseCase: BreadCrumbDataUseCase
-) : StateScreenModel<ProgramPickerState>(ProgramPickerState()), ProgramPickerComponent {
+class ProgramPickerScreenModel(di: DI, componentContext: ComponentContext) :
+    BaseScreenModel<ProgramPickerState>(ProgramPickerState(), componentContext),
+    ProgramPickerComponent {
+
+    private val fileSystemRepository: FileSystemRepository by di.instance()
+    private val fileSystem: FileSystem by di.instance()
+    private val editorLoader: EditorLoader by di.instance()
+    private val fileSystemDataUseCase: FileSystemDataUseCase by di.instance()
+    private val breadCrumbDataUseCase: BreadCrumbDataUseCase by di.instance()
 
     private val logger = KotlinLogging.logger("ProgramsRootScreenModel")
 

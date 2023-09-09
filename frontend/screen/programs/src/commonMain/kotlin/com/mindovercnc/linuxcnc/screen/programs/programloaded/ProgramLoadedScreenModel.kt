@@ -21,25 +21,26 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import okio.Path
 import org.jetbrains.skia.Point
+import org.kodein.di.DI
+import org.kodein.di.instance
 import kotlin.math.min
 
-class ProgramLoadedScreenModel(
-    private val file: Path,
-    private val gCodeUseCase: GCodeUseCase,
-    offsetsUseCase: OffsetsUseCase,
-    positionUseCase: PositionUseCase,
-    private val activeCodesUseCase: ActiveCodesUseCase,
-    private val programsUseCase: ProgramsUseCase,
-    private val editorLoader: EditorLoader,
-    spindleUseCase: SpindleUseCase,
-    feedUseCase: FeedUseCase,
-    iniFileRepository: IniFileRepository,
-    private val manualToolChangeUseCase: ManualToolChangeUseCase,
-    ioDispatcher: IoDispatcher,
-    componentContext: ComponentContext
-) :
+class ProgramLoadedScreenModel(di: DI, componentContext: ComponentContext) :
     BaseScreenModel<ProgramLoadedState>(ProgramLoadedState(), componentContext),
     ProgramLoadedComponent {
+
+    private val file: Path by di.instance()
+    private val gCodeUseCase: GCodeUseCase by di.instance()
+    private val offsetsUseCase: OffsetsUseCase by di.instance()
+    private val positionUseCase: PositionUseCase by di.instance()
+    private val activeCodesUseCase: ActiveCodesUseCase by di.instance()
+    private val programsUseCase: ProgramsUseCase by di.instance()
+    private val editorLoader: EditorLoader by di.instance()
+    private val spindleUseCase: SpindleUseCase by di.instance()
+    private val feedUseCase: FeedUseCase by di.instance()
+    private val iniFileRepository: IniFileRepository by di.instance()
+    private val manualToolChangeUseCase: ManualToolChangeUseCase by di.instance()
+    private val ioDispatcher: IoDispatcher by di.instance()
 
     // how much free space to have around the drawing
     private val viewportPadding = 70 // px
@@ -173,9 +174,9 @@ class ProgramLoadedScreenModel(
             .launchIn(coroutineScope)
     }
 
-    override fun zoomOut() = setNewScale { it / 1.1f }
+    override fun zoomOut() = setNewScale { it - 0.25f }
 
-    override fun zoomIn() = setNewScale { it * 1.1f }
+    override fun zoomIn() = setNewScale { it + 0.25f }
 
     override fun zoomBy(factor: Float) = setNewScale { it * factor }
 

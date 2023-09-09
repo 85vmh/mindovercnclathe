@@ -2,10 +2,7 @@ package com.mindovercnc.linuxcnc.screen.programs.programloaded.ui
 
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -14,10 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.dp
-import com.mindovercnc.linuxcnc.format.formatMaxDecimals
-import com.mindovercnc.linuxcnc.screen.AppScreen
 import com.mindovercnc.linuxcnc.screen.programs.programloaded.ProgramLoadedComponent
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
+import com.mindovercnc.linuxcnc.widgets.ZoomControls
 import editor.EditorView
 
 @Composable
@@ -48,7 +44,11 @@ internal fun ProgramLoadedScreenUi(
                             }
                 )
                 ZoomControls(
-                    component,
+                    value = state.visualTurningState.scale,
+                    onZoomIn = component::zoomIn,
+                    onZoomOut = component::zoomOut,
+                    zoomInEnabled = state.visualTurningState.canZoomIn,
+                    zoomOutEnabled = state.visualTurningState.canZoomOut,
                     modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 8.dp)
                 )
             }
@@ -88,30 +88,6 @@ internal fun ProgramLoadedScreenUi(
                 modifier = Modifier.fillMaxWidth().height(80.dp),
                 onCodeClicked = component::onActiveCodeClicked
             )
-        }
-    }
-}
-
-@Composable
-private fun ZoomControls(component: ProgramLoadedComponent, modifier: Modifier = Modifier) {
-    val state by component.state.collectAsState()
-    Card(modifier = modifier) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            IconButton(modifier = AppScreen.iconButtonModifier, onClick = component::zoomOut) {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowDown,
-                    contentDescription = "",
-                )
-            }
-            Text("${state.visualTurningState.scale.toDouble().formatMaxDecimals(3)} x")
-            IconButton(modifier = AppScreen.iconButtonModifier, onClick = component::zoomIn) {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowUp,
-                    contentDescription = "",
-                )
-            }
         }
     }
 }

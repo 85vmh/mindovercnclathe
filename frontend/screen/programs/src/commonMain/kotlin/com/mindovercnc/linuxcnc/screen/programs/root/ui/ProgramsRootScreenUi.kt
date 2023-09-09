@@ -16,11 +16,11 @@ fun ProgramsRootScreenUi(component: ProgramsRootComponent, modifier: Modifier = 
 
     Children(childStack, modifier = modifier) {
         when (val child = it.instance) {
-            is ProgramsRootComponent.Child.Loaded -> {
-                ProgramLoadedScreenUi(child.component, Modifier.fillMaxSize())
-            }
             is ProgramsRootComponent.Child.Picker -> {
                 ProgramPickerScreenUi(child.component, Modifier.fillMaxSize())
+            }
+            is ProgramsRootComponent.Child.Loaded -> {
+                ProgramLoadedScreenUi(child.component, Modifier.fillMaxSize())
             }
         }
     }

@@ -37,16 +37,17 @@ class GCodeInterpreterRepositoryLocal(
 
         val process = pb.start()
 
-        println("Reading gcode from file $file")
-        println("START GCODE")
+        LOG.debug { "Reading gcode from file $file" }
+        LOG.debug { "START GCODE" }
         val commands =
             process.inputStream.reader().useLines {
                 it.map { line ->
-                    // println(line.colored(PrintColor.BLUE))
-                    parse(line)
-                }.toList()
+                        // println(line.colored(PrintColor.BLUE))
+                        parse(line)
+                    }
+                    .toList()
             }
-        println("END GCODE")
+        LOG.debug { "END GCODE" }
         return commands
     }
 

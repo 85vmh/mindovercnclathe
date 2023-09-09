@@ -7,9 +7,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.mindovercnc.linuxcnc.screen.tools.Tools
-import com.mindovercnc.linuxcnc.screen.tools.list.ToolsRootScreen
 
-object ToolsTab : AppTab<Tools>(com.mindovercnc.linuxcnc.screen.tools.list.ToolsRootScreen()) {
+object ToolsTab : AppTab<Tools>(com.mindovercnc.linuxcnc.screen.tools.list.ToolsListScreen()) {
 
     override val options: TabOptions
         @Composable

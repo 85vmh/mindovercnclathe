@@ -1,11 +1,12 @@
 package com.mindovercnc.linuxcnc.domain
 
+import com.mindovercnc.data.linuxcnc.model.G53AxisLimits
 import com.mindovercnc.linuxcnc.format.stripZeros
 import com.mindovercnc.linuxcnc.format.toRadians
 import com.mindovercnc.model.Axis
 import com.mindovercnc.model.Direction
-import com.mindovercnc.data.linuxcnc.model.G53AxisLimits
 import com.mindovercnc.model.codegen.CodegenPoint
+import mu.KotlinLogging
 import kotlin.math.abs
 import kotlin.math.tan
 
@@ -16,7 +17,7 @@ object ManualTurningHelper {
         feedDirection: Direction,
         limits: G53AxisLimits
     ): String {
-        // println("----G53 Axis Limits: $limits")
+        // LOG.debug { "----G53 Axis Limits: $limits" }
         val limit =
             when (axis) {
                 Axis.X ->
@@ -43,26 +44,36 @@ object ManualTurningHelper {
         angle: Double
     ): String {
         // println("----G53 Axis Limits: $limits")
-        val cornerPoint =
-            when (axis) {
-                Axis.X ->
-                    when (feedDirection) {
-                        Direction.Positive -> CodegenPoint(limits.xMaxLimit!! * 2, limits.zMinLimit!!)
-                        Direction.Negative -> CodegenPoint(limits.xMinLimit!! * 2, limits.zMaxLimit!!)
-                    }
-                Axis.Z ->
-                    when (feedDirection) {
-                        Direction.Positive -> CodegenPoint(limits.xMaxLimit!! * 2, limits.zMaxLimit!!)
-                        Direction.Negative -> CodegenPoint(limits.xMinLimit!! * 2, limits.zMinLimit!!)
-                    }
-            }
+        val cornerPoint = createCodegenPoint(axis, feedDirection, limits)
 
-        println("---Start point: $startPoint")
-        println("---Corner point: $cornerPoint")
+        LOG.debug { "---Start point: $startPoint" }
+        LOG.debug { "---Corner point: $cornerPoint" }
         val destPoint = computeDestinationPoint(startPoint, cornerPoint, angle)
-        println("---End point: $destPoint")
+        LOG.debug { "---End point: $destPoint" }
         return "G53 G1 X${destPoint.x.stripZeros(4)} Z${destPoint.z.stripZeros(4)}"
     }
+
+    private fun createCodegenPoint(axis: Axis, feedDirection: Direction, limits: G53AxisLimits) =
+        when (axis) {
+            Axis.X ->
+                when (feedDirection) {
+                    Direction.Positive -> {
+                        CodegenPoint(limits.xMaxLimit!! * 2, limits.zMinLimit!!)
+                    }
+                    Direction.Negative -> {
+                        CodegenPoint(limits.xMinLimit!! * 2, limits.zMaxLimit!!)
+                    }
+                }
+            Axis.Z ->
+                when (feedDirection) {
+                    Direction.Positive -> {
+                        CodegenPoint(limits.xMaxLimit!! * 2, limits.zMaxLimit!!)
+                    }
+                    Direction.Negative -> {
+                        CodegenPoint(limits.xMinLimit!! * 2, limits.zMinLimit!!)
+                    }
+                }
+        }
 
     private fun computeDestinationPoint(
         startPoint: CodegenPoint,
@@ -85,4 +96,6 @@ object ManualTurningHelper {
             CodegenPoint(cornerPoint.x, startPoint.z + (adjacent * sign))
         }
     }
+
+    private val LOG = KotlinLogging.logger("ManualTurningHelper")
 }

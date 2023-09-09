@@ -1,5 +1,6 @@
 package com.mindovercnc.linuxcnc.screen.root.child
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -39,5 +40,11 @@ class Tools(val component: ToolsRootComponent) : RootChild(RootComponent.Config.
     override fun Fab(modifier: Modifier) {
         val childStack by component.childStack.subscribeAsState()
         childStack.active.instance.Fab(component, modifier)
+    }
+
+    @Composable
+    override fun RowScope.Actions() {
+        val childStack by component.childStack.subscribeAsState()
+        with(childStack.active.instance) { Actions(component) }
     }
 }

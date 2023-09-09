@@ -16,7 +16,7 @@ fun ProgramsRootFab(component: ProgramsRootComponent, modifier: Modifier = Modif
             /* no-op */
         }
         is ProgramsRootComponent.Child.Picker -> {
-            ProgramPickerFab(child.component, modifier)
+            ProgramPickerFab(component, child.component, modifier)
         }
     }
 }

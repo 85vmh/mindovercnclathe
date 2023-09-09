@@ -9,22 +9,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.LocalNavigator
 import com.mindovercnc.linuxcnc.screen.programs.picker.ProgramPickerComponent
-import com.mindovercnc.linuxcnc.screen.programs.programloaded.ProgramLoadedScreen
+import com.mindovercnc.linuxcnc.screen.programs.root.ProgramsRootComponent
 
 @Composable
-fun ProgramPickerFab(component: ProgramPickerComponent, modifier: Modifier = Modifier) {
+fun ProgramPickerFab(
+    rootComponent: ProgramsRootComponent,
+    component: ProgramPickerComponent,
+    modifier: Modifier = Modifier
+) {
     val state by component.state.collectAsState()
-    val navigator = LocalNavigator.current
 
     state.editor?.let { editor ->
         ExtendedFloatingActionButton(
             text = { Text("Load Program") },
-            onClick = {
-                navigator?.push(ProgramLoadedScreen(editor.file))
-                // TODO: add decompose navigation
-            },
+            onClick = { rootComponent.openProgram(editor.file) },
             icon = {
                 Icon(
                     Icons.Default.ExitToApp,

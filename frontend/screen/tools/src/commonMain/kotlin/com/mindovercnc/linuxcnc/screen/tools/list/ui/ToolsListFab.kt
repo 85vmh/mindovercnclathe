@@ -7,36 +7,28 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.LocalNavigator
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.CuttingInsertsToolsTab
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.HoldersToolsTab
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.LatheToolsTab
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.ToolsTabItem
-import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.AddEditCuttingInsertScreen
-import com.mindovercnc.linuxcnc.screen.tools.add.lathetool.AddEditLatheToolScreen
-import com.mindovercnc.linuxcnc.screen.tools.add.toolholder.AddEditToolHolderScreen
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
 
 @Composable
 internal fun ToolsListFab(
     currentTab: ToolsTabItem,
-    rootComponent: ToolsRootComponent?,
+    rootComponent: ToolsRootComponent,
     modifier: Modifier = Modifier
 ) {
-    val navigator = LocalNavigator.current
     val onClick: () -> Unit =
         when (currentTab) {
             is HoldersToolsTab -> {
-                { navigator?.push(AddEditToolHolderScreen()) ?: rootComponent?.addCuttingInsert() }
+                rootComponent::addCuttingInsert
             }
             is LatheToolsTab -> {
-                { navigator?.push(AddEditLatheToolScreen()) ?: rootComponent?.addLatheTool() }
+                rootComponent::addLatheTool
             }
             is CuttingInsertsToolsTab -> {
-                {
-                    navigator?.push(AddEditCuttingInsertScreen())
-                        ?: rootComponent?.addCuttingInsert()
-                }
+                rootComponent::addCuttingInsert
             }
         }
     val title = currentTab.fabTitle()

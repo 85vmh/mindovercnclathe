@@ -1,12 +1,13 @@
 package com.mindovercnc.linuxcnc.domain
 
+import com.mindovercnc.data.linuxcnc.FileSystemRepository
 import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.model.codegen.ConversationalProgram
 import com.mindovercnc.model.codegen.operation.TurningOperation
-import com.mindovercnc.data.linuxcnc.FileSystemRepository
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import mu.KotlinLogging
 
 @Deprecated("This is a deprecated class")
 class ConversationalUseCase(
@@ -26,9 +27,11 @@ class ConversationalUseCase(
             )
 
         val programLines = convProgram.generateGCode()
-        programLines.forEach { println(it) }
-        scope.launch {
-            fileSystemRepository.writeProgramLines(programLines, programName)
-        }
+        programLines.forEach { LOG.debug { it } }
+        scope.launch { fileSystemRepository.writeProgramLines(programLines, programName) }
+    }
+
+    companion object {
+        private val LOG = KotlinLogging.logger("ConversationalUseCase")
     }
 }
