@@ -29,6 +29,7 @@ kotlin {
 
                 // compose
                 //                implementation(compose.uiTooling)
+                implementation(compose.material)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
                 @OptIn(ExperimentalComposeLibrary::class)

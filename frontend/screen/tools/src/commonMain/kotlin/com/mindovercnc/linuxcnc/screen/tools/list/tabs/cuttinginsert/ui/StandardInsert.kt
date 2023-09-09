@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.add.AddEditCuttingInsertState
+import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.AddEditCuttingInsertState
 import com.mindovercnc.model.InsertClearance
 import com.mindovercnc.model.InsertShape
 import com.mindovercnc.model.MountingAndChipBreaker

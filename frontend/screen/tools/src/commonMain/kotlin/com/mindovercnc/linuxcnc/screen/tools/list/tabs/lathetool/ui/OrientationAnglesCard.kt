@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.listitem.ValueSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.add.AddEditLatheToolState
+import com.mindovercnc.linuxcnc.screen.tools.add.lathetool.AddEditLatheToolState
 import com.mindovercnc.linuxcnc.widgets.cards.CardWithTitle
 import com.mindovercnc.model.TipOrientation
 

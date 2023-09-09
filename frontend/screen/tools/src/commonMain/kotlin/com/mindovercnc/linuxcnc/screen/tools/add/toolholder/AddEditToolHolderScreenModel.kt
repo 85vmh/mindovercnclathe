@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.add
+package com.mindovercnc.linuxcnc.screen.tools.add.toolholder
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope

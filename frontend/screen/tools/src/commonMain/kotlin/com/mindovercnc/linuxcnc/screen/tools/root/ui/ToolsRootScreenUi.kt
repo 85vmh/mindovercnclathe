@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.ui.AddEditCuttingInsertScreenUi
+import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.ui.AddEditCuttingInsertScreenUi
+import com.mindovercnc.linuxcnc.screen.tools.add.lathetool.ui.AddEditLatheToolScreenUi
+import com.mindovercnc.linuxcnc.screen.tools.add.toolholder.ui.AddEditToolHolderScreenUi
 import com.mindovercnc.linuxcnc.screen.tools.list.ui.ToolsListScreenUi
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
 import com.mindovercnc.linuxcnc.screen.tools.root.child.ToolsChild
@@ -21,10 +23,10 @@ fun ToolsRootScreenUi(
                 AddEditCuttingInsertScreenUi(child.component, childModifier)
             }
             is ToolsChild.AddEditLatheTool -> {
-                // TODO: AddEditLatheToolContent()
+                AddEditLatheToolScreenUi(child.component, childModifier)
             }
             is ToolsChild.AddEditToolHolder -> {
-                // TODO:
+                AddEditToolHolderScreenUi(child.component, childModifier)
             }
             is ToolsChild.List -> {
                 ToolsListScreenUi(component, child.component, childModifier)

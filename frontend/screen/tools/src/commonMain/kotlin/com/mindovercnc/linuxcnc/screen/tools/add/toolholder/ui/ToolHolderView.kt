@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder
+package com.mindovercnc.linuxcnc.screen.tools.add.toolholder.ui
 
 
 import androidx.compose.foundation.Image

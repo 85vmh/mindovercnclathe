@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.add
+package com.mindovercnc.linuxcnc.screen.tools.add.toolholder.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -12,9 +12,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,7 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.listitem.ValueSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.ToolHolderView
+import com.mindovercnc.linuxcnc.screen.tools.add.toolholder.AddEditToolHolderComponent
+import com.mindovercnc.linuxcnc.screen.tools.add.toolholder.AddEditToolHolderState
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.ui.LatheToolView
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolHolderType
@@ -30,7 +29,22 @@ import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import scroll.draggableScroll
 
 @Composable
-fun AddEditHolderContent(
+fun AddEditToolHolderScreenUi(
+    component: AddEditToolHolderComponent,
+    modifier: Modifier = Modifier
+) {
+    val state by component.state.collectAsState()
+    AddEditToolHolderScreenUi(
+        state = state,
+        onHolderNumber = component::setHolderNumber,
+        onHolderType = component::setHolderType,
+        onLatheTool = component::setLatheTool,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun AddEditToolHolderScreenUi(
     state: AddEditToolHolderState,
     onHolderNumber: (Int) -> Unit,
     onHolderType: (ToolHolderType) -> Unit,

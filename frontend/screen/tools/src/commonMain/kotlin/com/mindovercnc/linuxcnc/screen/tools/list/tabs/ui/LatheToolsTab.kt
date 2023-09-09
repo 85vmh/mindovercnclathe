@@ -24,7 +24,7 @@ import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.linuxcnc.listitem.LabelWithValue
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.data.LatheToolColumns
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.LatheToolsState
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.add.AddEditLatheToolScreen
+import com.mindovercnc.linuxcnc.screen.tools.add.lathetool.AddEditLatheToolScreen
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.ui.DirectionItem
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.ui.TipOrientationUi
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert

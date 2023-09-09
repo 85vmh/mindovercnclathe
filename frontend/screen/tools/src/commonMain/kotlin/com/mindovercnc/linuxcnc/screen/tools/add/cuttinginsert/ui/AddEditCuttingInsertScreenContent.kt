@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.ui
+package com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -13,8 +13,10 @@ import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.listitem.DropDownSetting
 import com.mindovercnc.linuxcnc.listitem.ValueSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.add.AddEditCuttingInsertComponent
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.add.AddEditCuttingInsertState
+import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.AddEditCuttingInsertComponent
+import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.AddEditCuttingInsertState
+import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.ui.FeedsAndSpeedsTable
+import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.ui.StandardInsert
 import com.mindovercnc.linuxcnc.tools.model.MadeOf
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 

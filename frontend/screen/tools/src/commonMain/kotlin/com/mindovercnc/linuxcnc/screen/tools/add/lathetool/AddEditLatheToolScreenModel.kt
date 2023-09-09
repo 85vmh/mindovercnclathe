@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.add
+package com.mindovercnc.linuxcnc.screen.tools.add.lathetool
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope

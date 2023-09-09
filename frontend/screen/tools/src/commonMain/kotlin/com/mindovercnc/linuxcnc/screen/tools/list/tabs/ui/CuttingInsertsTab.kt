@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.CuttingInsertState
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.add.AddEditCuttingInsertScreen
+import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.AddEditCuttingInsertScreen
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.data.CuttingInsertsColumns
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider

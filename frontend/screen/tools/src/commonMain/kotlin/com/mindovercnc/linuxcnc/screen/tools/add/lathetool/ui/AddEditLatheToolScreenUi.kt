@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.ui
+package com.mindovercnc.linuxcnc.screen.tools.add.lathetool.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,6 +10,8 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,10 +19,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.listitem.ValueSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.add.AddEditLatheToolState
-import com.mindovercnc.linuxcnc.widgets.VerticalDivider
+import com.mindovercnc.linuxcnc.screen.tools.add.lathetool.AddEditLatheToolComponent
+import com.mindovercnc.linuxcnc.screen.tools.add.lathetool.AddEditLatheToolState
+import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.ui.DropDownInserts
+import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.ui.OrientationAnglesCard
+import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.ui.SpindleDirection
+import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.ui.ToolTypeView
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.ToolType
+import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import com.mindovercnc.model.SpindleDirection
 import com.mindovercnc.model.TipOrientation
 import scroll.draggableScroll
@@ -28,7 +35,31 @@ import scroll.draggableScroll
 private val inputModifier = Modifier.width(200.dp)
 
 @Composable
-fun AddEditLatheToolContent(
+fun AddEditLatheToolScreenUi(component: AddEditLatheToolComponent, modifier: Modifier = Modifier) {
+    val state by component.state.collectAsState()
+
+    AddEditLatheToolScreenUi(
+        state = state,
+        onToolId = component::setToolId,
+        onToolType = component::setToolType,
+        onCuttingInsert = component::setCuttingInsert,
+        onToolOrientation = component::setToolOrientation,
+        onToolDiameter = component::setToolDiameter,
+        onBackAngle = component::setBackAngle,
+        onFrontAngle = component::setFrontAngle,
+        onSpindleDirection = component::setSpindleDirection,
+        onMinBoreDiameter = component::setMinBoreDiameter,
+        onMaxZDepth = component::setMaxZDepth,
+        onMaxXDepth = component::setMaxXDepth,
+        onBladeWidth = component::setBladeWidth,
+        onMinThreadPitch = component::setMinThreadPitch,
+        onMaxThreadPitch = component::setMaxThreadPitch,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun AddEditLatheToolScreenUi(
     state: AddEditLatheToolState,
     onToolId: (Int) -> Unit,
     onToolType: (ToolType) -> Unit,
@@ -46,7 +77,7 @@ fun AddEditLatheToolContent(
     onMaxThreadPitch: (Double) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = modifier.fillMaxSize()) {
+    Row(modifier = modifier) {
         StartContent(state, onToolType, modifier = Modifier.weight(2f).widthIn(min = 300.dp))
 
         VerticalDivider()

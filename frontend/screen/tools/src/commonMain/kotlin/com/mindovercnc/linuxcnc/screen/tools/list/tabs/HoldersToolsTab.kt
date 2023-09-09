@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.HoldersToolsComponent
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.add.AddEditHolderScreen
+import com.mindovercnc.linuxcnc.screen.tools.add.toolholder.AddEditToolHolderScreen
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.ui.ToolHoldersContent
 import com.mindovercnc.linuxcnc.screen.tools.list.ui.ToolHolderDeleteDialog
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
@@ -29,7 +29,7 @@ class HoldersToolsTab(private val component: HoldersToolsComponent) :
             onLoad = component::loadToolHolder,
             onMount = component::onMountTool,
             onEdit = { toolHolder ->
-                navigator?.push(AddEditHolderScreen(toolHolder))
+                navigator?.push(AddEditToolHolderScreen(toolHolder))
                     ?: rootComponent.editToolHolder(toolHolder)
             },
             modifier = modifier

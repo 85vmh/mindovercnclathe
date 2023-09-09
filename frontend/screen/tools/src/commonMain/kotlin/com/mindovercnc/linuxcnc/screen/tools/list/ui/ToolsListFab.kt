@@ -12,9 +12,9 @@ import com.mindovercnc.linuxcnc.screen.tools.list.tabs.CuttingInsertsToolsTab
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.HoldersToolsTab
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.LatheToolsTab
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.ToolsTabItem
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.add.AddEditCuttingInsertScreen
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.add.AddEditLatheToolScreen
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.add.AddEditHolderScreen
+import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.AddEditCuttingInsertScreen
+import com.mindovercnc.linuxcnc.screen.tools.add.lathetool.AddEditLatheToolScreen
+import com.mindovercnc.linuxcnc.screen.tools.add.toolholder.AddEditToolHolderScreen
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
 
 @Composable
@@ -27,7 +27,7 @@ internal fun ToolsListFab(
     val onClick: () -> Unit =
         when (currentTab) {
             is HoldersToolsTab -> {
-                { navigator?.push(AddEditHolderScreen()) ?: rootComponent?.addCuttingInsert() }
+                { navigator?.push(AddEditToolHolderScreen()) ?: rootComponent?.addCuttingInsert() }
             }
             is LatheToolsTab -> {
                 { navigator?.push(AddEditLatheToolScreen()) ?: rootComponent?.addLatheTool() }

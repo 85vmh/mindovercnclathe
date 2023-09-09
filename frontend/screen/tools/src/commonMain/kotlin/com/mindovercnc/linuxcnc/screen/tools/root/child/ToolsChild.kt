@@ -10,9 +10,9 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.mindovercnc.linuxcnc.screen.TitledChild
 import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.add.AddEditCuttingInsertComponent
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.add.AddEditLatheToolComponent
-import com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.add.AddEditToolHolderComponent
+import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.AddEditCuttingInsertComponent
+import com.mindovercnc.linuxcnc.screen.tools.add.lathetool.AddEditLatheToolComponent
+import com.mindovercnc.linuxcnc.screen.tools.add.toolholder.AddEditToolHolderComponent
 import com.mindovercnc.linuxcnc.screen.tools.list.ui.ToolTabsView
 import com.mindovercnc.linuxcnc.screen.tools.list.ui.ToolsListFab
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
