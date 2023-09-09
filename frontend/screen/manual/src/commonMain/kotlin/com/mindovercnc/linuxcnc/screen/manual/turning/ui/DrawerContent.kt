@@ -74,7 +74,7 @@ fun Cycle(op: SimpleCycle, modifier: Modifier = Modifier, onClick: () -> Unit) {
                                     color = MaterialTheme.colorScheme.background,
                                     shape = RoundedCornerShape(6.dp),
                                 ),
-                        contentDescription = "",
+                        contentDescription = null,
                         bitmap = resource(imgName).rememberImageBitmap().orEmpty()
                     )
                 }
@@ -86,7 +86,7 @@ fun Cycle(op: SimpleCycle, modifier: Modifier = Modifier, onClick: () -> Unit) {
                                     color = Color.Transparent,
                                     shape = RoundedCornerShape(6.dp),
                                 ),
-                        contentDescription = "",
+                        contentDescription = null,
                         imageVector =
                             resource(imgName).rememberImageVector(LocalDensity.current).orEmpty()
                     )

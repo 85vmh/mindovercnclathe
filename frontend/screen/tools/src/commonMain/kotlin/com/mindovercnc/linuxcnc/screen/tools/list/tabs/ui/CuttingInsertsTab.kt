@@ -156,11 +156,11 @@ private fun CuttingInsertView(
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             IconButton(modifier = Modifier, onClick = { onEditClicked.invoke(item) }) {
-                Icon(Icons.Default.Edit, contentDescription = "")
+                Icon(Icons.Default.Edit, contentDescription = null)
             }
             VerticalDivider()
             IconButton(modifier = Modifier, onClick = { onDeleteClicked.invoke(item) }) {
-                Icon(Icons.Default.Delete, contentDescription = "")
+                Icon(Icons.Default.Delete, contentDescription = null)
             }
         }
     }

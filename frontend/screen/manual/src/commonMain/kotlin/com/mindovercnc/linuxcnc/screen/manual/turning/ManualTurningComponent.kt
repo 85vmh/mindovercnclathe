@@ -4,6 +4,9 @@ import com.mindovercnc.linuxcnc.numpad.data.InputType
 import com.mindovercnc.linuxcnc.screen.AppScreenComponent
 
 interface ManualTurningComponent : AppScreenComponent<ManualTurningState> {
+    fun setWcsSheetVisible(visible: Boolean)
+    fun setSimpleCyclesDrawerOpen(open: Boolean)
+
     fun setTaperTurningActive(active: Boolean)
     fun setVirtualLimitsActive(active: Boolean)
     fun setActiveWcs(wcs: String)

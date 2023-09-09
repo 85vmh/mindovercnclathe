@@ -27,7 +27,7 @@ fun ProgramPickerFab(
             icon = {
                 Icon(
                     Icons.Default.ExitToApp,
-                    contentDescription = "",
+                    contentDescription = null,
                 )
             },
             modifier = modifier

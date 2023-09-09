@@ -52,7 +52,7 @@ fun ToolTypeView(
                 modifier = Modifier.fillMaxWidth().aspectRatio(1f),
                 bitmap = resource(imageResource).rememberImageBitmap().orEmpty(),
                 contentScale = ContentScale.FillBounds,
-                contentDescription = ""
+                contentDescription = null
             )
             Text(
                 modifier = Modifier.padding(4.dp),

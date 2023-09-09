@@ -65,10 +65,10 @@ private fun RowScope.TabNavigationItem(
                         }
                     }
                 ) {
-                    Icon(painter = tab.options.icon!!, contentDescription = "", tint = tabColor)
+                    Icon(painter = tab.options.icon!!, contentDescription = null, tint = tabColor)
                 }
             } else {
-                Icon(painter = tab.options.icon!!, contentDescription = "", tint = tabColor)
+                Icon(painter = tab.options.icon!!, contentDescription = null, tint = tabColor)
             }
         },
     )
@@ -94,11 +94,11 @@ private fun RowScope.TabNavigationItem(
     //                            }
     //                        }
     //                    ) {
-    //                        Icon(painter = tab.options.icon!!, contentDescription = "", tint =
+    //                        Icon(painter = tab.options.icon!!, contentDescription = null, tint =
     // tabColor)
     //                    }
     //                } else {
-    //                    Icon(painter = tab.options.icon!!, contentDescription = "", tint =
+    //                    Icon(painter = tab.options.icon!!, contentDescription = null, tint =
     // tabColor)
     //                }
     //            },

@@ -12,12 +12,13 @@ import com.mindovercnc.linuxcnc.screen.manual.simplecycles.SimpleCyclesComponent
 import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningComponent
 import com.mindovercnc.linuxcnc.screen.manual.turningsettings.TurningSettingsComponent
 import com.mindovercnc.linuxcnc.screen.manual.virtuallimits.VirtualLimitsComponent
+import com.mindovercnc.model.SimpleCycle
 
 interface ManualRootComponent {
     val childStack: Value<ChildStack<*, Child>>
 
     fun openVirtualLimits()
-    fun openSimpleCycles()
+    fun openSimpleCycles(simpleCycle: SimpleCycle)
     fun openTurningSettings()
 
     fun navigateUp()
@@ -54,7 +55,7 @@ interface ManualRootComponent {
     sealed interface Config : Parcelable {
         @Parcelize data object Turning : Config
         @Parcelize data object VirtualLimits : Config
-        @Parcelize data object SimpleCycles : Config
+        @Parcelize data class SimpleCycles(val simpleCycle: SimpleCycle) : Config
         @Parcelize data object TurningSettings : Config
     }
 }

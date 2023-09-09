@@ -27,7 +27,7 @@ class VirtualLimitsScreen : Manual("Virtual Limits") {
         ) {
             Icon(
                 imageVector = Icons.Default.Check,
-                contentDescription = "",
+                contentDescription = null,
             )
         }
     }

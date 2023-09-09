@@ -2,52 +2,24 @@ package com.mindovercnc.linuxcnc.screen.manual.turning.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.LocalNavigator
 import com.mindovercnc.linuxcnc.numpad.data.InputType
 import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent
-import com.mindovercnc.linuxcnc.screen.manual.simplecycles.SimpleCyclesScreen
 import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningComponent
-import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningState
 import com.mindovercnc.linuxcnc.screen.manual.turning.ui.axis.AxisCoordinates
-import com.mindovercnc.linuxcnc.screen.manual.turningsettings.TurningSettingsScreen
-import com.mindovercnc.linuxcnc.screen.manual.virtuallimits.VirtualLimitsScreen
 import com.mindovercnc.linuxcnc.widgets.SimpleCycleStatusUi
 
 @Composable
-fun ManualTurningContent(
+fun ManualTurningHeader(
     rootComponent: ManualRootComponent,
     component: ManualTurningComponent,
-    state: ManualTurningState,
     modifier: Modifier = Modifier
 ) {
-
-    Column(modifier = modifier) {
-        ManualTurningHeader(
-            rootComponent = rootComponent,
-            component = component,
-            state = state,
-            modifier = Modifier.fillMaxWidth().weight(1f)
-        )
-        ManualTurningFooter(
-            rootComponent,
-            component,
-            state,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
-    }
-}
-
-@Composable
-private fun ManualTurningHeader(
-    rootComponent: ManualRootComponent,
-    component: ManualTurningComponent,
-    state: ManualTurningState,
-    modifier: Modifier = Modifier
-) {
-    val navigator = LocalNavigator.current
+    val state by component.state.collectAsState()
     Row(modifier = modifier) {
         Column(
             modifier = Modifier.weight(2f),
@@ -77,20 +49,14 @@ private fun ManualTurningHeader(
             state.spindleUiModel?.let {
                 SpindleStatusView(
                     uiModel = it,
-                    onClick = {
-                        navigator?.push(TurningSettingsScreen())
-                            ?: rootComponent.openTurningSettings()
-                    },
+                    onClick = { rootComponent.openTurningSettings() },
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
                 )
             }
             state.feedUiModel?.let {
                 FeedStatusCard(
                     uiModel = it,
-                    onClick = {
-                        navigator?.push(TurningSettingsScreen())
-                            ?: rootComponent.openTurningSettings()
-                    },
+                    onClick = { rootComponent.openTurningSettings() },
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
                 )
             }
@@ -100,9 +66,7 @@ private fun ManualTurningHeader(
                 VirtualLimitsStatusView(
                     virtualLimits = it,
                     modifier = Modifier.fillMaxWidth().padding(8.dp),
-                    onClick = {
-                        navigator?.push(VirtualLimitsScreen()) ?: rootComponent.openVirtualLimits()
-                    }
+                    onClick = { rootComponent.openVirtualLimits() }
                 )
             }
             state.simpleCycleUiModel?.let {
@@ -110,10 +74,7 @@ private fun ManualTurningHeader(
                     SimpleCycleStatusUi(
                         simpleCycleParameters = this,
                         modifier = Modifier.fillMaxWidth().padding(8.dp),
-                        onClick = {
-                            navigator?.push(SimpleCyclesScreen(simpleCycle))
-                                ?: rootComponent.openSimpleCycles()
-                        }
+                        onClick = { rootComponent.openSimpleCycles(simpleCycle) }
                     )
                 }
             }

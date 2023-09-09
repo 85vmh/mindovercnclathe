@@ -13,9 +13,8 @@ import com.mindovercnc.linuxcnc.screen.manual.turningsettings.TurningSettingsCom
 import com.mindovercnc.linuxcnc.screen.manual.turningsettings.TurningSettingsScreenModel
 import com.mindovercnc.linuxcnc.screen.manual.virtuallimits.VirtualLimitsComponent
 import com.mindovercnc.linuxcnc.screen.manual.virtuallimits.VirtualLimitsScreenModel
-import org.kodein.di.DI
-import org.kodein.di.direct
-import org.kodein.di.instance
+import com.mindovercnc.model.SimpleCycle
+import org.kodein.di.*
 
 class ManualRootScreenModel(
     private val di: DI,
@@ -37,8 +36,8 @@ class ManualRootScreenModel(
         navigation.push(Config.VirtualLimits)
     }
 
-    override fun openSimpleCycles() {
-        navigation.push(Config.SimpleCycles)
+    override fun openSimpleCycles(simpleCycle: SimpleCycle) {
+        navigation.push(Config.SimpleCycles(simpleCycle))
     }
 
     override fun openTurningSettings() {
@@ -49,13 +48,11 @@ class ManualRootScreenModel(
         navigation.pop()
     }
 
-    private fun createChild(
-        config: Config,
-        @Suppress("UNUSED_PARAMETER") componentContext: ComponentContext
-    ): Child {
+    private fun createChild(config: Config, componentContext: ComponentContext): Child {
         return when (config) {
             Config.Turning -> Child.Turning(manualTurningComponent())
-            Config.SimpleCycles -> Child.SimpleCycles(simpleCyclesComponent())
+            is Config.SimpleCycles ->
+                Child.SimpleCycles(simpleCyclesComponent(config.simpleCycle, componentContext))
             Config.VirtualLimits -> Child.VirtualLimits(virtualLimitsComponent())
             Config.TurningSettings -> Child.TurningSettings(turningSettingsComponent())
         }
@@ -65,8 +62,12 @@ class ManualRootScreenModel(
         return di.direct.instance<ManualTurningScreenModel>()
     }
 
-    private fun simpleCyclesComponent(): SimpleCyclesComponent {
-        return di.direct.instance<SimpleCyclesScreenModel>()
+    private fun simpleCyclesComponent(
+        simpleCycle: SimpleCycle,
+        componentContext: ComponentContext
+    ): SimpleCyclesComponent {
+        val subDI = subDI(di) { bindProvider { simpleCycle } }
+        return SimpleCyclesScreenModel(subDI, componentContext)
     }
 
     private fun virtualLimitsComponent(): VirtualLimitsComponent {

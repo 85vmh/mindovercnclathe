@@ -184,7 +184,7 @@ private fun FeedsAndSpeedsItemView(
                 onClick = {
                     onEditClicked.invoke(item)
                 }) {
-                Icon(Icons.Default.Edit, contentDescription = "")
+                Icon(Icons.Default.Edit, contentDescription = null)
             }
             VerticalDivider()
             IconButton(
@@ -192,7 +192,7 @@ private fun FeedsAndSpeedsItemView(
                 onClick = {
                     onDeleteClicked.invoke(item)
                 }) {
-                Icon(Icons.Default.Delete, contentDescription = "")
+                Icon(Icons.Default.Delete, contentDescription = null)
             }
         }
     }

@@ -52,7 +52,7 @@ fun ZoomControls(
             ) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowDown,
-                    contentDescription = "",
+                    contentDescription = null,
                 )
             }
 
@@ -66,7 +66,7 @@ fun ZoomControls(
             ) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowUp,
-                    contentDescription = "",
+                    contentDescription = null,
                 )
             }
         }

@@ -25,7 +25,7 @@ fun RowScope.AddEditItemActions(
     ) {
         Icon(
             imageVector = Icons.Default.Check,
-            contentDescription = "",
+            contentDescription = null,
         )
     }
 }

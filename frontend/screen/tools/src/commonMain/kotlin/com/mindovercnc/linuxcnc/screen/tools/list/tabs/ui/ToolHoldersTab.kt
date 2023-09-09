@@ -156,7 +156,7 @@ private fun ToolHolderView(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 IconButton(modifier = Modifier, onClick = { onEditClicked.invoke(item) }) {
-                    Icon(Icons.Default.Edit, contentDescription = "")
+                    Icon(Icons.Default.Edit, contentDescription = null)
                 }
                 VerticalDivider()
                 IconButton(
@@ -164,7 +164,7 @@ private fun ToolHolderView(
                     enabled = isCurrent.not(),
                     onClick = { onDeleteClicked.invoke(item) }
                 ) {
-                    Icon(Icons.Default.Delete, contentDescription = "")
+                    Icon(Icons.Default.Delete, contentDescription = null)
                 }
                 VerticalDivider()
                 IconButton(
@@ -172,7 +172,7 @@ private fun ToolHolderView(
                     enabled = isCurrent.not(),
                     onClick = { onLoadClicked.invoke(item) }
                 ) {
-                    Icon(Icons.Default.ExitToApp, contentDescription = "")
+                    Icon(Icons.Default.ExitToApp, contentDescription = null)
                 }
             }
         }

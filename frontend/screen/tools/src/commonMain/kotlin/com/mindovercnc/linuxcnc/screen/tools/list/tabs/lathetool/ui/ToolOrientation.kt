@@ -100,7 +100,7 @@ fun TipOrientationUi(
         Icon(
             imageVector = resource(fileName).rememberImageVector(LocalDensity.current).orEmpty(),
             tint = selectedTint,
-            contentDescription = "",
+            contentDescription = null,
         )
     }
 }

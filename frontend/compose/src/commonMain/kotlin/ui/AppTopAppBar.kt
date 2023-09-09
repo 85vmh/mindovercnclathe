@@ -33,12 +33,12 @@ fun AppTopAppBar(
             when {
                 currentScreen.drawerEnabled -> {
                     IconButton(modifier = iconButtonModifier, onClick = onOpenDrawer) {
-                        Icon(Icons.Default.Menu, contentDescription = "")
+                        Icon(Icons.Default.Menu, contentDescription = null)
                     }
                 }
                 navigator.canPop -> {
                     IconButton(modifier = iconButtonModifier, onClick = { navigator.pop() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "")
+                        Icon(Icons.Default.ArrowBack, contentDescription = null)
                     }
                 }
             }

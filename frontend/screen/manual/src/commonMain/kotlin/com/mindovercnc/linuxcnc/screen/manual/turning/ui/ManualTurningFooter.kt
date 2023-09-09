@@ -8,26 +8,22 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.mindovercnc.linuxcnc.numpad.data.InputType
-import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent
 import com.mindovercnc.linuxcnc.screen.manual.tapersettings.TaperSettingsScreen
 import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningComponent
-import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningState
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 
 @Composable
-fun ManualTurningFooter(
-    rootComponent: ManualRootComponent,
-    component: ManualTurningComponent,
-    state: ManualTurningState,
-    modifier: Modifier = Modifier
-) {
+fun ManualTurningFooter(component: ManualTurningComponent, modifier: Modifier = Modifier) {
     val navigator = LocalNavigator.current
+    val state by component.state.collectAsState()
     Row(modifier = modifier, horizontalArrangement = Arrangement.Start) {
         Button(
             onClick = {

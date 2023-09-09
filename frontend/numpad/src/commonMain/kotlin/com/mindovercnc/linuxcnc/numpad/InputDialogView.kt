@@ -42,7 +42,7 @@ fun InputDialogView(numPadState: NumPadState, onCancel: () -> Unit, onSubmit: (D
                             modifier = Modifier.size(48.dp),
                             onClick = { numPadState.clearAll() }
                         ) {
-                            Icon(Icons.Default.Delete, contentDescription = "")
+                            Icon(Icons.Default.Delete, contentDescription = null)
                         }
                     },
                     trailingIcon = {
@@ -50,7 +50,7 @@ fun InputDialogView(numPadState: NumPadState, onCancel: () -> Unit, onSubmit: (D
                             modifier = Modifier.size(48.dp),
                             onClick = { numPadState.deleteChar() }
                         ) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "")
+                            Icon(Icons.Default.ArrowBack, contentDescription = null)
                         }
                     }
                 )

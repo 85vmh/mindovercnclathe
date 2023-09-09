@@ -20,7 +20,7 @@ fun ConversationalFab(
         icon = {
             Icon(
                 Icons.Default.Add,
-                contentDescription = "",
+                contentDescription = null,
             )
         },
         expanded = expanded,

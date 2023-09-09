@@ -46,7 +46,7 @@ fun TurningParametersView(
                             color = Color.Transparent,
                             shape = RoundedCornerShape(6.dp),
                         ),
-                contentDescription = "",
+                contentDescription = null,
                 imageVector =
                     resource("od_turn_details.xml")
                         .rememberImageVector(LocalDensity.current)

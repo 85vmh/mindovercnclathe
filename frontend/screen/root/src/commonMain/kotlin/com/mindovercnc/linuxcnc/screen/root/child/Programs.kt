@@ -21,7 +21,7 @@ class Programs(val component: ProgramsRootComponent) : RootChild(RootComponent.C
         val childStack by component.childStack.subscribeAsState()
         if (childStack.items.size > 1) {
             IconButton(modifier = modifier, onClick = component::navigateUp) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "")
+                Icon(Icons.Default.ArrowBack, contentDescription = null)
             }
         }
     }

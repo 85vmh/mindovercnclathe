@@ -38,7 +38,7 @@ class SimpleCyclesScreen(private val simpleCycle: SimpleCycle) :
         ) {
             Icon(
                 imageVector = Icons.Default.Check,
-                contentDescription = "",
+                contentDescription = null,
             )
         }
     }

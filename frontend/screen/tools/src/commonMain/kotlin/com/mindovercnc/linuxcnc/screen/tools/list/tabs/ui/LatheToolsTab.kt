@@ -169,11 +169,11 @@ private fun GenericToolView(
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             IconButton(modifier = Modifier, onClick = { onEditClicked.invoke(item) }) {
-                Icon(Icons.Default.Edit, contentDescription = "")
+                Icon(Icons.Default.Edit, contentDescription = null)
             }
             VerticalDivider()
             IconButton(modifier = Modifier, onClick = { onDeleteClicked.invoke(item) }) {
-                Icon(Icons.Default.Delete, contentDescription = "")
+                Icon(Icons.Default.Delete, contentDescription = null)
             }
         }
     }
@@ -268,7 +268,7 @@ private fun UsageTime(seconds: Double, modifier: Modifier = Modifier.wrapContent
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(Icons.Default.DateRange, contentDescription = "")
+        Icon(Icons.Default.DateRange, contentDescription = null)
         Text(text = "00:05:48", style = MaterialTheme.typography.bodyMedium)
     }
 }

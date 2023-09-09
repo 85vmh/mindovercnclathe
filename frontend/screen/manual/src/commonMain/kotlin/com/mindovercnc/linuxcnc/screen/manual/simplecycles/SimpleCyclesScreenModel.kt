@@ -1,20 +1,27 @@
 package com.mindovercnc.linuxcnc.screen.manual.simplecycles
 
-import cafe.adriel.voyager.core.model.StateScreenModel
-import cafe.adriel.voyager.core.model.coroutineScope
+import com.arkivanov.decompose.ComponentContext
 import com.mindovercnc.linuxcnc.domain.PositionUseCase
 import com.mindovercnc.linuxcnc.domain.SimpleCyclesUseCase
+import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.model.SimpleCycle
 import com.mindovercnc.model.SimpleCycleParameters
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.kodein.di.DI
+import org.kodein.di.instance
 import kotlin.math.sqrt
 
 class SimpleCyclesScreenModel(
-    simpleCycle: SimpleCycle,
-    private val positionUseCase: PositionUseCase,
-    private val simpleCyclesUseCase: SimpleCyclesUseCase
-) : StateScreenModel<SimpleCyclesState>(SimpleCyclesState()), SimpleCyclesComponent {
+    di: DI,
+    componentContext: ComponentContext,
+) :
+    BaseScreenModel<SimpleCyclesState>(SimpleCyclesState(), componentContext),
+    SimpleCyclesComponent {
+
+    private val simpleCycle: SimpleCycle by di.instance()
+    private val positionUseCase: PositionUseCase by di.instance()
+    private val simpleCyclesUseCase: SimpleCyclesUseCase by di.instance()
 
     init {
         val cycleParameters = simpleCyclesUseCase.getCycleParameters(simpleCycle)
@@ -95,16 +102,18 @@ class SimpleCyclesScreenModel(
                     is SimpleCycleParameters.ThreadingParameters -> {
                         val finalDepth = calculateFinalDepth(actualParameters.pitch)
                         when {
-                            actualParameters.isExternal ->
+                            actualParameters.isExternal -> {
                                 actualParameters.copy(
                                     finalDepth = finalDepth,
                                     minorDiameter = actualParameters.majorDiameter - 2 * finalDepth
                                 )
-                            else ->
+                            }
+                            else -> {
                                 actualParameters.copy(
                                     finalDepth = finalDepth,
                                     majorDiameter = actualParameters.minorDiameter + 2 * finalDepth
                                 )
+                            }
                         }
                     }
                     else -> null

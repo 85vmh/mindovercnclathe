@@ -38,7 +38,7 @@ class AddEditLatheToolScreen(
         ) {
             Icon(
                 imageVector = Icons.Default.Check,
-                contentDescription = "",
+                contentDescription = null,
             )
         }
     }

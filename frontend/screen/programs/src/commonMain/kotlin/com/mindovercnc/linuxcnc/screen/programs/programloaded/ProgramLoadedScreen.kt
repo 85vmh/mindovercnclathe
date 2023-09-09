@@ -28,10 +28,10 @@ class ProgramLoadedScreen(private val file: Path) : Programs() {
         val screenModel = rememberScreenModel<ProgramLoadedScreenModel> { bindProvider { file } }
 
         IconButton(modifier = iconButtonModifier, onClick = screenModel::stopProgram) {
-            Icon(imageVector = Icons.Default.Close, contentDescription = "")
+            Icon(imageVector = Icons.Default.Close, contentDescription = null)
         }
         IconButton(modifier = iconButtonModifier, onClick = screenModel::runProgram) {
-            Icon(imageVector = Icons.Default.PlayArrow, contentDescription = "")
+            Icon(imageVector = Icons.Default.PlayArrow, contentDescription = null)
         }
     }
 

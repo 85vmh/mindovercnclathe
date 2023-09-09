@@ -72,7 +72,7 @@ fun DirectionItem(
             modifier = Modifier.size(50.dp),
             imageVector = resource(fileName).rememberImageVector(LocalDensity.current).orEmpty(),
             tint = selectedTint,
-            contentDescription = "",
+            contentDescription = null,
         )
         Text(
             text = direction.uppercase(),

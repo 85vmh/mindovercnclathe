@@ -1,7 +1,6 @@
 package com.mindovercnc.linuxcnc.screen.manual.turning
 
 import com.mindovercnc.linuxcnc.numpad.NumPadState
-import com.mindovercnc.model.CoordinateAxis
 import com.mindovercnc.model.*
 
 data class ManualTurningState(
@@ -20,5 +19,7 @@ data class ManualTurningState(
     val handWheelsUiModel: HandWheelsUiModel? = null,
     val simpleCycleUiModel: SimpleCycleUiModel? = null,
     val wcsUiModel: WcsUiModel? = null,
-    val numPadState: NumPadState? = null
+    val numPadState: NumPadState? = null,
+    val showWcsSheet: Boolean = false,
+    val simpleCyclesDrawerOpen: Boolean = false,
 )

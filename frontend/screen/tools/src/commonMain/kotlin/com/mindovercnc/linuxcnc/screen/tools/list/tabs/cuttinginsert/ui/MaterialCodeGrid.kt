@@ -153,7 +153,7 @@ private fun ClosedRangeCell(
             ) {
                 Icon(
                     imageVector = Icons.Default.AddCircle,
-                    contentDescription = "",
+                    contentDescription = null,
                 )
             }
         }

@@ -105,6 +105,14 @@ class ManualTurningScreenModel(
             .launchIn(coroutineScope)
     }
 
+    override fun setWcsSheetVisible(visible: Boolean) {
+        mutableState.update { it.copy(showWcsSheet = visible) }
+    }
+
+    override fun setSimpleCyclesDrawerOpen(open: Boolean) {
+        mutableState.update { it.copy(simpleCyclesDrawerOpen = open) }
+    }
+
     override fun setTaperTurningActive(active: Boolean) {
         mutableState.update { it.copy(taperTurningActive = active) }
     }

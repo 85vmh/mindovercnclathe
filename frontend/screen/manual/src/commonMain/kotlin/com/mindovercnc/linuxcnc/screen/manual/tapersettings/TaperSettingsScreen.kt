@@ -37,7 +37,7 @@ class TaperSettingsScreen : Manual("Taper Settings") {
         ) {
             Icon(
                 imageVector = Icons.Default.Check,
-                contentDescription = "",
+                contentDescription = null,
             )
         }
     }

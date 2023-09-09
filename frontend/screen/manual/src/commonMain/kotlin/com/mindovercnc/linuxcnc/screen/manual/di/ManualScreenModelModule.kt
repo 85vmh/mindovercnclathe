@@ -10,6 +10,7 @@ import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
 
+@Deprecated("Use constructor instead")
 val ManualScreenModelModule =
     DI.Module("manual_screen_model") {
         bindProvider {
@@ -32,13 +33,7 @@ val ManualScreenModelModule =
 
         bindProvider { VirtualLimitsScreenModel(instance(), instance()) }
 
-        bindProvider {
-            SimpleCyclesScreenModel(
-                simpleCycle = instance(),
-                positionUseCase = instance(),
-                simpleCyclesUseCase = instance()
-            )
-        }
+        bindProvider { SimpleCyclesScreenModel(di, componentContext = instance()) }
 
         bindProvider { ManualRootScreenModel(di, instance()) }
     }

@@ -67,7 +67,7 @@ private fun JogWheel(axisLetter: Char, activeColor: Color, modifier: Modifier = 
         Image(
             modifier = Modifier.fillMaxSize(),
             imageVector = resource("hwheel.xml").rememberImageVector(LocalDensity.current).orEmpty(),
-            contentDescription = ""
+            contentDescription = null
         )
         Text(
             color = activeColor,

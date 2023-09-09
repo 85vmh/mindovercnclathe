@@ -80,7 +80,7 @@ fun Operation(op: ConversationalOperation, modifier: Modifier = Modifier, onClic
                                 color = MaterialTheme.colorScheme.background,
                                 shape = RoundedCornerShape(6.dp),
                             ),
-                    contentDescription = "",
+                    contentDescription = null,
                     bitmap = resource(op.imgName).rememberImageBitmap().orEmpty()
                 )
             } else {
