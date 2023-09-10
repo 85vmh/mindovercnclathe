@@ -41,9 +41,15 @@ fun AddEditCuttingInsertScreenUi(
 
             FeedsAndSpeedsTable(
                 feedsAndSpeedsList = state.feedsAndSpeedsList,
-                editableIndex = 3,
                 onDelete = {},
-                onEdit = {}
+                onEdit = {
+                    // TODO
+                    navigator.push(AddEditFeedsAndSpeedsScreen(
+                        feedsAndSpeeds = it
+                    ) {
+                        component.reloadFeedsAndSpeeds()
+                    })
+                },
             )
         }
     }
