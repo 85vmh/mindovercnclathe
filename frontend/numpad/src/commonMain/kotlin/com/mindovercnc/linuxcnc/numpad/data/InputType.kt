@@ -359,6 +359,7 @@ enum class InputType(
         description = "Min - Depth of Cut (ap)",
         allowsNegativeValues = false,
         maxDecimalPlaces = 2,
+        unit = UnitType.MM
     ),
     MAX_AP(
         description = "Max - Depth of Cut (ap)",
@@ -370,6 +371,7 @@ enum class InputType(
         description = "Min - Feed per rev (ap)",
         allowsNegativeValues = false,
         maxDecimalPlaces = 2,
+        unit = UnitType.MM_PER_REV
     ),
     MAX_FN(
         description = "Max - Feed per rev (ap)",
@@ -380,12 +382,13 @@ enum class InputType(
     MIN_VC(
         description = "Min - Cutting speed (vc)",
         allowsNegativeValues = false,
-        maxDecimalPlaces = 2,
+        maxDecimalPlaces = 0,
+        unit = UnitType.M_PER_MIN
     ),
     MAX_VC(
         description = "Max - Cutting speed (vc)",
         allowsNegativeValues = false,
-        maxDecimalPlaces = 2,
+        maxDecimalPlaces = 0,
         unit = UnitType.M_PER_MIN
     )
 }

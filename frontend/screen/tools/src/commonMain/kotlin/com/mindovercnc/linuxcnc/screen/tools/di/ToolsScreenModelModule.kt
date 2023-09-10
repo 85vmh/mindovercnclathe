@@ -2,6 +2,7 @@ package com.mindovercnc.linuxcnc.screen.tools.di
 
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.AddEditCuttingInsertScreenModel
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.feedsandspeeds.AddEditFeedsAndSpeedsScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.lathetool.add.AddEditLatheToolScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.toolholder.add.AddEditToolHolderScreenModel
 import org.kodein.di.DI
@@ -24,6 +25,13 @@ val ToolsScreenModelModule =
         bindProvider {
             AddEditCuttingInsertScreenModel(
                 cuttingInsert = instanceOrNull(),
+                toolsUseCase = instance()
+            )
+        }
+
+        bindProvider {
+            AddEditFeedsAndSpeedsScreenModel(
+                initialFeedsAndSpeeds = instanceOrNull(),
                 toolsUseCase = instance()
             )
         }

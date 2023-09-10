@@ -16,5 +16,6 @@ interface AddEditCuttingInsertComponent : AppScreenComponent<AddEditCuttingInser
     fun setTipAngle(value: Int)
     fun setTipRadius(value: Double)
     fun setSize(value: Double)
+    fun reloadFeedsAndSpeeds()
     fun applyChanges()
 }

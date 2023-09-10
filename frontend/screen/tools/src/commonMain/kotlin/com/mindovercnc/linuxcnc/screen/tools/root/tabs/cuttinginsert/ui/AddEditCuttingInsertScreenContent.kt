@@ -8,11 +8,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mindovercnc.linuxcnc.listitem.DropDownSetting
 import com.mindovercnc.linuxcnc.listitem.ValueSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.AddEditCuttingInsertComponent
 import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.AddEditCuttingInsertState
+import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.feedsandspeeds.AddEditFeedsAndSpeedsScreen
 import com.mindovercnc.linuxcnc.tools.model.MadeOf
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 
@@ -22,6 +25,7 @@ fun AddEditCuttingInsertScreenContent(
     state: AddEditCuttingInsertState,
     modifier: Modifier = Modifier
 ) {
+    val navigator = LocalNavigator.currentOrThrow
     Row(modifier = modifier) {
         Properties(state, component, modifier = Modifier.weight(3f).widthIn(min = 120.dp))
 
@@ -37,9 +41,14 @@ fun AddEditCuttingInsertScreenContent(
 
             FeedsAndSpeedsTable(
                 feedsAndSpeedsList = state.feedsAndSpeedsList,
-                editableIndex = 3,
                 onDelete = {},
-                onEdit = {}
+                onEdit = {
+                    navigator.push(AddEditFeedsAndSpeedsScreen(
+                        feedsAndSpeeds = it
+                    ) {
+                        component.reloadFeedsAndSpeeds()
+                    })
+                },
             )
         }
     }

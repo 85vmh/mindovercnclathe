@@ -15,7 +15,7 @@ class AddEditCuttingInsertScreenModel(
     AddEditCuttingInsertComponent {
 
     val dummyFeedsAndSpeeds =
-        listOf(
+        mutableListOf(
             FeedsAndSpeeds("Steel", MaterialCategory.P, 0.2f..2.0f, 0.1f..0.3f, 100..200),
             FeedsAndSpeeds("Delrin", MaterialCategory.N, 0.2f..2.0f, 0.1f..0.3f, 100..200),
             FeedsAndSpeeds("Aluminium", MaterialCategory.N, 0.2f..2.0f, 0.1f..0.3f, 100..200),
@@ -107,6 +107,14 @@ class AddEditCuttingInsertScreenModel(
         mutableState.update {
             it.copy(
                 size = value,
+            )
+        }
+    }
+
+    override fun reloadFeedsAndSpeeds() {
+        mutableState.update {
+            it.copy(
+                feedsAndSpeedsList = dummyFeedsAndSpeeds
             )
         }
     }

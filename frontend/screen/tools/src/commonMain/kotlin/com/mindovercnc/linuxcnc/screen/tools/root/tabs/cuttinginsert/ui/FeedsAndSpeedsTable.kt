@@ -17,9 +17,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.mindovercnc.model.FeedsAndSpeeds
 import com.mindovercnc.linuxcnc.format.toFixedDigitsString
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
+import com.mindovercnc.model.FeedsAndSpeeds
 import scroll.VerticalScrollbar
 import scroll.draggableScroll
 
@@ -36,7 +36,6 @@ private enum class FeedsAndSpeedsColumns(val text: String, val unit: String? = n
 @Composable
 fun FeedsAndSpeedsTable(
     feedsAndSpeedsList: List<FeedsAndSpeeds>,
-    editableIndex: Int? = null,
     onEdit: (FeedsAndSpeeds) -> Unit,
     onDelete: (FeedsAndSpeeds) -> Unit,
 ) {
@@ -52,22 +51,11 @@ fun FeedsAndSpeedsTable(
                 FeedsAndSpeedsHeader(modifier = Modifier.height(40.dp))
             }
             itemsIndexed(feedsAndSpeedsList) { index, item ->
-                if (editableIndex == index) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(250.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        AddEditFeedsAndSpeeds(initialFeedsAndSpeeds = item)
-                    }
-                } else {
-                    FeedsAndSpeedsItemView(
-                        item = item,
-                        onEditClicked = onEdit,
-                        onDeleteClicked = onDelete
-                    )
-                }
+                FeedsAndSpeedsItemView(
+                    item = item,
+                    onEditClicked = onEdit,
+                    onDeleteClicked = onDelete
+                )
                 Divider(color = Color.LightGray, thickness = 0.5.dp)
             }
         }
