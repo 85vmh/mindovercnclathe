@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.list.ui
+package com.mindovercnc.linuxcnc.screen.manual.virtuallimits.ui
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
@@ -6,19 +6,18 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import com.mindovercnc.linuxcnc.screen.tools.add.AddEditItemComponent
-import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
+import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent
+import com.mindovercnc.linuxcnc.screen.manual.virtuallimits.VirtualLimitsComponent
 
 @Composable
-fun RowScope.AddEditItemActions(
-    component: AddEditItemComponent<*>,
-    rootComponent: ToolsRootComponent,
+fun RowScope.VirtualLimitsActions(
+    rootComponent: ManualRootComponent,
+    component: VirtualLimitsComponent
 ) {
     IconButton(
         onClick = {
-            if (component.applyChanges()) {
-                rootComponent.navigateUp()
-            }
+            component.applyChanges()
+            rootComponent.navigateUp()
         }
     ) {
         Icon(

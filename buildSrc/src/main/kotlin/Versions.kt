@@ -2,7 +2,6 @@ object Versions {
     const val kotlin = "1.9.10"
     const val compose = "1.5.1"
     const val kodein = "7.20.2"
-    const val voyager = "1.0.0-rc06"
     const val exposed = "0.43.0"
     const val sqliteJdbc = "3.41.2.1"
     const val okio = "3.5.0"

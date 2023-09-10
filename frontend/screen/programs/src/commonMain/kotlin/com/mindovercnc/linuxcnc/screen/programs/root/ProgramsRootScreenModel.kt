@@ -1,6 +1,5 @@
 package com.mindovercnc.linuxcnc.screen.programs.root
 
-import cafe.adriel.voyager.core.model.ScreenModel
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.*
 import com.arkivanov.decompose.value.Value
@@ -18,7 +17,7 @@ import org.kodein.di.subDI
 class ProgramsRootScreenModel(
     private val di: DI,
     componentContext: ComponentContext,
-) : ScreenModel, ProgramsRootComponent, ComponentContext by componentContext {
+) : ProgramsRootComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
 

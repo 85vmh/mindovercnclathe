@@ -1,7 +1,6 @@
 package com.mindovercnc.linuxcnc.screen.manual.turning.ui
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -60,11 +59,7 @@ fun ManualTurningFooter(
                     VerticalDivider()
                     TaperStatusView(
                         taperAngle = state.taperTurningAngle,
-                        modifier =
-                            Modifier.clickable(
-                                enabled = state.taperTurningActive,
-                                onClick = rootComponent::openTurningSettings
-                            ),
+                        onClick = rootComponent::openTurningSettings,
                         taperTurningActive = state.taperTurningActive,
                         onCheckedChange = component::setTaperTurningActive
                     )

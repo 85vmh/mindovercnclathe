@@ -31,7 +31,6 @@ val BaseAppModule =
             EditorModule,
             databaseModule(Files.appDir),
             InitializerModule,
-            ScreenModelModule,
             DomainModule,
         )
         bindSingleton { StatusWatcher(instance(), instance(), instance()) }

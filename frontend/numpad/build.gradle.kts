@@ -43,7 +43,7 @@ kotlin {
                 implementation(Libs.Roborazzi.junit_rule)
 
                 implementation(compose.desktop.currentOs)
-                @OptIn(ExperimentalComposeLibrary::class) implementation(compose.desktop.uiTestJUnit4)
+                implementation(compose.desktop.uiTestJUnit4)
             }
         }
     }

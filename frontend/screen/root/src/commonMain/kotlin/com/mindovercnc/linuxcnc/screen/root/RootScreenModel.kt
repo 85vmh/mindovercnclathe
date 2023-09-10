@@ -69,10 +69,10 @@ class RootScreenModel(
 
     private fun createChild(config: Config, componentContext: ComponentContext): RootChild {
         return when (config) {
-            Config.Conversational -> Conversational(conversationalComponent())
+            Config.Conversational -> Conversational(conversationalComponent(componentContext))
             Config.Manual -> Manual(manualComponent(componentContext))
             Config.Programs -> Programs(programsComponent(componentContext))
-            Config.Status -> Status(statusComponent())
+            Config.Status -> Status(statusComponent(componentContext))
             Config.Tools -> Tools(toolsComponent(componentContext))
         }
     }
@@ -85,15 +85,17 @@ class RootScreenModel(
         return ProgramsRootScreenModel(di, componentContext)
     }
 
-    private fun statusComponent(): StatusRootComponent {
-        return StatusRootScreenModel(di)
+    private fun statusComponent(componentContext: ComponentContext): StatusRootComponent {
+        return StatusRootScreenModel(di, componentContext)
     }
 
     private fun toolsComponent(componentContext: ComponentContext): ToolsRootComponent {
         return ToolsRootScreenModel(di, componentContext)
     }
 
-    private fun conversationalComponent(): ConversationalComponent {
-        return ConversationalScreenModel()
+    private fun conversationalComponent(
+        componentContext: ComponentContext
+    ): ConversationalComponent {
+        return ConversationalScreenModel(di, componentContext)
     }
 }

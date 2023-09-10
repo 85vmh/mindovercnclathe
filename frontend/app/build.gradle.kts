@@ -63,10 +63,6 @@ kotlin {
                 implementation(Libs.Kodein.compose)
 
                 // navigation
-                implementation("cafe.adriel.voyager:voyager-navigator:${Versions.voyager}")
-                implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:${Versions.voyager}")
-                implementation("cafe.adriel.voyager:voyager-tab-navigator:${Versions.voyager}")
-                implementation("cafe.adriel.voyager:voyager-transitions:${Versions.voyager}")
                 implementation(Libs.Decompose.core)
             }
         }
@@ -120,7 +116,6 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                @OptIn(ExperimentalComposeLibrary::class)
                 implementation(compose.desktop.uiTestJUnit4)
                 implementation(Libs.mockk)
                 implementation(Libs.Coroutines.test)

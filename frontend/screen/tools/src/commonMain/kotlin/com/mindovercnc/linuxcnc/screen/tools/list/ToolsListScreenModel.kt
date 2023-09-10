@@ -1,12 +1,12 @@
 package com.mindovercnc.linuxcnc.screen.tools.list
 
-import cafe.adriel.voyager.core.model.StateScreenModel
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.slot.ChildSlot
 import com.arkivanov.decompose.router.slot.SlotNavigation
 import com.arkivanov.decompose.router.slot.activate
 import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.value.Value
+import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent.Config
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.CuttingInsertsToolsTab
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.HoldersToolsTab
@@ -21,7 +21,7 @@ import com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder.HoldersToolsSc
 import org.kodein.di.DI
 
 class ToolsListScreenModel(private val di: DI, private val componentContext: ComponentContext) :
-    StateScreenModel<ToolsState>(ToolsState()),
+    BaseScreenModel<ToolsState>(ToolsState(), componentContext),
     ToolsListComponent,
     ComponentContext by componentContext {
 

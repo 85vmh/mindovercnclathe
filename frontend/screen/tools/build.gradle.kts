@@ -78,7 +78,7 @@ kotlin {
         val jvmMain by getting { dependencies { implementation(compose.desktop.currentOs) } }
         val jvmTest by getting {
             dependencies {
-                @OptIn(ExperimentalComposeLibrary::class) implementation(compose.desktop.uiTestJUnit4)
+                implementation(compose.desktop.uiTestJUnit4)
                 implementation(Libs.mockk)
                 implementation(Libs.Coroutines.test)
                 implementation(compose.material)
