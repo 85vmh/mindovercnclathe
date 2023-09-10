@@ -23,6 +23,13 @@ class AddEditCuttingInsertScreenModel(di: DI, componentContext: ComponentContext
         editItem?.let(::initEdit)
     }
 
+    override val title: String
+        get() =
+            when (val insert = editItem) {
+                null -> "Add Cutting Insert"
+                else -> "Edit Cutting Insert #${insert.code}"
+            }
+
     override fun setMadeOf(value: MadeOf) {
         mutableState.update {
             it.copy(

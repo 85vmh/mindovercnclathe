@@ -21,6 +21,13 @@ class AddEditToolHolderScreenModel(di: DI, componentContext: ComponentContext) :
     private val toolsUseCase: ToolsUseCase by di.instance()
     override val editItem: ToolHolder? by di.instanceOrNull()
 
+    override val title: String
+        get() =
+            when (val toolHolder = editItem) {
+                null -> "Add Tool Holder"
+                else -> "Edit Tool Holder #${toolHolder.holderNumber}"
+            }
+
     init {
         editItem?.let { holder -> initEdit(holder) }
 

@@ -22,6 +22,13 @@ class AddEditLatheToolScreenModel(di: DI, componentContext: ComponentContext) :
     private val toolsUseCase: ToolsUseCase by di.instance()
     override val editItem: LatheTool? by di.instanceOrNull()
 
+    override val title: String
+        get() =
+            when (val latheTool = editItem) {
+                null -> "Add Lathe Tool"
+                else -> "Edit Lathe Tool #${latheTool.toolId}"
+            }
+
     init {
         editItem?.let(::initEdit)
 

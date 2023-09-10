@@ -71,7 +71,8 @@ fun ManualTurningScreenUi(
                     modifier = Modifier.fillMaxWidth().weight(1f)
                 )
                 ManualTurningFooter(
-                    component,
+                    rootComponent = rootComponent,
+                    component = component,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }

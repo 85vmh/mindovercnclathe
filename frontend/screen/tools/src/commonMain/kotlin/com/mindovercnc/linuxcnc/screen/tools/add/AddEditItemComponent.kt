@@ -4,6 +4,8 @@ interface AddEditItemComponent<T> {
 
     val editItem: T?
 
+    val title: String
+
     val isAdd: Boolean
         get() = editItem == null
 

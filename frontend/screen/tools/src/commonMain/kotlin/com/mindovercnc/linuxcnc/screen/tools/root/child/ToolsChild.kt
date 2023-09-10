@@ -51,19 +51,19 @@ sealed interface ToolsChild : TitledChild {
 
         @Composable
         override fun RowScope.Actions(rootComponent: ToolsRootComponent) {
-            AddEditItemActions(component,rootComponent)
+            AddEditItemActions(component, rootComponent)
         }
     }
 
     data class AddEditCuttingInsert(val component: AddEditCuttingInsertComponent) : ToolsChild {
         @Composable
         override fun Title(modifier: Modifier) {
-            Text("Cutting Insert", modifier)
+            Text(component.title, modifier)
         }
 
         @Composable
         override fun RowScope.Actions(rootComponent: ToolsRootComponent) {
-            AddEditItemActions(component,rootComponent)
+            AddEditItemActions(component, rootComponent)
         }
     }
 
@@ -75,7 +75,7 @@ sealed interface ToolsChild : TitledChild {
 
         @Composable
         override fun RowScope.Actions(rootComponent: ToolsRootComponent) {
-            AddEditItemActions(component,rootComponent)
+            AddEditItemActions(component, rootComponent)
         }
     }
 }

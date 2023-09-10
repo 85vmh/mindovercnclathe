@@ -15,25 +15,18 @@ val ManualScreenModelModule =
     DI.Module("manual_screen_model") {
         bindProvider {
             ManualTurningScreenModel(
-                instance(),
-                instance(),
-                instance(),
-                instance(),
-                instance(),
-                instance(),
-                instance(),
-                instance(),
-                instance()
+                di,
+                componentContext = instance(),
             )
         }
 
-        bindProvider { TurningSettingsScreenModel(instance()) }
+        bindProvider { TurningSettingsScreenModel(di, componentContext = instance()) }
 
-        bindProvider { TaperSettingsScreenModel(instance()) }
+        bindProvider { TaperSettingsScreenModel(di, componentContext = instance()) }
 
-        bindProvider { VirtualLimitsScreenModel(instance(), instance()) }
+        bindProvider { VirtualLimitsScreenModel(di, componentContext = instance()) }
 
         bindProvider { SimpleCyclesScreenModel(di, componentContext = instance()) }
 
-        bindProvider { ManualRootScreenModel(di, instance()) }
+        bindProvider { ManualRootScreenModel(di, componentContext = instance()) }
     }

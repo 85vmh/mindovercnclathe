@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -22,13 +23,13 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.orEmpty
 import org.jetbrains.compose.resources.rememberImageVector
 import org.jetbrains.compose.resources.resource
-import ui.bottomBarColor
 
 private val iconButtonModifier = Modifier.size(48.dp)
 
 @Composable
 fun NewNavigation(root: RootComponent, modifier: Modifier = Modifier) {
     val childStack by root.childStack.subscribeAsState()
+    val state by root.state.collectAsState()
     val active = childStack.active.instance
     Scaffold(
         modifier = modifier,
@@ -39,7 +40,15 @@ fun NewNavigation(root: RootComponent, modifier: Modifier = Modifier) {
                 modifier = Modifier.height(60.dp),
                 enabled = true, // todo uiState.isBottomBarEnabled,
                 selected = active,
-                onClick = root::openTab
+                onClick = root::openTab,
+                badgeValue = {
+                    when (it) {
+                        RootComponent.Config.Tools -> {
+                            "T${state.currentTool}"
+                        }
+                        else -> null
+                    }
+                }
             )
         },
         floatingActionButton = { active.Fab(Modifier) },
@@ -150,4 +159,13 @@ private fun BottomIcon(tab: RootComponent.Config, tint: Color, modifier: Modifie
             RootComponent.Config.Tools -> Icons.Default.Build
         }
     Icon(imageVector = imageVector, contentDescription = null, modifier = modifier, tint = tint)
+}
+
+@Composable
+fun bottomBarColor(selected: Boolean, enabled: Boolean): Color {
+    return when {
+        selected -> MaterialTheme.colorScheme.primary
+        !enabled -> MaterialTheme.colorScheme.secondary
+        else -> MaterialTheme.colorScheme.onPrimaryContainer
+    }
 }

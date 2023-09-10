@@ -72,12 +72,6 @@ kotlin {
 
                 implementation(Libs.Decompose.core)
                 implementation(Libs.Decompose.extensions)
-
-                // navigation
-                implementation(Libs.Voyager.navigator)
-                implementation(Libs.Voyager.bottom_sheet_navigator)
-                implementation(Libs.Voyager.tab_navigator)
-                implementation(Libs.Voyager.transitions)
             }
         }
 

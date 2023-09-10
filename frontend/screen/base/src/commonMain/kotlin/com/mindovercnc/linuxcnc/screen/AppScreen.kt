@@ -7,13 +7,13 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 
+@Deprecated("Use decompose instead")
 abstract class AppScreen(title: String = "") : Screen {
 
     open val title = mutableStateOf(title)
@@ -22,7 +22,8 @@ abstract class AppScreen(title: String = "") : Screen {
         @Composable get() = false
 
     @OptIn(ExperimentalMaterialApi::class)
-    val sheetState: ModalBottomSheetState = ModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val sheetState: ModalBottomSheetState =
+        ModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
     val hasCustomTitle = title == ""
 

@@ -7,6 +7,8 @@ import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent.Child
 import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent.Config
 import com.mindovercnc.linuxcnc.screen.manual.simplecycles.SimpleCyclesComponent
 import com.mindovercnc.linuxcnc.screen.manual.simplecycles.SimpleCyclesScreenModel
+import com.mindovercnc.linuxcnc.screen.manual.tapersettings.TaperSettingsComponent
+import com.mindovercnc.linuxcnc.screen.manual.tapersettings.TaperSettingsScreenModel
 import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningComponent
 import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningScreenModel
 import com.mindovercnc.linuxcnc.screen.manual.turningsettings.TurningSettingsComponent
@@ -14,7 +16,9 @@ import com.mindovercnc.linuxcnc.screen.manual.turningsettings.TurningSettingsScr
 import com.mindovercnc.linuxcnc.screen.manual.virtuallimits.VirtualLimitsComponent
 import com.mindovercnc.linuxcnc.screen.manual.virtuallimits.VirtualLimitsScreenModel
 import com.mindovercnc.model.SimpleCycle
-import org.kodein.di.*
+import org.kodein.di.DI
+import org.kodein.di.bindProvider
+import org.kodein.di.subDI
 
 class ManualRootScreenModel(
     private val di: DI,
@@ -44,22 +48,36 @@ class ManualRootScreenModel(
         navigation.push(Config.TurningSettings)
     }
 
+    override fun openTaperSettings() {
+        navigation.push(Config.TaperSettings)
+    }
+
     override fun navigateUp() {
         navigation.pop()
     }
 
     private fun createChild(config: Config, componentContext: ComponentContext): Child {
         return when (config) {
-            Config.Turning -> Child.Turning(manualTurningComponent())
-            is Config.SimpleCycles ->
+            Config.Turning -> {
+                Child.Turning(manualTurningComponent(componentContext))
+            }
+            is Config.SimpleCycles -> {
                 Child.SimpleCycles(simpleCyclesComponent(config.simpleCycle, componentContext))
-            Config.VirtualLimits -> Child.VirtualLimits(virtualLimitsComponent())
-            Config.TurningSettings -> Child.TurningSettings(turningSettingsComponent())
+            }
+            Config.VirtualLimits -> {
+                Child.VirtualLimits(virtualLimitsComponent(componentContext))
+            }
+            Config.TurningSettings -> {
+                Child.TurningSettings(turningSettingsComponent(componentContext))
+            }
+            Config.TaperSettings -> {
+                Child.TaperSettings(taperSettingsComponent(componentContext))
+            }
         }
     }
 
-    private fun manualTurningComponent(): ManualTurningComponent {
-        return di.direct.instance<ManualTurningScreenModel>()
+    private fun manualTurningComponent(componentContext: ComponentContext): ManualTurningComponent {
+        return ManualTurningScreenModel(di, componentContext)
     }
 
     private fun simpleCyclesComponent(
@@ -70,11 +88,17 @@ class ManualRootScreenModel(
         return SimpleCyclesScreenModel(subDI, componentContext)
     }
 
-    private fun virtualLimitsComponent(): VirtualLimitsComponent {
-        return di.direct.instance<VirtualLimitsScreenModel>()
+    private fun virtualLimitsComponent(componentContext: ComponentContext): VirtualLimitsComponent {
+        return VirtualLimitsScreenModel(di, componentContext)
     }
 
-    private fun turningSettingsComponent(): TurningSettingsComponent {
-        return di.direct.instance<TurningSettingsScreenModel>()
+    private fun turningSettingsComponent(
+        componentContext: ComponentContext
+    ): TurningSettingsComponent {
+        return TurningSettingsScreenModel(di, componentContext)
+    }
+
+    private fun taperSettingsComponent(componentContext: ComponentContext): TaperSettingsComponent {
+        return TaperSettingsScreenModel(di, componentContext)
     }
 }

@@ -1,6 +1,8 @@
 package com.mindovercnc.linuxcnc.screen.manual.turning.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Menu
@@ -9,11 +11,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.sp
-import com.mindovercnc.linuxcnc.screen.AppScreen
+import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningComponent
+import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningState
 import com.mindovercnc.model.WcsUiModel
 
 @Composable
@@ -28,27 +31,34 @@ fun RowScope.ManualTurningActions(component: ManualTurningComponent) {
         }
 
     state.wcsUiModel?.let { uiModel ->
-        WcsAction(
-            uiModel,
-            onClick = { component.setWcsSheetVisible(true) },
-            AppScreen.iconButtonModifier
-        )
+        WcsAction(uiModel, onClick = { component.setWcsSheetVisible(true) })
     }
-    IconButton(
-        enabled = true,
-        modifier = AppScreen.iconButtonModifier,
-        onClick = { component.setSimpleCyclesDrawerOpen(true) }
-    ) {
+    DrawerAction(component, iconColor)
+    VirtualLimitsAction(state = state, component = component, iconColor = iconColor)
+}
+
+@Composable
+private fun DrawerAction(component: ManualTurningComponent, iconColor: Color) {
+    IconButton(onClick = { component.setSimpleCyclesDrawerOpen(true) }) {
         Icon(
             tint = iconColor,
             imageVector = Icons.Default.Menu,
             contentDescription = null,
         )
     }
+}
+
+@Composable
+private fun VirtualLimitsAction(
+    state: ManualTurningState,
+    component: ManualTurningComponent,
+    iconColor: Color,
+    modifier: Modifier = Modifier
+) {
     IconButton(
         enabled = state.virtualLimitsAvailable,
-        modifier = AppScreen.iconButtonModifier,
-        onClick = { component.setVirtualLimitsActive(state.virtualLimitsUiModel == null) }
+        onClick = { component.setVirtualLimitsActive(state.virtualLimitsUiModel == null) },
+        modifier = modifier
     ) {
         Icon(
             tint = iconColor,
@@ -67,8 +77,10 @@ private fun WcsAction(
 ) {
     BadgedBox(
         badge = {
-            Badge(containerColor = MaterialTheme.colorScheme.secondary) {
-                Text(fontSize = 14.sp, text = uiModel.activeOffset)
+            Badge(
+                modifier = Modifier.background(Color.Black).align(Alignment.Center).padding(16.dp)
+            ) {
+                Text(text = uiModel.activeOffset)
             }
         },
         modifier = modifier

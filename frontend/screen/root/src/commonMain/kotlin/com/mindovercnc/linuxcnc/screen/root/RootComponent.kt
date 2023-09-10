@@ -6,9 +6,12 @@ import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import com.mindovercnc.linuxcnc.screen.root.child.RootChild
+import kotlinx.coroutines.flow.StateFlow
 
 interface RootComponent : BackHandlerOwner {
     val childStack: Value<ChildStack<*, RootChild>>
+
+    val state: StateFlow<RootState>
 
     fun openTab(tab: Config)
 

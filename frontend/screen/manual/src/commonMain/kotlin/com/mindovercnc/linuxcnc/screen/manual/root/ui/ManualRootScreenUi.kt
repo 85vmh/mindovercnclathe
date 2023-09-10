@@ -5,7 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent
-import com.mindovercnc.linuxcnc.screen.manual.simplecycles.SimpleCyclesScreenUi
+import com.mindovercnc.linuxcnc.screen.manual.simplecycles.ui.SimpleCyclesScreenUi
+import com.mindovercnc.linuxcnc.screen.manual.tapersettings.ui.TaperSettingsScreenUi
 import com.mindovercnc.linuxcnc.screen.manual.turning.ui.ManualTurningScreenUi
 import com.mindovercnc.linuxcnc.screen.manual.turningsettings.ui.TurningSettingsScreenUi
 import com.mindovercnc.linuxcnc.screen.manual.virtuallimits.ui.VirtualLimitsScreenUi
@@ -27,6 +28,9 @@ fun ManualRootScreenUi(component: ManualRootComponent, modifier: Modifier = Modi
             }
             is ManualRootComponent.Child.TurningSettings -> {
                 TurningSettingsScreenUi(child.component, childModifier)
+            }
+            is ManualRootComponent.Child.TaperSettings -> {
+                TaperSettingsScreenUi(child.component,childModifier)
             }
         }
     }

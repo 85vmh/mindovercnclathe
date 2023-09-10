@@ -1,7 +1,6 @@
 package di
 
 import StatusWatcher
-import TabViewModel
 import androidx.compose.runtime.Composable
 import com.mindovercnc.data.linuxcnc.remote.di.LinuxcncRemoteDataModule
 import com.mindovercnc.dispatchers.DispatchersModule
@@ -23,8 +22,6 @@ val BaseAppModule =
             DomainModule,
         )
         bindSingleton { StatusWatcher(instance(), instance(), instance()) }
-
-        bindProvider { TabViewModel(instance(), instance()) }
 
         bindSingleton<Clock> { Clock.System }
 

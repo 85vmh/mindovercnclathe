@@ -1,28 +1,35 @@
 package com.mindovercnc.linuxcnc.screen.manual.turning
 
-import cafe.adriel.voyager.core.model.StateScreenModel
-import cafe.adriel.voyager.core.model.coroutineScope
+import com.arkivanov.decompose.ComponentContext
 import com.mindovercnc.linuxcnc.domain.*
 import com.mindovercnc.linuxcnc.numpad.NumPadState
 import com.mindovercnc.linuxcnc.numpad.data.InputType
+import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.model.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import org.kodein.di.DI
+import org.kodein.di.instance
 
 class ManualTurningScreenModel(
-    spindleUseCase: SpindleUseCase,
-    feedUseCase: FeedUseCase,
-    taperUseCase: TaperUseCase,
-    handWheelsUseCase: HandWheelsUseCase,
-    private val manualPositionUseCase: ManualPositionUseCase,
-    private val toolsUseCase: ToolsUseCase,
-    private val offsetsUseCase: OffsetsUseCase,
-    private val virtualLimitsUseCase: VirtualLimitsUseCase,
-    simpleCyclesUseCase: SimpleCyclesUseCase
-) : StateScreenModel<ManualTurningState>(ManualTurningState()), ManualTurningComponent {
+    di: DI,
+    componentContext: ComponentContext,
+) :
+    BaseScreenModel<ManualTurningState>(ManualTurningState(), componentContext),
+    ManualTurningComponent {
+    private val manualPositionUseCase: ManualPositionUseCase by di.instance()
+    private val toolsUseCase: ToolsUseCase by di.instance()
+    private val offsetsUseCase: OffsetsUseCase by di.instance()
+    private val virtualLimitsUseCase: VirtualLimitsUseCase by di.instance()
 
     init {
+        val spindleUseCase: SpindleUseCase by di.instance()
+        val feedUseCase: FeedUseCase by di.instance()
+        val taperUseCase: TaperUseCase by di.instance()
+        val handWheelsUseCase: HandWheelsUseCase by di.instance()
+        val simpleCyclesUseCase: SimpleCyclesUseCase by di.instance()
+
         virtualLimitsUseCase.hasToolLoaded
             .distinctUntilChanged()
             .onEach { limitsAvailable ->

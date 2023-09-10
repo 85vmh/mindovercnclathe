@@ -1,19 +1,26 @@
 package com.mindovercnc.linuxcnc.screen.manual.virtuallimits
 
-import cafe.adriel.voyager.core.model.StateScreenModel
-import cafe.adriel.voyager.core.model.coroutineScope
+import com.arkivanov.decompose.ComponentContext
 import com.mindovercnc.linuxcnc.domain.PositionUseCase
 import com.mindovercnc.linuxcnc.domain.VirtualLimitsUseCase
 import com.mindovercnc.linuxcnc.domain.model.VirtualLimits
+import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.kodein.di.DI
+import org.kodein.di.instance
 
 class VirtualLimitsScreenModel(
-    private val positionUseCase: PositionUseCase,
-    private val virtualLimitsUseCase: VirtualLimitsUseCase,
-) : StateScreenModel<VirtualLimitsState>(VirtualLimitsState()), VirtualLimitsComponent {
+    di: DI,
+    componentContext: ComponentContext,
+) :
+    BaseScreenModel<VirtualLimitsState>(VirtualLimitsState(), componentContext),
+    VirtualLimitsComponent {
+
+    private val positionUseCase: PositionUseCase by di.instance()
+    private val virtualLimitsUseCase: VirtualLimitsUseCase by di.instance()
 
     init {
         virtualLimitsUseCase

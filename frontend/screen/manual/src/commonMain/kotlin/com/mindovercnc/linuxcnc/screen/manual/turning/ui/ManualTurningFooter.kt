@@ -14,15 +14,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.LocalNavigator
 import com.mindovercnc.linuxcnc.numpad.data.InputType
-import com.mindovercnc.linuxcnc.screen.manual.tapersettings.TaperSettingsScreen
+import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent
 import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningComponent
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 
 @Composable
-fun ManualTurningFooter(component: ManualTurningComponent, modifier: Modifier = Modifier) {
-    val navigator = LocalNavigator.current
+fun ManualTurningFooter(
+    rootComponent: ManualRootComponent,
+    component: ManualTurningComponent,
+    modifier: Modifier = Modifier,
+) {
     val state by component.state.collectAsState()
     Row(modifier = modifier, horizontalArrangement = Arrangement.Start) {
         Button(
@@ -61,7 +63,7 @@ fun ManualTurningFooter(component: ManualTurningComponent, modifier: Modifier = 
                         modifier =
                             Modifier.clickable(
                                 enabled = state.taperTurningActive,
-                                onClick = { navigator?.push(TaperSettingsScreen()) }
+                                onClick = rootComponent::openTurningSettings
                             ),
                         taperTurningActive = state.taperTurningActive,
                         onCheckedChange = component::setTaperTurningActive

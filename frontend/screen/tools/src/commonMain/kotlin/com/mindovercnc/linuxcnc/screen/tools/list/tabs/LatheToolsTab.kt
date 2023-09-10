@@ -13,12 +13,16 @@ import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
 class LatheToolsTab(private val component: LatheToolsComponent) :
     ToolsTabItem(ToolsListComponent.Config.Lathe) {
     @Composable
-    override fun Content(rootComponent: ToolsRootComponent, toolsComponent: ToolsListComponent, modifier: Modifier) {
+    override fun Content(
+        rootComponent: ToolsRootComponent,
+        toolsComponent: ToolsListComponent,
+        modifier: Modifier
+    ) {
         val state by component.state.collectAsState()
         LatheToolsContent(
             state,
             onDelete = component::requestDeleteLatheTool,
-            onToolChanged = component::loadLatheTools,
+            onEdit = rootComponent::editLatheTool,
             modifier = modifier
         )
         state.latheToolDeleteModel?.let { deleteModel ->
