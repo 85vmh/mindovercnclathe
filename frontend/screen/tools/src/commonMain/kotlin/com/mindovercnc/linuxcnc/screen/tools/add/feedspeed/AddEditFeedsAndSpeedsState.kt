@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.feedsandspeeds
+package com.mindovercnc.linuxcnc.screen.tools.add.feedspeed
 
 import com.mindovercnc.model.MaterialCategory
 

@@ -17,11 +17,13 @@ import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.AddEditCuttingIns
 import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.AddEditCuttingInsertState
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.ui.FeedsAndSpeedsTable
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.cuttinginsert.ui.StandardInsert
+import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
 import com.mindovercnc.linuxcnc.tools.model.MadeOf
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 
 @Composable
 fun AddEditCuttingInsertScreenUi(
+    rootComponent: ToolsRootComponent,
     component: AddEditCuttingInsertComponent,
     modifier: Modifier = Modifier
 ) {
@@ -42,14 +44,7 @@ fun AddEditCuttingInsertScreenUi(
             FeedsAndSpeedsTable(
                 feedsAndSpeedsList = state.feedsAndSpeedsList,
                 onDelete = {},
-                onEdit = {
-                    // TODO
-                    navigator.push(AddEditFeedsAndSpeedsScreen(
-                        feedsAndSpeeds = it
-                    ) {
-                        component.reloadFeedsAndSpeeds()
-                    })
-                },
+                onEdit = rootComponent::editFeedsAndSpeeds,
             )
         }
     }

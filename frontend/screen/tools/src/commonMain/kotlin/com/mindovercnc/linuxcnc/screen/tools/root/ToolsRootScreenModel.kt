@@ -3,19 +3,22 @@ package com.mindovercnc.linuxcnc.screen.tools.root
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.*
 import com.arkivanov.decompose.value.Value
-import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent
-import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.AddEditCuttingInsertComponent
 import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.AddEditCuttingInsertScreenModel
+import com.mindovercnc.linuxcnc.screen.tools.add.feedspeed.AddEditFeedsAndSpeedsComponent
+import com.mindovercnc.linuxcnc.screen.tools.add.feedspeed.AddEditFeedsAndSpeedsScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.add.lathetool.AddEditLatheToolComponent
 import com.mindovercnc.linuxcnc.screen.tools.add.lathetool.AddEditLatheToolScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.add.toolholder.AddEditToolHolderComponent
 import com.mindovercnc.linuxcnc.screen.tools.add.toolholder.AddEditToolHolderScreenModel
+import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent
+import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent.Config
 import com.mindovercnc.linuxcnc.screen.tools.root.child.ToolsChild
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
+import com.mindovercnc.model.FeedsAndSpeeds
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.subDI
@@ -60,6 +63,14 @@ class ToolsRootScreenModel(
         navigation.push(Config.AddEditToolHolder(toolHolder))
     }
 
+    override fun addFeedsAndSpeeds() {
+        navigation.push(Config.AddEditFeedsAndSpeeds(null))
+    }
+
+    override fun editFeedsAndSpeeds(feedsAndSpeeds: FeedsAndSpeeds) {
+        navigation.push(Config.AddEditFeedsAndSpeeds(feedsAndSpeeds))
+    }
+
     override fun navigateUp() {
         navigation.pop()
     }
@@ -82,6 +93,11 @@ class ToolsRootScreenModel(
             is Config.AddEditToolHolder -> {
                 ToolsChild.AddEditToolHolder(
                     addEditToolHolderComponent(config.toolHolder, componentContext)
+                )
+            }
+            is Config.AddEditFeedsAndSpeeds -> {
+                ToolsChild.AddEditFeedsAndSpeeds(
+                    addEditFeedsAndSpeedsComponent(config.feedsAndSpeeds, componentContext)
                 )
             }
         }
@@ -113,5 +129,13 @@ class ToolsRootScreenModel(
     ): AddEditToolHolderComponent {
         val subDI = subDI(di) { if (toolHolder != null) bindSingleton { toolHolder } }
         return AddEditToolHolderScreenModel(subDI, componentContext)
+    }
+
+    private fun addEditFeedsAndSpeedsComponent(
+        feedsAndSpeeds: FeedsAndSpeeds?,
+        componentContext: ComponentContext
+    ): AddEditFeedsAndSpeedsComponent {
+        val subDI = subDI(di) { if (feedsAndSpeeds != null) bindSingleton { feedsAndSpeeds } }
+        return AddEditFeedsAndSpeedsScreenModel(subDI, componentContext)
     }
 }

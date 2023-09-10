@@ -71,6 +71,10 @@ class AddEditCuttingInsertScreenModel(di: DI, componentContext: ComponentContext
         mutableState.update { it.copy(size = value) }
     }
 
+    override fun reloadFeedsAndSpeeds() {
+        mutableState.update { it.copy(feedsAndSpeedsList = dummyFeedsAndSpeeds) }
+    }
+
     override fun applyChanges(): Boolean {
         with(mutableState.value) {
             val insert =
@@ -109,7 +113,6 @@ class AddEditCuttingInsertScreenModel(di: DI, componentContext: ComponentContext
     }
 
     companion object {
-
         private val dummyFeedsAndSpeeds =
             listOf(
                 FeedsAndSpeeds(

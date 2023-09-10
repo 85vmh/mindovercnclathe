@@ -1,41 +1,41 @@
-package com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.feedsandspeeds.ui
+package com.mindovercnc.linuxcnc.screen.tools.add.feedspeed.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.listitem.DropDownSetting
 import com.mindovercnc.linuxcnc.numpad.data.InputType
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.feedsandspeeds.AddEditFeedsAndSpeedsComponent
-import com.mindovercnc.linuxcnc.screen.tools.root.tabs.cuttinginsert.add.feedsandspeeds.AddEditFeedsAndSpeedsState
+import com.mindovercnc.linuxcnc.screen.tools.add.feedspeed.AddEditFeedsAndSpeedsComponent
+import com.mindovercnc.linuxcnc.screen.tools.add.feedspeed.AddEditFeedsAndSpeedsState
 import com.mindovercnc.linuxcnc.widgets.NumericInputWithUnit
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import com.mindovercnc.model.MaterialCategory
 
 @Composable
-fun AddEditFeedsAndSpeedsScreenContent(
+fun AddEditFeedsAndSpeedsScreenUi(
     component: AddEditFeedsAndSpeedsComponent,
-    state: AddEditFeedsAndSpeedsState,
     modifier: Modifier = Modifier
 ) {
+    val state by component.state.collectAsState()
     Row(modifier = modifier) {
         Properties(
-            state, component, modifier = Modifier
-                .weight(3f)
-                .widthIn(min = 120.dp)
-                .padding(horizontal = 16.dp)
+            state,
+            component,
+            modifier = Modifier.weight(3f).widthIn(min = 120.dp).padding(horizontal = 16.dp)
         )
 
         VerticalDivider()
 
         Column(
-            modifier = Modifier.weight(7f)
-                .padding(horizontal = 16.dp),
+            modifier = Modifier.weight(7f).padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             Text(

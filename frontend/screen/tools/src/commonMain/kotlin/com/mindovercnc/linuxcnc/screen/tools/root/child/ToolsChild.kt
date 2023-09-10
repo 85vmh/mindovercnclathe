@@ -10,7 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.mindovercnc.linuxcnc.screen.TitledChild
+import com.mindovercnc.linuxcnc.screen.tools.add.AddEditItemComponent
 import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.AddEditCuttingInsertComponent
+import com.mindovercnc.linuxcnc.screen.tools.add.feedspeed.AddEditFeedsAndSpeedsComponent
 import com.mindovercnc.linuxcnc.screen.tools.add.lathetool.AddEditLatheToolComponent
 import com.mindovercnc.linuxcnc.screen.tools.add.toolholder.AddEditToolHolderComponent
 import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent
@@ -43,34 +45,28 @@ sealed interface ToolsChild : TitledChild {
         }
     }
 
-    data class AddEditLatheTool(val component: AddEditLatheToolComponent) : ToolsChild {
-        @Composable
-        override fun Title(modifier: Modifier) {
-            Text("Lathe Tool", modifier)
-        }
+    data class AddEditLatheTool(
+        override val component: AddEditLatheToolComponent,
+    ) : AddEditItem()
 
-        @Composable
-        override fun RowScope.Actions(rootComponent: ToolsRootComponent) {
-            AddEditItemActions(component, rootComponent)
-        }
-    }
+    data class AddEditCuttingInsert(
+        override val component: AddEditCuttingInsertComponent,
+    ) : AddEditItem()
 
-    data class AddEditCuttingInsert(val component: AddEditCuttingInsertComponent) : ToolsChild {
+    data class AddEditToolHolder(
+        override val component: AddEditToolHolderComponent,
+    ) : AddEditItem()
+
+    data class AddEditFeedsAndSpeeds(
+        override val component: AddEditFeedsAndSpeedsComponent,
+    ) : AddEditItem()
+
+    abstract class AddEditItem : ToolsChild {
+        abstract val component: AddEditItemComponent<*>
+
         @Composable
         override fun Title(modifier: Modifier) {
             Text(component.title, modifier)
-        }
-
-        @Composable
-        override fun RowScope.Actions(rootComponent: ToolsRootComponent) {
-            AddEditItemActions(component, rootComponent)
-        }
-    }
-
-    data class AddEditToolHolder(val component: AddEditToolHolderComponent) : ToolsChild {
-        @Composable
-        override fun Title(modifier: Modifier) {
-            Text("Tool Holder", modifier)
         }
 
         @Composable
