@@ -11,6 +11,7 @@ import com.mindovercnc.model.TipOrientation
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.kodein.di.DI
 import org.kodein.di.instance
 import org.kodein.di.instanceOrNull
@@ -239,22 +240,22 @@ class AddEditLatheToolScreenModel(di: DI, componentContext: ComponentContext) :
             )
         }
 
-    override fun applyChanges(): Boolean {
-        with(mutableState.value) {
-            val tool = getLatheTool(toolType) ?: return false
+    override fun applyChanges() {
+        val tool = createLatheTool() ?: return
 
+        coroutineScope.launch {
+            mutableState.update { it.copy(isLoading = true) }
             if (isAdd) {
                 toolsUseCase.createLatheTool(tool)
             } else {
                 toolsUseCase.updateLatheTool(tool)
             }
+            mutableState.update { it.copy(isLoading = false, isFinished = true) }
         }
-        // TODO: add validation
-        return true
     }
 
-    private fun getLatheTool(toolType: ToolType?): LatheTool? {
-        with(mutableState.value) {
+    private fun createLatheTool(): LatheTool? {
+        with(state.value) {
             return when (toolType) {
                 ToolType.Turning ->
                     LatheTool.Turning(

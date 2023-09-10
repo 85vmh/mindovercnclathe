@@ -11,25 +11,25 @@ class LatheToolsRepositoryRemote : LatheToolsRepository {
         LOG.warn { "Remote implementation is missing" }
     }
 
-    override fun getLatheTools(): List<LatheTool> {
+    override suspend fun getLatheTools(): List<LatheTool> {
         /* no-op */
         return emptyList()
     }
 
-    override fun getUnmountedLatheTools(): List<LatheTool> {
+    override suspend fun getUnmountedLatheTools(): List<LatheTool> {
         /* no-op */
         return emptyList()
     }
 
-    override fun createLatheTool(latheTool: LatheTool) {
+    override suspend fun createLatheTool(latheTool: LatheTool) {
         /* no-op */
     }
 
-    override fun updateLatheTool(latheTool: LatheTool) {
+    override suspend fun updateLatheTool(latheTool: LatheTool) {
         /* no-op */
     }
 
-    override fun deleteLatheTool(latheTool: LatheTool): Boolean {
+    override suspend fun deleteLatheTool(latheTool: LatheTool): Boolean {
         /* no-op */
         return false
     }

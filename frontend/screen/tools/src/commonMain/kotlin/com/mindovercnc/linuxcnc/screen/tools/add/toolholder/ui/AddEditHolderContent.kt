@@ -23,6 +23,7 @@ import com.mindovercnc.linuxcnc.numpad.data.InputType
 import com.mindovercnc.linuxcnc.screen.tools.add.toolholder.AddEditToolHolderComponent
 import com.mindovercnc.linuxcnc.screen.tools.add.toolholder.AddEditToolHolderState
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.ui.LatheToolView
+import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolHolderType
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
@@ -30,10 +31,14 @@ import scroll.draggableScroll
 
 @Composable
 fun AddEditToolHolderScreenUi(
+    rootComponent: ToolsRootComponent,
     component: AddEditToolHolderComponent,
     modifier: Modifier = Modifier
 ) {
     val state by component.state.collectAsState()
+    if (state.isFinished) {
+        LaunchedEffect(Unit) { rootComponent.navigateUp() }
+    }
     AddEditToolHolderScreenUi(
         state = state,
         onHolderNumber = component::setHolderNumber,

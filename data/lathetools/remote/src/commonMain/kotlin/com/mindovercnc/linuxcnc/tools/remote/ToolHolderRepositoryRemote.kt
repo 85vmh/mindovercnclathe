@@ -12,20 +12,20 @@ class ToolHolderRepositoryRemote : ToolHolderRepository {
         LOG.warn { "Remote implementation is missing" }
     }
 
-    override fun getToolHolders(): List<ToolHolder> {
+    override suspend fun getToolHolders(): List<ToolHolder> {
         /* no-op */
         return emptyList()
     }
 
-    override fun createToolHolder(toolHolder: ToolHolder) {
+    override suspend fun createToolHolder(toolHolder: ToolHolder) {
         /* no-op */
     }
 
-    override fun updateToolHolder(toolHolder: ToolHolder) {
+    override suspend fun updateToolHolder(toolHolder: ToolHolder) {
         /* no-op */
     }
 
-    override fun deleteToolHolder(toolHolder: ToolHolder): Boolean {
+    override suspend fun deleteToolHolder(toolHolder: ToolHolder): Boolean {
         /* no-op */
         return false
     }

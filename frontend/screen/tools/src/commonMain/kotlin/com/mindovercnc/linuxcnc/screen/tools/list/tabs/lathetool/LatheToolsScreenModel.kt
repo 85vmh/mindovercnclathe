@@ -5,9 +5,8 @@ import com.mindovercnc.linuxcnc.domain.ToolsUseCase
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.list.ui.LatheToolDeleteModel
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.kodein.di.DI
 import org.kodein.di.instance
 
@@ -23,16 +22,11 @@ class LatheToolsScreenModel(
     }
 
     override fun loadLatheTools() {
-        toolsUseCase
-            .getLatheTools()
-            .onEach { latheTools ->
-                mutableState.update {
-                    it.copy(
-                        latheTools = latheTools,
-                    )
-                }
-            }
-            .launchIn(coroutineScope)
+        coroutineScope.launch {
+            val latheTools = toolsUseCase.getLatheTools()
+
+            mutableState.update { it.copy(latheTools = latheTools) }
+        }
     }
 
     override fun requestDeleteLatheTool(latheTool: LatheTool) {
@@ -52,8 +46,10 @@ class LatheToolsScreenModel(
     }
 
     override fun deleteLatheTool(latheTool: LatheTool) {
-        toolsUseCase.deleteLatheTool(latheTool)
-        cancelDeleteLatheTool()
-        loadLatheTools()
+        coroutineScope.launch {
+            toolsUseCase.deleteLatheTool(latheTool)
+            cancelDeleteLatheTool()
+            loadLatheTools()
+        }
     }
 }

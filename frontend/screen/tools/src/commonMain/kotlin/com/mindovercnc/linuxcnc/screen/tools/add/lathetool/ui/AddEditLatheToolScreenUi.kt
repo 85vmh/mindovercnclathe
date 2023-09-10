@@ -9,10 +9,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -25,6 +22,7 @@ import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.ui.DropDownInse
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.ui.OrientationAnglesCard
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.ui.SpindleDirection
 import com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool.ui.ToolTypeView
+import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.ToolType
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
@@ -35,79 +33,28 @@ import scroll.draggableScroll
 private val inputModifier = Modifier.width(200.dp)
 
 @Composable
-fun AddEditLatheToolScreenUi(component: AddEditLatheToolComponent, modifier: Modifier = Modifier) {
-    val state by component.state.collectAsState()
-
-    AddEditLatheToolScreenUi(
-        state = state,
-        onToolId = component::setToolId,
-        onToolType = component::setToolType,
-        onCuttingInsert = component::setCuttingInsert,
-        onToolOrientation = component::setToolOrientation,
-        onToolDiameter = component::setToolDiameter,
-        onBackAngle = component::setBackAngle,
-        onFrontAngle = component::setFrontAngle,
-        onSpindleDirection = component::setSpindleDirection,
-        onMinBoreDiameter = component::setMinBoreDiameter,
-        onMaxZDepth = component::setMaxZDepth,
-        onMaxXDepth = component::setMaxXDepth,
-        onBladeWidth = component::setBladeWidth,
-        onMinThreadPitch = component::setMinThreadPitch,
-        onMaxThreadPitch = component::setMaxThreadPitch,
-        modifier = modifier
-    )
-}
-
-@Composable
-private fun AddEditLatheToolScreenUi(
-    state: AddEditLatheToolState,
-    onToolId: (Int) -> Unit,
-    onToolType: (ToolType) -> Unit,
-    onCuttingInsert: (CuttingInsert) -> Unit,
-    onToolOrientation: (TipOrientation) -> Unit,
-    onToolDiameter: (Double) -> Unit,
-    onBackAngle: (Int) -> Unit,
-    onFrontAngle: (Int) -> Unit,
-    onSpindleDirection: (SpindleDirection) -> Unit,
-    onMinBoreDiameter: (Double) -> Unit,
-    onMaxZDepth: (Double) -> Unit,
-    onMaxXDepth: (Double) -> Unit,
-    onBladeWidth: (Double) -> Unit,
-    onMinThreadPitch: (Double) -> Unit,
-    onMaxThreadPitch: (Double) -> Unit,
+fun AddEditLatheToolScreenUi(
+    rootComponent: ToolsRootComponent,
+    component: AddEditLatheToolComponent,
     modifier: Modifier = Modifier
 ) {
+    val state by component.state.collectAsState()
+    if (state.isFinished) {
+        LaunchedEffect(Unit) { rootComponent.navigateUp() }
+    }
+
     Row(modifier = modifier) {
-        StartContent(state, onToolType, modifier = Modifier.weight(2f).widthIn(min = 300.dp))
+        StartContent(component, modifier = Modifier.weight(2f).widthIn(min = 300.dp))
 
         VerticalDivider()
 
-        EndContent(
-            state,
-            onToolId,
-            onCuttingInsert,
-            onToolOrientation,
-            onToolDiameter,
-            onBackAngle,
-            onFrontAngle,
-            onSpindleDirection,
-            onMinBoreDiameter,
-            onMaxZDepth,
-            onMaxXDepth,
-            onBladeWidth,
-            onMinThreadPitch,
-            onMaxThreadPitch,
-            modifier = Modifier.weight(3f)
-        )
+        EndContent(component, modifier = Modifier.weight(3f))
     }
 }
 
 @Composable
-private fun StartContent(
-    state: AddEditLatheToolState,
-    onToolType: (ToolType) -> Unit,
-    modifier: Modifier = Modifier
-) {
+private fun StartContent(component: AddEditLatheToolComponent, modifier: Modifier = Modifier) {
+    val state by component.state.collectAsState()
     val scope = rememberCoroutineScope()
     val toolTypeScrollState = rememberLazyGridState()
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
@@ -128,7 +75,7 @@ private fun StartContent(
                 ToolTypeView(
                     modifier = Modifier.padding(8.dp),
                     type = state.toolTypes[index],
-                    onClick = onToolType,
+                    onClick = component::setToolType,
                     isSelected = state.toolTypes[index] == state.toolType
                 )
             }
@@ -137,25 +84,11 @@ private fun StartContent(
 }
 
 @Composable
-private fun EndContent(
-    state: AddEditLatheToolState,
-    onToolId: (Int) -> Unit,
-    onCuttingInsert: (CuttingInsert) -> Unit,
-    onToolOrientation: (TipOrientation) -> Unit,
-    onToolDiameter: (Double) -> Unit,
-    onBackAngle: (Int) -> Unit,
-    onFrontAngle: (Int) -> Unit,
-    onSpindleDirection: (SpindleDirection) -> Unit,
-    onMinBoreDiameter: (Double) -> Unit,
-    onMaxZDepth: (Double) -> Unit,
-    onMaxXDepth: (Double) -> Unit,
-    onBladeWidth: (Double) -> Unit,
-    onMinThreadPitch: (Double) -> Unit,
-    onMaxThreadPitch: (Double) -> Unit,
-    modifier: Modifier = Modifier
-) {
+private fun EndContent(component: AddEditLatheToolComponent, modifier: Modifier = Modifier) {
     val toolPropertiesScrollState = rememberLazyListState()
     val scope = rememberCoroutineScope()
+    val state by component.state.collectAsState()
+
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         if (state.latheToolId == null) {
             ValueSetting(
@@ -164,7 +97,7 @@ private fun EndContent(
                 inputType = InputType.TOOL_ID,
                 onValueChanged = {
                     val doubleValue = it.toDouble()
-                    onToolId(doubleValue.toInt())
+                    component.setToolId(doubleValue.toInt())
                 },
                 modifier = Modifier.fillMaxWidth(),
                 inputModifier = Modifier.width(100.dp)
@@ -191,13 +124,13 @@ private fun EndContent(
                         TurningBoringToolProperties(
                             state = state,
                             isBoring = state.toolType == ToolType.Boring,
-                            onCuttingInsert,
-                            onToolOrientation = onToolOrientation,
-                            onBackAngle = onBackAngle,
-                            onFrontAngle = onFrontAngle,
-                            onSpindleDirection = onSpindleDirection,
-                            onMinBoreDiameter = onMinBoreDiameter,
-                            onMaxZDepth = onMaxZDepth,
+                            onCuttingInsert = component::setCuttingInsert,
+                            onToolOrientation = component::setToolOrientation,
+                            onBackAngle = component::setBackAngle,
+                            onFrontAngle = component::setFrontAngle,
+                            onSpindleDirection = component::setSpindleDirection,
+                            onMinBoreDiameter = component::setMinBoreDiameter,
+                            onMaxZDepth = component::setMaxZDepth,
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
@@ -205,8 +138,8 @@ private fun EndContent(
                     ToolType.Reaming -> {
                         DrillingReamingToolProperties(
                             state = state,
-                            onToolDiameter = onToolDiameter,
-                            onMaxZDepth = onMaxZDepth,
+                            onToolDiameter = component::setToolDiameter,
+                            onMaxZDepth = component::setMaxZDepth,
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
@@ -214,8 +147,8 @@ private fun EndContent(
                     ToolType.Grooving -> {
                         PartingGroovingToolProperties(
                             state = state,
-                            onBladeWidth = onBladeWidth,
-                            onMaxXDepth = onMaxXDepth,
+                            onBladeWidth = component::setBladeWidth,
+                            onMaxXDepth = component::setMaxXDepth,
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
@@ -223,16 +156,16 @@ private fun EndContent(
                     ToolType.IdThreading -> {
                         ThreadingToolProperties(
                             state = state,
-                            onMinThreadPitch = onMinThreadPitch,
-                            onMaxThreadPitch = onMaxThreadPitch,
+                            onMinThreadPitch = component::setMinThreadPitch,
+                            onMaxThreadPitch = component::setMaxThreadPitch,
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
                     ToolType.Slotting -> {
                         SlottingToolProperties(
                             state = state,
-                            onBladeWidth = onBladeWidth,
-                            onMaxZDepth = onMaxZDepth,
+                            onBladeWidth = component::setBladeWidth,
+                            onMaxZDepth = component::setMaxZDepth,
                             modifier = Modifier.fillMaxWidth()
                         )
                     }

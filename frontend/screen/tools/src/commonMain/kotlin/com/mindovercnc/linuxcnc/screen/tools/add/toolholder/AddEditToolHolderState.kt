@@ -8,5 +8,7 @@ data class AddEditToolHolderState(
     val type: ToolHolderType = ToolHolderType.Generic,
     val latheTool: LatheTool? = null,
     val latheToolsList: List<LatheTool> = emptyList(),
-    val unmountedLatheTools: List<LatheTool> = emptyList()
+    val unmountedLatheTools: List<LatheTool> = emptyList(),
+    val isLoading: Boolean = false,
+    val isFinished: Boolean = false
 )

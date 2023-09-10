@@ -7,6 +7,7 @@ import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.MadeOf
 import com.mindovercnc.model.*
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.kodein.di.DI
 import org.kodein.di.instance
 import org.kodein.di.instanceOrNull
@@ -75,24 +76,29 @@ class AddEditCuttingInsertScreenModel(di: DI, componentContext: ComponentContext
         mutableState.update { it.copy(feedsAndSpeedsList = dummyFeedsAndSpeeds) }
     }
 
-    override fun applyChanges(): Boolean {
-        with(mutableState.value) {
-            val insert =
-                CuttingInsert(
-                    id = cuttingInsertId,
-                    madeOf = madeOf ?: return false,
-                    code = this.getCodeFromSelection(),
-                    tipRadius = tipRadius,
-                    tipAngle = tipAngle.toDouble(),
-                    size = size
-                )
+    override fun applyChanges() {
+        val insert = createCuttingInsert() ?: return
+        coroutineScope.launch {
+            mutableState.update { it.copy(isLoading = true) }
             when (editItem) {
                 null -> toolsUseCase.createCuttingInsert(insert)
                 else -> toolsUseCase.updateCuttingInsert(insert)
             }
+            mutableState.update { it.copy(isLoading = false, isFinished = true) }
         }
-        // TODO: add validation
-        return true
+    }
+
+    private fun createCuttingInsert(): CuttingInsert? {
+        return with(state.value) {
+            CuttingInsert(
+                id = cuttingInsertId,
+                madeOf = madeOf ?: return null,
+                code = this.getCodeFromSelection(),
+                tipRadius = tipRadius,
+                tipAngle = tipAngle.toDouble(),
+                size = size
+            )
+        }
     }
 
     private fun initEdit(insert: CuttingInsert) {

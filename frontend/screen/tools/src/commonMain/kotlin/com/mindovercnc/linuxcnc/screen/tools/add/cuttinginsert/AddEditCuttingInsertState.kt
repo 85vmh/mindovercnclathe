@@ -14,12 +14,19 @@ data class AddEditCuttingInsertState(
     val tipRadius: Double = 0.0,
     val size: Double = 0.0,
     val feedsAndSpeedsList: List<FeedsAndSpeeds> = emptyList(),
+    val isLoading: Boolean = false,
+    val isFinished: Boolean = false
 ) {
     val isCustomGroundTool: Boolean
         get() = madeOf == MadeOf.Hss || madeOf == MadeOf.HssCo
 
     fun getCodeFromSelection(): String? {
-        return if (insertShape != null && insertClearance != null && toleranceClass != null && mountingAndChipBreaker != null) {
+        return if (
+            insertShape != null &&
+                insertClearance != null &&
+                toleranceClass != null &&
+                mountingAndChipBreaker != null
+        ) {
             val letter1 = insertShape.name
             val letter2 = insertClearance.name
             val letter3 = toleranceClass.name

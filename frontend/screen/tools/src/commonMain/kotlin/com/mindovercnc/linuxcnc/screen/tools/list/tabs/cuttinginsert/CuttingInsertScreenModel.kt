@@ -8,6 +8,7 @@ import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.kodein.di.DI
 import org.kodein.di.instance
 
@@ -29,9 +30,11 @@ class CuttingInsertScreenModel(di: DI, componentContext: ComponentContext) :
     }
 
     override fun deleteCuttingInsert(insert: CuttingInsert) {
-        toolsUseCase.deleteCuttingInsert(insert)
-        cancelDeleteCuttingInsert()
-        loadCuttingInserts()
+        coroutineScope.launch {
+            toolsUseCase.deleteCuttingInsert(insert)
+            cancelDeleteCuttingInsert()
+            loadCuttingInserts()
+        }
     }
 
     override fun requestDeleteCuttingInsert(cuttingInsert: CuttingInsert) {

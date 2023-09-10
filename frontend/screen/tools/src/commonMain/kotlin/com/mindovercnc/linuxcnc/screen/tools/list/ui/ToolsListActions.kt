@@ -14,13 +14,7 @@ fun RowScope.AddEditItemActions(
     component: AddEditItemComponent<*>,
     rootComponent: ToolsRootComponent,
 ) {
-    IconButton(
-        onClick = {
-            if (component.applyChanges()) {
-                rootComponent.navigateUp()
-            }
-        }
-    ) {
+    IconButton(onClick = component::applyChanges) {
         Icon(
             imageVector = Icons.Default.Check,
             contentDescription = null,

@@ -24,10 +24,10 @@ fun ToolsRootScreenUi(
                 AddEditCuttingInsertScreenUi(component, child.component, childModifier)
             }
             is ToolsChild.AddEditLatheTool -> {
-                AddEditLatheToolScreenUi(child.component, childModifier)
+                AddEditLatheToolScreenUi(component, child.component, childModifier)
             }
             is ToolsChild.AddEditToolHolder -> {
-                AddEditToolHolderScreenUi(child.component, childModifier)
+                AddEditToolHolderScreenUi(component, child.component, childModifier)
             }
             is ToolsChild.List -> {
                 ToolsListScreenUi(component, child.component, childModifier)

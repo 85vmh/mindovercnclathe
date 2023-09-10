@@ -22,4 +22,6 @@ data class AddEditLatheToolState(
     val toolDiameter: Double = 0.0,
     val minThreadPitch: Double = 0.0,
     val maxThreadPitch: Double = 0.0,
+    val isLoading: Boolean = false,
+    val isFinished: Boolean = false
 )

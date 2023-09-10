@@ -6,9 +6,9 @@ import com.mindovercnc.database.table.ToolHolderTable
 import com.mindovercnc.database.table.ToolHolderTable.holderNumber
 import com.mindovercnc.linuxcnc.tools.ToolHolderRepository
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
-import com.mindovercnc.model.TipOrientation
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
 import com.mindovercnc.linuxcnc.tools.model.ToolType
+import com.mindovercnc.model.TipOrientation
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -17,7 +17,7 @@ import org.jetbrains.exposed.sql.update
 /** Implementation for [ToolHolderRepository]. */
 class ToolHolderRepositoryLocal : ToolHolderRepository {
 
-    override fun getToolHolders(): List<ToolHolder> {
+    override suspend fun getToolHolders(): List<ToolHolder> {
         return transaction {
             ToolHolderEntity.all().map {
                 ToolHolder(
@@ -42,7 +42,6 @@ class ToolHolderRepositoryLocal : ToolHolderRepository {
                     backAngle = backAngle!!,
                     spindleDirection = spindleDirection,
                 )
-
             ToolType.Boring ->
                 LatheTool.Boring(
                     toolId = id.value,
@@ -54,7 +53,6 @@ class ToolHolderRepositoryLocal : ToolHolderRepository {
                     minBoreDiameter = minBoreDiameter ?: 0.0,
                     maxZDepth = maxZDepth ?: 0.0
                 )
-
             ToolType.Drilling ->
                 LatheTool.Drilling(
                     toolId = id.value,
@@ -62,7 +60,6 @@ class ToolHolderRepositoryLocal : ToolHolderRepository {
                     toolDiameter = toolDiameter!!,
                     maxZDepth = maxZDepth ?: 0.0
                 )
-
             ToolType.Reaming ->
                 LatheTool.Reaming(
                     toolId = id.value,
@@ -70,7 +67,6 @@ class ToolHolderRepositoryLocal : ToolHolderRepository {
                     toolDiameter = toolDiameter!!,
                     maxZDepth = maxZDepth ?: 0.0
                 )
-
             ToolType.Parting ->
                 LatheTool.Parting(
                     toolId = id.value,
@@ -78,7 +74,6 @@ class ToolHolderRepositoryLocal : ToolHolderRepository {
                     bladeWidth = bladeWidth!!,
                     maxXDepth = maxXDepth ?: 0.0
                 )
-
             ToolType.Grooving ->
                 LatheTool.Grooving(
                     toolId = id.value,
@@ -88,7 +83,6 @@ class ToolHolderRepositoryLocal : ToolHolderRepository {
                     bladeWidth = bladeWidth!!,
                     maxXDepth = maxXDepth ?: 0.0
                 )
-
             ToolType.OdThreading ->
                 LatheTool.OdThreading(
                     toolId = id.value,
@@ -96,7 +90,6 @@ class ToolHolderRepositoryLocal : ToolHolderRepository {
                     minPitch = minThreadPitch ?: 0.0,
                     maxPitch = maxThreadPitch ?: 0.0
                 )
-
             ToolType.IdThreading ->
                 LatheTool.IdThreading(
                     toolId = id.value,
@@ -104,7 +97,6 @@ class ToolHolderRepositoryLocal : ToolHolderRepository {
                     minPitch = minThreadPitch ?: 0.0,
                     maxPitch = maxThreadPitch ?: 0.0
                 )
-
             ToolType.Slotting ->
                 LatheTool.Slotting(
                     toolId = id.value,
@@ -112,12 +104,11 @@ class ToolHolderRepositoryLocal : ToolHolderRepository {
                     bladeWidth = bladeWidth!!,
                     maxZDepth = maxZDepth ?: 0.0
                 )
-
             else -> null
         }
     }
 
-    override fun createToolHolder(toolHolder: ToolHolder) {
+    override suspend fun createToolHolder(toolHolder: ToolHolder) {
         transaction {
             ToolHolderEntity.new {
                 holderNumber = toolHolder.holderNumber
@@ -130,7 +121,7 @@ class ToolHolderRepositoryLocal : ToolHolderRepository {
         }
     }
 
-    override fun updateToolHolder(toolHolder: ToolHolder) {
+    override suspend fun updateToolHolder(toolHolder: ToolHolder) {
         transaction {
             ToolHolderTable.update({ holderNumber eq toolHolder.holderNumber }) {
                 it[holderType] = toolHolder.type
@@ -141,7 +132,7 @@ class ToolHolderRepositoryLocal : ToolHolderRepository {
         }
     }
 
-    override fun deleteToolHolder(toolHolder: ToolHolder): Boolean {
+    override suspend fun deleteToolHolder(toolHolder: ToolHolder): Boolean {
         return transaction {
             ToolHolderTable.deleteWhere { holderNumber eq toolHolder.holderNumber } != 0
         }

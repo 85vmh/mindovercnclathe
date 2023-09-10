@@ -51,7 +51,7 @@ class AddEditFeedsAndSpeedsScreenModel(di: DI, componentContext: ComponentContex
         mutableState.update { it.copy(maxVc = value) }
     }
 
-    override fun applyChanges(): Boolean {
+    override fun applyChanges() {
         // TODO
         with(mutableState.value) {
             //            val insert =
@@ -68,7 +68,6 @@ class AddEditFeedsAndSpeedsScreenModel(di: DI, componentContext: ComponentContex
             //                else -> toolsUseCase.updateCuttingInsert(insert)
             //            }
         }
-        return true
     }
 
     private fun initItem(feedsAndSpeeds: FeedsAndSpeeds) {

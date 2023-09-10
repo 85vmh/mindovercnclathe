@@ -21,11 +21,11 @@ import org.jetbrains.exposed.sql.update
 /** Implementation for [LatheToolsRepository]. */
 class LatheToolsRepositoryLocal : LatheToolsRepository {
 
-    override fun getLatheTools(): List<LatheTool> {
+    override suspend fun getLatheTools(): List<LatheTool> {
         return transaction { LatheToolEntity.all().mapNotNull { it.toLatheTool() } }
     }
 
-    override fun getUnmountedLatheTools(): List<LatheTool> {
+    override suspend fun getUnmountedLatheTools(): List<LatheTool> {
         return transaction {
             val toolHolderQuery =
                 ToolHolderTable.slice(ToolHolderTable.cutterId).select(ToolHolderTable.cutterId.isNotNull())
@@ -40,7 +40,7 @@ class LatheToolsRepositoryLocal : LatheToolsRepository {
         }
     }
 
-    override fun createLatheTool(latheTool: LatheTool) {
+    override suspend fun createLatheTool(latheTool: LatheTool) {
         transaction {
             when (latheTool) {
                 is LatheTool.Turning -> LatheToolEntity.new {
@@ -110,7 +110,7 @@ class LatheToolsRepositoryLocal : LatheToolsRepository {
         return transaction { CuttingInsertEntity.find { CuttingInsertTable.id eq insertId }.first() }
     }
 
-    override fun updateLatheTool(latheTool: LatheTool) {
+    override suspend fun updateLatheTool(latheTool: LatheTool) {
         transaction {
             LatheToolTable.update({ LatheToolTable.id eq latheTool.toolId }) {
                 when (latheTool) {
@@ -178,7 +178,7 @@ class LatheToolsRepositoryLocal : LatheToolsRepository {
         }
     }
 
-    override fun deleteLatheTool(latheTool: LatheTool): Boolean {
+    override suspend fun deleteLatheTool(latheTool: LatheTool): Boolean {
         return transaction { LatheToolTable.deleteWhere { LatheToolTable.id eq latheTool.toolId } != 0 }
     }
 

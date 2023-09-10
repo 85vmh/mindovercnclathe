@@ -1,6 +1,7 @@
 package com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder
 
 import com.arkivanov.decompose.ComponentContext
+import com.mindovercnc.linuxcnc.domain.ToolHolderUseCase
 import com.mindovercnc.linuxcnc.domain.ToolsUseCase
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.list.ui.ToolHolderDeleteModel
@@ -17,6 +18,7 @@ class HoldersToolsScreenModel(di: DI, componentContext: ComponentContext) :
     HoldersToolsComponent {
 
     private val toolsUseCase: ToolsUseCase by di.instance()
+    private val toolHolderUseCase: ToolHolderUseCase by di.instance()
 
     init {
         toolsUseCase
@@ -34,16 +36,10 @@ class HoldersToolsScreenModel(di: DI, componentContext: ComponentContext) :
     }
 
     override fun loadToolHolders() {
-        toolsUseCase
-            .getToolHolders()
-            .onEach { toolList ->
-                mutableState.update {
-                    it.copy(
-                        toolHolders = toolList,
-                    )
-                }
-            }
-            .launchIn(coroutineScope)
+        coroutineScope.launch {
+            val toolList = toolHolderUseCase.getToolHolders()
+            mutableState.update { it.copy(toolHolders = toolList) }
+        }
     }
 
     override fun requestDeleteToolHolder(toolHolder: ToolHolder) {
@@ -59,9 +55,12 @@ class HoldersToolsScreenModel(di: DI, componentContext: ComponentContext) :
     }
 
     override fun deleteToolHolder(toolHolder: ToolHolder) {
-        toolsUseCase.deleteToolHolder(toolHolder)
-        cancelDeleteToolHolder()
-        loadToolHolders()
+        // TODO: loading state
+        coroutineScope.launch {
+            toolsUseCase.deleteToolHolder(toolHolder)
+            cancelDeleteToolHolder()
+            loadToolHolders()
+        }
     }
 
     override fun onMountTool(toolHolder: ToolHolder) {}

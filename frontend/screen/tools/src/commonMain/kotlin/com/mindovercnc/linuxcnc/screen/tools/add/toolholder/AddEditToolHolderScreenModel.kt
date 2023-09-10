@@ -1,14 +1,14 @@
 package com.mindovercnc.linuxcnc.screen.tools.add.toolholder
 
 import com.arkivanov.decompose.ComponentContext
+import com.mindovercnc.linuxcnc.domain.ToolHolderUseCase
 import com.mindovercnc.linuxcnc.domain.ToolsUseCase
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
 import com.mindovercnc.linuxcnc.tools.model.ToolHolderType
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import mu.KotlinLogging
 import org.kodein.di.DI
 import org.kodein.di.instance
@@ -19,6 +19,7 @@ class AddEditToolHolderScreenModel(di: DI, componentContext: ComponentContext) :
     AddEditToolHolderComponent {
 
     private val toolsUseCase: ToolsUseCase by di.instance()
+    private val toolHolderUseCase: ToolHolderUseCase by di.instance()
     override val editItem: ToolHolder? by di.instanceOrNull()
 
     override val title: String
@@ -31,12 +32,16 @@ class AddEditToolHolderScreenModel(di: DI, componentContext: ComponentContext) :
     init {
         editItem?.let { holder -> initEdit(holder) }
 
-        toolsUseCase
-            .getLatheTools()
-            .onEach { toolsList -> mutableState.update { it.copy(latheToolsList = toolsList) } }
-            .launchIn(coroutineScope)
+        loadLatheTools()
 
         setHolderType(ToolHolderType.Generic)
+    }
+
+    private fun loadLatheTools() {
+        coroutineScope.launch {
+            val toolsList = toolsUseCase.getLatheTools()
+            mutableState.update { it.copy(latheToolsList = toolsList) }
+        }
     }
 
     override fun setHolderNumber(value: Int) {
@@ -44,18 +49,17 @@ class AddEditToolHolderScreenModel(di: DI, componentContext: ComponentContext) :
     }
 
     override fun setHolderType(value: ToolHolderType) {
-        toolsUseCase
-            .getUnmountedLatheTools(value)
-            .onEach { toolsList ->
-                LOG.debug { "holderType $value, toolsList: $toolsList" }
-                mutableState.update {
-                    it.copy(
-                        type = value,
-                        unmountedLatheTools = toolsList,
-                    )
-                }
+        coroutineScope.launch {
+            val toolsList = toolHolderUseCase.getUnmountedLatheTools(value)
+
+            LOG.debug { "holderType $value, toolsList: $toolsList" }
+            mutableState.update {
+                it.copy(
+                    type = value,
+                    unmountedLatheTools = toolsList,
+                )
             }
-            .launchIn(coroutineScope)
+        }
     }
 
     override fun setLatheTool(value: LatheTool) {
@@ -66,21 +70,27 @@ class AddEditToolHolderScreenModel(di: DI, componentContext: ComponentContext) :
         }
     }
 
-    override fun applyChanges(): Boolean {
-        with(mutableState.value) {
-            val th =
-                ToolHolder(
-                    holderNumber = this.holderNumber ?: return@with,
-                    type = this.type,
-                    latheTool = this.latheTool
-                )
+    override fun applyChanges() {
+        val toolHolder = createToolHolder() ?: return
+
+        coroutineScope.launch {
+            mutableState.update { it.copy(isLoading = true) }
             when (editItem) {
-                null -> toolsUseCase.createToolHolder(th)
-                else -> toolsUseCase.updateToolHolder(th)
+                null -> toolHolderUseCase.createToolHolder(toolHolder)
+                else -> toolHolderUseCase.updateToolHolder(toolHolder)
             }
+            mutableState.update { it.copy(isLoading = false, isFinished = true) }
         }
-        // TODO: add validation
-        return true
+    }
+
+    private fun createToolHolder(): ToolHolder? {
+        return with(state.value) {
+            ToolHolder(
+                holderNumber = holderNumber ?: return null,
+                type = type,
+                latheTool = latheTool,
+            )
+        }
     }
 
     private fun initEdit(holder: ToolHolder) {

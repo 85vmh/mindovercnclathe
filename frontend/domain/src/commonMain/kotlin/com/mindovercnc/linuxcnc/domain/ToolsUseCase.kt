@@ -14,8 +14,6 @@ import com.mindovercnc.linuxcnc.tools.ToolHolderRepository
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
-import com.mindovercnc.linuxcnc.tools.model.ToolHolderType
-import com.mindovercnc.model.TipOrientation
 import com.mindovercnc.repository.EmcMessagesRepository
 import com.mindovercnc.repository.IoStatusRepository
 import com.mindovercnc.repository.MotionStatusRepository
@@ -57,58 +55,28 @@ class ToolsUseCase(
             .launchIn(scope)
     }
 
-    fun getToolHolders(): Flow<List<ToolHolder>> = flowOf(toolHolderRepository.getToolHolders())
+    suspend fun getLatheTools(): List<LatheTool> = latheToolsRepository.getLatheTools()
 
-    fun createToolHolder(toolHolder: ToolHolder) = toolHolderRepository.createToolHolder(toolHolder)
+    suspend fun createLatheTool(latheTool: LatheTool) =
+        latheToolsRepository.createLatheTool(latheTool)
 
-    fun updateToolHolder(toolHolder: ToolHolder) = toolHolderRepository.updateToolHolder(toolHolder)
+    suspend fun updateLatheTool(latheTool: LatheTool) =
+        latheToolsRepository.updateLatheTool(latheTool)
 
-    fun getLatheTools(): Flow<List<LatheTool>> = flowOf(latheToolsRepository.getLatheTools())
-
-    fun getUnmountedLatheTools(holderType: ToolHolderType): Flow<List<LatheTool>> {
-        val allTools = latheToolsRepository.getUnmountedLatheTools()
-        val filteredTools = when (holderType) {
-            ToolHolderType.Generic -> allTools.filter {
-                it is LatheTool.Turning || it is LatheTool.Boring ||
-                        it is LatheTool.Parting || it is LatheTool.Grooving ||
-                        it is LatheTool.OdThreading || it is LatheTool.IdThreading ||
-                        it is LatheTool.Slotting
-            }
-
-            ToolHolderType.Centered -> allTools.filter {
-                it is LatheTool.Drilling || it is LatheTool.Reaming
-            }
-
-            ToolHolderType.Parting -> allTools.filter {
-                it is LatheTool.Parting ||
-                        (it is LatheTool.Grooving && it.tipOrientation == TipOrientation.Position6)
-            }
-
-            ToolHolderType.Boring -> allTools.filter {
-                it is LatheTool.Boring ||
-                        (it is LatheTool.Grooving && it.tipOrientation == TipOrientation.Position8)
-            }
-        }
-        return flowOf(filteredTools)
-    }
-
-    fun createLatheTool(latheTool: LatheTool) = latheToolsRepository.createLatheTool(latheTool)
-
-    fun updateLatheTool(latheTool: LatheTool) = latheToolsRepository.updateLatheTool(latheTool)
-
-    fun createCuttingInsert(cuttingInsert: CuttingInsert) =
+    suspend fun createCuttingInsert(cuttingInsert: CuttingInsert) =
         cuttingInsertsRepository.insert(cuttingInsert)
 
-    fun updateCuttingInsert(cuttingInsert: CuttingInsert) =
+    suspend fun updateCuttingInsert(cuttingInsert: CuttingInsert) =
         cuttingInsertsRepository.update(cuttingInsert)
 
     fun getCuttingInserts(): Flow<List<CuttingInsert>> = flowOf(cuttingInsertsRepository.findAll())
 
-    fun deleteToolHolder(toolHolder: ToolHolder) = toolHolderRepository.deleteToolHolder(toolHolder)
+    suspend fun deleteToolHolder(toolHolder: ToolHolder) =
+        toolHolderRepository.deleteToolHolder(toolHolder)
 
-    fun deleteLatheTool(tool: LatheTool) = latheToolsRepository.deleteLatheTool(tool)
+    suspend fun deleteLatheTool(tool: LatheTool) = latheToolsRepository.deleteLatheTool(tool)
 
-    fun deleteCuttingInsert(insert: CuttingInsert) = cuttingInsertsRepository.delete(insert)
+    suspend fun deleteCuttingInsert(insert: CuttingInsert) = cuttingInsertsRepository.delete(insert)
 
     fun getTools(): Flow<List<LatheTool>> {
         // return toolsRepository.getTools()
@@ -124,7 +92,8 @@ class ToolsUseCase(
     }
 
     suspend fun loadTool(toolNo: Int) {
-        val initialTaskMode = statusRepository.cncStatusFlow.map { it.task_status!!.taskMode }.first()
+        val initialTaskMode =
+            statusRepository.cncStatusFlow.map { it.task_status!!.taskMode }.first()
         commandRepository.setTaskMode(TaskMode.TaskModeMDI)
         commandRepository.executeMdiCommand("M61 Q$toolNo G43")
         delay(200)
@@ -152,7 +121,8 @@ class ToolsUseCase(
     //    }
 
     private suspend fun toolTouchOff(axisWithValue: String) {
-        val initialTaskMode = statusRepository.cncStatusFlow.map { it.task_status!!.taskMode }.first()
+        val initialTaskMode =
+            statusRepository.cncStatusFlow.map { it.task_status!!.taskMode }.first()
         val currentTool = ioStatusRepository.ioStatusFlow.map { it.currentToolNo }.first()
         commandRepository.setTaskMode(TaskMode.TaskModeMDI)
         commandRepository.executeMdiCommand("G10 L10 P$currentTool $axisWithValue")

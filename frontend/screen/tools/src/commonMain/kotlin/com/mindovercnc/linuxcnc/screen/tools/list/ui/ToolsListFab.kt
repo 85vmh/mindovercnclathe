@@ -22,7 +22,7 @@ internal fun ToolsListFab(
     val onClick: () -> Unit =
         when (currentTab) {
             is HoldersToolsTab -> {
-                rootComponent::addCuttingInsert
+                rootComponent::addToolHolder
             }
             is LatheToolsTab -> {
                 rootComponent::addLatheTool

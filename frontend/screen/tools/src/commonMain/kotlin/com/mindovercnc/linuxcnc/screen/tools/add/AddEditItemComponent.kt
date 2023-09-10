@@ -14,5 +14,5 @@ interface AddEditItemComponent<T> {
      *
      * @return Whether the action succeeded or not.
      */
-    fun applyChanges(): Boolean
+    fun applyChanges()
 }
