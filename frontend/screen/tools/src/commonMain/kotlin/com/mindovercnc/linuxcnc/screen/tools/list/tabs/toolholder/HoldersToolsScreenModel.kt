@@ -1,8 +1,8 @@
 package com.mindovercnc.linuxcnc.screen.tools.list.tabs.toolholder
 
 import com.arkivanov.decompose.ComponentContext
-import com.mindovercnc.linuxcnc.domain.ToolHolderUseCase
-import com.mindovercnc.linuxcnc.domain.ToolsUseCase
+import com.mindovercnc.linuxcnc.domain.tools.ToolHolderUseCase
+import com.mindovercnc.linuxcnc.domain.tools.ToolsUseCase
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.list.ui.ToolHolderDeleteModel
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
@@ -57,7 +57,7 @@ class HoldersToolsScreenModel(di: DI, componentContext: ComponentContext) :
     override fun deleteToolHolder(toolHolder: ToolHolder) {
         // TODO: loading state
         coroutineScope.launch {
-            toolsUseCase.deleteToolHolder(toolHolder)
+            toolHolderUseCase.deleteToolHolder(toolHolder)
             cancelDeleteToolHolder()
             loadToolHolders()
         }

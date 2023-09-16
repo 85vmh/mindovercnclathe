@@ -1,15 +1,14 @@
 package com.mindovercnc.linuxcnc.screen.tools.add.lathetool
 
 import com.arkivanov.decompose.ComponentContext
-import com.mindovercnc.linuxcnc.domain.ToolsUseCase
+import com.mindovercnc.linuxcnc.domain.tools.CuttingInsertUseCase
+import com.mindovercnc.linuxcnc.domain.tools.LatheToolUseCase
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolType
 import com.mindovercnc.model.SpindleDirection
 import com.mindovercnc.model.TipOrientation
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.kodein.di.DI
@@ -20,7 +19,8 @@ class AddEditLatheToolScreenModel(di: DI, componentContext: ComponentContext) :
     BaseScreenModel<AddEditLatheToolState>(AddEditLatheToolState(), componentContext),
     AddEditLatheToolComponent {
 
-    private val toolsUseCase: ToolsUseCase by di.instance()
+    private val cuttingInsertUseCase: CuttingInsertUseCase by di.instance()
+    private val latheToolUseCase: LatheToolUseCase by di.instance()
     override val editItem: LatheTool? by di.instanceOrNull()
 
     override val title: String
@@ -33,16 +33,11 @@ class AddEditLatheToolScreenModel(di: DI, componentContext: ComponentContext) :
     init {
         editItem?.let(::initEdit)
 
-        toolsUseCase
-            .getCuttingInserts()
-            .onEach { insertsList ->
-                mutableState.update {
-                    it.copy(
-                        cuttingInserts = insertsList,
-                    )
-                }
-            }
-            .launchIn(coroutineScope)
+        coroutineScope.launch {
+            val insertsList = cuttingInsertUseCase.getCuttingInserts()
+
+            mutableState.update { it.copy(cuttingInserts = insertsList) }
+        }
     }
 
     private fun initEdit(tool: LatheTool) {
@@ -246,9 +241,9 @@ class AddEditLatheToolScreenModel(di: DI, componentContext: ComponentContext) :
         coroutineScope.launch {
             mutableState.update { it.copy(isLoading = true) }
             if (isAdd) {
-                toolsUseCase.createLatheTool(tool)
+                latheToolUseCase.createLatheTool(tool)
             } else {
-                toolsUseCase.updateLatheTool(tool)
+                latheToolUseCase.updateLatheTool(tool)
             }
             mutableState.update { it.copy(isLoading = false, isFinished = true) }
         }

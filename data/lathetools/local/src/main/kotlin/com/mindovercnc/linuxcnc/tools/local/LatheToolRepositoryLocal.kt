@@ -5,7 +5,7 @@ import com.mindovercnc.database.entity.LatheToolEntity
 import com.mindovercnc.database.table.CuttingInsertTable
 import com.mindovercnc.database.table.LatheToolTable
 import com.mindovercnc.database.table.ToolHolderTable
-import com.mindovercnc.linuxcnc.tools.LatheToolsRepository
+import com.mindovercnc.linuxcnc.tools.LatheToolRepository
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolType
 import com.mindovercnc.model.TipOrientation
@@ -18,8 +18,8 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
 
-/** Implementation for [LatheToolsRepository]. */
-class LatheToolsRepositoryLocal : LatheToolsRepository {
+/** Implementation for [LatheToolRepository]. */
+class LatheToolRepositoryLocal : LatheToolRepository {
 
     override suspend fun getLatheTools(): List<LatheTool> {
         return transaction { LatheToolEntity.all().mapNotNull { it.toLatheTool() } }

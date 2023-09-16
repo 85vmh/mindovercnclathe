@@ -2,6 +2,7 @@ package com.mindovercnc.linuxcnc.screen.manual.turning
 
 import com.arkivanov.decompose.ComponentContext
 import com.mindovercnc.linuxcnc.domain.*
+import com.mindovercnc.linuxcnc.domain.tools.ToolsUseCase
 import com.mindovercnc.linuxcnc.numpad.NumPadState
 import com.mindovercnc.linuxcnc.numpad.data.InputType
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel

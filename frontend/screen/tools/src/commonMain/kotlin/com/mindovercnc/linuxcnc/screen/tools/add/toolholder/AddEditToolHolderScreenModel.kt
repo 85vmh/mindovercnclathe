@@ -1,8 +1,8 @@
 package com.mindovercnc.linuxcnc.screen.tools.add.toolholder
 
 import com.arkivanov.decompose.ComponentContext
-import com.mindovercnc.linuxcnc.domain.ToolHolderUseCase
-import com.mindovercnc.linuxcnc.domain.ToolsUseCase
+import com.mindovercnc.linuxcnc.domain.tools.LatheToolUseCase
+import com.mindovercnc.linuxcnc.domain.tools.ToolHolderUseCase
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
@@ -18,7 +18,7 @@ class AddEditToolHolderScreenModel(di: DI, componentContext: ComponentContext) :
     BaseScreenModel<AddEditToolHolderState>(AddEditToolHolderState(), componentContext),
     AddEditToolHolderComponent {
 
-    private val toolsUseCase: ToolsUseCase by di.instance()
+    private val latheToolUseCase: LatheToolUseCase by di.instance()
     private val toolHolderUseCase: ToolHolderUseCase by di.instance()
     override val editItem: ToolHolder? by di.instanceOrNull()
 
@@ -39,7 +39,7 @@ class AddEditToolHolderScreenModel(di: DI, componentContext: ComponentContext) :
 
     private fun loadLatheTools() {
         coroutineScope.launch {
-            val toolsList = toolsUseCase.getLatheTools()
+            val toolsList = latheToolUseCase.getLatheTools()
             mutableState.update { it.copy(latheToolsList = toolsList) }
         }
     }

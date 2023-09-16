@@ -1,11 +1,11 @@
 package com.mindovercnc.linuxcnc.tools.remote
 
-import com.mindovercnc.linuxcnc.tools.LatheToolsRepository
+import com.mindovercnc.linuxcnc.tools.LatheToolRepository
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import mu.KotlinLogging
 
-/** Implementation for [LatheToolsRepository]. */
-class LatheToolsRepositoryRemote : LatheToolsRepository {
+/** Implementation for [LatheToolRepository]. */
+class LatheToolRepositoryRemote : LatheToolRepository {
 
     init {
         LOG.warn { "Remote implementation is missing" }

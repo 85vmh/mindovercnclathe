@@ -7,7 +7,7 @@ interface CuttingInsertsRepository {
 
     suspend fun update(cuttingInsert: CuttingInsert)
 
-    fun findAll(): List<CuttingInsert>
+    suspend fun findAll(): List<CuttingInsert>
 
     suspend fun delete(cuttingInsert: CuttingInsert)
 }

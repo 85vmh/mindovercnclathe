@@ -2,7 +2,7 @@ package com.mindovercnc.linuxcnc.tools
 
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 
-interface LatheToolsRepository {
+interface LatheToolRepository {
     suspend fun getLatheTools(): List<LatheTool>
     suspend fun getUnmountedLatheTools(): List<LatheTool>
     suspend fun createLatheTool(latheTool: LatheTool)

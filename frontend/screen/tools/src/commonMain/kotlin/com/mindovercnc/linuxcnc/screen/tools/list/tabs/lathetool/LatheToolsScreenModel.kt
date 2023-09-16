@@ -1,7 +1,7 @@
 package com.mindovercnc.linuxcnc.screen.tools.list.tabs.lathetool
 
 import com.arkivanov.decompose.ComponentContext
-import com.mindovercnc.linuxcnc.domain.ToolsUseCase
+import com.mindovercnc.linuxcnc.domain.tools.LatheToolUseCase
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.screen.tools.list.ui.LatheToolDeleteModel
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
@@ -15,7 +15,7 @@ class LatheToolsScreenModel(
     componentContext: ComponentContext,
 ) : BaseScreenModel<LatheToolsState>(LatheToolsState(), componentContext), LatheToolsComponent {
 
-    private val toolsUseCase: ToolsUseCase by di.instance()
+    private val latheToolUseCase: LatheToolUseCase by di.instance()
 
     init {
         loadLatheTools()
@@ -23,7 +23,7 @@ class LatheToolsScreenModel(
 
     override fun loadLatheTools() {
         coroutineScope.launch {
-            val latheTools = toolsUseCase.getLatheTools()
+            val latheTools = latheToolUseCase.getLatheTools()
 
             mutableState.update { it.copy(latheTools = latheTools) }
         }
@@ -47,7 +47,7 @@ class LatheToolsScreenModel(
 
     override fun deleteLatheTool(latheTool: LatheTool) {
         coroutineScope.launch {
-            toolsUseCase.deleteLatheTool(latheTool)
+            latheToolUseCase.deleteLatheTool(latheTool)
             cancelDeleteLatheTool()
             loadLatheTools()
         }

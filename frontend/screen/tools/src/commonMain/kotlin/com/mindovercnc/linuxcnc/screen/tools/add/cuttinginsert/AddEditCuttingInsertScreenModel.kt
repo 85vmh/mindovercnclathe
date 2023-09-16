@@ -1,7 +1,7 @@
 package com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert
 
 import com.arkivanov.decompose.ComponentContext
-import com.mindovercnc.linuxcnc.domain.ToolsUseCase
+import com.mindovercnc.linuxcnc.domain.tools.CuttingInsertUseCase
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.MadeOf
@@ -16,7 +16,7 @@ class AddEditCuttingInsertScreenModel(di: DI, componentContext: ComponentContext
     BaseScreenModel<AddEditCuttingInsertState>(AddEditCuttingInsertState(), componentContext),
     AddEditCuttingInsertComponent {
 
-    private val toolsUseCase: ToolsUseCase by di.instance()
+    private val cuttingInsertUseCase: CuttingInsertUseCase by di.instance()
 
     override val editItem: CuttingInsert? by di.instanceOrNull()
 
@@ -81,8 +81,8 @@ class AddEditCuttingInsertScreenModel(di: DI, componentContext: ComponentContext
         coroutineScope.launch {
             mutableState.update { it.copy(isLoading = true) }
             when (editItem) {
-                null -> toolsUseCase.createCuttingInsert(insert)
-                else -> toolsUseCase.updateCuttingInsert(insert)
+                null -> cuttingInsertUseCase.createCuttingInsert(insert)
+                else -> cuttingInsertUseCase.updateCuttingInsert(insert)
             }
             mutableState.update { it.copy(isLoading = false, isFinished = true) }
         }

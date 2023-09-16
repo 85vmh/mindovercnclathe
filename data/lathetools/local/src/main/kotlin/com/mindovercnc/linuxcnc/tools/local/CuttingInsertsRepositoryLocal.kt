@@ -36,7 +36,7 @@ class CuttingInsertsRepositoryLocal : CuttingInsertsRepository {
         }
     }
 
-    override fun findAll(): List<CuttingInsert> {
+    override suspend fun findAll(): List<CuttingInsert> {
         return transaction {
             CuttingInsertEntity.all().map {
                 it.toCuttingInsert()

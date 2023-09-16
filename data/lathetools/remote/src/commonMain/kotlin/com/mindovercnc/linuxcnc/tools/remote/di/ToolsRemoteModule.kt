@@ -8,5 +8,5 @@ import org.kodein.di.bindSingleton
 val ToolsRemoteModule = DI.Module("tools_remote") {
     bindSingleton<ToolHolderRepository> { ToolHolderRepositoryRemote() }
     bindSingleton<CuttingInsertsRepository> { CuttingInsertsRepositoryRemote() }
-    bindSingleton<LatheToolsRepository> { LatheToolsRepositoryRemote() }
+    bindSingleton<LatheToolRepository> { LatheToolRepositoryRemote() }
 }

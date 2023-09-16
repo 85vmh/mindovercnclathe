@@ -19,7 +19,7 @@ class CuttingInsertsRepositoryRemote : CuttingInsertsRepository {
         /* no-op */
     }
 
-    override fun findAll(): List<CuttingInsert> {
+    override suspend fun findAll(): List<CuttingInsert> {
         /* no-op */
         return emptyList()
     }

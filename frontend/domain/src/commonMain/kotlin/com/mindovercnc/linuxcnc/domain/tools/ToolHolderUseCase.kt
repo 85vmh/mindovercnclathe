@@ -1,6 +1,6 @@
-package com.mindovercnc.linuxcnc.domain
+package com.mindovercnc.linuxcnc.domain.tools
 
-import com.mindovercnc.linuxcnc.tools.LatheToolsRepository
+import com.mindovercnc.linuxcnc.tools.LatheToolRepository
 import com.mindovercnc.linuxcnc.tools.ToolHolderRepository
 import com.mindovercnc.linuxcnc.tools.model.LatheTool
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
@@ -10,7 +10,7 @@ import com.mindovercnc.model.TipOrientation
 class ToolHolderUseCase
 constructor(
     private val toolHolderRepository: ToolHolderRepository,
-    private val latheToolsRepository: LatheToolsRepository,
+    private val latheToolRepository: LatheToolRepository,
 ) {
 
     suspend fun getToolHolders(): List<ToolHolder> = toolHolderRepository.getToolHolders()
@@ -21,8 +21,11 @@ constructor(
     suspend fun updateToolHolder(toolHolder: ToolHolder) =
         toolHolderRepository.updateToolHolder(toolHolder)
 
+    suspend fun deleteToolHolder(toolHolder: ToolHolder) =
+        toolHolderRepository.deleteToolHolder(toolHolder)
+
     suspend fun getUnmountedLatheTools(holderType: ToolHolderType): List<LatheTool> {
-        val allTools = latheToolsRepository.getUnmountedLatheTools()
+        val allTools = latheToolRepository.getUnmountedLatheTools()
         val filteredTools =
             when (holderType) {
                 ToolHolderType.Generic ->

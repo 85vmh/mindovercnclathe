@@ -1,4 +1,4 @@
-package com.mindovercnc.linuxcnc.domain
+package com.mindovercnc.linuxcnc.domain.tools
 
 import com.mindovercnc.data.lathehal.HalRepository
 import com.mindovercnc.data.linuxcnc.CncCommandRepository
@@ -8,12 +8,8 @@ import com.mindovercnc.dispatchers.IoDispatcher
 import com.mindovercnc.dispatchers.createScope
 import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.linuxcnc.settings.model.IntegerKey
-import com.mindovercnc.linuxcnc.tools.CuttingInsertsRepository
-import com.mindovercnc.linuxcnc.tools.LatheToolsRepository
+import com.mindovercnc.linuxcnc.tools.LatheToolRepository
 import com.mindovercnc.linuxcnc.tools.ToolHolderRepository
-import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
-import com.mindovercnc.linuxcnc.tools.model.LatheTool
-import com.mindovercnc.linuxcnc.tools.model.ToolHolder
 import com.mindovercnc.repository.EmcMessagesRepository
 import com.mindovercnc.repository.IoStatusRepository
 import com.mindovercnc.repository.MotionStatusRepository
@@ -33,8 +29,7 @@ class ToolsUseCase(
     private val halRepository: HalRepository,
     private val settingsRepository: SettingsRepository,
     private val toolHolderRepository: ToolHolderRepository,
-    private val latheToolsRepository: LatheToolsRepository,
-    private val cuttingInsertsRepository: CuttingInsertsRepository,
+    private val latheToolRepository: LatheToolRepository,
     private val varFileRepository: VarFileRepository
 ) {
 
@@ -53,34 +48,6 @@ class ToolsUseCase(
                 }
             }
             .launchIn(scope)
-    }
-
-    suspend fun getLatheTools(): List<LatheTool> = latheToolsRepository.getLatheTools()
-
-    suspend fun createLatheTool(latheTool: LatheTool) =
-        latheToolsRepository.createLatheTool(latheTool)
-
-    suspend fun updateLatheTool(latheTool: LatheTool) =
-        latheToolsRepository.updateLatheTool(latheTool)
-
-    suspend fun createCuttingInsert(cuttingInsert: CuttingInsert) =
-        cuttingInsertsRepository.insert(cuttingInsert)
-
-    suspend fun updateCuttingInsert(cuttingInsert: CuttingInsert) =
-        cuttingInsertsRepository.update(cuttingInsert)
-
-    fun getCuttingInserts(): Flow<List<CuttingInsert>> = flowOf(cuttingInsertsRepository.findAll())
-
-    suspend fun deleteToolHolder(toolHolder: ToolHolder) =
-        toolHolderRepository.deleteToolHolder(toolHolder)
-
-    suspend fun deleteLatheTool(tool: LatheTool) = latheToolsRepository.deleteLatheTool(tool)
-
-    suspend fun deleteCuttingInsert(insert: CuttingInsert) = cuttingInsertsRepository.delete(insert)
-
-    fun getTools(): Flow<List<LatheTool>> {
-        // return toolsRepository.getTools()
-        return flowOf(emptyList())
     }
 
     suspend fun toolTouchOffX(value: Double) {
