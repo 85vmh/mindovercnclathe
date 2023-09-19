@@ -15,7 +15,7 @@ fun DrillingParametersView(
     parameters: SimpleCycleParameters.DrillingParameters,
     modifier: Modifier = Modifier
 ) {
-    Column(verticalArrangement = Arrangement.spacedBy(16.dp), modifier = modifier) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         CycleParameter(
             parameterLabel = "Z End",
             inputType = InputType.Z_END,

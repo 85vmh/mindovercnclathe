@@ -10,7 +10,8 @@ object Libs {
 
     object Decompose {
         const val core = "com.arkivanov.decompose:decompose:${Versions.decompose}"
-        const val extensions = "com.arkivanov.decompose:extensions-compose-jetbrains:${Versions.decompose}"
+        const val extensions =
+            "com.arkivanov.decompose:extensions-compose-jetbrains:${Versions.decompose}"
     }
 
     object Roborazzi {
@@ -65,14 +66,6 @@ object Libs {
         const val proto_kotlin =
             "com.google.protobuf:protobuf-kotlin:${Versions.Grpc.protobuf_kotlin}"
         const val okhttp = "io.grpc:grpc-okhttp:${Versions.Grpc.grpc}"
-    }
-
-    object Voyager {
-        const val navigator = "cafe.adriel.voyager:voyager-navigator:${Versions.voyager}"
-        const val tab_navigator = "cafe.adriel.voyager:voyager-tab-navigator:${Versions.voyager}"
-        const val transitions = "cafe.adriel.voyager:voyager-transitions:${Versions.voyager}"
-        const val bottom_sheet_navigator =
-            "cafe.adriel.voyager:voyager-bottom-sheet-navigator:${Versions.voyager}"
     }
 
     const val cli = "org.jetbrains.kotlinx:kotlinx-cli:${Versions.Kotlinx.cli}"

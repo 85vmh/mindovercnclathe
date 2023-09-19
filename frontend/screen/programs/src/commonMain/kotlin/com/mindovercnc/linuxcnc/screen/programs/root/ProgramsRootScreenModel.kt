@@ -1,77 +1,69 @@
 package com.mindovercnc.linuxcnc.screen.programs.root
 
-import cafe.adriel.voyager.core.model.StateScreenModel
-import com.mindovercnc.data.linuxcnc.FileSystemRepository
-import com.mindovercnc.editor.EditorLoader
-import com.mindovercnc.linuxcnc.domain.BreadCrumbDataUseCase
-import com.mindovercnc.linuxcnc.domain.FileSystemDataUseCase
-import kotlinx.coroutines.flow.update
-import mu.KotlinLogging
-import okio.FileSystem
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.router.stack.*
+import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.parcelable.Parcelable
+import com.arkivanov.essenty.parcelable.Parcelize
+import com.mindovercnc.linuxcnc.screen.programs.picker.ProgramPickerComponent
+import com.mindovercnc.linuxcnc.screen.programs.picker.ProgramPickerScreenModel
+import com.mindovercnc.linuxcnc.screen.programs.programloaded.ProgramLoadedComponent
+import com.mindovercnc.linuxcnc.screen.programs.programloaded.ProgramLoadedScreenModel
 import okio.Path
+import org.kodein.di.DI
+import org.kodein.di.bindProvider
+import org.kodein.di.subDI
 
 class ProgramsRootScreenModel(
-    fileSystemRepository: FileSystemRepository,
-    private val fileSystem: FileSystem,
-    private val editorLoader: EditorLoader,
-    private val fileSystemDataUseCase: FileSystemDataUseCase,
-    private val breadCrumbDataUseCase: BreadCrumbDataUseCase
-) : StateScreenModel<ProgramsState>(ProgramsState()), ProgramsRootComponent {
+    private val di: DI,
+    componentContext: ComponentContext,
+) : ProgramsRootComponent, ComponentContext by componentContext {
 
-    private val logger = KotlinLogging.logger("ProgramsRootScreenModel")
+    private val navigation = StackNavigation<Config>()
 
-    init {
-        val path = fileSystemRepository.getNcRootAppFile()
-        logger.info { "NC Root App File path $path" }
-        setCurrentFolder(path)
+    private val _childStack =
+        childStack(
+            source = navigation,
+            initialConfiguration = Config.Picker,
+            childFactory = ::createChild
+        )
+
+    override val childStack: Value<ChildStack<*, ProgramsRootComponent.Child>> = _childStack
+
+    override fun openProgram(path: Path) {
+        navigation.push(Config.Loaded(path))
     }
 
-    override fun showError(error: String) {
-        mutableState.update { it.copy(error = error) }
+    override fun navigateUp() {
+        navigation.pop()
     }
 
-    override fun clearError() {
-        mutableState.update { it.copy(error = null) }
-    }
-
-    override fun selectItem(item: Path) {
-        val metadata = fileSystem.metadata(item)
-        when {
-            metadata.isDirectory -> {
-                println("---Folder clicked: $item")
-                loadFolderContents(item)
+    private fun createChild(
+        config: Config,
+        componentContext: ComponentContext
+    ): ProgramsRootComponent.Child =
+        when (config) {
+            is Config.Loaded -> {
+                ProgramsRootComponent.Child.Loaded(loadedComponent(config.path, componentContext))
             }
-            metadata.isRegularFile -> {
-                setCurrentFile(item)
-            }
+            Config.Picker -> ProgramsRootComponent.Child.Picker(pickerComponent(componentContext))
         }
+
+    private fun pickerComponent(componentContext: ComponentContext): ProgramPickerComponent {
+        return ProgramPickerScreenModel(di, componentContext)
     }
 
-    override fun loadFolderContents(file: Path) {
-        setCurrentFolder(file)
-        setCurrentFile(null)
+    private fun loadedComponent(
+        path: Path,
+        componentContext: ComponentContext
+    ): ProgramLoadedComponent {
+        val subDi = subDI(di.di) { bindProvider { path } }
+        return ProgramLoadedScreenModel(subDi, componentContext)
     }
 
-    private fun setCurrentFolder(file: Path) {
-        logger.info { "Setting current folder to $file" }
-        mutableState.update {
-            val fileSystemData =
-                with(fileSystemDataUseCase) { file.toFileSystemData(onItemClick = ::selectItem) }
-            val breadCrumbData =
-                with(breadCrumbDataUseCase) {
-                    file.toBreadCrumbData(onItemClick = ::loadFolderContents)
-                }
+    sealed interface Config : Parcelable {
+        @Parcelize data object Picker : Config
 
-            it.copy(breadCrumbData = breadCrumbData, fileSystemData = fileSystemData)
-        }
-    }
-
-    private fun setCurrentFile(file: Path?) {
-        logger.info { "Setting current file to $file" }
-        mutableState.update {
-            it.copy(
-                editor = if (file != null) editorLoader.loadEditor(file) else null,
-            )
-        }
+        @Parcelize data class Loaded(val path: Path) : Config
     }
 }

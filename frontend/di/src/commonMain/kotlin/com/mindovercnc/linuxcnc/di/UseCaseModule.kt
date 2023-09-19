@@ -1,6 +1,10 @@
 package com.mindovercnc.linuxcnc.di
 
 import com.mindovercnc.linuxcnc.domain.*
+import com.mindovercnc.linuxcnc.domain.tools.CuttingInsertUseCase
+import com.mindovercnc.linuxcnc.domain.tools.LatheToolUseCase
+import com.mindovercnc.linuxcnc.domain.tools.ToolHolderUseCase
+import com.mindovercnc.linuxcnc.domain.tools.ToolsUseCase
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
@@ -73,10 +77,17 @@ val DomainModule =
                 halRepository = instance(),
                 settingsRepository = instance(),
                 toolHolderRepository = instance(),
-                latheToolsRepository = instance(),
-                cuttingInsertsRepository = instance(),
+                latheToolRepository = instance(),
                 varFileRepository = instance()
             )
+        }
+
+        bindSingleton { CuttingInsertUseCase(cuttingInsertsRepository = instance()) }
+
+        bindSingleton { LatheToolUseCase(latheToolRepository = instance()) }
+
+        bindSingleton {
+            ToolHolderUseCase(toolHolderRepository = instance(), latheToolRepository = instance())
         }
 
         bindSingleton {
@@ -142,7 +153,9 @@ val DomainModule =
             PositionUseCase(statusRepository = instance(), dtgPositionUseCase = instance())
         }
 
-        bindSingleton { GCodeUseCase(gCodeInterpreterRepository = instance(), ioDispatcher = instance()) }
+        bindSingleton {
+            GCodeUseCase(gCodeInterpreterRepository = instance(), ioDispatcher = instance())
+        }
 
         bindSingleton { ActiveCodesUseCase(instance()) }
 

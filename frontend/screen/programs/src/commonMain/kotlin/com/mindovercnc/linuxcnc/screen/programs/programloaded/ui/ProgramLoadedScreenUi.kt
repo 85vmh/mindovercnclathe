@@ -2,12 +2,7 @@ package com.mindovercnc.linuxcnc.screen.programs.programloaded.ui
 
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -16,58 +11,46 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.dp
-import com.mindovercnc.linuxcnc.screen.AppScreen
 import com.mindovercnc.linuxcnc.screen.programs.programloaded.ProgramLoadedComponent
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
+import com.mindovercnc.linuxcnc.widgets.ZoomControls
 import editor.EditorView
 
 @Composable
-internal fun ProgramLoadedScreenUi(component: ProgramLoadedComponent) {
+internal fun ProgramLoadedScreenUi(
+    component: ProgramLoadedComponent,
+    modifier: Modifier = Modifier
+) {
     val state by component.state.collectAsState()
 
-    Row(modifier = Modifier.fillMaxSize()) {
+    Row(modifier = modifier) {
         Column(modifier = Modifier.weight(1f)) {
             Box {
                 VisualTurning(
                     state = state.visualTurningState,
-                    Modifier.fillMaxWidth()
-                        .height(400.dp)
-                        .onSizeChanged { component.setViewportSize(it) }
-                        //                            .onPointerEvent(PointerEventType.Scroll) {
-                        //
-                        // screenModel.zoomBy(it.changes.first().scrollDelta.y)
-                        //                            }
-                        .pointerInput(Unit) {
-                            detectDragGestures { change, dragAmount ->
-                                change.consume()
-                                component.translate(dragAmount)
+                    modifier =
+                        Modifier.fillMaxWidth()
+                            .height(400.dp)
+                            .onSizeChanged { component.setViewportSize(it) }
+                            //                            .onPointerEvent(PointerEventType.Scroll) {
+                            //
+                            // screenModel.zoomBy(it.changes.first().scrollDelta.y)
+                            //                            }
+                            .pointerInput(Unit) {
+                                detectDragGestures { change, dragAmount ->
+                                    change.consume()
+                                    component.translate(dragAmount)
+                                }
                             }
-                        }
                 )
-                Row(
-                    modifier = Modifier.align(Alignment.BottomCenter),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    IconButton(
-                        modifier = AppScreen.iconButtonModifier,
-                        onClick = { component.zoomOut() }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.KeyboardArrowDown,
-                            contentDescription = "",
-                        )
-                    }
-                    IconButton(
-                        modifier = AppScreen.iconButtonModifier,
-                        onClick = { component.zoomIn() }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.KeyboardArrowUp,
-                            contentDescription = "",
-                        )
-                    }
-                }
+                ZoomControls(
+                    value = state.visualTurningState.scale,
+                    onZoomIn = component::zoomIn,
+                    onZoomOut = component::zoomOut,
+                    zoomInEnabled = state.visualTurningState.canZoomIn,
+                    zoomOutEnabled = state.visualTurningState.canZoomOut,
+                    modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 8.dp)
+                )
             }
             val editor = state.editor
             if (editor != null) {
@@ -81,7 +64,9 @@ internal fun ProgramLoadedScreenUi(component: ProgramLoadedComponent) {
                 CircularProgressIndicator(modifier = Modifier.fillMaxSize())
             }
         }
+
         VerticalDivider(thickness = 1.dp)
+
         Column(modifier = Modifier.width(420.dp)) {
             state.toolChangeModel?.let {
                 ToolChangeDialog(

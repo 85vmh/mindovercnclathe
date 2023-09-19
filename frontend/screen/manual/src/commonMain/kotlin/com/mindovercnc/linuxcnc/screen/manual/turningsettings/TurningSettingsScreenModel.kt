@@ -1,15 +1,26 @@
 package com.mindovercnc.linuxcnc.screen.manual.turningsettings
 
-import cafe.adriel.voyager.core.model.StateScreenModel
+import com.arkivanov.decompose.ComponentContext
+import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.linuxcnc.settings.model.BooleanKey
 import com.mindovercnc.linuxcnc.settings.model.DoubleKey
 import com.mindovercnc.linuxcnc.settings.model.IntegerKey
 import kotlinx.coroutines.flow.update
+import org.kodein.di.DI
+import org.kodein.di.instance
 
 class TurningSettingsScreenModel(
-    private val settingsRepository: SettingsRepository,
-) : StateScreenModel<TurningSettingsState>(TurningSettingsState()), TurningSettingsComponent {
+    di: DI,
+    componentContext: ComponentContext,
+) :
+    BaseScreenModel<TurningSettingsState>(
+        TurningSettingsState(),
+        componentContext,
+    ),
+    TurningSettingsComponent {
+
+    private val settingsRepository: SettingsRepository by di.instance()
 
     init {
         mutableState.update {

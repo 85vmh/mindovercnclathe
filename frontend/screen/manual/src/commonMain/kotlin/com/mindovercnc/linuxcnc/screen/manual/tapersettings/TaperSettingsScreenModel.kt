@@ -1,16 +1,22 @@
 package com.mindovercnc.linuxcnc.screen.manual.tapersettings
 
-import cafe.adriel.voyager.core.model.StateScreenModel
-import cafe.adriel.voyager.core.model.coroutineScope
+import com.arkivanov.decompose.ComponentContext
+import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.settings.SettingsRepository
 import com.mindovercnc.linuxcnc.settings.model.DoubleKey
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import org.kodein.di.DI
+import org.kodein.di.instance
 
 class TaperSettingsScreenModel(
-    private val settingsRepository: SettingsRepository,
-) : StateScreenModel<TaperSettingsState>(TaperSettingsState()), TaperSettingsComponent {
+    di: DI,
+    componentContext: ComponentContext,
+) :
+    BaseScreenModel<TaperSettingsState>(TaperSettingsState(), componentContext),
+    TaperSettingsComponent {
+    private val settingsRepository: SettingsRepository by di.instance()
 
     init {
         settingsRepository

@@ -35,6 +35,12 @@ data class VisualTurningState(
 ) {
     val pixelPerUnit: Float = defaultPixelsPerUnit * scale
 
+    val canZoomOut: Boolean
+        get() = scale > 0.25f
+
+    val canZoomIn: Boolean
+        get() = scale < 5f
+
     fun copyWithWcs(wcs: OffsetEntry): VisualTurningState {
         val position = Point(wcs.xOffset.toFloat(), wcs.zOffset.toFloat())
         return copy(

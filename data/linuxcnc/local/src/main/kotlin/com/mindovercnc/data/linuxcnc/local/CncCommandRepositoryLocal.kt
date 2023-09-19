@@ -4,6 +4,7 @@ import com.mindovercnc.data.linuxcnc.CncCommandRepository
 import com.mindovercnc.linuxcnc.CommandWriter
 import linuxcnc.mode
 import linuxcnc.stateNum
+import mu.KotlinLogging
 import ro.dragossusi.proto.linuxcnc.status.JogMode
 import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import ro.dragossusi.proto.linuxcnc.status.TaskState
@@ -90,7 +91,12 @@ class CncCommandRepositoryLocal : CncCommandRepository {
         commandWriter.jogContinuous(jogMode.value, axisOrJoint, speed)
     }
 
-    override fun jogIncremental(jogMode: JogMode, axisOrJoint: Int, stepSize: Double, speed: Double) {
+    override fun jogIncremental(
+        jogMode: JogMode,
+        axisOrJoint: Int,
+        stepSize: Double,
+        speed: Double
+    ) {
         commandWriter.jogIncremental(jogMode.value, axisOrJoint, stepSize, speed)
     }
 
@@ -115,15 +121,19 @@ class CncCommandRepositoryLocal : CncCommandRepository {
     }
 
     override fun executeMdiCommand(command: String): Boolean {
-        println("----MDI: $command")
+        LOG.debug { "----MDI: $command" }
         return commandWriter.sendMDICommand(command).also {
             if (!it) {
-                println("-----MDI cmd failed: $command")
+                LOG.debug { "-----MDI cmd failed: $command" }
             }
         }
     }
 
     override fun loadProgramFile(filePath: String) {
         commandWriter.loadTaskPlan(filePath)
+    }
+
+    companion object {
+        private val LOG = KotlinLogging.logger("CncCommandRepositoryLocal")
     }
 }

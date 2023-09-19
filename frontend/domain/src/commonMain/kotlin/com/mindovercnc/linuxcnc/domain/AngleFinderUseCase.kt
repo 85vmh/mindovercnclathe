@@ -15,6 +15,7 @@ import com.mindovercnc.repository.CncMessagesRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import linuxcnc.getDisplayablePosition
+import mu.KotlinLogging
 import ro.dragossusi.proto.linuxcnc.status.TaskMode
 import kotlin.math.abs
 
@@ -59,7 +60,7 @@ class AngleFinderUseCase(
                     this::axisToTraverse.isInitialized
             }
             .onEach { joystickStatus ->
-                println("---Joystick: $joystickStatus")
+                LOG.debug { "---Joystick: $joystickStatus" }
                 //                when (joystickStatus.position) {
                 //                    JoystickStatus.Position.ZMinus ->
                 // handleJoystick(ManualTurningHelper.Axis.Z,
@@ -108,8 +109,8 @@ class AngleFinderUseCase(
                         CodegenPoint(x = currentPoint.x + value, z = currentPoint.z)
                     }
                 }
-            println("----StartPoint: ${printMdiCommand(startPoint)}")
-            println("----EndPoint: ${printMdiCommand(endPoint)}")
+            LOG.debug { "----StartPoint: ${printMdiCommand(startPoint)}" }
+            LOG.debug { "----EndPoint: ${printMdiCommand(endPoint)}" }
         }
         // display end point & calculated angle
     }
@@ -169,7 +170,7 @@ class AngleFinderUseCase(
 
     private fun executeMdi(command: String) {
         commandRepository.setTaskMode(TaskMode.TaskModeMDI)
-        println("---Execute MDI: $command")
+        LOG.debug { "---Execute MDI: $command" }
         commandRepository.executeMdiCommand(command)
         commandRepository.setTaskMode(TaskMode.TaskModeManual)
     }
@@ -192,4 +193,8 @@ class AngleFinderUseCase(
             .map { it.getDisplayablePosition() }
             .map { CodegenPoint(it.x * 2, it.z) } // *2 due to diameter mode
             .first()
+
+    companion object {
+        private val LOG = KotlinLogging.logger("AngleFinderUseCase")
+    }
 }

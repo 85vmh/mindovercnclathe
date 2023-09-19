@@ -7,6 +7,7 @@ import com.mindovercnc.repository.EmcMessagesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onEach
+import mu.KotlinLogging
 import ro.dragossusi.proto.linuxcnc.status.MessageType
 
 class MessagesUseCase(
@@ -27,7 +28,7 @@ class MessagesUseCase(
                     }
                 }
             }
-            .onEach { println("Message list is: $it") }
+            .onEach { LOG.debug { "Message list is: $it" } }
     }
 
     private fun CncStateMessage.Level.toMessageLevel() =
@@ -47,4 +48,8 @@ class MessagesUseCase(
                 Message.Level.INFO
             }
         }
+
+    companion object {
+        private val LOG = KotlinLogging.logger("MessagesUseCase")
+    }
 }

@@ -4,13 +4,13 @@ import com.mindovercnc.data.linuxcnc.IniFilePath
 import com.mindovercnc.data.linuxcnc.IniFileRepository
 import com.mindovercnc.data.linuxcnc.model.G53AxisLimits
 import com.mindovercnc.data.linuxcnc.model.IniFile
+import mu.KotlinLogging
 import okio.Path.Companion.toOkioPath
 import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.FileReader
 import java.io.IOException
 import java.nio.file.Paths
-
 
 /** Implementation for [IniFileRepository]. */
 class IniFileRepositoryLocal(private val iniFilePath: IniFilePath) : IniFileRepository {
@@ -61,7 +61,9 @@ class IniFileRepositoryLocal(private val iniFilePath: IniFilePath) : IniFileRepo
         if (parsedFile.keys.contains(Section.EMCIO.name)) {
             parsedFile[Section.EMCIO.name]?.let { displaySection ->
                 if (displaySection.keys.contains(Parameter.TOOL_TABLE.name)) {
-                    displaySection[Parameter.TOOL_TABLE.name]?.let { toolTableFile = toolTableFile!!.div(it) }
+                    displaySection[Parameter.TOOL_TABLE.name]?.let {
+                        toolTableFile = toolTableFile!!.div(it)
+                    }
                 }
             }
         }
@@ -92,7 +94,7 @@ class IniFileRepositoryLocal(private val iniFilePath: IniFilePath) : IniFileRepo
     }
 
     override fun setCustomG53AxisLimits(g53AxisLimits: G53AxisLimits) {
-        println("---setCustomG53AxisLimits(): $g53AxisLimits")
+        LOG.debug { "---setCustomG53AxisLimits(): $g53AxisLimits" }
         customLimits =
             G53AxisLimits(
                 xMinLimit = g53AxisLimits.xMinLimit ?: machineLimits.xMinLimit,
@@ -116,10 +118,10 @@ class IniFileRepositoryLocal(private val iniFilePath: IniFilePath) : IniFileRepo
     private val hasSomethingCustom: Boolean
         get() =
             customLimits != null &&
-                    (machineLimits.xMinLimit != customLimits!!.xMinLimit ||
-                            machineLimits.xMaxLimit != customLimits!!.xMaxLimit ||
-                            machineLimits.zMinLimit != customLimits!!.zMinLimit ||
-                            machineLimits.zMaxLimit != customLimits!!.zMaxLimit)
+                (machineLimits.xMinLimit != customLimits!!.xMinLimit ||
+                    machineLimits.xMaxLimit != customLimits!!.xMaxLimit ||
+                    machineLimits.zMinLimit != customLimits!!.zMinLimit ||
+                    machineLimits.zMaxLimit != customLimits!!.zMaxLimit)
 
     private fun getJointParameters(jointIndex: Section): IniFile.JointParameters? {
         if (parsedFile.keys.contains(jointIndex.name)) {
@@ -141,7 +143,12 @@ class IniFileRepositoryLocal(private val iniFilePath: IniFilePath) : IniFileRepo
                     displaySection[Parameter.HOME_OFFSET.name]?.let { homeOffset = it.toDouble() }
                 }
                 if (minLimit != null && maxLimit != null) {
-                    return IniFile.JointParameters(minLimit!!, maxLimit!!, home ?: 0.0, homeOffset ?: 0.0)
+                    return IniFile.JointParameters(
+                        minLimit!!,
+                        maxLimit!!,
+                        home ?: 0.0,
+                        homeOffset ?: 0.0
+                    )
                 }
             }
         }
@@ -208,7 +215,7 @@ class IniFileRepositoryLocal(private val iniFilePath: IniFilePath) : IniFileRepo
                             parts = line.split("\\s*=\\s*".toRegex(), 2).toTypedArray()
 
                             if (subMap.containsKey(parts[0])) {
-                                System.err.println("may be duplicate entry? [" + parts[0] + "]")
+                                LOG.error { "may be duplicate entry? [" + parts[0] + "]" }
                                 val sb = StringBuilder(subMap[parts[0]])
                                 sb.append(",")
                                 sb.append(parts[1])
@@ -225,5 +232,8 @@ class IniFileRepositoryLocal(private val iniFilePath: IniFilePath) : IniFileRepo
         }
         return properties
     }
-}
 
+    companion object {
+        private val LOG = KotlinLogging.logger("IniFileRepositoryLocal")
+    }
+}

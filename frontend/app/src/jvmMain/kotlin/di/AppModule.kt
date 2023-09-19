@@ -2,9 +2,7 @@ package di
 
 import Files
 import StatusWatcher
-import TabViewModel
 import androidx.compose.runtime.Composable
-import com.arkivanov.decompose.ComponentContext
 import com.mindovercnc.data.lathehal.local.di.LatheHalLocalDataModule
 import com.mindovercnc.data.lathehal.remote.di.LatheHalRemoteDataModule
 import com.mindovercnc.data.linuxcnc.local.di.LinuxcncLegacyDataModule
@@ -21,7 +19,6 @@ import com.mindovercnc.linuxcnc.tools.remote.di.ToolsRemoteModule
 import kotlinx.datetime.Clock
 import okio.FileSystem
 import org.kodein.di.DI
-import org.kodein.di.bindProvider
 import org.kodein.di.bindSingleton
 import org.kodein.di.compose.withDI
 import org.kodein.di.instance
@@ -34,12 +31,9 @@ val BaseAppModule =
             EditorModule,
             databaseModule(Files.appDir),
             InitializerModule,
-            ScreenModelModule,
             DomainModule,
         )
         bindSingleton { StatusWatcher(instance(), instance(), instance()) }
-
-        bindProvider { TabViewModel(instance(), instance()) }
 
         // TODO change based on platform
         bindSingleton<EditorReader> { FileEditorReader }
@@ -72,13 +66,9 @@ fun repositoryModule(legacyCommunication: Boolean) =
         }
     }
 
-private fun decomposeModule(componentContext: ComponentContext) =
-    DI.Module("decompose") { bindSingleton { componentContext } }
-
 @Composable
 fun withAppDi(
     startupArgs: StartupArgs,
-    componentContext: ComponentContext,
     content: @Composable () -> Unit,
 ) =
     withDI(
@@ -88,6 +78,5 @@ fun withAppDi(
         SystemModule,
         repositoryModule(startupArgs.legacyCommunication),
         ParseFactoryModule,
-        decomposeModule(componentContext),
         content = content
     )

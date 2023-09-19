@@ -120,14 +120,14 @@
 //                        onClick = {})
 //                    {
 //                        Text("Fill same values")
-//                        Icon(imageVector = Icons.Outlined.ArrowForward, contentDescription = "")
+//                        Icon(imageVector = Icons.Outlined.ArrowForward, contentDescription = null)
 //                    }
 //                    Button(
 //                        modifier = Modifier.fillMaxWidth(),
 //                        onClick = {})
 //                    {
 //                        Text("Fill half values")
-//                        Icon(imageVector = Icons.Outlined.ArrowForward, contentDescription = "")
+//                        Icon(imageVector = Icons.Outlined.ArrowForward, contentDescription = null)
 //                    }
 //                }
 //            }

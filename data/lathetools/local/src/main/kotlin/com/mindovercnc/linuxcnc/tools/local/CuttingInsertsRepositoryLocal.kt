@@ -12,7 +12,7 @@ import org.jetbrains.exposed.sql.update
 /** Implementation for [CuttingInsertsRepository]. */
 class CuttingInsertsRepositoryLocal : CuttingInsertsRepository {
 
-    override fun insert(cuttingInsert: CuttingInsert) {
+    override suspend fun insert(cuttingInsert: CuttingInsert) {
         transaction {
             CuttingInsertEntity.new {
                 madeOf = cuttingInsert.madeOf
@@ -24,7 +24,7 @@ class CuttingInsertsRepositoryLocal : CuttingInsertsRepository {
         }
     }
 
-    override fun update(cuttingInsert: CuttingInsert) {
+    override suspend fun update(cuttingInsert: CuttingInsert) {
         transaction {
             CuttingInsertTable.update({ CuttingInsertTable.id eq cuttingInsert.id }) {
                 it[code] = cuttingInsert.code
@@ -36,7 +36,7 @@ class CuttingInsertsRepositoryLocal : CuttingInsertsRepository {
         }
     }
 
-    override fun findAll(): List<CuttingInsert> {
+    override suspend fun findAll(): List<CuttingInsert> {
         return transaction {
             CuttingInsertEntity.all().map {
                 it.toCuttingInsert()
@@ -44,7 +44,7 @@ class CuttingInsertsRepositoryLocal : CuttingInsertsRepository {
         }
     }
 
-    override fun delete(cuttingInsert: CuttingInsert) {
+    override suspend fun delete(cuttingInsert: CuttingInsert) {
         return transaction {
             CuttingInsertTable.deleteWhere { CuttingInsertTable.id eq cuttingInsert.id } != 0
         }

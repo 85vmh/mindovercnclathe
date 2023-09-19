@@ -13,7 +13,6 @@ dependencies {
     //compose
     implementation(compose.desktop.currentOs)
     implementation(compose.uiTooling)
-    @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
     implementation(compose.material3)
 
     implementation(project(":model"))

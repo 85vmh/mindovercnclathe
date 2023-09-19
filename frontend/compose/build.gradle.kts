@@ -31,6 +31,7 @@ kotlin {
                 //                implementation(compose.uiTooling)
                 implementation(compose.material)
                 implementation(compose.material3)
+                implementation(compose.materialIconsExtended)
                 @OptIn(ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
 
@@ -64,6 +65,7 @@ kotlin {
                 implementation(project(":frontend:screen:status"))
                 implementation(project(":frontend:screen:tools"))
                 implementation(project(":frontend:screen:conversational"))
+                api(project(":frontend:screen:root"))
 
                 implementation(project(":startup:args"))
 
@@ -77,11 +79,6 @@ kotlin {
                 implementation(Libs.bignum)
 
                 // navigation
-                implementation(Libs.Voyager.navigator)
-                implementation(Libs.Voyager.bottom_sheet_navigator)
-                implementation(Libs.Voyager.tab_navigator)
-                implementation(Libs.Voyager.transitions)
-
                 implementation(Libs.Decompose.core)
                 implementation(Libs.Decompose.extensions)
             }
@@ -95,7 +92,7 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
-                @OptIn(ExperimentalComposeLibrary::class) implementation(compose.uiTestJUnit4)
+                implementation(compose.desktop.uiTestJUnit4)
                 implementation(Libs.mockk)
                 implementation(Libs.Coroutines.test)
                 implementation(compose.material)

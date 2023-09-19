@@ -1,41 +1,19 @@
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import app.RootComponent
-import cafe.adriel.voyager.navigator.tab.CurrentTab
-import cafe.adriel.voyager.navigator.tab.TabNavigator
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
-import com.mindovercnc.linuxcnc.screen.status.root.ui.StatusRootScreenUi
-import ui.tab.ManualTab
+import app.NewNavigation
+import com.arkivanov.decompose.ComponentContext
+import com.mindovercnc.linuxcnc.screen.root.RootComponent
+import com.mindovercnc.linuxcnc.screen.root.RootScreenModel
+import org.kodein.di.compose.localDI
 
 @Composable
-fun MindOverCNCLathe(root: RootComponent? = null, modifier: Modifier = Modifier) {
-    if (root != null) {
-        NewNavigation(root, modifier)
-    } else {
-        TabNavigator(ManualTab) { CurrentTab() }
-    }
+fun MindOverCNCLathe(root: RootComponent, modifier: Modifier = Modifier) {
+    NewNavigation(root, modifier)
 }
 
 @Composable
-private fun NewNavigation(root: RootComponent, modifier: Modifier = Modifier) {
-    Scaffold(modifier = modifier) { padding ->
-        val childModifier = Modifier.padding(padding)
-        Children(root.childStack) {
-            when (val child = it.instance) {
-                is RootComponent.Child.Conversational -> {
-                    TODO()
-                }
-                is RootComponent.Child.Manual -> {
-                    TODO()
-                }
-                is RootComponent.Child.Programs -> TODO()
-                is RootComponent.Child.Status -> {
-                    StatusRootScreenUi(component = child.component, modifier = childModifier)
-                }
-                is RootComponent.Child.Tools -> TODO()
-            }
-        }
-    }
+fun createRootComponent(componentContext: ComponentContext): RootComponent {
+    val di = localDI()
+    return remember { RootScreenModel(di = di, componentContext = componentContext) }
 }

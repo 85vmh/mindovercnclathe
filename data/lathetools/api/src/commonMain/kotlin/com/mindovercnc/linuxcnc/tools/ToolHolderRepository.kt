@@ -3,8 +3,8 @@ package com.mindovercnc.linuxcnc.tools
 import com.mindovercnc.linuxcnc.tools.model.ToolHolder
 
 interface ToolHolderRepository {
-    fun getToolHolders(): List<ToolHolder>
-    fun createToolHolder(toolHolder: ToolHolder)
-    fun updateToolHolder(toolHolder: ToolHolder)
-    fun deleteToolHolder(toolHolder: ToolHolder): Boolean
+    suspend fun getToolHolders(): List<ToolHolder>
+    suspend fun createToolHolder(toolHolder: ToolHolder)
+    suspend fun updateToolHolder(toolHolder: ToolHolder)
+    suspend fun deleteToolHolder(toolHolder: ToolHolder): Boolean
 }

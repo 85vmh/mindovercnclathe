@@ -29,7 +29,7 @@ internal fun FileImage(item: FileSystemItemData) {
 
     Image(
         modifier = Modifier.width(40.dp).height(40.dp),
-        contentDescription = "",
+        contentDescription = null,
         bitmap = resource(resourcePath).rememberImageBitmap().orEmpty()
     )
 }
