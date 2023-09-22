@@ -24,15 +24,8 @@ fun ManualTurningScreenUi(
     modifier: Modifier = Modifier
 ) {
     val state by component.state.collectAsState()
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    LaunchedEffect(state.showWcsSheet) {
-        if (state.showWcsSheet) {
-            sheetState.show()
-        } else {
-            sheetState.hide()
-        }
-    }
+
     LaunchedEffect(state.simpleCyclesDrawerOpen) {
         if (state.simpleCyclesDrawerOpen) {
             drawerState.open()
@@ -41,7 +34,6 @@ fun ManualTurningScreenUi(
         }
     }
 
-    LaunchedEffect(sheetState.isVisible) { component.setWcsSheetVisible(sheetState.isVisible) }
     LaunchedEffect(drawerState.isOpen) { component.setSimpleCyclesDrawerOpen(drawerState.isOpen) }
 
     ModalNavigationDrawer(
@@ -64,6 +56,7 @@ fun ManualTurningScreenUi(
     }
 
     if (state.showWcsSheet) {
+        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
         ModalBottomSheet(
             modifier = Modifier.fillMaxSize(),
             sheetState = sheetState,
