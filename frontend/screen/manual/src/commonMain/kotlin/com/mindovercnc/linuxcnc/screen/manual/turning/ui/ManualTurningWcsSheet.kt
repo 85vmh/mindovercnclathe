@@ -1,21 +1,17 @@
 package com.mindovercnc.linuxcnc.screen.manual.turning.ui
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material.Surface
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningComponent
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManualTurningWcsSheet(
-    sheetState: ModalBottomSheetState,
+    sheetState: SheetState,
     component: ManualTurningComponent,
     modifier: Modifier = Modifier
 ) {

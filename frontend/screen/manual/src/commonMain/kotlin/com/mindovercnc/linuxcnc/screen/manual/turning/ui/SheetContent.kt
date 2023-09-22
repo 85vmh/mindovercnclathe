@@ -1,11 +1,7 @@
 package com.mindovercnc.linuxcnc.screen.manual.turning.ui
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -16,10 +12,10 @@ import com.mindovercnc.model.WcsUiModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ManualTurningSheet(
-    sheetState: ModalBottomSheetState,
+    sheetState: SheetState,
     wcsUiModel: WcsUiModel,
     onOffsetClick: (String) -> Unit,
     modifier: Modifier = Modifier

@@ -29,7 +29,6 @@ kotlin {
 
                 // compose
                 //                implementation(compose.uiTooling)
-                implementation(compose.material)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
                 @OptIn(ExperimentalComposeLibrary::class)
@@ -95,7 +94,7 @@ kotlin {
                 implementation(compose.desktop.uiTestJUnit4)
                 implementation(Libs.mockk)
                 implementation(Libs.Coroutines.test)
-                implementation(compose.material)
+                implementation(compose.materialIconsExtended)
             }
         }
     }

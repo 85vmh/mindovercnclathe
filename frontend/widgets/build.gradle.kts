@@ -30,7 +30,7 @@ kotlin {
                 implementation(Libs.bignum)
 
                 // compose
-                implementation(compose.material)
+                implementation(compose.materialIconsExtended)
                 implementation(compose.material3)
                 @OptIn(ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)

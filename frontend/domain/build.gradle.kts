@@ -79,7 +79,7 @@ kotlin {
                 implementation(Libs.mockk)
                 implementation(Libs.Log.logback)
                 implementation(Libs.Coroutines.test)
-                implementation(compose.material)
+                implementation(compose.materialIconsExtended)
             }
         }
     }

@@ -31,7 +31,7 @@ kotlin {
 
                 implementation(project(":frontend:format"))
 
-                implementation(compose.material)
+                implementation(compose.materialIconsExtended)
                 implementation(compose.material3)
                 @OptIn(ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
