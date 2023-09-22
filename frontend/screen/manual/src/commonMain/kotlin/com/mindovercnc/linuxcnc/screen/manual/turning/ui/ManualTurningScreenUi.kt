@@ -73,8 +73,8 @@ fun ManualTurningScreenUi(
         InputDialogView(
             numPadState = numPadState,
             onCancel = { component.closeNumPad() },
-            onSubmit = {
-                numPadState.onSubmitAction(it)
+            onSubmit = { value ->
+                numPadState.onSubmitAction(value)
                 component.closeNumPad()
             }
         )
