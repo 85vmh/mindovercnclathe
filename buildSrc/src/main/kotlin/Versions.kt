@@ -6,13 +6,13 @@ object Versions {
     const val sqliteJdbc = "3.41.2.1"
     const val okio = "3.5.0"
     const val wire = "4.8.1"
-    const val roborazzi = "1.6.0-alpha-3"
+    const val roborazzi = "1.8.0-alpha-2"
 
     const val sqldelight = "2.0.1"
 
     const val bignum = "0.3.8"
     const val mockk = "1.13.7"
-    const val decompose = "2.0.2-compose-experimental"
+    const val decompose = "2.1.3-compose-experimental"
 
     object Kotlinx {
         const val datetime = "0.4.1"
@@ -35,7 +35,7 @@ object Versions {
         const val grpc = "1.53.0"
 
         object Wire {
-            const val plugin = "4.7.2"
+            const val plugin = "4.9.1"
         }
     }
 
