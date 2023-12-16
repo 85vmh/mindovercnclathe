@@ -18,6 +18,7 @@ plugins {
     id("com.squareup.wire") version Versions.Grpc.Wire.plugin apply false
     id("com.android.application") version Versions.Android.plugin apply false
     id("io.github.takahirom.roborazzi") version Versions.roborazzi apply false
+    id("app.cash.sqldelight") version Versions.sqldelight apply false
 }
 
 allprojects {
