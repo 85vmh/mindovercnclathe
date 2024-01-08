@@ -1,3 +1,4 @@
 [submodule "protos/src/main"]
 	path = protos/src/main
 	url = git@github.com:dragossusi/linuxcnc-proto.git
+	branch = cleanup
