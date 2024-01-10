@@ -17,7 +17,7 @@ fun RemoteHostPicker(
     onHostPick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val (host, setHost) = remember { mutableStateOf("") }
+    val (host, setHost) = remember { mutableStateOf("localhost") }
     Column(
         modifier,
         horizontalAlignment = Alignment.CenterHorizontally,

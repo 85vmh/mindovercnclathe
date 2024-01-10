@@ -1,5 +1,7 @@
 package di
 
+import AppConfig
+import Communication
 import Files
 import StatusWatcher
 import androidx.compose.runtime.Composable
@@ -22,7 +24,6 @@ import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.compose.withDI
 import org.kodein.di.instance
-import startup.args.StartupArgs
 
 val BaseAppModule =
     DI.Module("base_app") {
@@ -49,34 +50,56 @@ fun repositoryModule(legacyCommunication: Boolean) =
     DI.Module("repository") {
         import(CommonDataModule)
         if (legacyCommunication) {
-            importAll(
-                LinuxcncLegacyDataModule,
-                LatheHalLocalDataModule,
-                ToolsLocalModule,
-                GCodeLocalModule,
-                SettingsLocalModule
-            )
         } else {
-            importAll(
-                LinuxcncRemoteDataModule,
-                LatheHalRemoteDataModule,
-                ToolsRemoteModule,
-                GrpcModule
-            )
         }
     }
 
-@Composable
-fun withAppDi(
-    startupArgs: StartupArgs,
-    content: @Composable () -> Unit,
-) =
-    withDI(
+val LocalDataModule = DI.Module("local_data") {
+    importAll(
+        LinuxcncLegacyDataModule,
+        LatheHalLocalDataModule,
+        ToolsLocalModule,
+        GCodeLocalModule,
+        SettingsLocalModule
+    )
+}
+
+val RemoteDataModule = DI.Module("remote_data") {
+    importAll(
+        LinuxcncRemoteDataModule,
+        LatheHalRemoteDataModule,
+        ToolsRemoteModule,
+        GrpcModule
+    )
+}
+
+fun appDi(appConfig: AppConfig) = DI.Module("app") {
+    val dataModule =
+        when (appConfig.communication) {
+            Communication.Local -> LocalDataModule
+            is Communication.Remote -> RemoteDataModule
+        }
+
+    val iniModule = startupModule(appConfig.iniFile)
+
+    importAll(
         KtLcncModule,
-        startupModule(startupArgs.iniFilePath),
+        iniModule,
         BaseAppModule,
         SystemModule,
-        repositoryModule(startupArgs.legacyCommunication),
+        CommonDataModule,
+        dataModule,
         ParseFactoryModule,
+    )
+}
+
+@Composable
+fun withAppDi(
+    appConfig: AppConfig,
+    content: @Composable () -> Unit,
+) {
+    withDI(
+        appDi(appConfig),
         content = content
     )
+}
