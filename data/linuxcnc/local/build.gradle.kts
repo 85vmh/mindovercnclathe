@@ -11,6 +11,7 @@ dependencies {
     implementation(project(":model"))
     implementation(project(":protos"))
     implementation(Libs.okio)
+    implementation(Libs.datetime)
 
     // logging
     implementation(Libs.Log.logging)

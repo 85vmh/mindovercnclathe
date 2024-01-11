@@ -15,7 +15,7 @@ object Versions {
     const val decompose = "2.2.2-compose-experimental"
 
     object Kotlinx {
-        const val datetime = "0.4.1"
+        const val datetime = "0.5.0"
         const val cli = "0.3.6"
         const val coroutines = "1.8.0-RC2"
         const val serialization = "1.6.2"
