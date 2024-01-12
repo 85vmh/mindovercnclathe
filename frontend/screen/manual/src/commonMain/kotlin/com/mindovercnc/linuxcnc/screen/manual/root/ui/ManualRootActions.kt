@@ -3,7 +3,7 @@ package com.mindovercnc.linuxcnc.screen.manual.root.ui
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent
 import com.mindovercnc.linuxcnc.screen.manual.simplecycles.ui.SimpleCyclesAction
 import com.mindovercnc.linuxcnc.screen.manual.tapersettings.ui.TaperSettingsActions

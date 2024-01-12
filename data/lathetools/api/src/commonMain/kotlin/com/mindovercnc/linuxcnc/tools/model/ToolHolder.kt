@@ -1,5 +1,8 @@
 package com.mindovercnc.linuxcnc.tools.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ToolHolder(
     val holderNumber: Int,
     val type: ToolHolderType,

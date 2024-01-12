@@ -31,7 +31,8 @@ class ToolsListScreenModel(private val di: DI, private val componentContext: Com
         childSlot(
             source = navigation,
             initialConfiguration = { Config.Holders },
-            childFactory = ::createTabItem
+            childFactory = ::createTabItem,
+            serializer = Config.serializer()
         )
 
     override val childSlot: Value<ChildSlot<*, ToolsTabItem>> = _childSlot

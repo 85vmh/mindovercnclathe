@@ -31,7 +31,8 @@ class ManualRootScreenModel(
         childStack(
             source = navigation,
             initialConfiguration = Config.Turning,
-            childFactory = ::createChild
+            childFactory = ::createChild,
+            serializer = Config.serializer()
         )
 
     override val childStack: Value<ChildStack<*, Child>> = _childStack

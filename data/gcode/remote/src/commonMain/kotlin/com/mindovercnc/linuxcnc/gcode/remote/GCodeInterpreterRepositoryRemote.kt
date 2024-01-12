@@ -12,12 +12,11 @@ class GCodeInterpreterRepositoryRemote : GCodeInterpreterRepository {
         LOG.warn { "Remote implementation is missing" }
     }
 
-    override fun parseFile(file: Path): List<GCodeCommand> {
+    override suspend fun parseFile(file: Path): List<GCodeCommand> {
         return emptyList()
     }
 
     companion object {
         private val LOG = KotlinLogging.logger("GCodeRepository")
     }
-
 }

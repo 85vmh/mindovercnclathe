@@ -3,7 +3,7 @@ package com.mindovercnc.linuxcnc.screen.programs.root.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.mindovercnc.linuxcnc.screen.programs.picker.ui.ProgramPickerFab
 import com.mindovercnc.linuxcnc.screen.programs.root.ProgramsRootComponent
 

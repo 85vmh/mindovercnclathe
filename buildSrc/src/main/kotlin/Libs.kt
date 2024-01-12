@@ -10,8 +10,7 @@ object Libs {
 
     object Decompose {
         const val core = "com.arkivanov.decompose:decompose:${Versions.decompose}"
-        const val extensions =
-            "com.arkivanov.decompose:extensions-compose-jetbrains:${Versions.decompose}"
+        const val extensions = "com.arkivanov.decompose:extensions-compose:${Versions.decompose}"
     }
 
     object Roborazzi {

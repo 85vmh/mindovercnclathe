@@ -34,7 +34,8 @@ class ToolsRootScreenModel(
         childStack(
             source = navigation,
             initialConfiguration = Config.List,
-            childFactory = ::createChild
+            childFactory = ::createChild,
+            serializer = Config.serializer()
         )
 
     override val childStack: Value<ChildStack<*, ToolsChild>> = _childStack

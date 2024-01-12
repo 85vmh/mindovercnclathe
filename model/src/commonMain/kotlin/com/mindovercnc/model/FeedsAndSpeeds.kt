@@ -1,9 +1,12 @@
 package com.mindovercnc.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class FeedsAndSpeeds(
     val materialName: String,
     val materialCategory: MaterialCategory,
-    val ap: ClosedFloatingPointRange<Float>,
-    val fn: ClosedFloatingPointRange<Float>,
-    val vc: IntRange
+    val ap: ClosedRange<Double>,
+    val fn: ClosedRange<Double>,
+    val vc: ClosedRange<Int>
 )

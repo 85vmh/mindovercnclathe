@@ -47,7 +47,8 @@ class RootScreenModel(
             source = navigation,
             initialConfiguration = Config.Status,
             handleBackButton = false,
-            childFactory = ::createChild
+            childFactory = ::createChild,
+            serializer = Config.serializer()
         )
 
     override val childStack: Value<ChildStack<*, RootChild>> = _childStack

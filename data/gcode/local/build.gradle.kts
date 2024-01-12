@@ -12,6 +12,7 @@ dependencies {
     implementation(project(":data:linuxcnc:local"))
     implementation(project(":logger"))
     implementation(project(":dispatcher"))
+    implementation(project(":logger"))
 //                implementation(project(":database"))
     implementation(project(":model"))
     implementation(project(":protos"))

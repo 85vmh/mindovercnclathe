@@ -3,12 +3,12 @@ package com.mindovercnc.linuxcnc.screen.programs.root
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.*
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import com.mindovercnc.linuxcnc.screen.PathSerializer
 import com.mindovercnc.linuxcnc.screen.programs.picker.ProgramPickerComponent
 import com.mindovercnc.linuxcnc.screen.programs.picker.ProgramPickerScreenModel
 import com.mindovercnc.linuxcnc.screen.programs.programloaded.ProgramLoadedComponent
 import com.mindovercnc.linuxcnc.screen.programs.programloaded.ProgramLoadedScreenModel
+import kotlinx.serialization.Serializable
 import okio.Path
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
@@ -25,7 +25,8 @@ class ProgramsRootScreenModel(
         childStack(
             source = navigation,
             initialConfiguration = Config.Picker,
-            childFactory = ::createChild
+            childFactory = ::createChild,
+            serializer = Config.serializer()
         )
 
     override val childStack: Value<ChildStack<*, ProgramsRootComponent.Child>> = _childStack
@@ -61,9 +62,11 @@ class ProgramsRootScreenModel(
         return ProgramLoadedScreenModel(subDi, componentContext)
     }
 
-    sealed interface Config : Parcelable {
-        @Parcelize data object Picker : Config
+    @Serializable
+    sealed interface Config {
+        @Serializable data object Picker : Config
 
-        @Parcelize data class Loaded(val path: Path) : Config
+        @Serializable
+        data class Loaded(@Serializable(with = PathSerializer::class) val path: Path) : Config
     }
 }

@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.mindovercnc.linuxcnc.screen.tools.list.ToolsListComponent
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
 

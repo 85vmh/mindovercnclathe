@@ -1,6 +1,9 @@
 package com.mindovercnc.linuxcnc.di
 
 import com.mindovercnc.linuxcnc.domain.*
+import com.mindovercnc.linuxcnc.domain.gcode.impl.ArcFeedGcodeCommandParser
+import com.mindovercnc.linuxcnc.domain.gcode.impl.CommentGcodeCommandParser
+import com.mindovercnc.linuxcnc.domain.gcode.impl.StraightGcodeCommandParser
 import com.mindovercnc.linuxcnc.domain.tools.CuttingInsertUseCase
 import com.mindovercnc.linuxcnc.domain.tools.LatheToolUseCase
 import com.mindovercnc.linuxcnc.domain.tools.ToolHolderUseCase
@@ -8,6 +11,14 @@ import com.mindovercnc.linuxcnc.domain.tools.ToolsUseCase
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
+
+private val gcodeCommandParsers =
+    mapOf(
+        "STRAIGHT_TRAVERSE" to StraightGcodeCommandParser,
+        "STRAIGHT_FEED" to StraightGcodeCommandParser,
+        "ARC_FEED" to ArcFeedGcodeCommandParser,
+        "COMMENT" to CommentGcodeCommandParser
+    )
 
 val DomainModule =
     DI.Module("domain") {
@@ -154,7 +165,11 @@ val DomainModule =
         }
 
         bindSingleton {
-            GCodeUseCase(gCodeInterpreterRepository = instance(), ioDispatcher = instance())
+            GCodeUseCase(
+                gCodeInterpreterRepository = instance(),
+                ioDispatcher = instance(),
+                parsers = gcodeCommandParsers
+            )
         }
 
         bindSingleton { ActiveCodesUseCase(instance()) }

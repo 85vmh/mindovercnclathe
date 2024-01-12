@@ -5,7 +5,10 @@ import com.mindovercnc.linuxcnc.domain.tools.CuttingInsertUseCase
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.tools.model.CuttingInsert
 import com.mindovercnc.linuxcnc.tools.model.MadeOf
-import com.mindovercnc.model.*
+import com.mindovercnc.model.InsertClearance
+import com.mindovercnc.model.InsertShape
+import com.mindovercnc.model.MountingAndChipBreaker
+import com.mindovercnc.model.ToleranceClass
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.kodein.di.DI
@@ -73,7 +76,7 @@ class AddEditCuttingInsertScreenModel(di: DI, componentContext: ComponentContext
     }
 
     override fun reloadFeedsAndSpeeds() {
-        mutableState.update { it.copy(feedsAndSpeedsList = dummyFeedsAndSpeeds) }
+        mutableState.update { it.copy(feedsAndSpeedsList = DummyData.feedsAndSpeeds) }
     }
 
     override fun applyChanges() {
@@ -113,56 +116,8 @@ class AddEditCuttingInsertScreenModel(di: DI, componentContext: ComponentContext
                 insertClearance = InsertClearance.fromCode(insert.code),
                 toleranceClass = ToleranceClass.fromCode(insert.code),
                 mountingAndChipBreaker = MountingAndChipBreaker.fromCode(insert.code),
-                feedsAndSpeedsList = dummyFeedsAndSpeeds
+                feedsAndSpeedsList = DummyData.feedsAndSpeeds
             )
         }
-    }
-
-    companion object {
-        private val dummyFeedsAndSpeeds =
-            listOf(
-                FeedsAndSpeeds(
-                    "Steel",
-                    MaterialCategory.P,
-                    0.2f..2.0f,
-                    0.1f..0.3f,
-                    100..200,
-                ),
-                FeedsAndSpeeds(
-                    "Delrin",
-                    MaterialCategory.N,
-                    0.2f..2.0f,
-                    0.1f..0.3f,
-                    100..200,
-                ),
-                FeedsAndSpeeds(
-                    "Aluminium",
-                    MaterialCategory.N,
-                    0.2f..2.0f,
-                    0.1f..0.3f,
-                    100..200,
-                ),
-                FeedsAndSpeeds(
-                    "Cast Iron",
-                    MaterialCategory.K,
-                    0.2f..2.0f,
-                    0.1f..0.3f,
-                    100..200,
-                ),
-                FeedsAndSpeeds(
-                    "304 Stainless",
-                    MaterialCategory.M,
-                    0.2f..2.0f,
-                    0.1f..0.3f,
-                    100..200
-                ),
-                FeedsAndSpeeds(
-                    "306 Stainless",
-                    MaterialCategory.M,
-                    0.2f..2.0f,
-                    0.1f..0.3f,
-                    100..200
-                ),
-            )
     }
 }

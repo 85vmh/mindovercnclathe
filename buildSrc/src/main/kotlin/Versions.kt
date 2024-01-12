@@ -12,13 +12,13 @@ object Versions {
 
     const val bignum = "0.3.8"
     const val mockk = "1.13.7"
-    const val decompose = "2.1.3-compose-experimental"
+    const val decompose = "3.0.0-alpha04"
 
     object Kotlinx {
-        const val datetime = "0.4.1"
+        const val datetime = "0.5.0"
         const val cli = "0.3.6"
-        const val coroutines = "1.7.3"
-        const val serialization = "1.6.0"
+        const val coroutines = "1.8.0-RC2"
+        const val serialization = "1.6.2"
     }
 
     object Log {
