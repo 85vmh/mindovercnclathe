@@ -7,4 +7,3 @@ import org.kodein.di.bindSingleton
 
 fun startupModule(iniFilePath: Path) =
     DI.Module("startup") { bindSingleton<IniFilePath> { IniFilePath(iniFilePath) } }
-

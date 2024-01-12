@@ -50,7 +50,7 @@ class HalRepositoryRemote(private val linuxCncGrpc: LinuxCncClient) : HalReposit
         val request = CreateComponentRequest(name = name)
         return try {
             linuxCncGrpc.CreateComponent().executeBlocking(request)
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
             null
         }
@@ -58,7 +58,10 @@ class HalRepositoryRemote(private val linuxCncGrpc: LinuxCncClient) : HalReposit
 
     private fun HalComponent.addPin(name: String, type: HalPinType, dir: HalPinDir): HalPin {
         val request = CreatePinRequest(
-            component_id = component_id.toString(), name = name, type = type, dir = dir
+            component_id = component_id.toString(),
+            name = name,
+            type = type,
+            dir = dir,
         )
         return linuxCncGrpc.CreatePin().executeBlocking(request)
     }
@@ -186,7 +189,7 @@ class HalRepositoryRemote(private val linuxCncGrpc: LinuxCncClient) : HalReposit
 
     override fun getSpindleSwitchStatus(): Flow<SpindleSwitchStatus> {
         val revIn = pinSpindleSwitchRevIn?.valueFlow(RefreshRate) ?: return flowOf(SpindleSwitchStatus.NEUTRAL)
-        val fwdIn = pinSpindleSwitchFwdIn?.valueFlow(RefreshRate) ?:return flowOf(SpindleSwitchStatus.NEUTRAL)
+        val fwdIn = pinSpindleSwitchFwdIn?.valueFlow(RefreshRate) ?: return flowOf(SpindleSwitchStatus.NEUTRAL)
         return combine(revIn, fwdIn) { isRev, isFwd ->
             when {
                 isRev.bool_value == true -> SpindleSwitchStatus.REV

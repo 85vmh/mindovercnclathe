@@ -45,6 +45,7 @@ class TrajectoryStatusFactory(
             motion_type = byteBuffer.getIntForKey(Key.MotionType)!!,
             distance_to_go = byteBuffer.getDoubleForKey(Key.CurrentMoveDtg)!!,
             position = positionFactory.parse(byteBuffer, PositionFactory.PositionType.DTG),
+            dtg = positionFactory.parse(byteBuffer, PositionFactory.PositionType.DTG),
             //            currentVelocity = byteBuffer.getDoubleForKey(Key.CurrentMoveVelocity)!! * 60,
             feed_override_enabled = byteBuffer.getBooleanForKey(Key.IsFeedOverrideEnabled)!!,
             adaptive_feed_enabled = byteBuffer.getBooleanForKey(Key.IsAdaptiveFeedEnabled)!!,

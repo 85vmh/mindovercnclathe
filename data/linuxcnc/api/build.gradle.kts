@@ -15,6 +15,9 @@ kotlin {
                 implementation(Libs.Kodein.core)
                 implementation(Libs.Settings.core)
                 implementation(Libs.Settings.coroutines)
+                implementation(Libs.okio)
+                implementation(Libs.datetime)
+
                 implementation(project(":data:common:api"))
                 implementation(project(":logger"))
                 implementation(project(":dispatcher"))
@@ -22,7 +25,7 @@ kotlin {
                 implementation(project(":model"))
                 implementation(project(":protos"))
                 implementation(project(":editor"))
-                implementation(Libs.okio)
+
 
                 // logging
                 implementation(Libs.Log.logging)

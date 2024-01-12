@@ -2,11 +2,11 @@ object Versions {
     const val kotlin = "1.9.20"
     const val compose = "1.6.0-alpha01"
     const val kodein = "7.21.1"
-    const val exposed = "0.43.0"
+    const val exposed = "0.46.0"
     const val sqliteJdbc = "3.41.2.1"
-    const val okio = "3.5.0"
-    const val wire = "4.8.1"
-    const val roborazzi = "1.8.0-alpha-2"
+    const val okio = "3.7.0"
+    const val wire = "4.9.3"
+    const val roborazzi = "1.9.0-alpha-4"
 
     const val sqldelight = "2.0.1"
 
@@ -26,7 +26,7 @@ object Versions {
         const val logback = "1.4.8"
     }
 
-    const val settings = "1.0.0"
+    const val settings = "1.1.1"
 
     object Grpc {
         const val plugin = "0.9.2"
