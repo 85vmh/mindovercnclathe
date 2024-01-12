@@ -11,9 +11,11 @@ import com.mindovercnc.editor.EditorLoader
 import com.mindovercnc.linuxcnc.domain.*
 import com.mindovercnc.linuxcnc.domain.model.ActiveCode
 import com.mindovercnc.linuxcnc.domain.model.PathUiState
+import com.mindovercnc.linuxcnc.domain.model.ZoomRange
 import com.mindovercnc.linuxcnc.screen.BaseScreenModel
 import com.mindovercnc.linuxcnc.screen.programs.programloaded.ui.ToolChangeModel
 import com.mindovercnc.model.MachineLimits
+import kotlin.math.min
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,7 +25,6 @@ import okio.Path
 import org.jetbrains.skia.Point
 import org.kodein.di.DI
 import org.kodein.di.instance
-import kotlin.math.min
 
 class ProgramLoadedScreenModel(di: DI, componentContext: ComponentContext) :
     BaseScreenModel<ProgramLoadedState>(ProgramLoadedState(), componentContext),
@@ -219,20 +220,26 @@ class ProgramLoadedScreenModel(di: DI, componentContext: ComponentContext) :
     }
 
     private fun setNewScale(block: (Float) -> Float) {
-        mutableState.update {
+        mutableState.update { currentState ->
             val newScale = block(mutableState.value.visualTurningState.scale)
-            val pixelPerUnit = it.visualTurningState.defaultPixelsPerUnit * newScale
-            val pathUiState = it.visualTurningState.pathUiState.rescaled(pixelPerUnit)
-            val rulers = it.visualTurningState.programRulers.rescaled(pixelPerUnit)
-            it.copy(
+
+            if (newScale !in ZoomRange) {
+                // don't update if value outside of range
+                return@update currentState
+            }
+
+            val pixelPerUnit = currentState.visualTurningState.defaultPixelsPerUnit * newScale
+            val pathUiState = currentState.visualTurningState.pathUiState.rescaled(pixelPerUnit)
+            val rulers = currentState.visualTurningState.programRulers.rescaled(pixelPerUnit)
+            currentState.copy(
                 visualTurningState =
-                    it.visualTurningState.copy(
+                    currentState.visualTurningState.copy(
                         scale = newScale,
                         pathUiState = pathUiState,
                         programRulers = rulers,
                         translate =
                             pathUiState.getInitialTranslate(
-                                viewportSize = it.visualTurningState.viewportSize
+                                viewportSize = currentState.visualTurningState.viewportSize
                             )
                     )
             )

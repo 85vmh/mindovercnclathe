@@ -1,21 +1,30 @@
 package com.mindovercnc.linuxcnc.screen.programs.programloaded.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.dp
 import com.mindovercnc.linuxcnc.screen.programs.programloaded.ProgramLoadedComponent
+import com.mindovercnc.linuxcnc.screen.programs.programloaded.ProgramLoadedState
 import com.mindovercnc.linuxcnc.widgets.VerticalDivider
 import com.mindovercnc.linuxcnc.widgets.ZoomControls
 import editor.EditorView
+import editor.FileNameHeader
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun ProgramLoadedScreenUi(
     component: ProgramLoadedComponent,
@@ -32,10 +41,15 @@ internal fun ProgramLoadedScreenUi(
                         Modifier.fillMaxWidth()
                             .height(400.dp)
                             .onSizeChanged { component.setViewportSize(it) }
-                            //                            .onPointerEvent(PointerEventType.Scroll) {
-                            //
-                            // screenModel.zoomBy(it.changes.first().scrollDelta.y)
-                            //                            }
+                            .onPointerEvent(PointerEventType.Scroll) {
+                                val change = it.changes.first()
+                                val zoomIn = change.scrollDelta.y < 0
+                                if (zoomIn) {
+                                    component.zoomIn()
+                                } else {
+                                    component.zoomOut()
+                                }
+                            }
                             .pointerInput(Unit) {
                                 detectDragGestures { change, dragAmount ->
                                     change.consume()
@@ -67,27 +81,41 @@ internal fun ProgramLoadedScreenUi(
 
         VerticalDivider(thickness = 1.dp)
 
-        Column(modifier = Modifier.width(420.dp)) {
-            state.toolChangeModel?.let {
-                ToolChangeDialog(
-                    toolChangeModel = it,
-                    confirmationClick = component::confirmToolChanged,
-                    abortClick = component::cancelToolChange
-                )
-            }
+        EndContent(state, component)
+    }
+}
 
-            state.positionModel?.let {
-                ProgramCoordinatesView(currentWcs = state.currentWcs, positionModel = it)
+@Composable
+private fun EndContent(state: ProgramLoadedState, component: ProgramLoadedComponent) {
+    Column(modifier = Modifier.width(420.dp)) {
+        // file name
+        state.editor?.let { editor ->
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceVariant)
+            ) {
+                FileNameHeader(editor.file)
             }
-            StatusView(
-                machineStatus = state.machineStatus,
-                modifier = Modifier.weight(1f).padding(8.dp)
-            )
-            ActiveCodesView(
-                activeCodes = state.activeCodes,
-                modifier = Modifier.fillMaxWidth().height(80.dp),
-                onCodeClicked = component::onActiveCodeClicked
+        }
+        state.toolChangeModel?.let {
+            ToolChangeDialog(
+                toolChangeModel = it,
+                confirmationClick = component::confirmToolChanged,
+                abortClick = component::cancelToolChange
             )
         }
+
+        state.positionModel?.let {
+            ProgramCoordinatesView(currentWcs = state.currentWcs, positionModel = it)
+        }
+        StatusView(
+            machineStatus = state.machineStatus,
+            modifier = Modifier.weight(1f).padding(8.dp)
+        )
+        ActiveCodesView(
+            activeCodes = state.activeCodes,
+            modifier = Modifier.fillMaxWidth().height(80.dp),
+            onCodeClicked = component::onActiveCodeClicked
+        )
     }
 }
