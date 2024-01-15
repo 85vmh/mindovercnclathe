@@ -75,12 +75,12 @@ class AddEditFeedsAndSpeedsScreenModel(di: DI, componentContext: ComponentContex
             it.copy(
                 materialName = feedsAndSpeeds.materialName,
                 materialCategory = feedsAndSpeeds.materialCategory,
-                minAp = feedsAndSpeeds.ap.start.toDouble(),
-                maxAp = feedsAndSpeeds.ap.endInclusive.toDouble(),
-                minFn = feedsAndSpeeds.fn.start.toDouble(),
-                maxFn = feedsAndSpeeds.fn.endInclusive.toDouble(),
-                minVc = feedsAndSpeeds.vc.first,
-                maxVc = feedsAndSpeeds.vc.last
+                minAp = feedsAndSpeeds.ap.start,
+                maxAp = feedsAndSpeeds.ap.endInclusive,
+                minFn = feedsAndSpeeds.fn.start,
+                maxFn = feedsAndSpeeds.fn.endInclusive,
+                minVc = feedsAndSpeeds.vc.start,
+                maxVc = feedsAndSpeeds.vc.endInclusive
             )
         }
     }

@@ -1,5 +1,7 @@
 package di
 
+import AppConfig
+import Communication
 import Files
 import StatusWatcher
 import androidx.compose.runtime.Composable
@@ -14,6 +16,7 @@ import com.mindovercnc.editor.reader.FileEditorReader
 import com.mindovercnc.linuxcnc.di.*
 import com.mindovercnc.linuxcnc.gcode.local.di.GCodeLocalModule
 import com.mindovercnc.linuxcnc.settings.local.di.SettingsLocalModule
+import com.mindovercnc.linuxcnc.settings.remote.di.SettingsRemoteModule
 import com.mindovercnc.linuxcnc.tools.local.di.ToolsLocalModule
 import com.mindovercnc.linuxcnc.tools.remote.di.ToolsRemoteModule
 import kotlinx.datetime.Clock
@@ -22,7 +25,6 @@ import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.compose.withDI
 import org.kodein.di.instance
-import startup.args.StartupArgs
 
 val BaseAppModule =
     DI.Module("base_app") {
@@ -45,38 +47,53 @@ val SystemModule =
         bindSingleton<Clock> { Clock.System }
     }
 
-fun repositoryModule(legacyCommunication: Boolean) =
-    DI.Module("repository") {
-        import(CommonDataModule)
-        if (legacyCommunication) {
-            importAll(
-                LinuxcncLegacyDataModule,
-                LatheHalLocalDataModule,
-                ToolsLocalModule,
-                GCodeLocalModule,
-                SettingsLocalModule
-            )
-        } else {
-            importAll(
-                LinuxcncRemoteDataModule,
-                LatheHalRemoteDataModule,
-                ToolsRemoteModule,
-                GrpcModule
-            )
+val LocalDataModule = DI.Module("local_data") {
+    importAll(
+        LinuxcncLegacyDataModule,
+        LatheHalLocalDataModule,
+        ToolsLocalModule,
+        GCodeLocalModule,
+        SettingsLocalModule
+    )
+}
+
+val RemoteDataModule = DI.Module("remote_data") {
+    importAll(
+        LinuxcncRemoteDataModule,
+        LatheHalRemoteDataModule,
+        ToolsRemoteModule,
+        SettingsRemoteModule,
+        GrpcModule
+    )
+}
+
+fun appDi(appConfig: AppConfig) = DI.Module("app") {
+    val dataModule =
+        when (appConfig.communication) {
+            Communication.Local -> LocalDataModule
+            is Communication.Remote -> RemoteDataModule
         }
-    }
+
+    val iniModule = startupModule(appConfig.iniFile)
+
+    importAll(
+        KtLcncModule,
+        iniModule,
+        BaseAppModule,
+        SystemModule,
+        CommonDataModule,
+        dataModule,
+        ParseFactoryModule,
+    )
+}
 
 @Composable
 fun withAppDi(
-    startupArgs: StartupArgs,
+    appConfig: AppConfig,
     content: @Composable () -> Unit,
-) =
+) {
     withDI(
-        KtLcncModule,
-        startupModule(startupArgs.iniFilePath),
-        BaseAppModule,
-        SystemModule,
-        repositoryModule(startupArgs.legacyCommunication),
-        ParseFactoryModule,
+        appDi(appConfig),
         content = content
     )
+}

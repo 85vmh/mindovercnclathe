@@ -13,14 +13,11 @@ import ro.dragossusi.proto.linuxcnc.LinuxCncClient
 import ro.dragossusi.proto.linuxcnc.ReadErrorRequest
 import ro.dragossusi.proto.linuxcnc.status.SystemMessage
 
-// TODO split into legacy and remote
-/** Implementation for [SystemMessageRepository]. */
+/** Remote implementation for [SystemMessageRepository]. */
 class SystemMessageRepositoryRemote
 constructor(
     private val linuxCncGrpc: LinuxCncClient, newSingleThreadDispatcher: NewSingleThreadDispatcher
 ) : SystemMessageRepository {
-
-    private val logger = KotlinLogging.logger("SystemMessageRepositoryImpl")
 
     private val scope = newSingleThreadDispatcher.createScope()
 
@@ -31,9 +28,13 @@ constructor(
                 val systemMessage = linuxCncGrpc.ReadError().execute(request)
                 emit(systemMessage)
             } catch (e: Exception) {
-                logger.error(e) { "Failed to get error" }
+                LOG.error(e) { "Failed to get error" }
             }
             delay(100L)
         }
     }.shareIn(scope, started = SharingStarted.Lazily, replay = 1)
+
+    companion object {
+        private val LOG = KotlinLogging.logger("SystemMessageRepositoryRemote")
+    }
 }

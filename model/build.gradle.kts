@@ -1,4 +1,7 @@
-plugins { kotlin("multiplatform") }
+plugins {
+    kotlin("multiplatform")
+    kotlin("plugin.serialization")
+}
 
 version = Versions.app
 
@@ -11,6 +14,7 @@ kotlin {
             dependencies {
                 implementation(Libs.stdlib)
                 implementation(Libs.Coroutines.core)
+                implementation(Libs.Serialization.json)
                 //                implementation(project(":ktlcnc"))
                 implementation(project(":protos"))
                 implementation(Libs.okio)

@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
+    kotlin("plugin.serialization")
     id("org.jetbrains.compose")
 }
 
@@ -29,7 +30,7 @@ kotlin {
 
                 // compose
                 //                implementation(compose.uiTooling)
-                implementation(compose.material)
+                implementation(compose.materialIconsExtended)
                 implementation(compose.material3)
                 @OptIn(ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
@@ -88,7 +89,7 @@ kotlin {
                 implementation(compose.desktop.uiTestJUnit4)
                 implementation(Libs.mockk)
                 implementation(Libs.Coroutines.test)
-                implementation(compose.material)
+                implementation(compose.materialIconsExtended)
             }
         }
     }

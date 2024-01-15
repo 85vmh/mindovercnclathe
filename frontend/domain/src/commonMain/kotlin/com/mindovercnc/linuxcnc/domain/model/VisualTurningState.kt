@@ -13,6 +13,8 @@ const val extraAxisLength = 20 // add another 30 px for the tip of the arrow to 
 private val xAxisColor = Color(0xFF14B86F)
 private val zAxisColor = Color(0xFF4282E6)
 
+val ZoomRange = 0.25..5.0
+
 data class VisualTurningState(
     val machineLimits: MachineLimits = MachineLimits(),
     val wcsPosition: Point = Point.ZERO,
@@ -36,10 +38,10 @@ data class VisualTurningState(
     val pixelPerUnit: Float = defaultPixelsPerUnit * scale
 
     val canZoomOut: Boolean
-        get() = scale > 0.25f
+        get() = scale > ZoomRange.start
 
     val canZoomIn: Boolean
-        get() = scale < 5f
+        get() = scale < ZoomRange.endInclusive
 
     fun copyWithWcs(wcs: OffsetEntry): VisualTurningState {
         val position = Point(wcs.xOffset.toFloat(), wcs.zOffset.toFloat())
@@ -68,6 +70,7 @@ data class PathUiState(
         )
 
     fun rescaled(pixelPerUnit: Float) = copy(pathActor = pathActor.rescaled(pixelPerUnit))
+
     override fun drawInto(drawScope: DrawScope) {
         pathActor.drawInto(drawScope)
         axesActor.drawInto(drawScope)

@@ -18,7 +18,7 @@ val LinuxcncLegacyDataModule = DI.Module("linuxcnc_legacy_data") {
         val iniRepo: IniFileRepository = instance()
         val file = iniRepo.getIniFile().programDir
         println("Program Dir $file")
-        FileSystemRepositoryImpl(instance(), file, instance())
+        FileSystemRepositoryLocal(instance(), file, instance())
     }
     bindProvider { ToolFilePath(instance<IniFileRepository>().getIniFile().toolTableFile) }
 

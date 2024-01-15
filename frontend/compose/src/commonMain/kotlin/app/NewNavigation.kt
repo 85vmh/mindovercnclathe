@@ -15,8 +15,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.stack.Children
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.mindovercnc.linuxcnc.screen.root.RootComponent
 import com.mindovercnc.linuxcnc.screen.root.child.RootChild
 import org.jetbrains.compose.resources.ExperimentalResourceApi

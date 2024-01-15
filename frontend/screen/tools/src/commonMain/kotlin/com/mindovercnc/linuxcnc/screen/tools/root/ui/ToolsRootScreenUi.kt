@@ -3,7 +3,7 @@ package com.mindovercnc.linuxcnc.screen.tools.root.ui
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.ui.AddEditCuttingInsertScreenUi
 import com.mindovercnc.linuxcnc.screen.tools.add.feedspeed.ui.AddEditFeedsAndSpeedsScreenUi
 import com.mindovercnc.linuxcnc.screen.tools.add.lathetool.ui.AddEditLatheToolScreenUi

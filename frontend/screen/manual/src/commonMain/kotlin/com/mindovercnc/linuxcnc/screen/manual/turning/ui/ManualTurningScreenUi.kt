@@ -4,14 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -23,7 +16,7 @@ import com.mindovercnc.linuxcnc.numpad.InputDialogView
 import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent
 import com.mindovercnc.linuxcnc.screen.manual.turning.ManualTurningComponent
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManualTurningScreenUi(
     rootComponent: ManualRootComponent,
@@ -31,15 +24,8 @@ fun ManualTurningScreenUi(
     modifier: Modifier = Modifier
 ) {
     val state by component.state.collectAsState()
-    val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    LaunchedEffect(state.showWcsSheet) {
-        if (state.showWcsSheet) {
-            sheetState.show()
-        } else {
-            sheetState.hide()
-        }
-    }
+
     LaunchedEffect(state.simpleCyclesDrawerOpen) {
         if (state.simpleCyclesDrawerOpen) {
             drawerState.open()
@@ -48,7 +34,6 @@ fun ManualTurningScreenUi(
         }
     }
 
-    LaunchedEffect(sheetState.isVisible) { component.setWcsSheetVisible(sheetState.isVisible) }
     LaunchedEffect(drawerState.isOpen) { component.setSimpleCyclesDrawerOpen(drawerState.isOpen) }
 
     ModalNavigationDrawer(
@@ -56,26 +41,31 @@ fun ManualTurningScreenUi(
         drawerState = drawerState,
         modifier = modifier
     ) {
-        ModalBottomSheetLayout(
+        Column(modifier = Modifier.fillMaxSize()) {
+            ManualTurningHeader(
+                rootComponent = rootComponent,
+                component = component,
+                modifier = Modifier.fillMaxWidth().weight(1f)
+            )
+            ManualTurningFooter(
+                rootComponent = rootComponent,
+                component = component,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+        }
+    }
+
+    if (state.showWcsSheet) {
+        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+        ModalBottomSheet(
             modifier = Modifier.fillMaxSize(),
             sheetState = sheetState,
-            sheetShape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
-            sheetContent = { ManualTurningWcsSheet(sheetState, component) },
-            sheetBackgroundColor = MaterialTheme.colorScheme.surface,
-            sheetContentColor = MaterialTheme.colorScheme.onSurface
+            shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+            onDismissRequest = { component.setWcsSheetVisible(false) }
         ) {
-            Column(modifier = Modifier.fillMaxSize()) {
-                ManualTurningHeader(
-                    rootComponent = rootComponent,
-                    component = component,
-                    modifier = Modifier.fillMaxWidth().weight(1f)
-                )
-                ManualTurningFooter(
-                    rootComponent = rootComponent,
-                    component = component,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
+            ManualTurningWcsSheet(sheetState, component)
         }
     }
 
@@ -83,8 +73,8 @@ fun ManualTurningScreenUi(
         InputDialogView(
             numPadState = numPadState,
             onCancel = { component.closeNumPad() },
-            onSubmit = {
-                numPadState.onSubmitAction(it)
+            onSubmit = { value ->
+                numPadState.onSubmitAction(value)
                 component.closeNumPad()
             }
         )

@@ -8,7 +8,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.mindovercnc.linuxcnc.screen.root.RootComponent
 import com.mindovercnc.linuxcnc.screen.tools.root.ToolsRootComponent
 import com.mindovercnc.linuxcnc.screen.tools.root.ui.ToolsRootScreenUi

@@ -8,7 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.mindovercnc.linuxcnc.screen.programs.root.ProgramsRootComponent
 import com.mindovercnc.linuxcnc.screen.programs.root.ui.ProgramsRootFab
 import com.mindovercnc.linuxcnc.screen.programs.root.ui.ProgramsRootScreenUi

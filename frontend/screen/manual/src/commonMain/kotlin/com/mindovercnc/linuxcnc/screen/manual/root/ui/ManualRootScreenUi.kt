@@ -3,7 +3,7 @@ package com.mindovercnc.linuxcnc.screen.manual.root.ui
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.mindovercnc.linuxcnc.screen.manual.root.ManualRootComponent
 import com.mindovercnc.linuxcnc.screen.manual.simplecycles.ui.SimpleCyclesScreenUi
 import com.mindovercnc.linuxcnc.screen.manual.tapersettings.ui.TaperSettingsScreenUi

@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.mindovercnc.linuxcnc.screen.TitledChild
 import com.mindovercnc.linuxcnc.screen.tools.add.AddEditItemComponent
 import com.mindovercnc.linuxcnc.screen.tools.add.cuttinginsert.AddEditCuttingInsertComponent

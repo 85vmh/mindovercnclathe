@@ -1,5 +1,8 @@
 package com.mindovercnc.linuxcnc.tools.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class CuttingInsert(
     val id: Int? = null,
     val madeOf: MadeOf,
@@ -7,8 +10,9 @@ data class CuttingInsert(
     val tipRadius: Double,
     val tipAngle: Double,
     val size: Double
-){
-    enum class Type{
-        Positive, Negative
+) {
+    enum class Type {
+        Positive,
+        Negative
     }
 }

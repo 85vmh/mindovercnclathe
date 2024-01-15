@@ -10,8 +10,7 @@ import ro.dragossusi.proto.linuxcnc.status.MessageType
 import ro.dragossusi.proto.linuxcnc.status.SystemMessage
 import com.mindovercnc.linuxcnc.model.SystemMessage.MessageType as KtlCncMessageType
 
-// TODO split into legacy and remote
-/** Implementation for [SystemMessageRepository]. */
+/** Local implementation for [SystemMessageRepository]. */
 class SystemMessageRepositoryLocal(
     errorReader: ErrorReader,
     newSingleThreadDispatcher: NewSingleThreadDispatcher
@@ -34,7 +33,7 @@ class SystemMessageRepositoryLocal(
             }
             .shareIn(scope, started = SharingStarted.Lazily, replay = 1)
 
-    private fun KtlCncMessageType.toProtoType()= when(this) {
+    private fun KtlCncMessageType.toProtoType() = when (this) {
         KtlCncMessageType.NMLError -> MessageType.NML_Error
         KtlCncMessageType.NMLText -> MessageType.NML_Text
         KtlCncMessageType.NMLDisplay -> MessageType.NML_Display
@@ -45,6 +44,6 @@ class SystemMessageRepositoryLocal(
     }
 
     companion object {
-        private val LOG = KotlinLogging.logger("SystemMessageRepositoryImpl")
+        private val LOG = KotlinLogging.logger("SystemMessageRepositoryLocal")
     }
 }

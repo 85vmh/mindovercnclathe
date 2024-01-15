@@ -2,19 +2,13 @@
 // Apache 2.0 license that can be found in the LICENSE file.
 @file:Suppress("FunctionName")
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.application
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.DefaultComponentContext
@@ -34,62 +28,60 @@ fun main(args: Array<String>) {
 
     logger.info("Starting app with args $startupArgs")
 
-    startApplication(
-        startupArgs,
-        onExit = {
-            // no-op
-        }
-    )
-}
-
-fun startApplication(startupArgs: StartupArgs, onExit: () -> Unit) {
     val componentContext = createComponentContext()
     application {
-        withAppDi(startupArgs) {
-            val (initialised, setInitialised) = rememberSaveable { mutableStateOf(false) }
-            if (initialised) {
-                AppWindow(startupArgs, componentContext) {
-                    onExit()
-                    this.exitApplication()
-                }
-            } else {
-                StartupWindow(startupArgs) { setInitialised(true) }
-            }
+        val (appConfig, setAppConfig) = remember {
+            mutableStateOf(createAppConfig(startupArgs))
+        }
+
+        if (appConfig == null) {
+            CommunicationPickerWindow(
+                startupArgs,
+                modifier = Modifier.fillMaxSize(),
+                onCommunication = { communication -> setAppConfig(startupArgs.toAppConfig(communication)) },
+            )
+        } else {
+            MainApplication(
+                appConfig,
+                componentContext
+            )
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TestWindow() {
-    Window(onCloseRequest = {}) {
-        Scaffold(
-            topBar = {
-                CenterAlignedTopAppBar(
-                    title = { Text("Badged") },
-                    actions = {
-                        BadgedBox(
-                            badge = {
-                                Badge(modifier = Modifier.align(Alignment.BottomStart)) { Text("box", modifier = Modifier.background(Color.Black)) }
-                            }
-                        ) {
-                            IconButton(onClick = {}, modifier = Modifier.background(Color.Gray)) {
-                                Icon(Icons.Default.Check, contentDescription = null)
-                            }
-                        }
-                        IconButton(onClick = {}) {
-                            Icon(Icons.Default.Close, contentDescription = null)
-                        }
-                    }
-                )
-            }
-        ) {
-            Text("Badged Box", modifier = Modifier.padding(it))
+private fun ApplicationScope.MainApplication(
+    appConfig: AppConfig,
+    componentContext: ComponentContext
+) {
+    withAppDi(appConfig) {
+        val (initialised, setInitialised) = rememberSaveable { mutableStateOf(false) }
+        if (initialised) {
+            AppWindow(appConfig, componentContext)
+        } else {
+            StartupWindow(appConfig) { setInitialised(true) }
         }
     }
 }
 
-fun createComponentContext(): ComponentContext {
+private fun createAppConfig(startupArgs: StartupArgs): AppConfig? {
+    if (startupArgs.legacyCommunication) {
+        return startupArgs.toAppConfig(Communication.Local)
+    }
+    return null
+}
+
+private fun StartupArgs.toAppConfig(communication: Communication) =
+    AppConfig(
+        iniFilePath,
+        communication,
+        screenSize,
+        topBarEnabled.enabled,
+        darkMode,
+        density
+    )
+
+private fun createComponentContext(): ComponentContext {
     val lifecycle = LifecycleRegistry()
     val backDispatcher = BackDispatcher()
     return DefaultComponentContext(lifecycle = lifecycle, backHandler = backDispatcher)

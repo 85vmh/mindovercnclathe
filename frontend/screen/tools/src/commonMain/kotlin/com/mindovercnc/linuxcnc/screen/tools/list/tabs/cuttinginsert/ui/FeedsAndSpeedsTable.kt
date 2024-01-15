@@ -23,7 +23,11 @@ import com.mindovercnc.model.FeedsAndSpeeds
 import scroll.VerticalScrollbar
 import scroll.draggableScroll
 
-private enum class FeedsAndSpeedsColumns(val text: String, val unit: String? = null, val size: Dp = Dp.Unspecified) {
+private enum class FeedsAndSpeedsColumns(
+    val text: String,
+    val unit: String? = null,
+    val size: Dp = Dp.Unspecified
+) {
     Material(text = "Material", size = 120.dp),
     Category(text = "Code", size = 40.dp),
     DOC(text = "DoC (ap)", unit = "mm"),
@@ -43,13 +47,8 @@ fun FeedsAndSpeedsTable(
         val scope = rememberCoroutineScope()
         val scrollState = rememberLazyListState()
 
-        LazyColumn(
-            modifier = Modifier.draggableScroll(scrollState, scope),
-            state = scrollState
-        ) {
-            stickyHeader {
-                FeedsAndSpeedsHeader(modifier = Modifier.height(40.dp))
-            }
+        LazyColumn(modifier = Modifier.draggableScroll(scrollState, scope), state = scrollState) {
+            stickyHeader { FeedsAndSpeedsHeader(modifier = Modifier.height(40.dp)) }
             itemsIndexed(feedsAndSpeedsList) { index, item ->
                 FeedsAndSpeedsItemView(
                     item = item,
@@ -60,29 +59,20 @@ fun FeedsAndSpeedsTable(
             }
         }
 
-        VerticalScrollbar(
-            Modifier.align(Alignment.CenterEnd).width(30.dp),
-            scrollState
-        )
+        VerticalScrollbar(Modifier.align(Alignment.CenterEnd).width(30.dp), scrollState)
     }
 }
 
 @Composable
-private fun FeedsAndSpeedsHeader(
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        color = MaterialTheme.colorScheme.primaryContainer
-    ) {
-        Row(
-            modifier = modifier,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+private fun FeedsAndSpeedsHeader(modifier: Modifier = Modifier) {
+    Surface(color = MaterialTheme.colorScheme.primaryContainer) {
+        Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
             FeedsAndSpeedsColumns.entries.forEach {
-                val columnModifier = when (it.size) {
-                    Dp.Unspecified -> Modifier.weight(1f)
-                    else -> Modifier.width(it.size)
-                }
+                val columnModifier =
+                    when (it.size) {
+                        Dp.Unspecified -> Modifier.weight(1f)
+                        else -> Modifier.width(it.size)
+                    }
                 Column(
                     modifier = columnModifier,
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -134,8 +124,9 @@ private fun FeedsAndSpeedsItemView(
             text = item.materialCategory.name
         )
         VerticalDivider()
-        val formattedAp = "${item.ap.start.toDouble().toFixedDigitsString(2)} - ${
-            item.ap.endInclusive.toDouble().toFixedDigitsString(2)
+        val formattedAp =
+            "${item.ap.start.toFixedDigitsString(2)} - ${
+            item.ap.endInclusive.toFixedDigitsString(2)
         }"
         Text(
             modifier = Modifier.weight(1f),
@@ -144,8 +135,9 @@ private fun FeedsAndSpeedsItemView(
             text = formattedAp
         )
         VerticalDivider()
-        val formattedFn = "${item.fn.start.toDouble().toFixedDigitsString(2)} - ${
-            item.fn.endInclusive.toDouble().toFixedDigitsString(2)
+        val formattedFn =
+            "${item.fn.start.toFixedDigitsString(2)} - ${
+            item.fn.endInclusive.toFixedDigitsString(2)
         }"
         Text(
             modifier = Modifier.weight(1f),
@@ -154,7 +146,7 @@ private fun FeedsAndSpeedsItemView(
             style = MaterialTheme.typography.bodyMedium,
         )
         VerticalDivider()
-        val formattedVc = "${item.vc.first} - ${item.vc.last}"
+        val formattedVc = "${item.vc.start} - ${item.vc.endInclusive}"
         Text(
             modifier = Modifier.weight(1f),
             textAlign = TextAlign.Center,
@@ -167,19 +159,11 @@ private fun FeedsAndSpeedsItemView(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            IconButton(
-                modifier = Modifier,
-                onClick = {
-                    onEditClicked.invoke(item)
-                }) {
+            IconButton(modifier = Modifier, onClick = { onEditClicked.invoke(item) }) {
                 Icon(Icons.Default.Edit, contentDescription = null)
             }
             VerticalDivider()
-            IconButton(
-                modifier = Modifier,
-                onClick = {
-                    onDeleteClicked.invoke(item)
-                }) {
+            IconButton(modifier = Modifier, onClick = { onDeleteClicked.invoke(item) }) {
                 Icon(Icons.Default.Delete, contentDescription = null)
             }
         }

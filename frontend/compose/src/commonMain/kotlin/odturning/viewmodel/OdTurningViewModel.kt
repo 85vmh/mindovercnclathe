@@ -11,7 +11,9 @@ import odturning.OdTurningDataState
 import odturning.WorkpieceMaterial
 
 @Deprecated("The whole conversational will be quite different from how it was initially")
-internal class OdTurningViewModel(private val conversationalUseCase: ConversationalUseCase) {
+internal class OdTurningViewModel(
+    private val conversationalUseCase: ConversationalUseCase,
+) {
 
     private val roughingParams = CuttingParametersState(1, 200, 0.25, 2.0)
     private val finishingParams = CuttingParametersState(1, 200, 0.05, 1.0)
